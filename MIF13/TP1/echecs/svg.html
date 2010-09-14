@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="fr-fr" xmlns="http://www.w3.org/1999/xhtml" lang="fr-fr"><head>
+
+
+	<meta name="viewport" content="user-scalable=no, width=device-width, height=device-height" />
+	<link rel="stylesheet" media="screen" type="text/css" title="Design" href="design.css" />
+
+	<title></title>
+	
+	<script type="text/javascript">
+	
+		function initEchec(){
+			
+			var chemin="images/"
+			
+			for(var i=0; i<8; i++){
+					for(var j=0; i<8; i++){
+						document.getElementById('echec').innerHTML += html;
+				}
+			}
+		}
+		
+	</script>
+	
+</head>
+	
+	<body onLoad="initEchec();">
+		<strong>Voici un super échiquier :</strong> <br/><br/>
+		<div id="echec">
+		<embed src="echecs.svg" height="100%"  width="100%" type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/" /> 
+		
+
+		
+		</div>
+
+	</body>
+</html>
+
+<!--
+//Fonctions d'initialisation
+function initEchiquierModele() {
+	for(var ligne=0; ligne<8; ligne++) {
+		for(var colonne=0; colonne<8; colonne++) {
+			var tempCase = new Object();
+			tempCase.numLigne = getNomLigneModele(ligne);
+			tempCase.numColonne = getNomColonneModele(colonne);
+			tempCase.pieceId = "";
+			if(Math.floor((ligne + colonne)/2) == (ligne + colonne)/2)
+				tempCase.colorClassId = "caseBlanche";
+			else
+				tempCase.colorClassId = "caseNoire";
+			echiquier[ligne + 8*colonne] = tempCase;
+		}
+	}
+}
+-->
