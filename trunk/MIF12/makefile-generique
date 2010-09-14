@@ -1,0 +1,93 @@
+# Compilateur et linker
+LEX = flex
+YACC = bison -y
+CC = g++
+LD = g++
+
+# Drapeaux
+CFLAGS = -I $(INC)
+LDFLAGS = -lfl
+YFLAGS  = -d
+LFLAGS  =
+
+# Dossiers
+BIN = ./bin
+DEP = ./dep
+INC = ./inc
+OBJ = ./obj
+RES = ./res
+SRC = ./src
+
+# Nom du parser et du lexer 
+LEXER = lexer
+PARSER = parser
+
+# Nom du programme
+EXEC = pseudo-compilo.exe
+
+# Nom des fichiers de test
+TEST_FILE = test.pas
+
+# Création de la liste des objets à partir de celle des sources
+LSRCS = $(SRC)/$(LEXER).l
+YSRCS = $(SRC)/$(PARSER).ypp
+CSRCS = $(YSRCS:$(SRC)/%.ypp=$(SRC)/%.cpp) $(LSRCS:$(SRC)/%.l=$(SRC)/%.cpp) $(wildcard $(SRC)/*.cpp)
+OBJS = $(CSRCS:$(SRC)/%.cpp=$(OBJ)/%.o)
+DEPS = $(CSRCS:$(SRC)/%.cpp=$(DEP)/%.d)
+
+# Règle par défaut
+all: $(BIN)/$(EXEC) readme
+
+readme:
+        cat $(RES)/README.txt
+
+# Génération du binaire exécutable
+$(BIN)/$(EXEC): $(OBJS)
+        @mkdir -p $(BIN)
+        $(LD) -o $@ $^ $(LDFLAGS) 
+
+# Génération des fichiers objets
+$(OBJ)/%.o: $(SRC)/%.cpp
+        @mkdir -p $(OBJ)
+        $(CC) $(CFLAGS) -o $@ -c $< 
+# Génération de la source C++ de l'analyseur syntaxique
+$(SRC)/$(PARSER).cpp: $(SRC)/$(PARSER).ypp
+        $(YACC) $(YFLAGS) -o $@ $<
+        mv $(SRC)/$(PARSER).hpp $(INC)/$(PARSER).hpp
+
+$(INC)/$(PARSER).hpp: $(SRC)/$(PARSER).cpp
+
+# Génération de la source C++ de l'analyseur lexical
+$(SRC)/$(LEXER).cpp: $(SRC)/$(LEXER).l $(INC)/$(PARSER).hpp
+        $(LEX) $(LFLAGS) -o $@ $<
+
+# Génération des dépendances
+$(DEP)/%.d: $(SRC)/%.cpp
+        @mkdir -p $(DEP)
+        $(CC) $(CFLAGS) -MM -MD -o $@ $<
+
+# Inclusion des dépendances
+-include $(DEPS)
+
+.PHONY: all exec clean distclean eradicator tmpclean readme
+
+# Règle d'exécution du programme avec fichier de test
+exec: $(BIN)/$(EXEC)
+        @echo Test du programme :
+        $(BIN)/$(EXEC) $(RES)/$(TEST_FILE)
+
+# Règle de nettoyage des fichiers intermédiaires
+clean:
+        rm -rf $(OBJ)
+
+# Règle de nettoyage total des binaires
+distclean: clean
+        rm -rf $(BIN)
+
+# Règle de nettoyage total
+eradicator: distclean
+        rm -rf $(DEP) $(SRC)/$(LEXER).cpp $(SRC)/$(PARSER).cpp $(INC)/$(PARSER).hpp
+
+# Règle de nettoyage des fichiers temporaires de l'éditeur
+tmpclean:
+        rm -rf $(SRC)/*~ $(INC)/*~ ./*~
