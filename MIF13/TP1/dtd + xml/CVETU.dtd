@@ -1,0 +1,26 @@
+<!ELEMENT CVETU (Entete, (Rubrique1|Rubrique2)+)>
+<!ELEMENT Entete (Etudiant, Titre)>
+<!ELEMENT Etudiant (Nom, Prenom, Adresse+, Telephone?, Email?, Photo?)>
+<!ATTLIST Etudiant
+					Numero CDATA #REQUIRED
+					Formation CDATA #FIXED "M1 informatique">
+<!ELEMENT Nom (#PCDATA)>
+<!ELEMENT Prenom (#PCDATA)>
+<!ELEMENT Adresse (#PCDATA)>
+<!-- Le fait de pouvoir entrer plusieurs elements Adresse est destine a permettre une adresse sur plusieurs ligne, chacune dans un element different -->
+<!ELEMENT Telephone (#PCDATA)>
+<!ELEMENT Email (#PCDATA)>
+<!ELEMENT Photo (#PCDATA)>
+<!ELEMENT Titre (#PCDATA)>
+<!ELEMENT Rubrique1 (Item+)>
+<!ATTLIST Rubrique1
+					Titre (Formation|Experience) #REQUIRED>
+<!ELEMENT Rubrique2 (Item+)>
+<!ATTLIST Rubrique2
+					Titre (Competences|Divers) #REQUIRED>
+<!ELEMENT Item ((Date, Contenu1)|(SousTitre, Contenu1+)|(SousTitre, Contenu2+)|(Date, Contenu1))>
+<!-- Ici, le premier type d'item est destine aux rubriques Formation et Experience et le second type aux deux autres. -->
+<!ELEMENT Date (#PCDATA)>
+<!ELEMENT SousTitre (#PCDATA)>
+<!ELEMENT Contenu1 (#PCDATA)>
+<!ELEMENT Contenu2 (#PCDATA)>
