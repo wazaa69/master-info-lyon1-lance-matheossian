@@ -132,8 +132,7 @@ public class TortueAmelioree extends Tortue {
 
             if(this != uneTortue){
                 if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= 15)
-                    //tortuesADeplacer.add(uneTortue);
-                    uneTortue.pousserTortue(dist);
+                    uneTortue.pousserTortue(dir, dist);
             }
 
         }
@@ -144,7 +143,7 @@ public class TortueAmelioree extends Tortue {
      * Déplacement aléatoire, la position initial équivaut à un cercle
      * @param dist la distance à parcourire
      */
-    public void pousserTortue(int dist){
+    public void pousserTortue(int dir, int dist){
 
         int newX, newY, angle, nbrEssais = 0;
         boolean placeDispo;
@@ -158,6 +157,13 @@ public class TortueAmelioree extends Tortue {
 
             placeDispo = true;
 
+            /* le nombre de tortues à pousser pour dégager le chemin */
+            int tortuesApousser = 0;
+            /* le plus petit nombre de tortues à pousser */
+            int oldTortuesApousser = feuille.getTortueAmelioree().size();
+            /* le meilleur angle selon le nombre de tortues à pousser*/
+            int meilleurAngle = dir;
+
             newX = (int) Math.round(x+dist*Math.cos(convDegGrad*angle));
             newY = (int) Math.round(y+dist*Math.sin(convDegGrad*angle));
 
@@ -165,23 +171,39 @@ public class TortueAmelioree extends Tortue {
             for(int i=0; i < feuille.getTortueAmelioree().size(); i++){
 
                 uneTortue = feuille.getTortueAmelioree().get(i);
+
+                tortuesApousser=0;
        
                 if(this != uneTortue){
                     if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= 30)
                         placeDispo = false;
+                        tortuesApousser++;
                 }
 
             }
 
+            /*
+             * L'angle de recherche pour savoir si il y a de la place dispo =
+             *  angle = dir de la tortue précédante +90° ou -90°, avec dist > distance_minimal
+             * Faire un schéma pour une meilleur représentation.
+             */
+
             if(placeDispo) {
-                dir = angle; //on lui attribut la nouvelle dirrection
-                avancer(dist); //on fait avancer la tortue dans cette dirrection
-                break;
+                dir = angle; //on attribut une nouvelle direction à la tortue
+                avancer(dist); //on fait avancer la tortue dans cette direction
+                nbrEssais=21;
             }
             else if (nbrEssais == 20){
+                dir = angle;
                 avancer(dist);
-                uneTortue.pousserTortue(dist);
+                uneTortue.pousserTortue(dir,dist);
                 break;
+            }
+
+            if(oldTortuesApousser > tortuesApousser){
+                 oldTortuesApousser = tortuesApousser;
+                 meilleurAngle = angle;
+                 
             }
 
             nbrEssais++;
