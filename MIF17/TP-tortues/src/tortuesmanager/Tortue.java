@@ -92,7 +92,6 @@ class Tortue
         //if (getShowTurtle())
         //  this.drawTurtle(g);
         //System.out.println("dir: " + dir);
-        System.out.println("Tortue::avancer");
         feuille.drawIt();
     }
 
