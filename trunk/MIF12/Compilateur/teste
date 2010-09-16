@@ -1,0 +1,5 @@
+program test;
+var v0 : integer;
+begin
+    v0 := 5;
+end.
