@@ -37,6 +37,38 @@ public class SimpleLogo extends JFrame implements ActionListener {
         logoInit();
     }
 
+ //######################################################################################################      ACCESSEURS
+
+    public FeuilleDessin getFeuilleDessin(){ return feuille;}
+
+    /**
+    * Récupère l'angle de rotation de la tortue
+    * @return une chaine de caractère qui correspond à l'angle de rotation de la tortue
+    */
+    String getInputValue(){
+        String s = inputValue.getText();
+        return(s);
+    }
+
+
+    public FeuilleDessin getFeuille() {
+        return feuille;
+    }
+
+ //######################################################################################################      ACCESSEURS
+
+
+    public void setControleur(Controleur controleur) {
+        this.controleur = controleur;
+    }
+
+   public void setFeuille(FeuilleDessin feuille) {
+        this.feuille = feuille;
+    }
+
+
+ //######################################################################################################      METHODES
+
     /**
     * Initialise le contenu de la fenêtre = les boutons et les actions associées
     * Crée la première tortue.
@@ -162,7 +194,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
 
             //INITIALISATION DE LA FEUILLE------------->
-            feuille = new FeuilleDessin(controleur.tortues, controleur.tortueAmelioree); //passage du tableau
+            feuille = new FeuilleDessin(); //passage du tableau
             feuille.setBackground(Color.white);
             feuille.setPreferredSize(new Dimension(500,400));
             //--------------------------------------->
@@ -278,29 +310,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
     }
 
 
-    /**
-    * Récupère l'angle de rotation de la tortue
-    * @return une chaine de caractère qui correspond à l'angle de rotation de la tortue
-    */
-    String getInputValue(){
-        String s = inputValue.getText();
-        return(s);
-    }
-
-
-
-    public void setControleur(Controleur controleur) {
-        this.controleur = controleur;
-    }
-
-
-    public FeuilleDessin getFeuille() {
-        return feuille;
-    }
-
-    public void setFeuille(FeuilleDessin feuille) {
-        this.feuille = feuille;
-    }
 
 
 }

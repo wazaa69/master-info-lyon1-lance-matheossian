@@ -8,21 +8,45 @@ import java.util.ArrayList;
  */
 public class Equipe{
 
+   //######################################################################################################      ATTRIBUTS
+
     private int couleur;
     private ArrayList<TortueAmelioree> listeTortues;
+
+   //######################################################################################################      CONSTRUCTEURS
 
     public void Equipe(int couleur){
         this.couleur = couleur;
         this.listeTortues = listeTortues;
     }
 
-
+  //######################################################################################################      ACCESSEURS
      /**
      * Retourne la ième tortue
      * @param i la position de la tortue dans la liste
      * @return La tortue à la position spécifiée en argument
      */
     Tortue getTurtle(int i) {return listeTortues.get(i);}
+    
+    public int getCouleur() {
+        return couleur;
+    }
+        
+    public ArrayList<TortueAmelioree> getListeTortues() {
+        return listeTortues;
+    }
+
+   //######################################################################################################      MUTATEURS
+
+    public void setCouleur(int couleur) {
+        this.couleur = couleur;
+    }
+
+    public void setListeTortues(ArrayList<TortueAmelioree> listeTortues) {
+        this.listeTortues = listeTortues;
+    }
+
+   //######################################################################################################      METHODES
 
     /**
      * Insert une tortue dans l'équipe
@@ -44,24 +68,6 @@ public class Equipe{
     int size(){return listeTortues.size();}
 
 
-    /*-----------------------------------*/
-    /*         GETTERS/SETTERS
-    /*-----------------------------------*/
-
-    public int getCouleur() {
-        return couleur;
-    }
-
-    public void setCouleur(int couleur) {
-        this.couleur = couleur;
-    }
-
-    public ArrayList<TortueAmelioree> getListeTortues() {
-        return listeTortues;
-    }
-
-    public void setListeTortues(ArrayList<TortueAmelioree> listeTortues) {
-        this.listeTortues = listeTortues;
-    }
+   
 
 }

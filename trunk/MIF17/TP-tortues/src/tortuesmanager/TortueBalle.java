@@ -9,6 +9,9 @@ import java.awt.Polygon;
 
 public class TortueBalle extends Tortue {
 
+
+ //######################################################################################################      CONSTRUCTEURS
+
 /**
      * Constructeur pour une TortueBalle, aura un nom par defaut
      * @param f La tortue sera rattache a cette feuille
@@ -19,6 +22,9 @@ public class TortueBalle extends Tortue {
 
         setCouleur(Color.RED);
     }
+
+
+ //######################################################################################################      METHODES
 
     /**
      * Dessine la TortueBalle dans la FeuilleDessin.<br/>

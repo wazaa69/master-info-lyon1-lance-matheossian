@@ -53,7 +53,7 @@ class Tortue extends Thread
         reset();
         feuille = f;
         tortueCouleur = Color.GREEN;
-        f.tortues.add(this);
+        f.getListeTortue().add(this);
     }
 
 
