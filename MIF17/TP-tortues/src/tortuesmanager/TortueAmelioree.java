@@ -175,17 +175,6 @@ public class TortueAmelioree extends Tortue {
         }
     }
 
-    /*-----------------------------------*/
-    /*         RUN DU THREAD
-    /*-----------------------------------*/
-
-
-    @Override
-    public void run() {
-        while(true){
-            deplacementAuHasard(dir);
-        }
-    }
 
     /*-----------------------------------*/
     /*         GETTERS/SETTERS
