@@ -52,9 +52,10 @@ class Tortue extends Thread
     public Tortue(FeuilleDessin f){
         reset();
         feuille = f;
-        tortueCouleur = Color.RED;
+        tortueCouleur = Color.GREEN;
         f.tortues.add(this);
     }
+
 
     //######################################################################################################      ACCESSEURS
 

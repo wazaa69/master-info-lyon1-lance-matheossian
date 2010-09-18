@@ -12,12 +12,12 @@ public class Controleur {
     private Tortue courante; /** La tortue en cours de déplacement */
     int procTortueAmelioree = 0; /** stopper ou lancer la procédure pour les tortues améliorées */
 
+
     /** la liste des tortues enregistrees */
     ArrayList<Tortue> tortues = new ArrayList<Tortue>();
 
     /** La liste de toute les tortues améliorées */
     ArrayList<TortueAmelioree> tortueAmelioree= new ArrayList<TortueAmelioree>();
-
 
 
     public Controleur(){}
@@ -83,6 +83,7 @@ public class Controleur {
         simpleLogo.getFeuille().reset();
         courante.reset();
         simpleLogo.getFeuille().repaint();
+    
     }
 
     /**

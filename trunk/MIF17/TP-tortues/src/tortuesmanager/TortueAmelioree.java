@@ -9,10 +9,10 @@ public class TortueAmelioree extends Tortue {
 
     private String nom;     /** Le nom de la tortue */
 
-    /** La liste des tortues amies  */
-    private ArrayList<TortueAmelioree> listeAmis= new ArrayList<TortueAmelioree>();
+
 
     final int distMin; /** distance minimum entre deux tortues */
+
 
 
    /**
@@ -53,6 +53,8 @@ public class TortueAmelioree extends Tortue {
      */
     public void deplacementAuHasard(int dist)
     {
+
+
 
         //Respect de la distance minimale ?
         int distMinimale = distMin;
