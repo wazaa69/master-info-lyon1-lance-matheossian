@@ -146,7 +146,8 @@ public class SimpleLogo extends JFrame implements ActionListener {
             JButton b25 = new JButton("Tortues Ameliorées");
             p2.add(b25);
             b25.addActionListener(this);
-            JButton b26 = new JButton("Bouger Tortues Ameliorées");
+            /*
+             JButton b26 = new JButton("B");
             p2.add(b26);
             b26.addActionListener(this);/*
             JButton b27 = new JButton("Proc7");
@@ -273,7 +274,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
         else if (c.equals("Immeuble"))  controleur.immeuble();
         else if (c.equals("Asterisque"))  controleur.asterisque();
         else if (c.equals("Tortues Ameliorées"))  controleur.tortueAmelioree();
-        else if (c.equals("Bouger Tortues Ameliorées"))  controleur.bougerTortAmel();
         else if (c.equals("Effacer")) controleur.effacer();
         else if (c.equals("Quitter")) controleur.quitter();
     }
