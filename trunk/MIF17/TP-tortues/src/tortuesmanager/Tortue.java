@@ -27,16 +27,23 @@ import java.util.ArrayList;
 class Tortue extends Thread
 {
 
-    double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
+     //######################################################################################################      ATTRIBUTS
+
 
     FeuilleDessin feuille;     /** la feuille de dessin sur laquelle dessine la tortue */
-
-
+    double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
     int x, y;	/** les coordonnees de la tortue */
     protected int dir;	/** la direction de la tortue */
     boolean crayon=true; /** par defaut on suppose qu'on dessine */
     int coul; /** couleur courante */
 
+    /**
+    * Couleur de la tortue.
+    */
+    protected  Color tortueCouleur;
+
+
+    //######################################################################################################      CONSTRUCTEURS
 
    /**
     * Constructeur
@@ -45,9 +52,45 @@ class Tortue extends Thread
     public Tortue(FeuilleDessin f){
         reset();
         feuille = f;
+        tortueCouleur = Color.RED;
         f.tortues.add(this);
     }
 
+    //######################################################################################################      ACCESSEURS
+
+    /**
+    * Retourne la couleur de la tortue
+    */
+    public Color getCouleur(){
+
+        return tortueCouleur;
+    }
+
+
+    //######################################################################################################      MUTATEURS
+
+    /**
+    * Change la couleur de la tortue
+    * @param n Nouvelle couleur pour la tortue
+    */
+    public void setCouleur(Color coul1){
+        
+        tortueCouleur = coul1;
+    }
+
+        /**
+    * Modifie le booleen crayon qui détermine si la tortue laisse un trait en se déplaçant
+    * @param b booleen 
+    */
+    public void setCrayon(boolean b){
+
+       crayon = b;
+    }
+
+    //######################################################################################################      METHODES
+
+
+    //####################################################################################### M: PLACEMENT
    /**
     * Positionne la tortue en (250;180), vers le haut et avec le crayon levé
     */
@@ -116,6 +159,9 @@ class Tortue extends Thread
             feuille.drawIt();
     }
 
+
+    //####################################################################################### M: DESSIN
+
     /**
     *  Baisse le crayon pour dessiner
     */
@@ -136,6 +182,7 @@ class Tortue extends Thread
      * Passer à la couleur suivante
      */
     void couleurSuivante() {couleur(coul+1);}
+
 
 
    /**
