@@ -6,21 +6,31 @@ import java.util.ArrayList;
 public class Controleur {
 
 
+ //######################################################################################################      ATTRIBUTS
 
-    SimpleLogo simpleLogo;
+
+    private SimpleLogo simpleLogo;
 
     private Tortue courante; /** La tortue en cours de déplacement */
     int procTortueAmelioree = 0; /** stopper ou lancer la procédure pour les tortues améliorées */
 
-
-    /** la liste des tortues enregistrees */
-    ArrayList<Tortue> tortues = new ArrayList<Tortue>();
-
-    /** La liste de toute les tortues améliorées */
-    ArrayList<TortueAmelioree> tortueAmelioree= new ArrayList<TortueAmelioree>();
-
-
+ //######################################################################################################      CONSTRUCTEURS
+    
     public Controleur(){}
+
+ //######################################################################################################      ACCESSEURS
+
+    public SimpleLogo getSimpleLogo(){ return simpleLogo; }
+
+    public Tortue getCourante() { return courante; }
+        
+ //######################################################################################################      MUTATEURS
+
+    public void setSimpleLogo(SimpleLogo simpleLogo) { this.simpleLogo = simpleLogo; }
+        
+    public void setCourante(Tortue courante) { this.courante = courante; }
+        
+ //######################################################################################################      METHODES
 
     /**
      *  Création de la tortue qui dessine
@@ -52,7 +62,7 @@ public class Controleur {
 
         int nbrTortues=10;
 
-        if(tortueAmelioree.size() < 10){
+        if(getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() < 10){
             //Création des N tortues améliorées
             for(int i=0; i < nbrTortues; i++) {
                 TortueAmelioree uneTortue = new TortueAmelioree(simpleLogo.getFeuille(),"");
@@ -64,11 +74,11 @@ public class Controleur {
         }
 
         
-        TortueAmelioree uneTortue = tortueAmelioree.get(procTortueAmelioree);
+        TortueAmelioree uneTortue = getSimpleLogo().getFeuille().getListeTortuesAmeliorees().get(procTortueAmelioree);
         courante = (Tortue) uneTortue;
         uneTortue.deplacementAuHasard(30);
         procTortueAmelioree++;
-        if(procTortueAmelioree%tortueAmelioree.size() == 0) procTortueAmelioree=0;
+        if(procTortueAmelioree%getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() == 0) procTortueAmelioree=0;
         
 
     }
@@ -92,20 +102,5 @@ public class Controleur {
     void quitter(){System.exit(0);}
 
 
-    public SimpleLogo getSimpleLogo() {
-        return simpleLogo;
-    }
-
-    public void setSimpleLogo(SimpleLogo simpleLogo) {
-        this.simpleLogo = simpleLogo;
-    }
-
-    public Tortue getCourante() {
-        return courante;
-    }
-
-    public void setCourante(Tortue courante) {
-        this.courante = courante;
-    }
 
 }

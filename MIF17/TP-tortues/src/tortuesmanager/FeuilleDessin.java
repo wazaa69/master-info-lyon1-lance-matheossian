@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.*;
 import java.io.*;
 
+
 /**
  * Titre :        Logo
  * Description :  Un exemple de programme graphique utilisant la célèbre Tortue Logo
@@ -17,12 +18,14 @@ import java.io.*;
 
 public class FeuilleDessin extends JPanel {
 
+
+//######################################################################################################      ATTRIBUTS
+
     protected static final int rp=10,rb=5; /** pour le tracé de la tortue  */
 
     boolean showTurtles=true; /** Affichage des tortue Vrai/Faux */
 
-    ArrayList<Tortue> tortues = new ArrayList<Tortue>(); /** liste des tortues */
-    ArrayList<TortueAmelioree> tortueAmelioree; /** liste des tortues améliorées */
+    private ArrayList<Tortue> tortues;   /** liste des tortues */
 
 
     Image drawingImage; /** La zone Blanche de dessin  */
@@ -30,11 +33,60 @@ public class FeuilleDessin extends JPanel {
     static final double convDegGrad = 0.0174533; // la constante de conversion de degres en gradient
 
 
-    public FeuilleDessin(ArrayList<Tortue> tortues, ArrayList<TortueAmelioree> tortueAmelioree){
-        this.tortues = tortues;
-        this.tortueAmelioree = tortueAmelioree;
+//######################################################################################################      CONSTRUCTEURS
+
+    public FeuilleDessin(){ this.tortues = new ArrayList<Tortue>(); }
         
+
+//######################################################################################################      ACCESSEURS
+
+
+
+    public Tortue getTortue(int i){
+
+        return tortues.get(i);
     }
+
+    public ArrayList<Tortue> getListeTortue(){
+
+        return tortues;
+    }
+
+
+   public ArrayList<TortueAmelioree> getListeTortuesAmeliorees() {
+
+        ArrayList<TortueAmelioree> listeTortuesAmelioree = new ArrayList<TortueAmelioree>();
+
+        for (int i = 0; i < getListeTortue().size() ; i++)
+        {
+            if(getTortue(i) instanceof TortueAmelioree){
+
+            listeTortuesAmelioree.add((TortueAmelioree)getTortue(i));
+
+            }
+        }
+
+        return listeTortuesAmelioree;
+    }
+
+    /**
+    * Retourne le graphique de type Graphics
+    */
+    public Graphics getImageGraphics(){
+        if (drawingImage == null)
+            reset();
+        return drawingImage.getGraphics();
+    }
+
+//######################################################################################################      MUTATEURS
+
+    public void setTortue(ArrayList<Tortue> tortues) {
+
+    this.tortues = tortues;
+
+    }
+
+//######################################################################################################      METHODES
 
     /**
     * Dessine la tortue
@@ -135,16 +187,6 @@ public class FeuilleDessin extends JPanel {
 
 
     /**
-    * Retourne le graphique de type Graphics
-    */
-    public Graphics getImageGraphics(){
-        if (drawingImage == null)
-            reset();
-        return drawingImage.getGraphics();
-    }
-
-
-    /**
     * Affiche chaque tortue de la liste général, sur le graphique
     * @param g le graphique
     */
@@ -155,13 +197,8 @@ public class FeuilleDessin extends JPanel {
         }
     }
 
-    public ArrayList<TortueAmelioree> getTortueAmelioree() {
-        return tortueAmelioree;
-    }
 
-    public void setTortueAmelioree(ArrayList<TortueAmelioree> tortueAmelioree) {
-        this.tortueAmelioree = tortueAmelioree;
-    }
+
 
         
 }

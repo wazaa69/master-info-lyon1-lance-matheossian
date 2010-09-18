@@ -7,13 +7,17 @@ import java.util.ArrayList;
 
 public class TortueAmelioree extends Tortue {
 
+
+//######################################################################################################      ATTRIBUTS
+
     private String nom;     /** Le nom de la tortue */
-
-
 
     final int distMin; /** distance minimum entre deux tortues */
 
+    private ArrayList<Tortue> listeAmis;
 
+
+ //######################################################################################################      CONSTRUCTEURS
 
    /**
     * Constructeur
@@ -25,23 +29,35 @@ public class TortueAmelioree extends Tortue {
 
         super(f);
 
+        listeAmis  = new ArrayList<Tortue>();
+
         if(name.equals(""))
-            this.nom = "torAm" + feuille.tortueAmelioree.size();
+            this.nom = "torAm" + feuille.getListeTortue().size();
         else this.nom = name;
 
         distMin = 15;
 
-        feuille.tortueAmelioree.add(this);
+        feuille.getListeTortue().add(this);
         
     }
+
+//######################################################################################################      ACCESSEURS
+
+    public ArrayList<Tortue> getListeAmis(){ return listeAmis; }
+        
+    public String getNom() {return nom;}
+
+    public int getDistMin() {return distMin;}
+
+//######################################################################################################      METHODES
 
    /**
     * Retire une tortue de la liste d'amis
     * @param t la tortue amélioréee
     */
-    public void enleverTortue(TortueAmelioree t){listeAmis.remove(t);}
+    //public void enleverTortue(TortueAmelioree t){listeAmis.remove(t);}
 
-
+   
 
     /*-----------------------------------*/
     /*     DEPLACEMENT DES TORTUES
@@ -69,9 +85,9 @@ public class TortueAmelioree extends Tortue {
 
         //pousser les tortues à proximité
         TortueAmelioree uneTortue = null;
-        for(int i=0; i < feuille.getTortueAmelioree().size(); i++){
+        for(int i=0; i < feuille.getListeTortuesAmeliorees().size(); i++){
 
-            uneTortue = feuille.getTortueAmelioree().get(i);
+            uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
             if(this != uneTortue){
                 if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= distMin)
@@ -110,7 +126,7 @@ public class TortueAmelioree extends Tortue {
 
         //OPTIMISATION
         /* le nombre de tortues à pousser pour dégager le chemin */
-        int nbrTortuesApousser = feuille.getTortueAmelioree().size();
+        int nbrTortuesApousser = feuille.getListeTortuesAmeliorees().size();
         /* la meilleur direction en fonction du nombre de tortues à pousser */
         int meilleurAngle = dir;
 
@@ -134,9 +150,9 @@ public class TortueAmelioree extends Tortue {
             placeDispo = true; //pour le moment la place est disponible
             liste.clear(); //on vide la liste de la boucle précédante
 
-            for(int i=0; i < feuille.getTortueAmelioree().size(); i++){
+            for(int i=0; i < feuille.getListeTortuesAmeliorees().size(); i++){
 
-                uneTortue = feuille.getTortueAmelioree().get(i);
+                uneTortue = feuille.getListeTortuesAmeliorees().get(i);
        
                 if(uneTortue != this){
                     if(distPoint(uneTortue.x, uneTortue.y, newX, newY) <= distMin){
@@ -178,11 +194,6 @@ public class TortueAmelioree extends Tortue {
     }
 
 
-    /*-----------------------------------*/
-    /*         GETTERS/SETTERS
-    /*-----------------------------------*/
 
-    public String getNom() {return nom;}
-    public int getDistMin() {return distMin;}
 
 }
