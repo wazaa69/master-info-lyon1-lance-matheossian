@@ -45,8 +45,8 @@ public class TortueBalle extends Tortue {
         int n = 16;
         for(int i=0; i<=n; i++)
         {
-                Point p = new Point(x+ (int)(r * Math.cos(i*(2*Math.PI/n))),
-                                    y+ (int)(r * Math.sin(i*(2*Math.PI/n))));
+                Point p = new Point(getX()+ (int)(r * Math.cos(i*(2*Math.PI/n))),
+                                    getY()+ (int)(r * Math.sin(i*(2*Math.PI/n))));
                 cercle.addPoint(p.x, p.y);
         }
 

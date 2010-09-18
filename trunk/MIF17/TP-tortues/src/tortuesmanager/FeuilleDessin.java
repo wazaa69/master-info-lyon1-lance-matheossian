@@ -96,7 +96,7 @@ public class FeuilleDessin extends JPanel {
 
     //Calcule les 3 coins du triangle a partir de
     // la position de la tortue p
-    Point p = new Point(t.x,t.y);
+    Point p = new Point(t.getX(),t.getY());
     Polygon arrow = new Polygon();
 
     //Calcule des deux bases
@@ -109,10 +109,10 @@ public class FeuilleDessin extends JPanel {
     //Sens de la fleche
 
     //Pointe
-    Point p2=new Point((int) Math.round(p.x+r*Math.cos(theta)),
+    Point p2=new Point((int) Math.round(p.getX()+r*Math.cos(theta)),
                                          (int) Math.round(p.y-r*Math.sin(theta)));
     arrow.addPoint(p2.x,p2.y);
-    arrow.addPoint((int) Math.round( p2.x-r*Math.cos(theta + alpha) ),
+    arrow.addPoint((int) Math.round( p2.getX()-r*Math.cos(theta + alpha) ),
           (int) Math.round( p2.y+r*Math.sin(theta + alpha) ));
 
     //Base2

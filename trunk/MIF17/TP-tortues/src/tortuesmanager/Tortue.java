@@ -31,8 +31,10 @@ class Tortue extends Thread
 
 
     FeuilleDessin feuille;     /** la feuille de dessin sur laquelle dessine la tortue */
+
+    private int x, y;	/** les coordonnees de la tortue */
+
     double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
-    int x, y;	/** les coordonnees de la tortue */
     protected int dir;	/** la direction de la tortue */
     boolean crayon=true; /** par defaut on suppose qu'on dessine */
     int coul; /** couleur courante */
@@ -67,6 +69,9 @@ class Tortue extends Thread
         return tortueCouleur;
     }
 
+    public int getX(){ return x;}
+
+    public int getY(){ return y;}
 
     //######################################################################################################      MUTATEURS
 

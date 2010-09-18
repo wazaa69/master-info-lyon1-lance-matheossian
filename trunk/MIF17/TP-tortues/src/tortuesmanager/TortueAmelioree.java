@@ -90,7 +90,7 @@ public class TortueAmelioree extends Tortue {
             uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
             if(this != uneTortue){
-                if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= distMin)
+                if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMin)
                 {
                     System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
                     uneTortue.pousserTortue(dir, distMinimale);
@@ -143,8 +143,8 @@ public class TortueAmelioree extends Tortue {
 
 
             //Calcul de la nouvelle position, après déplacement
-            newX = (int) Math.round(x+dist*Math.cos(convDegGrad*angle));
-            newY = (int) Math.round(y+dist*Math.sin(convDegGrad*angle));
+            newX = (int) Math.round(getX()+dist*Math.cos(convDegGrad*angle));
+            newY = (int) Math.round(getY()+dist*Math.sin(convDegGrad*angle));
 
 
             placeDispo = true; //pour le moment la place est disponible
@@ -155,7 +155,7 @@ public class TortueAmelioree extends Tortue {
                 uneTortue = feuille.getListeTortuesAmeliorees().get(i);
        
                 if(uneTortue != this){
-                    if(distPoint(uneTortue.x, uneTortue.y, newX, newY) <= distMin){
+                    if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMin){
                         placeDispo = false;
                         liste.add(uneTortue); //une tortue en plus
                     }
