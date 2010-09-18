@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /*
  * La classe Tortue qui se déplace en coordonnées polaires
  */
-class Tortue
+class Tortue extends Thread
 {
 
     double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
@@ -33,7 +33,7 @@ class Tortue
 
 
     int x, y;	/** les coordonnees de la tortue */
-    int dir;	/** la direction de la tortue */
+    protected int dir;	/** la direction de la tortue */
     boolean crayon=true; /** par defaut on suppose qu'on dessine */
     int coul; /** couleur courante */
 
@@ -325,6 +325,7 @@ class Tortue
 
     public void setColor(int n){coul = n;}
     public int getColor() {return coul;}
+    public int getDir() {return dir;}
 
 
 }

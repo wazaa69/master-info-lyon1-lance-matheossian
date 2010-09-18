@@ -20,7 +20,6 @@ public class Controleur {
 
 
 
-
     public Controleur(){}
 
     /**
@@ -53,50 +52,27 @@ public class Controleur {
 
         int nbrTortues=10;
 
-        //Création des N tortues améliorées
-        for(int i=0; i < nbrTortues; i++) {
-            TortueAmelioree tmp = new TortueAmelioree(simpleLogo.getFeuille(),"");
-            courante=tmp;
-            courante.leverCrayon();
-            courante.droite(16*i);
-            courante.avancer(80);
+        if(tortueAmelioree.size() < 10){
+            //Création des N tortues améliorées
+            for(int i=0; i < nbrTortues; i++) {
+                TortueAmelioree uneTortue = new TortueAmelioree(simpleLogo.getFeuille(),"");
+                courante = uneTortue;
+                courante.leverCrayon();
+                courante.droite(16*i);
+                courante.avancer(80);
+                uneTortue.run();
+            }
         }
-
-        /* tester la liste des amis
-         TortueAmelioree tmp =(TortueAmelioree) courante;
-        tmp.listerAmis();*/
-
 
         /*
-        int i=0;
-        while(true){
-            courante=(TortueAmelioree) feuille.TortueAmelioree.get(i);
-            courante.deplacementsHasardeux();
-
-            try {
-                    Thread.sleep(100);
-            } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            }
-
-            i++;
-            if(i%feuille.TortueAmelioree.size() == 0) i=0;
-        }
+        TortueAmelioree uneTortue = tortueAmelioree.get(procTortueAmelioree);
+        courante = (Tortue) uneTortue;
+        uneTortue.deplacementAuHasard(30);
+        procTortueAmelioree++;
+        if(procTortueAmelioree%tortueAmelioree.size() == 0) procTortueAmelioree=0;
          */
 
     }
-
-   /* on pourra delete cette fonction quand on aura trouvé comment déplacer les tortu et stoper leur mouvement*/
-   void bougerTortAmel(){
-            TortueAmelioree tmp = tortueAmelioree.get(procTortueAmelioree);
-            courante = (Tortue) tmp;
-            tmp.deplacementAuHasard(15);
-            procTortueAmelioree++;
-            if(procTortueAmelioree%tortueAmelioree.size() == 0) procTortueAmelioree=0;
-    }
-
-
 
 
 

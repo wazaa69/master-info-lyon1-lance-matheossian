@@ -7,10 +7,13 @@ import java.util.ArrayList;
 
 public class TortueAmelioree extends Tortue {
 
-    String nom;     /** Le nom de la tortue */
+    private String nom;     /** Le nom de la tortue */
 
     /** La liste des tortues amies  */
-    ArrayList<TortueAmelioree> listeAmis= new ArrayList<TortueAmelioree>();
+    private ArrayList<TortueAmelioree> listeAmis= new ArrayList<TortueAmelioree>();
+
+    final int distMin; /** distance minimum entre deux tortues */
+
 
    /**
     * Constructeur
@@ -22,82 +25,16 @@ public class TortueAmelioree extends Tortue {
 
         super(f);
 
-        if(name.equals("")) this.nom = "torAm" + feuille.tortueAmelioree.size();
+        if(name.equals(""))
+            this.nom = "torAm" + feuille.tortueAmelioree.size();
         else this.nom = name;
+
+        distMin = 15;
 
         feuille.tortueAmelioree.add(this);
         
     }
 
-
-   /**
-    * Ajoute une tortue à la liste d'amis (distance entre les 2 tortues <= 15px)
-    */
-    /*
-   public void ajouterTortues() {
-
-        int nbrTortues = feuille.tortueAmelioree.size();
-
-        //si toutes les tortues ne sont pas encore ses amis
-        if(listeAmis.size() < nbrTortues){
-            for(int i=0; i < nbrTortues; i++){
-                TortueAmelioree tmp = feuille.tortueAmelioree.get(i);
-
-                if(this != tmp){
-
-                    int distance = this.distTortue(tmp);
-
-                    //si la distance est <= 15px et la tortue n'est pas dans la liste
-                    if((distance <= 15) && (!listeAmis.contains(tmp))){
-                        listeAmis.add(tmp); //tortue ajoutée
-                        System.out.println(this.nom + " a ajoutée " + tmp.nom + " en amie.");
-                    }
-                    else if(distance <= 15)
-                    {
-                      decalerTortueVoisine(tmp);
-                    }
-  
-                }
-            }
-       }
-    }
-    */
-
-
-
-
-
-
-   
-   /**
-    * Décale une tortue voisine dans le sense inverse de la tortue courante
-    * @param t une tortue améliorée
-    */
-    void decalerTortueVoisine(TortueAmelioree t){
-        t.dir=this.dir;
-        Tortue tmp = (Tortue) t;
-        System.out.println(t.nom + " c'est déplacé de 15 pixels");
-        tmp.avancer(15); //pour ne pas relancer le decalage des autres tortues
-    }
-
-
-   /**
-    * Lister les amies de cette tortue
-    */
-    /*
-   public void listerAmis(){
-        for(int i=0; i < listeAmis.size(); i++){
-            System.out.println(listeAmis.get(i).nom);
-        }
-   }
-   */
-
-   /**
-    * Ajouter une liste de tortues à la liste d'amis
-    * @param t la liste de tortues amélioréees
-    */
-    public void ajouterListeTortues(ArrayList<TortueAmelioree> t){listeAmis.addAll(t);}
-    
    /**
     * Retire une tortue de la liste d'amis
     * @param t la tortue amélioréee
@@ -106,112 +43,155 @@ public class TortueAmelioree extends Tortue {
 
 
 
+    /*-----------------------------------*/
+    /*     DEPLACEMENT DES TORTUES
+    /*-----------------------------------*/
+
     /**
-     * Déplacement aléatoire, la position initial équivaut à un cercle
+     * La tortue se déplace aléatoirement, chaque tortue rencontrée doit se pousser
      * @param dist la distance à parcourire
      */
     public void deplacementAuHasard(int dist)
     {
 
-        int angle;
+        //Respect de la distance minimale ?
+        int distMinimale = distMin;
+        if(dist > distMin) distMinimale = dist;
 
-        angle = (int)(Math.random()*360);
-        if(Math.random() > 0.5)
-            droite(angle);
-        else gauche(angle);
+        //déplacement aléatoire
+        int angle = (int)(Math.random()*360);
+        if(Math.random() > 0.5) droite(angle); else gauche(angle);
+        avancer(distMinimale);
 
-        avancer(dist);
+       //System.out.print(">-----DEBUT - Déplacement de " + nom + "\n");
 
-
+        //pousser les tortues à proximité
         TortueAmelioree uneTortue = null;
-        ArrayList<TortueAmelioree> tortuesADeplacer = new ArrayList<TortueAmelioree>();
-
         for(int i=0; i < feuille.getTortueAmelioree().size(); i++){
 
             uneTortue = feuille.getTortueAmelioree().get(i);
 
             if(this != uneTortue){
-                if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= 15)
-                    uneTortue.pousserTortue(dir, dist);
+                if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= distMin)
+                {
+                    System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
+                    uneTortue.pousserTortue(dir, distMinimale);
+                }
             }
+        } //fin for
 
-        }
+       //System.out.print(">-----FIN - Déplacement de " + nom + "\n");
 
     }
 
+
+
     /**
-     * Déplacement aléatoire, la position initial équivaut à un cercle
-     * @param dist la distance à parcourire
+     * Déplace aléatoirement une tortue et pousse ses voisines si nécessaire
+     * A la différence de la version précédante, la tortue va chercher une place
+     * disponible, sans devoir pousser d'autres tortues.
+     * @param dir la direction de la tortue pousseuse
+     * @param dist la distance à parcourire pour la tortue pousseuse
      */
     public void pousserTortue(int dir, int dist){
 
-        int newX, newY, angle, nbrEssais = 0;
-        boolean placeDispo;
+
+        /* Variables ------------------------------------->*/
+
+        int newX, newY; //les prochaines coordonnées
+        int angle; //la direction
+        boolean placeDispo; //aucune tortue voisine aux nouvelles coordonnées ?
 
         TortueAmelioree uneTortue = null;
+        ArrayList<TortueAmelioree> liste = new ArrayList<TortueAmelioree>();
         ArrayList<TortueAmelioree> tortuesADeplacer = new ArrayList<TortueAmelioree>();
 
-        while(nbrEssais <= 20){
+        //OPTIMISATION
+        /* le nombre de tortues à pousser pour dégager le chemin */
+        int nbrTortuesApousser = feuille.getTortueAmelioree().size();
+        /* la meilleur direction en fonction du nombre de tortues à pousser */
+        int meilleurAngle = dir;
 
-            angle = (int) (Math.random() * 360);
+        /*------------------------------------------------->*/
 
-            placeDispo = true;
 
-            /* le nombre de tortues à pousser pour dégager le chemin */
-            int tortuesApousser = 0;
-            /* le plus petit nombre de tortues à pousser */
-            int oldTortuesApousser = feuille.getTortueAmelioree().size();
-            /* le meilleur angle selon le nombre de tortues à pousser*/
-            int meilleurAngle = dir;
+       for(int nbrEssais = 0; nbrEssais <= 20; nbrEssais++) {
 
+            /* Direction de la tortue "pousseuse" +/-90° */
+            angle = dir;
+            if(Math.random() > 0.5)
+                angle += (int) (Math.random() * 90);
+            else angle -= (int) (Math.random() * 90);
+
+
+            //Calcul de la nouvelle position, après déplacement
             newX = (int) Math.round(x+dist*Math.cos(convDegGrad*angle));
             newY = (int) Math.round(y+dist*Math.sin(convDegGrad*angle));
 
-            //si il y a une tortue à moins de 15px on sort de la boucle
+
+            placeDispo = true; //pour le moment la place est disponible
+            liste.clear(); //on vide la liste de la boucle précédante
+
             for(int i=0; i < feuille.getTortueAmelioree().size(); i++){
 
                 uneTortue = feuille.getTortueAmelioree().get(i);
-
-                tortuesApousser=0;
        
-                if(this != uneTortue){
-                    if(distPoint(uneTortue.x, uneTortue.y, this.x, this.y) <= 30)
+                if(uneTortue != this){
+                    if(distPoint(uneTortue.x, uneTortue.y, newX, newY) <= distMin){
                         placeDispo = false;
-                        tortuesApousser++;
+                        liste.add(uneTortue); //une tortue en plus
+                    }
+                }
+            }
+
+
+            if(nbrTortuesApousser > liste.size()){
+                nbrTortuesApousser = liste.size();
+                meilleurAngle = angle;
+                tortuesADeplacer.clear();
+                tortuesADeplacer.addAll(liste);
+            }
+
+            //déplacement "aléatoire" (à faire avant de pousser les tortues)
+            if((placeDispo) || (nbrEssais == 20)){
+                dir = meilleurAngle;
+                avancer(dist);
+            }
+
+
+            if(placeDispo){break; }
+            else if (nbrEssais == 20){
+
+                //aucune place trouvée, on pousse les tortues voisines
+                for(int i = 0; i < tortuesADeplacer.size(); i++){
+                    uneTortue = tortuesADeplacer.get(i);
+                    System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
+                    tortuesADeplacer.get(i).pousserTortue(dir,dist);
                 }
 
+                break; //on sort de la boucle
             }
 
-            /*
-             * L'angle de recherche pour savoir si il y a de la place dispo =
-             *  angle = dir de la tortue précédante +90° ou -90°, avec dist > distance_minimal
-             * Faire un schéma pour une meilleur représentation.
-             */
-
-            if(placeDispo) {
-                dir = angle; //on attribut une nouvelle direction à la tortue
-                avancer(dist); //on fait avancer la tortue dans cette direction
-                nbrEssais=21;
-            }
-            else if (nbrEssais == 20){
-                dir = angle;
-                avancer(dist);
-                uneTortue.pousserTortue(dir,dist);
-                break;
-            }
-
-            if(oldTortuesApousser > tortuesApousser){
-                 oldTortuesApousser = tortuesApousser;
-                 meilleurAngle = angle;
-                 
-            }
-
-            nbrEssais++;
         }
-
-
-
-
     }
+
+    /*-----------------------------------*/
+    /*         RUN DU THREAD
+    /*-----------------------------------*/
+
+
+    @Override
+    public void run() {
+        while(true){
+            deplacementAuHasard(dir);
+        }
+    }
+
+    /*-----------------------------------*/
+    /*         GETTERS/SETTERS
+    /*-----------------------------------*/
+
+    public String getNom() {return nom;}
+    public int getDistMin() {return distMin;}
 
 }
