@@ -10,20 +10,19 @@ import java.io.*;
 
 public class SimpleLogo extends JFrame implements ActionListener {
 
-        /**
-         * La feuille de dessins qui regroupe des listes de tortues + le support de dessin
-         */
-	private FeuilleDessin feuille;
 
+    //######################################################################################################      ATTRIBUTS
+
+	private FeuilleDessin feuille; /*  La feuille de dessins qui regroupe des listes de tortues + le support de dessin */
         private Controleur controleur;
-
 	JTextField inputValue; /** Champs de texte pour l'angle de rotation de la tortue */
-
 
 	public static final Dimension VGAP = new Dimension(1,5); /** constante de dimenssion */
 	public static final Dimension HGAP = new Dimension(5,1); /** constante de dimenssion */
 
 
+    //######################################################################################################      CONSTRUCTEURS
+        
     /*
      * Constructeur
      */

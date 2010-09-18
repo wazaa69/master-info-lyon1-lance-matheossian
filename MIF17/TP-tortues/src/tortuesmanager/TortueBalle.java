@@ -27,9 +27,11 @@ public class TortueBalle extends Tortue {
      * @param g C'est le contexte graphique de la FeuilleDessin a laquelle
      * la TortueBalle est rattache.
      */
-    protected void drawTurtle(Graphics g)
+
+
+    protected void dessinerTortue(Graphics g)
     {
-        Polygon circle = new Polygon();
+        Polygon cercle = new Polygon();
 
         //Rayon du cerle
         double r = 5;
@@ -39,14 +41,13 @@ public class TortueBalle extends Tortue {
         {
                 Point p = new Point(x+ (int)(r * Math.cos(i*(2*Math.PI/n))),
                                     y+ (int)(r * Math.sin(i*(2*Math.PI/n))));
-                circle.addPoint(p.x, p.y);
+                cercle.addPoint(p.x, p.y);
         }
 
         g.setColor(tortueCouleur);
-        g.fillPolygon(circle);
+        g.fillPolygon(cercle);
 
-        //g.drawArc(x, y, 2*rp, 2*rp, 0, 360);
-        //g.fillOval(x, y, 2*rp, 2*rp);
+    
     }
 
 }
