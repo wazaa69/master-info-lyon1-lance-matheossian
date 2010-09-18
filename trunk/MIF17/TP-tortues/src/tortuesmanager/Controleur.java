@@ -60,17 +60,16 @@ public class Controleur {
                 courante.leverCrayon();
                 courante.droite(16*i);
                 courante.avancer(80);
-                uneTortue.run();
             }
         }
 
-        /*
+        
         TortueAmelioree uneTortue = tortueAmelioree.get(procTortueAmelioree);
         courante = (Tortue) uneTortue;
         uneTortue.deplacementAuHasard(30);
         procTortueAmelioree++;
         if(procTortueAmelioree%tortueAmelioree.size() == 0) procTortueAmelioree=0;
-         */
+        
 
     }
 
