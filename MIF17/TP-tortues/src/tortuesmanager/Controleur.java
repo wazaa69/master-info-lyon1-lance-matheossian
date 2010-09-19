@@ -9,8 +9,14 @@ public class Controleur {
 
     private SimpleLogo simpleLogo; /** Référence sur la Vue */
 
+    private boolean procedureEnCours = false;
+
+    //Procédure 1
     private Tortue courante; /** La tortue en cours de déplacement */
-    int procTortueAmelioree = 0; /** stopper ou lancer la procédure pour les tortues améliorées */
+    private int procTortueAmelioree = 0; /** stopper ou lancer la procédure pour les tortues améliorées */
+    
+    //Procédure 2
+    private JeuDeBalle jeuDeBalle;
 
  //######################################################################################################      CONSTRUCTEURS
     
@@ -21,12 +27,18 @@ public class Controleur {
     public SimpleLogo getSimpleLogo(){ return simpleLogo; }
 
     public Tortue getCourante() { return courante; }
+
+    public boolean isProcedureEnCours() {return procedureEnCours;}
+
+
         
  //######################################################################################################      MUTATEURS
 
     public void setSimpleLogo(SimpleLogo simpleLogo) { this.simpleLogo = simpleLogo; }
         
     public void setCourante(Tortue courante) { this.courante = courante; }
+
+    public void setProcedureEnCours(boolean procedureEnCours) {this.procedureEnCours = procedureEnCours;}
         
  //######################################################################################################      METHODES
 
@@ -57,29 +69,33 @@ public class Controleur {
      */
     public void procedureUne(){
 
-        int nbrTortues=10;
+        if(!procedureEnCours){
+            procedureEnCours = true;
 
-        if(getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() < 10){
+            int nbrTortues=10;
 
-            resetVueEtTortues();
+            if(getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() < 10){
 
-            //Création des N tortues améliorées
-            for(int i=0; i < nbrTortues; i++) {
-                TortueAmelioree uneTortue = new TortueAmelioree(simpleLogo.getFeuille(),"");
-                courante = uneTortue;
-                courante.leverCrayon();
-                courante.droite(16*i);
-                courante.avancer(80);
+                resetVueEtTortues();
+
+                //Création des N tortues améliorées
+                for(int i=0; i < nbrTortues; i++) {
+                    TortueAmelioree uneTortue = new TortueAmelioree(simpleLogo.getFeuille(),"");
+                    courante = uneTortue;
+                    courante.leverCrayon();
+                    courante.droite(16*i);
+                    courante.avancer(80);
+                }
             }
-        }
 
-        
-        TortueAmelioree uneTortue = getSimpleLogo().getFeuille().getListeTortuesAmeliorees().get(procTortueAmelioree);
-        courante = (Tortue) uneTortue;
-        uneTortue.deplacementAuHasard(30);
-        procTortueAmelioree++;
-        if(procTortueAmelioree%getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() == 0) procTortueAmelioree=0;
-        
+             else{
+                TortueAmelioree uneTortue = getSimpleLogo().getFeuille().getListeTortuesAmeliorees().get(procTortueAmelioree);
+                courante = (Tortue) uneTortue;
+                uneTortue.deplaceHasardEtPousse(30);
+                procTortueAmelioree++;
+                if(procTortueAmelioree%getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() == 0) procTortueAmelioree=0;
+             }
+        }
     }
 
     
@@ -88,9 +104,21 @@ public class Controleur {
      * Si une tortue en rencontre une autre, elle l'ajoute à sa liste d'amis
      */
     public void procedureDeux(){
-        resetVueEtTortues();
-        JeuDeBalle jeu = new JeuDeBalle(simpleLogo.getFeuilleDessin(), 24);
-        jeu.lancerPartieThread();
+
+        if(!procedureEnCours){
+            procedureEnCours = true;
+            resetVueEtTortues();
+            simpleLogo.creerProc2();
+            JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 24);
+            jeuDeBalle.start();
+        }
+    }
+
+    public void stopProcDeux(){
+        jeuDeBalle.stop();
+        simpleLogo.effProc2();
+        procedureEnCours = false;
+
     }
 
 
@@ -117,7 +145,6 @@ public class Controleur {
     public void effacer()
     {
         simpleLogo.getFeuille().reset();
-        courante.reset();
         simpleLogo.getFeuille().repaint();
     }
 

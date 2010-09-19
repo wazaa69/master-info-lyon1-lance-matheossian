@@ -11,8 +11,6 @@ public class TortueAmelioree extends Tortue {
 
     private String nom;     /** Le nom de la tortue */
 
-    final int distMin; /** distance minimum entre deux tortues */
-
     private boolean saluer = true; /** précise si les tortues doivent se saluer */
 
     private ArrayList<TortueAmelioree> listeAmis;
@@ -35,8 +33,6 @@ public class TortueAmelioree extends Tortue {
         if(name.equals(""))
             this.nom = "tortue" + this.feuille.getListeTortues().size();
         else this.nom = name;
-
-        distMin = 15;
  
     }
 
@@ -72,7 +68,7 @@ public class TortueAmelioree extends Tortue {
      * La tortue se déplace aléatoirement, chaque tortue rencontrée doit se pousser
      * @param dist la distance à parcourire
      */
-    public void deplacementAuHasard(int dist)
+    public void deplaceHasardEtPousse(int dist)
     {
         //Respect de la distance minimale ?
         int distMinimale = distMin;
@@ -106,7 +102,7 @@ public class TortueAmelioree extends Tortue {
     /**
      * Déplace aléatoirement une tortue et pousse ses voisines si nécessaire
      * A la différence de la version précédante, la tortue va chercher une place
-     * disponible, sans devoir pousser d'autres tortues.
+     * disponible, sans devoir pousser d'autres tortues (si possible).
      * @param dir la direction de la tortue pousseuse
      * @param dist la distance à parcourire pour la tortue pousseuse
      */
@@ -236,14 +232,18 @@ public class TortueAmelioree extends Tortue {
 
         TortueAmelioree uneTortue = null;
         TortueAmelioree tortueProche = null;
-        int dist = Integer.MAX_VALUE; //le maximum d'un integer
+
+        int distance = 0;
+        int distMinimal = Integer.MAX_VALUE; //le maximum d'un integer
+
 
         for(int i=0; i < listeAmis.size(); i++){
 
             uneTortue = listeAmis.get(i);
+            distance = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
 
-            if(distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY()) < dist){
-                dist = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
+            if(distance < distMinimal && uneTortue != this){
+                distMinimal = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
                 tortueProche = uneTortue;
              }
         }

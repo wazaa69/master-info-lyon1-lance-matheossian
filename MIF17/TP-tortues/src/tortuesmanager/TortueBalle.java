@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -34,14 +35,14 @@ public class TortueBalle extends Tortue {
     {
 
         double r = 300; //Rayon du cerle
-        int n = 16; //Détails du contour de la balle
+        int n = 200; //Détails du contour de la balle
 
         //Cercle = polygaone à n sommets
         Polygon cercle = new Polygon();
 
 
         //On boucle pour faire un cercle
-        for(int i=0; i<=n; i++)
+        for(int i=0; i <= n; i++)
         {
                 Point p = new Point(getX()+ (int)(r * Math.cos(i*(2*Math.PI/n))),
                                     getY()+ (int)(r * Math.sin(i*(2*Math.PI/n))));
@@ -55,48 +56,93 @@ public class TortueBalle extends Tortue {
 
 
     /*
-     * Recherche la tortue la plus proche
-     * @return retourne la tortue la plus proche
+     * Recherche la tortue amie la plus proche
+     * @return retourne la tortue améliorée amie la plus proche
      */
-    public TortueAmelioree tortueLaPlusProche(){
+    public TortueAmelioree tortueAmieLaPlusProche(){
 
         TortueAmelioree uneTortue = null;
-        ArrayList<TortueAmelioree> listeAmies = feuille.getListeTortuesAmeliorees();
+        TortueAmelioree tortueProche = null;
 
-        if(!listeAmies.isEmpty()){
+        int distance = 0;
+        int distMinimal = Integer.MAX_VALUE; //le maximum d'un integer
 
-            //Initialisation
-            TortueAmelioree tortueProche = listeAmies.get(0);
-            int dist = distPoint(getX(), getY(), tortueProche.getX(), tortueProche.getY());
 
-            for(int i=1; i < listeAmies.size(); i++){
+        for(int i=0; i < feuille.getListeTortuesAmeliorees().size(); i++){
 
-                uneTortue = listeAmies.get(i);
+            uneTortue = feuille.getListeTortuesAmeliorees().get(i);
+            distance = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
 
-                if(distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY()) < dist){
-                    dist = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
-                    tortueProche = uneTortue;
-                 }
-            }
-
-            return tortueProche;
+            if(distance < distMinimal){
+                distMinimal = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
+                tortueProche = uneTortue;
+             }
         }
+        return tortueProche;
+    }
 
-        else return null;
 
+
+
+    public void setCoordonneesSelonTortue(Tortue uneTortue){
+        setX(uneTortue.getX()-5);
+        setY(uneTortue.getY()-5);
+    }
+
+
+    public void setPositionSelonTortue(Tortue uneTortue){
+        setCoordonneesSelonTortue(uneTortue);
+        setDir(uneTortue.getDir());
     }
 
 
 
     /**
-    * Modifie la position et la direction de la balle en fonction d'une Tortue.
+    * Envoie la balle à une tortue (pas à pas)
     * @param uneTortue cette tortue est la nouvelle propriétaire de la balle.
     */
-    public void setNouvelleProprio(Tortue uneTortue){
-        setX(uneTortue.getX());
-        setY(uneTortue.getY());
+    
+    public void passeLaBalleA(Tortue uneTortue) {
+
+        if(distTortue(uneTortue) != 0){
+
+            //Calcul de la direction
+            double cosinus = (uneTortue.getX() - getX() ) / distTortue(uneTortue);
+            double angle = Math.acos(cosinus);
+            setDir((int) angle);
+
+            //Calcul des coefficients
+            int a = (uneTortue.getY()-getY())/(uneTortue.getX()-getX());
+            int b = getY() - a * getX();
+
+
+            int coor_y = getY();
+
+            for(int coor_x = getX(); coor_y < uneTortue.getY() && coor_x < uneTortue.getX();  coor_x+=10){
+
+                coor_y = a * ( coor_x - getX() ) + b;
+                setX(coor_x);
+                setY(coor_y);
+
+                feuille.drawIt();
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TortueBalle.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+       }
+
+        setPositionSelonTortue(uneTortue);
+
+        //On met à jour la direction
         setDir(uneTortue.getDir());
+
     }
+    
 
 
 }
