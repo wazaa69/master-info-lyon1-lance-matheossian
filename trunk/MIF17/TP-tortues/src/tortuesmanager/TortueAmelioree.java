@@ -1,8 +1,7 @@
 package tortuesmanager;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 
 public class TortueAmelioree extends Tortue {
@@ -14,6 +13,8 @@ public class TortueAmelioree extends Tortue {
 
     final int distMin; /** distance minimum entre deux tortues */
 
+    private boolean saluer = true; /** précise si les tortues doivent se saluer */
+
     private ArrayList<Tortue> listeAmis;
 
 
@@ -22,23 +23,21 @@ public class TortueAmelioree extends Tortue {
    /**
     * Constructeur
     * @param tortueAmelioree la liste de toutes les tortues améliorée (du constructeur)
-    * @param f la feuille de dessin
+    * @param feuille la feuille de dessin
     * @param name le nom de la tortue
     */
-    public TortueAmelioree(FeuilleDessin f, String name){
+    public TortueAmelioree(FeuilleDessin feuille, String name){
 
-        super(f);
+        super(feuille, false);
 
         listeAmis  = new ArrayList<Tortue>();
 
         if(name.equals(""))
-            this.nom = "torAm" + feuille.getListeTortue().size();
+            this.nom = "tortue" + this.feuille.getListeTortues().size();
         else this.nom = name;
 
         distMin = 15;
-
-        feuille.getListeTortue().add(this);
-        
+ 
     }
 
 //######################################################################################################      ACCESSEURS
@@ -48,6 +47,12 @@ public class TortueAmelioree extends Tortue {
     public String getNom() {return nom;}
 
     public int getDistMin() {return distMin;}
+
+    public boolean isSaluer() {return saluer;}
+
+//######################################################################################################      MUTATEURS
+
+    public void setSaluer(boolean saluer) {this.saluer = saluer;}
 
 //######################################################################################################      METHODES
 
@@ -69,9 +74,6 @@ public class TortueAmelioree extends Tortue {
      */
     public void deplacementAuHasard(int dist)
     {
-
-
-
         //Respect de la distance minimale ?
         int distMinimale = distMin;
         if(dist > distMin) distMinimale = dist;
@@ -89,12 +91,9 @@ public class TortueAmelioree extends Tortue {
 
             uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
-            if(this != uneTortue){
-                if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMin)
-                {
-                    System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
-                    uneTortue.pousserTortue(dir, distMinimale);
-                }
+            if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMin && uneTortue != this){
+                if(saluer) saluerUneTortue(uneTortue);
+                uneTortue.pousserTortue(dir, distMinimale);
             }
         } //fin for
 
@@ -154,11 +153,9 @@ public class TortueAmelioree extends Tortue {
 
                 uneTortue = feuille.getListeTortuesAmeliorees().get(i);
        
-                if(uneTortue != this){
-                    if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMin){
-                        placeDispo = false;
-                        liste.add(uneTortue); //une tortue en plus
-                    }
+                if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMin && uneTortue != this){
+                    placeDispo = false;
+                    liste.add(uneTortue); //une tortue en plus
                 }
             }
 
@@ -177,13 +174,13 @@ public class TortueAmelioree extends Tortue {
             }
 
 
-            if(placeDispo){break; }
+            if(placeDispo){break;}
             else if (nbrEssais == 20){
 
                 //aucune place trouvée, on pousse les tortues voisines
                 for(int i = 0; i < tortuesADeplacer.size(); i++){
                     uneTortue = tortuesADeplacer.get(i);
-                    System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
+                    if(saluer) saluerUneTortue(uneTortue);
                     tortuesADeplacer.get(i).pousserTortue(dir,dist);
                 }
 
@@ -194,6 +191,40 @@ public class TortueAmelioree extends Tortue {
     }
 
 
+
+    /*-----------------------------------*/
+    /*         GESTION DES AMIS
+    /*-----------------------------------*/
+
+    /**
+     * Ajoute une tortue améliorée dans la liste d'amis.
+     * @param uneTortue une tortue de type TortueAmelioree.
+     */
+    public void ajouterUnAmi(TortueAmelioree uneTortue)
+    {
+        if((uneTortue != this) && (uneTortue instanceof TortueAmelioree))
+            listeAmis.add(uneTortue);
+    }
+
+    /**
+     * Ajoute toutes les tortues améliorées dans la liste d'amis.
+     */
+    public void ajouterDesAmies()
+    {
+        ArrayList<TortueAmelioree> liste = feuille.getListeTortuesAmeliorees();
+
+        for(int i = 0; i < liste.size(); i++)
+            ajouterUnAmi(liste.get(i));
+    }
+
+
+    /**
+     * Salut une tortue.
+     * @param uneTortue une tortue de type TortueAmelioree.
+     */
+    public void saluerUneTortue(TortueAmelioree uneTortue){
+        if(saluer) System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
+    }
 
 
 }

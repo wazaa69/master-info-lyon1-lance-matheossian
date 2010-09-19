@@ -2,9 +2,7 @@ package tortuesmanager;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 import java.util.*;
-import java.io.*;
 
 
 /**
@@ -35,36 +33,32 @@ public class FeuilleDessin extends JPanel {
 
 //######################################################################################################      CONSTRUCTEURS
 
-    public FeuilleDessin(){ this.tortues = new ArrayList<Tortue>(); }
+    public FeuilleDessin(){ tortues = new ArrayList<Tortue>(); }
         
 
 //######################################################################################################      ACCESSEURS
 
 
 
-    public Tortue getTortue(int i){
-
-        return tortues.get(i);
-    }
-
-    public ArrayList<Tortue> getListeTortue(){
-
-        return tortues;
-    }
+    public Tortue getTortue(int i){return tortues.get(i);}
+    public ArrayList<Tortue> getListeTortues(){return tortues;}
 
 
    public ArrayList<TortueAmelioree> getListeTortuesAmeliorees() {
 
         ArrayList<TortueAmelioree> listeTortuesAmelioree = new ArrayList<TortueAmelioree>();
 
-        for (int i = 0; i < getListeTortue().size() ; i++)
-        {
-            if(getTortue(i) instanceof TortueAmelioree){
+        if(!tortues.isEmpty()){
+       
+            for (int i = 0; i < getListeTortues().size() ; i++)
+            {
+                if(getTortue(i) instanceof TortueAmelioree){
 
-            listeTortuesAmelioree.add((TortueAmelioree)getTortue(i));
+                listeTortuesAmelioree.add((TortueAmelioree)getTortue(i));
 
+                }
             }
-        }
+       }
 
         return listeTortuesAmelioree;
     }

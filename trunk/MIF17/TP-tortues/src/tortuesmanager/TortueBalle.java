@@ -12,14 +12,13 @@ public class TortueBalle extends Tortue {
 
  //######################################################################################################      CONSTRUCTEURS
 
-/**
-     * Constructeur pour une TortueBalle, aura un nom par defaut
-     * @param f La tortue sera rattache a cette feuille
-     */
-    public TortueBalle(FeuilleDessin f)
+    /**
+    * Constructeur, crée la balle et lui attribut une couleur
+    * @param feuille la feuille de dessin
+    */
+    public TortueBalle(FeuilleDessin feuille)
     {
-        super(f);
-
+        super(feuille, false);
         setCouleur(Color.RED);
     }
 
@@ -27,22 +26,20 @@ public class TortueBalle extends Tortue {
  //######################################################################################################      METHODES
 
     /**
-     * Dessine la TortueBalle dans la FeuilleDessin.<br/>
-     * On n'appellera pas directement cette fonction, le programme se charge
-     * de l'affichage des tortues
-     * @param g C'est le contexte graphique de la FeuilleDessin a laquelle
-     * la TortueBalle est rattache.
-     */
-
-
+    * Dessine la TortueBalle dans la FeuilleDessin.
+    * @param g le graphique (le support de dessin)
+    */
     protected void dessinerTortue(Graphics g)
     {
+
+        double r = 5; //Rayon du cerle
+        int n = 16; //Détails du contour de la balle
+
+        //Cercle = polygaone à n sommets
         Polygon cercle = new Polygon();
 
-        //Rayon du cerle
-        double r = 5;
 
-        int n = 16;
+        //On boucle pour faire un cercle
         for(int i=0; i<=n; i++)
         {
                 Point p = new Point(getX()+ (int)(r * Math.cos(i*(2*Math.PI/n))),
@@ -53,7 +50,17 @@ public class TortueBalle extends Tortue {
         g.setColor(tortueCouleur);
         g.fillPolygon(cercle);
 
-    
+    }
+
+
+    /**
+    * Modifie la position et la direction de la balle en fonction d'une Tortue.
+    * @param uneTortue cette tortue est la nouvelle propriétaire de la balle.
+    */
+    public void setNouvelleProprio(TortueAmelioree uneTortue){
+        setX(uneTortue.getX());
+        setY(uneTortue.getY());
+        setDir(uneTortue.getDir());
     }
 
 }
