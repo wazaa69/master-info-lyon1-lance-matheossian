@@ -14,6 +14,8 @@
 
     private boolean finPartie = false;
 
+    final private int distMinPasse = 15;
+
 
     //######################################################################################################      CONSTRUCTEURS
 
@@ -76,24 +78,31 @@
 
 
 
+    public TortueAmelioree randomJoueuse(){
+        int joueuse = (int) Math.random() * feuille.getListeTortuesAmeliorees().size();
+        return feuille.getListeTortuesAmeliorees().get(joueuse);
+    }
+
+
     /**
      * Lance la partie dans le thread courant
      */
-    public void lancerPartieNormal() {
+    public void lancerPartie() {
 
         //On place les tortues sur le terrain
         placerTortuesTerrain();
 
         //On récupère la tortue la plus proche de la balle et on downcast
-        TortueAmelioree tortueProprio = (TortueAmelioree) balle.tortueLaPlusProche();
+        TortueAmelioree tortueProprio = randomJoueuse();
+        if(tortueProprio == null) return; //si il n'y a aucune tortue on quitte
 
         //On met à jour la propriétaire de la balle et on l'affiche
         balle.setNouvelleProprio(tortueProprio);
         System.out.println(tortueProprio.getNom()+ " a la balle !");
 
 
-        TortueAmelioree last = null;
-        TortueAmelioree proche = null;
+        TortueAmelioree ancienneProprio = null;
+        TortueAmelioree tortueProche = null;
 
 
         for (int i = 0; i < nbrJoueurs; i++) {
@@ -107,9 +116,9 @@
             balle.avancer(val);
             tortueProprio.avancer(val);
 
-            Tortue uneTortue = null;
 
-            //De même pour les autres tortues
+            //On fait bouger les autres tortues
+            Tortue uneTortue = null;
             for (int j = 0; j < feuille.getListeTortues().size(); j++) {
 
                 uneTortue = feuille.getListeTortues().get(j);
@@ -118,17 +127,18 @@
                     uneTortue.droite(getAnglePourEviterBord(tortueProprio));
                     uneTortue.avancer((int) (5 + Math.random() * 10));
                 }
-
             }
 
-            // la joueuse regarde si elle peut faire la passe
-            proche = (TortueAmelioree) tortueProprio.tortueLaPlusProche();
-            if (proche != null) {
-                if (proche != last && tortueProprio.distTortue(proche) < 15) {
-                    System.out.println(tortueProprio.getNom() + " : Tiens " + proche.getNom() + ", prend la balle !!!");
 
-                    last = tortueProprio;
-                    tortueProprio = proche;
+            //La tortue propriétaire de la balle cherche à faire une passe
+            tortueProche = tortueProprio.tortueAmieLaPlusProche();
+            if (tortueProche != null) {
+                if (tortueProprio.distTortue(tortueProche) < distMinPasse && tortueProche != ancienneProprio) {
+
+                    ancienneProprio = (TortueAmelioree) tortueProprio;
+                    tortueProprio = tortueProche;
+
+                    //System.out.println(((TortueAmelioree) tortueProprio).getNom() + " passe la balle à " + tortueProche.getNom());
                     
                     balle.setNouvelleProprio(tortueProprio);
 
@@ -141,15 +151,12 @@
     /**
      * La fonction du thread
      */
-    @Override public void run() {lancerPartieNormal();}
+    @Override public void run() {lancerPartie();}
 
     /**
      * Lance la partie
      */
-    public void lancerPartie() {
-        Thread tmp = new Thread(this);
-        tmp.start();
-    }
+    public void lancerPartieThread() {(new Thread(this)).start();}
 
     /** 
      * Arrete la partie

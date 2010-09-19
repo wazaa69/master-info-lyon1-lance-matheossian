@@ -90,7 +90,7 @@ public class Controleur {
     public void procedureDeux(){
         resetVueEtTortues();
         JeuDeBalle jeu = new JeuDeBalle(simpleLogo.getFeuilleDessin(), 24);
-        jeu.lancerPartie();
+        jeu.lancerPartieThread();
     }
 
 
