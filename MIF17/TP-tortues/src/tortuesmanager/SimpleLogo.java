@@ -31,6 +31,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
         // Titre de l'appli, super appel un constructeur de JFrame et envoie la chaîne en paramètre, super doit toujours être placé en 1er dans un constructeur de clase dérivé
         super("Un logo parmi tant d'autres");
 
+        //relation Vue Controleur
         controleur = c;
         controleur.setSimpleLogo(this);
         
@@ -74,7 +75,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
     * Crée la première tortue.
     */
     void logoInit(){
-
 
 
             getContentPane().setLayout(new BorderLayout(10,10));
@@ -135,6 +135,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
             JMenu menuFile=new JMenu("File"); // on installe le premier menu
             menubar.add(menuFile);
 
+            
             addMenuItem(menuFile, "Effacer", "Effacer", KeyEvent.VK_N);
             addMenuItem(menuFile, "Quitter", "Quitter", KeyEvent.VK_Q);
 
@@ -159,7 +160,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
             //BOUTONS BOTTOM--------------------->
             JPanel p2 = new JPanel(new GridLayout());
-            JButton b20 = new JButton("Carré");
+            /*JButton b20 = new JButton("Carré");
             p2.add(b20);
             b20.addActionListener(this);
             JButton b21 = new JButton("Polygone");
@@ -173,14 +174,14 @@ public class SimpleLogo extends JFrame implements ActionListener {
             b23.addActionListener(this);
             JButton b24 = new JButton("Asterisque");
             p2.add(b24);
-            b24.addActionListener(this);
-            JButton b25 = new JButton("Tortues Ameliorées");
+            b24.addActionListener(this); */
+            JButton b25 = new JButton("Proc_1");
             p2.add(b25);
             b25.addActionListener(this);
-            /*
-             JButton b26 = new JButton("B");
+             JButton b26 = new JButton("Proc_2");
             p2.add(b26);
-            b26.addActionListener(this);/*
+            b26.addActionListener(this);
+            /*
             JButton b27 = new JButton("Proc7");
             p2.add(b27);
             b27.addActionListener(this);
@@ -192,16 +193,15 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
 
 
-
             //INITIALISATION DE LA FEUILLE------------->
-            feuille = new FeuilleDessin(); //passage du tableau
+            feuille = new FeuilleDessin();
             feuille.setBackground(Color.white);
             feuille.setPreferredSize(new Dimension(500,400));
             //--------------------------------------->
 
 
             //Création de la tortue de dessin
-            controleur.creertortueDessin();
+            controleur.creerTortueDessin();
 
             getContentPane().add(feuille,"Center");
 
@@ -299,12 +299,13 @@ public class SimpleLogo extends JFrame implements ActionListener {
         else if (c.equals("Baisser"))  controleur.getCourante().baisserCrayon();
 
         // actions des boutons bottom
-        else if (c.equals("Carré"))  controleur.carre();
+        /*else if (c.equals("Carré"))  controleur.carre();
         else if (c.equals("Polygone"))  controleur.poly();
         else if (c.equals("Spirale"))  controleur.spiral();
         else if (c.equals("Immeuble"))  controleur.immeuble();
-        else if (c.equals("Asterisque"))  controleur.asterisque();
-        else if (c.equals("Tortues Ameliorées"))  controleur.tortueAmelioree();
+        else if (c.equals("Asterisque"))  controleur.asterisque();*/
+        else if (c.equals("Proc_1"))  controleur.procedureUne();
+        else if (c.equals("Proc_2"))  controleur.procedureDeux();
         else if (c.equals("Effacer")) controleur.effacer();
         else if (c.equals("Quitter")) controleur.quitter();
     }

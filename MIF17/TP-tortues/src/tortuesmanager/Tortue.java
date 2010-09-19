@@ -1,10 +1,6 @@
 package tortuesmanager;
 
 import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
-import java.io.*;
 import java.util.ArrayList;
 
 
@@ -36,8 +32,8 @@ class Tortue extends Thread
 
     double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
     protected int dir;	/** la direction de la tortue */
-    boolean crayon=true; /** par defaut on suppose qu'on dessine */
-    int coul; /** couleur courante */
+    boolean crayon = true; /** si vrai alors le cayon est baissé, faux sinon */
+    protected int traitCouleur; /** couleur du trait de la tortue courante */
 
     /**
     * Couleur de la tortue.
@@ -49,13 +45,15 @@ class Tortue extends Thread
 
    /**
     * Constructeur
-    * @param f la feuille de dessin
+    * @param feuille la feuille de dessin
+    * @param crayon si vrai alors le cayon est baiss
     */
-    public Tortue(FeuilleDessin f){
+    public Tortue(FeuilleDessin feuille, boolean crayon){
         reset();
-        feuille = f;
+        this.feuille = feuille;
+        this.crayon = crayon;
         tortueCouleur = Color.GREEN;
-        f.getListeTortue().add(this);
+        this.feuille.getListeTortues().add(this);
     }
 
 
@@ -64,14 +62,13 @@ class Tortue extends Thread
     /**
     * Retourne la couleur de la tortue
     */
-    public Color getCouleur(){
+    public Color getCouleur(){return tortueCouleur;}
 
-        return tortueCouleur;
-    }
+    public int getX(){return x;}
 
-    public int getX(){ return x;}
+    public int getY(){return y;}
 
-    public int getY(){ return y;}
+    public int getDir(){return dir;}
 
     //######################################################################################################      MUTATEURS
 
@@ -79,33 +76,36 @@ class Tortue extends Thread
     * Change la couleur de la tortue
     * @param n Nouvelle couleur pour la tortue
     */
-    public void setCouleur(Color coul1){
-        
-        tortueCouleur = coul1;
-    }
+    public void setCouleur(Color coul1){tortueCouleur = coul1;}
 
-        /**
+    /**
     * Modifie le booleen crayon qui détermine si la tortue laisse un trait en se déplaçant
     * @param b booleen 
     */
-    public void setCrayon(boolean b){
+    public void setCrayon(boolean b){crayon = b;}
 
-       crayon = b;
-    }
+    public void setColor(int n){traitCouleur = n;}
+
+    public void setX(int x) {this.x = x;}
+
+    public void setY(int y) {this.y = y;}
+
+    public void setDir(int dir) { this.dir = dir; }
 
     //######################################################################################################      METHODES
 
 
     //####################################################################################### M: PLACEMENT
+
    /**
     * Positionne la tortue en (250;180), vers le haut et avec le crayon levé
     */
     void reset()
     {
-            x = 250;
-            y = 180;
-            dir = -90;
-            crayon = true;
+        x = 250;
+        y = 180;
+        dir = -90;
+        crayon = true;
     }
 
 
@@ -131,7 +131,7 @@ class Tortue extends Thread
         int newY = (int) Math.round(y+dist*Math.sin(convDegGrad*dir));
 
         if (crayon) {
-                g.setColor(feuille.decodeColor(coul));
+                g.setColor(feuille.decodeColor(traitCouleur));
                 g.drawLine(x,y,newX,newY);
         }
 
@@ -165,6 +165,32 @@ class Tortue extends Thread
             feuille.drawIt();
     }
 
+    //####################################################################################### M: DIVERS
+
+    /*
+     * Recherche la tortue la plus proche
+     * @return retourne la tortue la plus proche
+     */
+    public Tortue tortueLaPlusProche(){
+
+        Tortue uneTortue = null;
+        ArrayList<Tortue> listeAmies = feuille.getListeTortues();
+
+        //Initialisation
+        Tortue tortueProche = listeAmies.get(0);
+        int dist = distPoint(getX(), getY(), tortueProche.getX(), tortueProche.getY());
+
+        for(int i=1; i < listeAmies.size(); i++){
+
+            uneTortue = listeAmies.get(i);
+
+            if(uneTortue != this && distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY()) < dist){
+                dist = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
+                tortueProche = uneTortue;
+             }
+        }
+        return tortueProche;
+    }
 
     //####################################################################################### M: DESSIN
 
@@ -182,12 +208,12 @@ class Tortue extends Thread
      * Attribut une nouvelle couleur au trait de dessin
      * @param n le code couleur entier positif
      */
-    void couleur(int n){coul = n % 12;}
+    void couleur(int n){traitCouleur = n % 12;}
 
     /**
      * Passer à la couleur suivante
      */
-    void couleurSuivante() {couleur(coul+1);}
+    void couleurSuivante() {couleur(traitCouleur+1);}
 
 
 
@@ -258,7 +284,7 @@ class Tortue extends Thread
      */
     void spiral(int n, int k, int a) {
         for (int i = 0; i < k; i++) {
-                couleur(coul+1);
+                couleur(traitCouleur+1);
                 avancer(n);
                 droite(360/a);
                 n = n+1;
@@ -338,7 +364,7 @@ class Tortue extends Thread
         avancer(90);
         crayon = true;
 
-        int coul1 = coul;
+        int coul1 = traitCouleur;
         couleur(5);
 
         for (int i = 0 ; i < 8; i++) {
@@ -370,15 +396,5 @@ class Tortue extends Thread
             avancer(-t);
         }
     }
-
-    /*-----------------------------------*/
-    /*         GETTERS/SETTERS
-    /*-----------------------------------*/
-
-
-    public void setColor(int n){coul = n;}
-    public int getColor() {return coul;}
-    public int getDir() {return dir;}
-
 
 }
