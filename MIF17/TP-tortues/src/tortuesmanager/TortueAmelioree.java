@@ -15,7 +15,7 @@ public class TortueAmelioree extends Tortue {
 
     private boolean saluer = true; /** précise si les tortues doivent se saluer */
 
-    private ArrayList<Tortue> listeAmis;
+    private ArrayList<TortueAmelioree> listeAmis;
 
 
  //######################################################################################################      CONSTRUCTEURS
@@ -30,7 +30,7 @@ public class TortueAmelioree extends Tortue {
 
         super(feuille, false);
 
-        listeAmis  = new ArrayList<Tortue>();
+        listeAmis  = new ArrayList<TortueAmelioree>();
 
         if(name.equals(""))
             this.nom = "tortue" + this.feuille.getListeTortues().size();
@@ -42,7 +42,7 @@ public class TortueAmelioree extends Tortue {
 
 //######################################################################################################      ACCESSEURS
 
-    public ArrayList<Tortue> getListeAmis(){ return listeAmis; }
+    public ArrayList<TortueAmelioree> getListeAmis(){ return listeAmis; }
         
     public String getNom() {return nom;}
 
@@ -200,7 +200,7 @@ public class TortueAmelioree extends Tortue {
      * Ajoute une tortue améliorée dans la liste d'amis.
      * @param uneTortue une tortue de type TortueAmelioree.
      */
-    public void ajouterUnAmi(TortueAmelioree uneTortue)
+    public void ajouterUneAmie(TortueAmelioree uneTortue)
     {
         if((uneTortue != this) && (uneTortue instanceof TortueAmelioree))
             listeAmis.add(uneTortue);
@@ -214,7 +214,40 @@ public class TortueAmelioree extends Tortue {
         ArrayList<TortueAmelioree> liste = feuille.getListeTortuesAmeliorees();
 
         for(int i = 0; i < liste.size(); i++)
-            ajouterUnAmi(liste.get(i));
+            ajouterUneAmie(liste.get(i));
+    }
+
+
+    /**
+     * Supprime une tortue de la listed d'amis
+     * @param uneTortue la tortue à supprimer de la liste d'amis
+     */
+    public void supprimerUneAmie(TortueAmelioree uneTortue){
+        listeAmis.remove(uneTortue);
+    }
+
+
+
+    /*
+     * Recherche la tortue amie la plus proche
+     * @return retourne la tortue améliorée amie la plus proche
+     */
+    public TortueAmelioree tortueAmieLaPlusProche(){
+
+        TortueAmelioree uneTortue = null;
+        TortueAmelioree tortueProche = null;
+        int dist = Integer.MAX_VALUE; //le maximum d'un integer
+
+        for(int i=0; i < listeAmis.size(); i++){
+
+            uneTortue = listeAmis.get(i);
+
+            if(distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY()) < dist){
+                dist = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
+                tortueProche = uneTortue;
+             }
+        }
+        return tortueProche;
     }
 
 

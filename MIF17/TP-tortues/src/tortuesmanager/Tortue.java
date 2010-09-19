@@ -167,30 +167,7 @@ class Tortue extends Thread
 
     //####################################################################################### M: DIVERS
 
-    /*
-     * Recherche la tortue la plus proche
-     * @return retourne la tortue la plus proche
-     */
-    public Tortue tortueLaPlusProche(){
 
-        Tortue uneTortue = null;
-        ArrayList<Tortue> listeAmies = feuille.getListeTortues();
-
-        //Initialisation
-        Tortue tortueProche = listeAmies.get(0);
-        int dist = distPoint(getX(), getY(), tortueProche.getX(), tortueProche.getY());
-
-        for(int i=1; i < listeAmies.size(); i++){
-
-            uneTortue = listeAmies.get(i);
-
-            if(uneTortue != this && distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY()) < dist){
-                dist = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
-                tortueProche = uneTortue;
-             }
-        }
-        return tortueProche;
-    }
 
     //####################################################################################### M: DESSIN
 

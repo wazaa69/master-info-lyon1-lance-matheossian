@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.util.ArrayList;
 
 
 
@@ -32,7 +33,7 @@ public class TortueBalle extends Tortue {
     protected void dessinerTortue(Graphics g)
     {
 
-        double r = 5; //Rayon du cerle
+        double r = 300; //Rayon du cerle
         int n = 16; //Détails du contour de la balle
 
         //Cercle = polygaone à n sommets
@@ -49,18 +50,53 @@ public class TortueBalle extends Tortue {
 
         g.setColor(tortueCouleur);
         g.fillPolygon(cercle);
+    }
+
+
+
+    /*
+     * Recherche la tortue la plus proche
+     * @return retourne la tortue la plus proche
+     */
+    public TortueAmelioree tortueLaPlusProche(){
+
+        TortueAmelioree uneTortue = null;
+        ArrayList<TortueAmelioree> listeAmies = feuille.getListeTortuesAmeliorees();
+
+        if(!listeAmies.isEmpty()){
+
+            //Initialisation
+            TortueAmelioree tortueProche = listeAmies.get(0);
+            int dist = distPoint(getX(), getY(), tortueProche.getX(), tortueProche.getY());
+
+            for(int i=1; i < listeAmies.size(); i++){
+
+                uneTortue = listeAmies.get(i);
+
+                if(distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY()) < dist){
+                    dist = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
+                    tortueProche = uneTortue;
+                 }
+            }
+
+            return tortueProche;
+        }
+
+        else return null;
 
     }
+
 
 
     /**
     * Modifie la position et la direction de la balle en fonction d'une Tortue.
     * @param uneTortue cette tortue est la nouvelle propriétaire de la balle.
     */
-    public void setNouvelleProprio(TortueAmelioree uneTortue){
+    public void setNouvelleProprio(Tortue uneTortue){
         setX(uneTortue.getX());
         setY(uneTortue.getY());
         setDir(uneTortue.getDir());
     }
+
 
 }
