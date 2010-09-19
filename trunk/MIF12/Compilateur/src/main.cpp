@@ -16,7 +16,7 @@ extern FILE* yyin;
 extern int yyleng;
 extern char* yytext;
 extern int yylex();
-//extern int yyparse();
+extern int yyparse();
 
 
 TableDesIdentificateurs* tableId = NULL;
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 	//tableSymb = new TableDesSymboles();
 
 	yylex();
-	//yyparse();
+	yyparse();
 
 	tableId->afficherTable();
 
