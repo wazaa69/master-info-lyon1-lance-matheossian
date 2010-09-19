@@ -1,7 +1,6 @@
 package tortuesmanager;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 
 /*************************************************************************
@@ -35,6 +34,8 @@ class Tortue extends Thread
     boolean crayon = true; /** si vrai alors le cayon est baissé, faux sinon */
     protected int traitCouleur; /** couleur du trait de la tortue courante */
 
+    final int distMin; /** distance minimum entre deux tortues */
+
     /**
     * Couleur de la tortue.
     */
@@ -52,6 +53,7 @@ class Tortue extends Thread
         reset();
         this.feuille = feuille;
         this.crayon = crayon;
+        distMin = 15;
         tortueCouleur = Color.GREEN;
         this.feuille.getListeTortues().add(this);
     }
@@ -109,6 +111,45 @@ class Tortue extends Thread
     }
 
 
+    /*
+     * Précise si l'emplacement en (x;y) est correcte
+     * TODO : il faudrait prendre en compte l'angle d'arrivé de la tortue pour
+     * pouvoir el réutiliser, sinon on aura uniquement 8 angles à retourner
+     * êter utilisée par la tortue qui tente de se déplacer
+     * @param x coordonnée en abscisse
+     * @param y coordonnée en ordonné
+     * @return retourne 0 si l'emplacement est libre, -1 si impossible, une direction sinon
+     */
+    public int getBonEmplacement(int newX, int newY){
+
+        
+        Tortue uneTortue = null;
+
+        //La position de la tortue ne doit pas être sur une autre
+        for (int i = 0; i < feuille.getListeTortues().size(); i++){
+
+            uneTortue = feuille.getTortue(i);
+            if(distPoint(newX, newY, uneTortue.getX(), uneTortue.getY()) == 0) return -2;
+        }
+
+        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-5;
+        int hauteurTerrain = feuille.drawingImage.getHeight(feuille)-5;
+
+        int distBord = 15;
+
+        //on tourne dans le sens des aiguilles d'une montre
+        //A revoir pour meilleur lisibilité
+        if(newX <= distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return dir = 45; //coin supérieur gauche
+        if(newX > distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return dir = 90;
+        if(newX > distBord && newX >= largeurTerrain && newY <= distBord && newY < hauteurTerrain) return dir = 135;
+        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY < hauteurTerrain) return dir = 180;
+        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY >= hauteurTerrain) return dir = 225;
+        if(newX > distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return dir = 270;
+        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return dir = 315;
+        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY < hauteurTerrain) return dir = 360;
+
+        return 0;
+    }
 
     /*--------------------------------------------------------*/
     /*  les procedures de base de fonctionnement de la tortue
@@ -116,53 +157,82 @@ class Tortue extends Thread
     
    /**
     * Fait avancer la tortue sur une certaine distance
-    * @param dist la distance à parcourir
-    * TODO :
-    * - prendre en compte les bords
-    * - la tortue ne doit pas être à la même position qu'une autre
-    * - si la tortue ne bouge pas, rien ajouter à la liste d'amis
     * @param dist la distance à parcourir en pixel
     */
-    void avancer(int dist)
+    public void avancer(int dist)
     {
+        int newX = 0, newY  = 0, angle  = 500;
+        int nbrEssais= 0;
+
         Graphics g = feuille.getImageGraphics();
 
-        int newX = (int) Math.round(x+dist*Math.cos(convDegGrad*dir));
-        int newY = (int) Math.round(y+dist*Math.sin(convDegGrad*dir));
+        //Tant que l'emplacement n'est aps bon on cherche de nouvelles coordonnées
+        while(nbrEssais <= 20){
 
-        if (crayon) {
-                g.setColor(feuille.decodeColor(traitCouleur));
-                g.drawLine(x,y,newX,newY);
+            newX = (int) Math.round(x + dist*Math.cos(convDegGrad*dir));
+            newY = (int) Math.round(y + dist*Math.sin(convDegGrad*dir));
+
+            //vérifie si l'emplacement est correcte
+            angle = getBonEmplacement(newX,newY);
+
+            if(angle != -1){
+                if(angle >= 360) {dir = 0; break;}
+                else if(angle != 0) {dir = angle; break;}
+                else {break;} //sinon c'est que l'angle de base est correcte
+            }
+
+            nbrEssais++;
         }
 
-        x = newX;
-        y = newY;
-        
-        //if (getShowTurtle())
-        //  this.drawTurtle(g);
-        //System.out.println("dir: " + dir);
-        feuille.drawIt();
+
+        if(nbrEssais <= 20){
+
+            if (crayon) {
+                g.setColor(feuille.decodeColor(traitCouleur));
+                g.drawLine(x,y,newX,newY);
+            }
+
+            x = newX;
+            y = newY;
+            feuille.drawIt();
+        }
     }
 
+
+    /**
+     * La tortue se déplace aléatoirement
+     * @param dist la distance à parcourire
+     */
+    public void deplacementAuHasard(int dist)
+    {
+        //Respect de la distance minimale ?
+        int distMinimale = distMin;
+        if(dist > distMin) distMinimale = dist;
+
+        //déplacement aléatoire
+        int angle = (int)(Math.random()*360);
+        if(Math.random() > 0.5) droite(angle); else gauche(angle);
+        avancer(distMinimale);
+    }
 
     /**
     * Aller à droite
     * @param ang l'angle de rotation
     */
-    void droite(int ang)
+    public void droite(int ang)
     {
-            dir = (dir + ang) % 360;
-            feuille.drawIt();
+        dir = (dir + ang) % 360;
+        feuille.drawIt();
     }
 
     /**
     * Aller à gauche
     * @param ang l'angle de rotation
     */
-    void gauche(int ang)
+    public void gauche(int ang)
     {
-            dir = (dir - ang) % 360;
-            feuille.drawIt();
+        dir = (dir - ang) % 360;
+        feuille.drawIt();
     }
 
     //####################################################################################### M: DIVERS
@@ -174,38 +244,38 @@ class Tortue extends Thread
     /**
     *  Baisse le crayon pour dessiner
     */
-    void baisserCrayon(){crayon = true;}
+    public void baisserCrayon(){crayon = true;}
 
     /**
      * lever le crayon pour ne plus dessiner
      */
-    void leverCrayon(){crayon = false;}
+    public void leverCrayon(){crayon = false;}
 
     /**
      * Attribut une nouvelle couleur au trait de dessin
      * @param n le code couleur entier positif
      */
-    void couleur(int n){traitCouleur = n % 12;}
+    public void couleur(int n){traitCouleur = n % 12;}
 
     /**
      * Passer à la couleur suivante
      */
-    void couleurSuivante() {couleur(traitCouleur+1);}
+    public void couleurSuivante() {couleur(traitCouleur+1);}
 
 
 
-   /**
+    /**
     * Retourne la distance entre la tortue et un point (x,y)
     * @param x coordonnee en abscisse
     * @param y coordonnee en ordonnée
     * @return distance entre la tortue et le point
     */
-   public int distPoint(int x, int y)
-   {
+    public int distPoint(int x, int y)
+    {
        return (int) Math.round(Math.sqrt(Math.pow((x - this.x),2) + Math.pow((y - this.y),2)));
-   }
+    }
 
-   /**
+    /**
     * Retourne la distance entre la tortue et un point (x,y)
     * @param x1 première coordonnee en abscisse
     * @param y1 première coordonnee en ordonnée
@@ -213,10 +283,10 @@ class Tortue extends Thread
     * @param y2 seconde coordonnee en ordonnée
     * @return distance entre la tortue et le point
     */
-   public int distPoint(int x1, int y1, int x2, int y2)
-   {
+    public int distPoint(int x1, int y1, int x2, int y2)
+    {
        return (int) Math.round(Math.sqrt(Math.pow((x2 - x1),2) + Math.pow((y2 - y1),2)));
-   }
+    }
 
 
    /**
@@ -238,7 +308,7 @@ class Tortue extends Thread
     /**
      * Dessine un carré
      */
-    void carre() {
+    public void carre() {
         for (int i=0;i<4;i++) {
                 avancer(100);
                 droite(90);
@@ -249,17 +319,17 @@ class Tortue extends Thread
     /**
      * Dessine un polygone
      */
-    void poly(int n, int a) {
+    public void poly(int n, int a) {
         for (int j=0;j<a;j++) {
                 avancer(n);
                 droite(360/a);
         }
     }
 
-     /**
-     * Dessine une spirale
-     */
-    void spiral(int n, int k, int a) {
+    /**
+    * Dessine une spirale
+    */
+    public void spiral(int n, int k, int a) {
         for (int i = 0; i < k; i++) {
                 couleur(traitCouleur+1);
                 avancer(n);
@@ -271,10 +341,10 @@ class Tortue extends Thread
 
     /*-----------------------IMMEUBLE----------------------------->*/
 
-     /**
-     * Dessine une fenêtre
-     */
-    void window(){
+    /**
+    * Dessine une fenêtre
+    */
+    public void window(){
         for(int i = 0; i < 2; i++){
             avancer(7);
             droite(90);
@@ -289,7 +359,7 @@ class Tortue extends Thread
      * @param x coordonnée polaire
      * @param y coordonnée polaire
      */
-    void decalageD(int x, int y){
+    public void decalageD(int x, int y){
         crayon = false;
         droite(90);
         avancer(x);
@@ -304,7 +374,7 @@ class Tortue extends Thread
      * @param x coordonnée polaire
      * @param y coordonnée polaire
      */
-     void decalageG(int x, int y){
+     public void decalageG(int x, int y){
         crayon = false;
         droite(90);
         avancer(-x);
@@ -316,7 +386,7 @@ class Tortue extends Thread
      /**
      * Dessine un immeuble
      */
-    void immeuble(){
+    public void immeuble(){
         crayon = true;
 
         for (int i = 0; i< 2; i++){
@@ -365,7 +435,7 @@ class Tortue extends Thread
      * @param t la taille des branches
      * @param n le nombre de branche(s)
      */
-    void asterisque(int t, int n){
+    public void asterisque(int t, int n){
         crayon = true;
         for(int i=0; i <= 360;i+=n){
             droite(360/n);

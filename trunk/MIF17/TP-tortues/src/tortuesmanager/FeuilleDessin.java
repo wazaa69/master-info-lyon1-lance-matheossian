@@ -52,7 +52,7 @@ public class FeuilleDessin extends JPanel {
        
             for (int i = 0; i < getListeTortues().size() ; i++)
             {
-                if(getTortue(i) instanceof TortueAmelioree){
+                    if(getTortue(i) instanceof TortueAmelioree){
 
                 listeTortuesAmelioree.add((TortueAmelioree)getTortue(i));
 

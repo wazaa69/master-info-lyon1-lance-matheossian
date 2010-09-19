@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
 
 
 public class SimpleLogo extends JFrame implements ActionListener {
@@ -21,6 +21,19 @@ public class SimpleLogo extends JFrame implements ActionListener {
 	public static final Dimension HGAP = new Dimension(5,1); /** constante de dimenssion */
 
 
+        /* ---------------------- */
+        /*   ELEMENTS GRAPHIQUES  */
+        /* ---------------------- */
+
+        ArrayList<JMenu> menu = new ArrayList<JMenu>(); /** le menu */
+
+        JToolBar barreOutils = null; /** Barre d'outils en haute de la fenêtre*/
+
+        JPanel bottom;  /** le panel inférieur qui stock les bouttons */
+
+        ArrayDeque<JButton> boutton = new ArrayDeque<JButton>(); /** la liste des boutons */
+
+
     //######################################################################################################      CONSTRUCTEURS
         
     /*
@@ -29,7 +42,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     public SimpleLogo(Controleur c)
     {
         // Titre de l'appli, super appel un constructeur de JFrame et envoie la chaîne en paramètre, super doit toujours être placé en 1er dans un constructeur de clase dérivé
-        super("Un logo parmi tant d'autres");
+        super("Feuille de dessin");
 
         //relation Vue Controleur
         controleur = c;
@@ -39,8 +52,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
     }
 
  //######################################################################################################      ACCESSEURS
-
-    public FeuilleDessin getFeuilleDessin(){ return feuille;}
 
     /**
     * Récupère l'angle de rotation de la tortue
@@ -52,9 +63,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     }
 
 
-    public FeuilleDessin getFeuille() {
-        return feuille;
-    }
+    public FeuilleDessin getFeuille() {return feuille;}
 
  //######################################################################################################      ACCESSEURS
 
@@ -74,17 +83,18 @@ public class SimpleLogo extends JFrame implements ActionListener {
     * Initialise le contenu de la fenêtre = les boutons et les actions associées
     * Crée la première tortue.
     */
-    void logoInit(){
+    public void logoInit(){
 
 
             getContentPane().setLayout(new BorderLayout(10,10));
 
 
             //BOUTONS TOP--------------------->
-            JToolBar toolBar = new JToolBar();
             JPanel buttonPanel = new JPanel();
+            JToolBar toolBar = new JToolBar();
             buttonPanel.add(toolBar);
-
+            barreOutils = toolBar; // sauvegarde
+            toolBar.setVisible(false);
 
             getContentPane().add(buttonPanel,"North");
 
@@ -126,70 +136,47 @@ public class SimpleLogo extends JFrame implements ActionListener {
                             controleur.getCourante().setColor(n);
                     }
             });
+
             //--------------------------------------->
 
 
             //LES MENUS TOP--------------------->
             JMenuBar menubar=new JMenuBar();
             setJMenuBar(menubar);	// on installe le menu bar
-            JMenu menuFile=new JMenu("File"); // on installe le premier menu
+            JMenu menuFile=new JMenu("Fichier"); // on installe le premier menu
             menubar.add(menuFile);
+            menu.add(menuFile); // sauvegarde
 
             
-            addMenuItem(menuFile, "Effacer", "Effacer", KeyEvent.VK_N);
             addMenuItem(menuFile, "Quitter", "Quitter", KeyEvent.VK_Q);
+
 
 
             JMenu menuCommandes=new JMenu("Commandes"); // on installe le premier menu
             menubar.add(menuCommandes);
+            addMenuItem(menuCommandes, "Effacer", "Effacer", KeyEvent.VK_N);
             addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
             addMenuItem(menuCommandes, "Droite", "Droite", -1);
             addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
             addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
             addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
 
+
+            menu.add(menuCommandes); // sauvegarde
+            menuCommandes.setVisible(false);
+
+
+            /*
             JMenu menuHelp=new JMenu("Aide"); // on installe le premier menu
             menubar.add(menuHelp);
             addMenuItem(menuHelp, "Aide", "Help", -1);
             addMenuItem(menuHelp, "A propos", "About", -1);
+             */
             //--------------------------------------->
 
 
             setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-
-            //BOUTONS BOTTOM--------------------->
-            JPanel p2 = new JPanel(new GridLayout());
-            /*JButton b20 = new JButton("Carré");
-            p2.add(b20);
-            b20.addActionListener(this);
-            JButton b21 = new JButton("Polygone");
-            p2.add(b21);
-            b21.addActionListener(this);
-            JButton b22 = new JButton("Spirale");
-            p2.add(b22);
-            b22.addActionListener(this);
-            JButton b23 = new JButton("Immeuble");
-            p2.add(b23);
-            b23.addActionListener(this);
-            JButton b24 = new JButton("Asterisque");
-            p2.add(b24);
-            b24.addActionListener(this); */
-            JButton b25 = new JButton("Proc_1");
-            p2.add(b25);
-            b25.addActionListener(this);
-             JButton b26 = new JButton("Proc_2");
-            p2.add(b26);
-            b26.addActionListener(this);
-            /*
-            JButton b27 = new JButton("Proc7");
-            p2.add(b27);
-            b27.addActionListener(this);
-            */
-
-            getContentPane().add(p2,"South");
-
-            //--------------------------------------->
 
 
 
@@ -200,10 +187,56 @@ public class SimpleLogo extends JFrame implements ActionListener {
             //--------------------------------------->
 
 
-            //Création de la tortue de dessin
-            controleur.creerTortueDessin();
-
             getContentPane().add(feuille,"Center");
+
+
+
+
+            //BOUTONS BOTTOM--------------------->
+            JPanel p2 = new JPanel(new GridLayout());
+            bottom = p2; //on sauvegarde le panel
+            /*JButton b20 = new JButton("Carré");
+            p2.add(b20);
+            boutton.add(b20); // sauvegarde
+            b20.addActionListener(this);
+            JButton b21 = new JButton("Polygone");
+            p2.add(b21);
+            boutton.add(b21); // sauvegarde
+            b21.addActionListener(this);
+            JButton b22 = new JButton("Spirale");
+            p2.add(b22);
+            boutton.add(b22); // sauvegarde
+            b22.addActionListener(this);
+            JButton b23 = new JButton("Immeuble");
+            p2.add(b23);
+            boutton.add(b23); // sauvegarde
+            b23.addActionListener(this);
+            JButton b24 = new JButton("Asterisque");
+            p2.add(b24);
+            boutton.add(b24); // sauvegarde
+            b24.addActionListener(this); */
+            JButton b25 = new JButton("Proc_1");
+            p2.add(b25);
+            boutton.add(b25); // sauvegarde
+            b25.addActionListener(this);
+            JButton b26 = new JButton("Proc_2");
+            p2.add(b26);
+            boutton.add(b26); // sauvegarde
+            b26.addActionListener(this);
+            /*
+            JButton b27 = new JButton("Proc_3");
+            p2.add(b27);
+            boutton.add(b27); // sauvegarde
+            b27.addActionListener(this);
+            */
+            getContentPane().add(p2,"South");
+
+            //--------------------------------------->
+
+
+             //Création de la tortue de dessin
+            controleur.creerTortueDessin(); //mettre un bouton proc_4
+
 
             pack();
             setVisible(true);
@@ -237,6 +270,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
         b.setBorder(BorderFactory.createRaisedBevelBorder());
         b.setMargin(new Insets(0,0,0,0));
         b.addActionListener(this);
+        boutton.add(b);
     }
 
     /**
@@ -297,7 +331,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
         else if (c.equals("Lever"))  controleur.getCourante().leverCrayon();
         else if (c.equals("Baisser"))  controleur.getCourante().baisserCrayon();
-
         // actions des boutons bottom
         /*else if (c.equals("Carré"))  controleur.carre();
         else if (c.equals("Polygone"))  controleur.poly();
@@ -306,9 +339,45 @@ public class SimpleLogo extends JFrame implements ActionListener {
         else if (c.equals("Asterisque"))  controleur.asterisque();*/
         else if (c.equals("Proc_1"))  controleur.procedureUne();
         else if (c.equals("Proc_2"))  controleur.procedureDeux();
+        else if (c.equals("Stop Proc_2"))  controleur.stopProcDeux();
         else if (c.equals("Effacer")) controleur.effacer();
         else if (c.equals("Quitter")) controleur.quitter();
     }
+
+    /**
+     * Cache les boutons de procédures et affiche un bouton stop
+     */
+    void creerProc2() {
+
+        barreOutils.setVisible(false);
+
+        for(JButton b: boutton) b.setVisible(false);
+
+        JButton stop = new JButton("Stop Proc_2");
+        bottom.add(stop);
+        stop.addActionListener(this);
+        boutton.add(stop);
+
+    }
+
+    /**
+     * Affiche les boutons de procédures et supprime le bouton stop
+     */
+    void effProc2(){
+
+        for(JButton b: boutton)
+        {
+            if(b.getText().equals("Stop Proc_2")){
+                boutton.remove(b);
+                bottom.remove(b);
+            }
+            else
+                b.setVisible(true);
+        }
+
+    }
+
+
 
 
 
