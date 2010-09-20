@@ -9,7 +9,6 @@ public class Controleur {
 
     private SimpleLogo simpleLogo; /** Référence sur la Vue */
 
-    private boolean procedureEnCours = false;
 
     //Procédure 1
     private Tortue courante; /** La tortue en cours de déplacement */
@@ -28,7 +27,7 @@ public class Controleur {
 
     public Tortue getCourante() { return courante; }
 
-    public boolean isProcedureEnCours() {return procedureEnCours;}
+
 
 
         
@@ -38,7 +37,6 @@ public class Controleur {
         
     public void setCourante(Tortue courante) { this.courante = courante; }
 
-    public void setProcedureEnCours(boolean procedureEnCours) {this.procedureEnCours = procedureEnCours;}
         
  //######################################################################################################      METHODES
 
@@ -69,33 +67,29 @@ public class Controleur {
      */
     public void procedureUne(){
 
-        if(!procedureEnCours){
-            procedureEnCours = true;
+        int nbrTortues=10;
 
-            int nbrTortues=10;
+        if(getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() < 10){
 
-            if(getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() < 10){
+            resetVueEtTortues();
 
-                resetVueEtTortues();
-
-                //Création des N tortues améliorées
-                for(int i=0; i < nbrTortues; i++) {
-                    TortueAmelioree uneTortue = new TortueAmelioree(simpleLogo.getFeuille(),"");
-                    courante = uneTortue;
-                    courante.leverCrayon();
-                    courante.droite(16*i);
-                    courante.avancer(80);
-                }
+            //Création des N tortues améliorées
+            for(int i=0; i < nbrTortues; i++) {
+                TortueAmelioree uneTortue = new TortueAmelioree(simpleLogo.getFeuille(),"");
+                courante = uneTortue;
+                courante.leverCrayon();
+                courante.droite(16*i);
+                courante.avancer(80);
             }
-
-             else{
-                TortueAmelioree uneTortue = getSimpleLogo().getFeuille().getListeTortuesAmeliorees().get(procTortueAmelioree);
-                courante = (Tortue) uneTortue;
-                uneTortue.deplaceHasardEtPousse(30);
-                procTortueAmelioree++;
-                if(procTortueAmelioree%getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() == 0) procTortueAmelioree=0;
-             }
         }
+
+         else{
+            TortueAmelioree uneTortue = getSimpleLogo().getFeuille().getListeTortuesAmeliorees().get(procTortueAmelioree);
+            courante = (Tortue) uneTortue;
+            uneTortue.deplaceHasardEtPousse(30);
+            procTortueAmelioree++;
+            if(procTortueAmelioree%getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() == 0) procTortueAmelioree=0;
+         }
     }
 
     
@@ -104,21 +98,27 @@ public class Controleur {
      * Si une tortue en rencontre une autre, elle l'ajoute à sa liste d'amis
      */
     public void procedureDeux(){
-
-        if(!procedureEnCours){
-            procedureEnCours = true;
-            resetVueEtTortues();
-            simpleLogo.creerProc2();
-            JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 24);
-            jeuDeBalle.start();
-        }
+        resetVueEtTortues();
+        simpleLogo.creerProc2();
+        JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 24);
+        jeuDeBalle.start();
     }
 
     public void stopProcDeux(){
         jeuDeBalle.stop();
         simpleLogo.effProc2();
-        procedureEnCours = false;
+    }
 
+
+
+    /**
+     * Crée N tortues améliorée dans 2 équipes ainsi qu'une balle
+     */
+    public void procedureTrois(){
+        resetVueEtTortues();
+        //simpleLogo.procedureTrois();
+        JeuEquipe jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 24);
+        //jeuEquipe.start();
     }
 
 

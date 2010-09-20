@@ -86,7 +86,7 @@ import java.util.logging.Logger;
 
             if(uneTortue.distTortue(balle) != 0){
 
-                uneTortue.setX((i+1)*rl);
+                uneTortue.setX(((i+1)*rl)/2);
 
                 if(unSurDeux){ uneTortue.setY(rh); unSurDeux=false;}
                 else {uneTortue.setY(3*rh); unSurDeux=true;}
@@ -98,6 +98,8 @@ import java.util.logging.Logger;
                 balle.dessinerTortue(feuille.getGraphics());
             }
         }
+
+        feuille.drawIt();
   }
 
 

@@ -25,7 +25,6 @@ public class FeuilleDessin extends JPanel {
 
     private ArrayList<Tortue> tortues;   /** liste des tortues */
 
-
     Image drawingImage; /** La zone Blanche de dessin  */
 
     static final double convDegGrad = 0.0174533; // la constante de conversion de degres en gradient
