@@ -112,9 +112,10 @@ class Tortue extends Thread
 
 
     /*
+     * A REVOIR : retourne que des 0 (ce qui ne pose pas de problème pour avancer)
      * Précise si l'emplacement en (x;y) est correcte
      * TODO : il faudrait prendre en compte l'angle d'arrivé de la tortue pour
-     * pouvoir el réutiliser, sinon on aura uniquement 8 angles à retourner
+     * pouvoir le réutiliser, sinon on aura uniquement 8 angles à retourner
      * êter utilisée par la tortue qui tente de se déplacer
      * @param x coordonnée en abscisse
      * @param y coordonnée en ordonné
@@ -129,7 +130,7 @@ class Tortue extends Thread
         for (int i = 0; i < feuille.getListeTortues().size(); i++){
 
             uneTortue = feuille.getTortue(i);
-            if(distPoint(newX, newY, uneTortue.getX(), uneTortue.getY()) == 0) return -2;
+            if(distPoint(newX, newY, uneTortue.getX(), uneTortue.getY()) == 0) return -1;
         }
 
         int largeurTerrain = feuille.drawingImage.getWidth(feuille)-5;
@@ -137,16 +138,22 @@ class Tortue extends Thread
 
         int distBord = 15;
 
+        /* Teste des condition
+        if(newX <= distBord || newX >= largeurTerrain || newY <= distBord || newY >= hauteurTerrain)
+        System.out.println(newX + " / " + largeurTerrain +  " - " + newY + " / "+ hauteurTerrain);
+        */
+
+        //NE FONCTIONNE PAS ! A REVOIR
         //on tourne dans le sens des aiguilles d'une montre
         //A revoir pour meilleur lisibilité
-        if(newX <= distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return dir = 45; //coin supérieur gauche
-        if(newX > distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return dir = 90;
-        if(newX > distBord && newX >= largeurTerrain && newY <= distBord && newY < hauteurTerrain) return dir = 135;
-        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY < hauteurTerrain) return dir = 180;
-        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY >= hauteurTerrain) return dir = 225;
-        if(newX > distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return dir = 270;
-        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return dir = 315;
-        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY < hauteurTerrain) return dir = 360;
+        if(newX <= distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return (int) 45; //coin supérieur gauche
+        if(newX > distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return (int) 90;
+        if(newX > distBord && newX >= largeurTerrain && newY <= distBord && newY < hauteurTerrain) return (int) 135;
+        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY < hauteurTerrain) return (int) 180;
+        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY >= hauteurTerrain) return (int) 225;
+        if(newX > distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return (int) 270;
+        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return (int) 315;
+        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY < hauteurTerrain) return (int) 360;
 
         return 0;
     }
@@ -175,9 +182,11 @@ class Tortue extends Thread
             //vérifie si l'emplacement est correcte
             angle = getBonEmplacement(newX,newY);
 
+            //if(angle > 0) {dir = angle%360; break;} //quand getBonEmplacement fonctionnera
+
             if(angle != -1){
-                if(angle >= 360) {dir = 0; break;}
-                else if(angle != 0) {dir = angle; break;}
+                if(angle == 360) {dir = 0; break;}
+                else if(angle > 0) {dir = angle; break;}
                 else {break;} //sinon c'est que l'angle de base est correcte
             }
 
