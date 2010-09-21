@@ -3,6 +3,7 @@ package tortuesmanager;
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
+import java.util.ArrayList;
 
 
 /**
@@ -85,7 +86,7 @@ public class FeuilleDessin extends JPanel {
     * Dessine la tortue
     * @param g le graphique (le support de dessin)
     */
-    protected void drawTurtle (Graphics g, Tortue t){
+    protected void dessinerTortue(Graphics g, Tortue t){
 
     //Calcule les 3 coins du triangle a partir de
     // la position de la tortue p
@@ -184,14 +185,10 @@ public class FeuilleDessin extends JPanel {
     * @param g le graphique
     */
     void showTurtles(Graphics g){
-        for(Iterator it = tortues.iterator();it.hasNext();){
-            Tortue t = (Tortue) it.next();
-            drawTurtle(g,t);
+        for(TortueAmelioree uneTortue : getListeTortuesAmeliorees()){
+            dessinerTortue(g,uneTortue);
         }
     }
 
-
-
-
-        
+       
 }

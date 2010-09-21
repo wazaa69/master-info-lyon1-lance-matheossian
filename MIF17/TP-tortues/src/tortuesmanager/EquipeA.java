@@ -1,5 +1,5 @@
 package tortuesmanager;
 
-public class EquipeA {
+public class EquipeA extends Equipe {
 
 }

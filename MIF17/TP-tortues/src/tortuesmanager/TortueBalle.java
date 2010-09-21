@@ -2,11 +2,8 @@ package tortuesmanager;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 
 public class TortueBalle extends Tortue {
@@ -33,24 +30,9 @@ public class TortueBalle extends Tortue {
     */
     protected void dessinerTortue(Graphics g)
     {
-
-        double r = 300; //Rayon du cerle
-        int n = 200; //Détails du contour de la balle
-
-        //Cercle = polygaone à n sommets
-        Polygon cercle = new Polygon();
-
-
-        //On boucle pour faire un cercle
-        for(int i=0; i <= n; i++)
-        {
-                Point p = new Point(getX()+ (int)(r * Math.cos(i*(2*Math.PI/n))),
-                                    getY()+ (int)(r * Math.sin(i*(2*Math.PI/n))));
-                cercle.addPoint(p.x, p.y);
-        }
-
-        g.setColor(tortueCouleur);
-        g.fillPolygon(cercle);
+        g.drawOval(getX(), getY(), 10,10);
+        g.setColor(Color.red);
+        g.fillOval(getX(),getY(),10,10);
     }
 
 
@@ -83,18 +65,18 @@ public class TortueBalle extends Tortue {
 
 
 
+    public void setPositionSelonTortue(Tortue uneTortue){
+        setCoordonneesSelonTortue(uneTortue);
+        setDir(uneTortue.getDir());
+        avancer(15);
+    }
+
+
 
     public void setCoordonneesSelonTortue(Tortue uneTortue){
         setX(uneTortue.getX()-5);
         setY(uneTortue.getY()-5);
     }
-
-
-    public void setPositionSelonTortue(Tortue uneTortue){
-        setCoordonneesSelonTortue(uneTortue);
-        setDir(uneTortue.getDir());
-    }
-
 
 
     /**
@@ -108,7 +90,9 @@ public class TortueBalle extends Tortue {
 
             //Calcul de la direction
             double cosinus = (uneTortue.getX() - getX() ) / distTortue(uneTortue);
-            double angle = Math.acos(cosinus);
+            double angle = Math.acos(cosinus*360);
+
+            //System.out.println(angle);
             setDir((int) angle);
 
             //Calcul des coefficients
@@ -124,10 +108,10 @@ public class TortueBalle extends Tortue {
                 setX(coor_x);
                 setY(coor_y);
 
-                feuille.drawIt();
+                dessinerTortue(feuille.getGraphics());
 
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TortueBalle.class.getName()).log(Level.SEVERE, null, ex);
                 }
