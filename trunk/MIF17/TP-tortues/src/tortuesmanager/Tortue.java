@@ -128,9 +128,8 @@ class Tortue
 
         //La position de la tortue ne doit pas être sur une autre
         for (int i = 0; i < feuille.getListeTortues().size(); i++){
-
             uneTortue = feuille.getTortue(i);
-            if(distPoint(newX, newY, uneTortue.getX(), uneTortue.getY()) == 0) return -1;
+            if(distPoint(newX, newY, uneTortue.getX(), uneTortue.getY()) <= 5) return -1;
         }
 
         int largeurTerrain = feuille.drawingImage.getWidth(feuille)-5;
@@ -203,7 +202,7 @@ class Tortue
 
             x = newX;
             y = newY;
-            feuille.drawIt();
+            
         }
     }
 

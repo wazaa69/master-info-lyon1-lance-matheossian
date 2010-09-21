@@ -102,7 +102,7 @@ public class Controleur {
     public void procedureDeux(){
         resetVueEtTortues();
         simpleLogo.creerProc2();
-        JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 24);
+        JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 20);
         jeuDeBalle.start();
     }
 

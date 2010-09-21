@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
     private TortueBalle balle;
 
-
     public boolean finPartie = false;
 
     final private int distMinPasse = 15;
@@ -27,12 +26,8 @@ import java.util.logging.Logger;
     public JeuDeBalle(FeuilleDessin feuille, int nbrJoueurs) {
 
         this.feuille = feuille;
-        balle = new TortueBalle(feuille);
-
 
         TortueAmelioree uneTortue = null;
-        ArrayList<Tortue> listeTortues =  feuille.getListeTortues();
-        
 
         //Création des tortues Améliorées (uniquement)
         for (int i = 0; i < nbrJoueurs; i++) {
@@ -40,23 +35,24 @@ import java.util.logging.Logger;
             uneTortue = new TortueAmelioree(feuille,"");
 
             uneTortue.setSaluer(false); //les tortues ne doivent pas se saluer
-            uneTortue.setX(0);
-            uneTortue.setY(0);
-            uneTortue.setDir((int) Math.random() * 360);
-            
-            listeTortues.add((Tortue) uneTortue);
+            uneTortue.setX(5);
+            uneTortue.setY(5);
+            uneTortue.setDir((int) Math.random() * 360); 
         }
 
+        balle = new TortueBalle(feuille);
+        balle.dessinerTortue(feuille.getGraphics());
 
+        /*
         for(TortueAmelioree t : feuille.getListeTortuesAmeliorees()){
            System.out.println("////////////" + t.getNom());
         }
-
-
+        */
+        
         ArrayList<TortueAmelioree> listeJoueuses =  feuille.getListeTortuesAmeliorees();
 
         //Toutes les tortues doivent se connaître
-        for (int i = 0; i < listeJoueuses.size(); i++) {
+        for (int i = 0; i < listeJoueuses.size(); i++){
              listeJoueuses.get(i).ajouterDesAmies();
         }
 
@@ -94,7 +90,6 @@ import java.util.logging.Logger;
                 if(i < (nbTortues/2))
                     uneTortue.setY((int) 1.5*rh);
                 else uneTortue.setY(3*rh);
-
 
 
                 if(i >= (nbTortues/2) && premLigne){
@@ -152,7 +147,7 @@ import java.util.logging.Logger;
 
 
         while(!finPartie) {
-            
+
             try {
 
                 //On fait bouger la balle et son propriétaire
@@ -170,8 +165,7 @@ import java.util.logging.Logger;
                     if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(distanceDep);}
 
                 }
-
-
+                
                 //La tortue propriétaire de la balle cherche à faire une passe
                 tortueProche = tortueProprio.tortueAmieLaPlusProche();
 
@@ -190,13 +184,17 @@ import java.util.logging.Logger;
 
                 testFin();
 
+                balle.dessinerTortue(feuille.getGraphics());
+
                 try {
                     Thread.sleep(700);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+
             }
-            
+
             catch( InterruptedException e ) {}
 
         }
