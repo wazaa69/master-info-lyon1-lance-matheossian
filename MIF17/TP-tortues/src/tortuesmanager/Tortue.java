@@ -19,7 +19,7 @@ import java.awt.*;
 /*
  * La classe Tortue qui se déplace en coordonnées polaires
  */
-class Tortue extends Thread
+class Tortue
 {
 
      //######################################################################################################      ATTRIBUTS
@@ -54,7 +54,7 @@ class Tortue extends Thread
         this.feuille = feuille;
         this.crayon = crayon;
         distMin = 15;
-        tortueCouleur = Color.GREEN;
+        tortueCouleur = Color.BLUE;
         this.feuille.getListeTortues().add(this);
     }
 

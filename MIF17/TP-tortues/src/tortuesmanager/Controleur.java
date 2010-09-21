@@ -43,7 +43,9 @@ public class Controleur {
     /**
      *  Création de la tortue qui dessine
      */
-    public void creerTortueDessin(){courante = new Tortue(simpleLogo.getFeuille(), true);}
+    public void creerTortueDessin(){
+        //courante = new Tortue(simpleLogo.getFeuille(), true);
+    }
 
 
     /**************************************/
@@ -117,7 +119,6 @@ public class Controleur {
     public void procedureTrois(){
         resetVueEtTortues();
         //simpleLogo.procedureTrois();
-        JeuEquipe jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 24);
         //jeuEquipe.start();
     }
 
