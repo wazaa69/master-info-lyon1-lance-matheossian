@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
     private TortueBalle balle;
 
-    private int nbrJoueurs;
 
     public boolean finPartie = false;
 
@@ -29,7 +28,6 @@ import java.util.logging.Logger;
 
         this.feuille = feuille;
         balle = new TortueBalle(feuille);
-        this.nbrJoueurs = nbrJoueurs;
 
 
         TortueAmelioree uneTortue = null;
@@ -38,6 +36,7 @@ import java.util.logging.Logger;
 
         //Création des tortues Améliorées (uniquement)
         for (int i = 0; i < nbrJoueurs; i++) {
+
             uneTortue = new TortueAmelioree(feuille,"");
 
             uneTortue.setSaluer(false); //les tortues ne doivent pas se saluer
@@ -45,18 +44,20 @@ import java.util.logging.Logger;
             uneTortue.setY(0);
             uneTortue.setDir((int) Math.random() * 360);
             
-            listeTortues.add(uneTortue);
-
-            System.out.println(feuille.getListeTortues().size() + "////////////");
+            listeTortues.add((Tortue) uneTortue);
         }
 
-        System.out.println("////////////");
+
+        for(TortueAmelioree t : feuille.getListeTortuesAmeliorees()){
+           System.out.println("////////////" + t.getNom());
+        }
+
 
         ArrayList<TortueAmelioree> listeJoueuses =  feuille.getListeTortuesAmeliorees();
 
         //Toutes les tortues doivent se connaître
         for (int i = 0; i < listeJoueuses.size(); i++) {
-             listeJoueuses.get(i).ajouterDesAmies(); //downcast
+             listeJoueuses.get(i).ajouterDesAmies();
         }
 
     }
@@ -78,7 +79,8 @@ import java.util.logging.Logger;
         int rl = largeurTerrain/(nbTortues+1);
         int rh = hauteurTerrain/4;
 
-        boolean  unSurDeux = true;
+        int  j = 0;
+        boolean premLigne = true;
 
         for (int i = 0; i < nbTortues; i++){
 
@@ -86,10 +88,19 @@ import java.util.logging.Logger;
 
             if(uneTortue.distTortue(balle) != 0){
 
-                uneTortue.setX(((i+1)*rl)/2);
+                uneTortue.setX(((j+1)*rl*2));
+                j++;
 
-                if(unSurDeux){ uneTortue.setY(rh); unSurDeux=false;}
-                else {uneTortue.setY(3*rh); unSurDeux=true;}
+                if(i < (nbTortues/2))
+                    uneTortue.setY((int) 1.5*rh);
+                else uneTortue.setY(3*rh);
+
+
+
+                if(i >= (nbTortues/2) && premLigne){
+                    j = 0;
+                    premLigne = false;
+                }
 
             }
 
