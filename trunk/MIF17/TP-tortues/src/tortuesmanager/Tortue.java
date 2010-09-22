@@ -3,43 +3,35 @@ package tortuesmanager;
 import java.awt.*;
 
 
-/*************************************************************************
-
-	Un petit Logo minimal qui devra être amélioré par la suite
-
-				J. Ferber - 1999-2001
-
-				Cours de DESS TNI - Montpellier II
-
-	@version 2.0
-	@date 25/09/2001
-
-**************************************************************************/
+/* Un petit Logo minimal qui devra être amélioré par la suite
+J. Ferber - 1999-2001 Cours de DESS TNI - Montpellier II - version 2.0 - date 25/09/2001
+*/
 
 /*
- * La classe Tortue qui se déplace en coordonnées polaires
+ * Une tortue qui se déplace en coordonnées polaires
  */
-class Tortue
+public class Tortue
 {
 
      //######################################################################################################      ATTRIBUTS
 
 
-    FeuilleDessin feuille;     /** la feuille de dessin sur laquelle dessine la tortue */
+    protected static final int rp = 10, rb = 5; /** pour le tracé de la tortue  */
+    protected FeuilleDessin feuille;     /** la feuille de dessin sur laquelle dessine la tortue */
+
 
     private int x, y;	/** les coordonnees de la tortue */
-
-    double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
+    protected double convDegGrad = 0.0174533;     /** la constante de conversion de degres en gradient  */
     protected int dir;	/** la direction de la tortue */
-    boolean crayon = true; /** si vrai alors le cayon est baissé, faux sinon */
+    protected boolean crayon = true; /** si vrai alors le cayon est baissé, faux sinon */
+    
     protected int traitCouleur; /** couleur du trait de la tortue courante */
+    protected  Color tortueCouleur; /** Couleur de la tortue */
 
-    final int distMin = 1; /** distance minimum entre deux tortues */
 
-    /**
-    * Couleur de la tortue.
-    */
-    protected  Color tortueCouleur;
+    final int distMinEntreTortues = 10; /** distance minimum entre deux tortues */
+
+
 
 
     //######################################################################################################      CONSTRUCTEURS
@@ -112,14 +104,12 @@ class Tortue
 
 
     /*
-     * A REVOIR : retourne que des 0 (ce qui ne pose pas de problème pour avancer)
-     * Précise si l'emplacement en (x;y) est correcte
-     * TODO : il faudrait prendre en compte l'angle d'arrivé de la tortue pour
-     * pouvoir le réutiliser, sinon on aura uniquement 8 angles à retourner
-     * êter utilisée par la tortue qui tente de se déplacer
-     * @param x coordonnée en abscisse
-     * @param y coordonnée en ordonné
-     * @return retourne 0 si l'emplacement est libre, -1 si impossible, une direction sinon
+     * Teste si la tortue ne sort pas de la feuille de dessin
+     * @param x coordonnée en abscisse à tester
+     * @param y coordonnée en ordonné à tester
+     * @return retourne vrai si l'emplacement est valide, si ce n'est pas le cas,
+     * la tortue fait un demi-tour et faux est renvoyé.
+     *
      */
     public boolean emplacementValide(int newX, int newY){
 
@@ -128,10 +118,9 @@ class Tortue
 
         int distBord = 20;
      
-
         if((newX <= distBord )|| (newX >= largeurTerrain )||( newY <= distBord )|| (newY >= hauteurTerrain))
         {
-            dir = (dir + 180) % 360;
+            dir = (dir + 180) % 360; //demi-tour
  
             return false;
         }
@@ -143,7 +132,7 @@ class Tortue
     /*--------------------------------------------------------*/
     
    /**
-    * Fait avancer la tortue sur une certaine distance
+    * Fait avancer la tortue sur la feuille de dessin
     * @param dist la distance à parcourir en pixel
     */
     public void avancer(int dist)
@@ -158,16 +147,12 @@ class Tortue
        {
             x = newX;
             y = newY;
-
        }
     
         if (crayon) {
-            g.setColor(feuille.decodeColor(traitCouleur));
+            g.setColor(decodeColor(traitCouleur));
             g.drawLine(x,y,newX,newY);
         }
-
-
-
     }
 
 
@@ -178,12 +163,12 @@ class Tortue
     public void deplacementAuHasard(int dist)
     {
         //Respect de la distance minimale ?
-        int distMinimale = distMin;
-        if(dist > distMin) distMinimale = dist;
+        int distMinimale = distMinEntreTortues;
+        if(dist > distMinEntreTortues) distMinimale = dist;
 
         //déplacement aléatoire
-        int angle = (int)(Math.random()*45);
-        if(Math.random() > 0.5) droite(angle); else gauche(angle);
+        int angle = (int)(Math.random() * 90);
+        if(Math.random() > 0.5) dir += angle; else dir -= angle;
         avancer(distMinimale);
     }
 
@@ -212,6 +197,65 @@ class Tortue
 
 
     //####################################################################################### M: DESSIN
+
+    /**
+    * Dessine la tortue
+    * @param g le graphique (le support de dessin)
+    */
+    protected void dessinerTortue(Graphics g){
+
+        //Calcule les 3 coins du triangle a partir de
+        // la position de la tortue p
+        Point p = new Point(getX(),getY());
+        Polygon arrow = new Polygon();
+
+        //Calcule des deux bases
+        //Angle de la droite
+        double theta = convDegGrad * (- dir);
+        //Demi angle au sommet du triangle
+        double alpha = Math.atan( (float) rb / (float)rp );
+        //Rayon de la fleche
+        double r = Math.sqrt( rp*rp + rb*rb );
+        //Sens de la fleche
+
+        //Pointe
+        Point p2 = new Point((int) Math.round(p.getX()+r*Math.cos(theta)),
+                                             (int) Math.round(p.y-r*Math.sin(theta)));
+        arrow.addPoint(p2.x,p2.y);
+        arrow.addPoint((int) Math.round( p2.getX()-r*Math.cos(theta + alpha) ),
+              (int) Math.round( p2.y+r*Math.sin(theta + alpha) ));
+
+        //Base2
+        arrow.addPoint((int) Math.round( p2.x-r*Math.cos(theta - alpha) ),
+              (int) Math.round( p2.y+r*Math.sin(theta - alpha) ));
+
+        arrow.addPoint(p2.x,p2.y);
+        g.setColor(getCouleur()); // on récupère la couleur définie dans tortue
+        g.fillPolygon(arrow);
+    }
+
+    /**
+    * Renvoie une couleur selon le code choisit
+    * @param c un code couleur
+    * @return une couleur de type Color
+    */
+    Color decodeColor(int c) {
+        switch(c) {
+                case 0: return(Color.black);
+                case 1: return(Color.blue);
+                case 2: return(Color.cyan);
+                case 3: return(Color.darkGray);
+                case 4: return(Color.red);
+                case 5: return(Color.green);
+                case 6: return(Color.lightGray);
+                case 7: return(Color.magenta);
+                case 8: return(Color.orange);
+                case 9: return(Color.gray);
+                case 10: return(Color.pink);
+                case 11: return(Color.yellow);
+                default : return(Color.black);
+        }
+    }
 
     /**
     *  Baisse le crayon pour dessiner
@@ -276,6 +320,7 @@ class Tortue
     /*-----------------------------------*/
     /*              FIGURES
     /*-----------------------------------*/
+
 
     /**
      * Dessine un carré

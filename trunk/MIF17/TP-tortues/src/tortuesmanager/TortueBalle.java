@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/*
+ * Une balle de jeu
+ */
 public class TortueBalle extends Tortue {
 
 
@@ -28,6 +30,7 @@ public class TortueBalle extends Tortue {
     * Dessine la TortueBalle dans la FeuilleDessin.
     * @param g le graphique (le support de dessin)
     */
+    @Override
     protected void dessinerTortue(Graphics g)
     {
         g.drawOval(getX(), getY(), 10,10);
@@ -80,11 +83,12 @@ public class TortueBalle extends Tortue {
 
 
     /**
+     * TODO calcul et dessin à modifier !!! Cette méhode n'est pas utilisée
     * Envoie la balle à une tortue (pas à pas)
     * @param uneTortue cette tortue est la nouvelle propriétaire de la balle.
     */
     
-    public void passeLaBalleA(Tortue uneTortue) {
+    public void passerLaBalleA(Tortue uneTortue) {
 
         if(distTortue(uneTortue) != 0){
 
@@ -116,14 +120,11 @@ public class TortueBalle extends Tortue {
                 }
 
             }
-
        }
-
         setPositionSelonTortue(uneTortue);
 
         //On met à jour la direction
         setDir(uneTortue.getDir());
-
     }
     
 

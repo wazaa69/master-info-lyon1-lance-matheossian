@@ -3,20 +3,30 @@ package tortuesmanager;
 
 public class JeuEquipe extends JeuDeBalle {
 
+
     public  JeuEquipe(FeuilleDessin feuille, int nbJA, int nbJB) { 
 
         super(feuille, 0);
 
         //Création des équipes
-        EquipeA equipeA = new EquipeA(feuille, nbJA);
-        EquipeB equipeB = new EquipeB(feuille, nbJB);
-
-        
+        Equipe equipeA = new Equipe(feuille, "Equipe A", nbJA);
+        Equipe equipeB = new Equipe(feuille, "Equipe B", nbJB);
 
     }
 
+    @Override
+    public void placerTortuesTerrain(){
+        for(TortueAmelioree uneTortue : feuille.getListeTortuesAmeliorees())
+            uneTortue.deplaceHasardEtPousse(150);
 
+        feuille.drawIt();
+    }
 
+    @Override
+    public void lancerPartie(){
+        placerTortuesTerrain();
+    }
+    
 
 //Deux équipes
 //
@@ -26,11 +36,6 @@ public class JeuEquipe extends JeuDeBalle {
 //        (déplacement sans la balle, déplacement avec la balle, passe à une autre tortue de
 //        la même équipe assez proche, prise de la balle à une tortue adverse assez proche).
 //        Créez une classe JeuEquipe, qui crée les équipes et gère le jeu, testez.
-
-    //void placerTortuesTerrain (surcharge) (eA,eB);
-    //void lancerPartie (surcharge)
-    //
-    //void passeA10(comportement,eA,eB)
 
 
 
