@@ -16,15 +16,26 @@ public class JeuEquipe extends JeuDeBalle {
 
     @Override
     public void placerTortuesTerrain(){
-        for(TortueAmelioree uneTortue : feuille.getListeTortuesAmeliorees())
-            uneTortue.deplaceHasardEtPousse(150);
 
-        feuille.drawIt();
+        for(TortueAmelioree uneTortue : feuille.getListeTortuesAmeliorees())
+            for(int i = 0; i < 50; i++) uneTortue.deplacementAuHasard(15);
+
     }
 
     @Override
     public void lancerPartie(){
+        
         placerTortuesTerrain();
+
+        //On récupère la tortue la plus proche de la balle et on downcast
+        TortueAmelioree tortueProprio = randomJoueuse();
+        if(tortueProprio == null) return; //si il n'y a aucune tortue on quitte
+
+        //On met à jour la propriétaire de la balle et on l'affiche
+        balle.setPositionSelonTortue(tortueProprio);
+        System.out.println(tortueProprio.getNom()+ " a la balle !");
+
+        feuille.drawIt();
     }
     
 
