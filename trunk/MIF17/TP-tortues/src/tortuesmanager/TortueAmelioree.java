@@ -11,11 +11,13 @@ public class TortueAmelioree extends Tortue {
 
 //######################################################################################################      ATTRIBUTS
 
-    private String nom;     /** Le nom de la tortue */
+    protected String nom;     /** Le nom de la tortue */
 
-    private boolean saluer = true; /** précise si les tortues doivent se saluer */
+    protected boolean saluer = true; /** précise si les tortues doivent se saluer */
 
     private ArrayList<TortueAmelioree> listeAmis;
+
+    private final int distMinCollision = 20; /** la distance minimum de colision entre deux tortues */
 
 
  //######################################################################################################      CONSTRUCTEURS
@@ -73,12 +75,12 @@ public class TortueAmelioree extends Tortue {
     public void deplaceHasardEtPousse(int dist)
     {
         //Respect de la distance minimale ?
-        int distMinimale = distMinEntreTortues;
-        if(dist > distMinEntreTortues) distMinimale = dist;
+        int distMinimale = distMinCollision;
+        if(dist > distMinCollision) distMinimale = dist;
 
         //déplacement aléatoire
-        int angle = (int)(Math.random()*360);
-        if(Math.random() > 0.5) dir = angle; else dir = - angle;
+        int angle = (int)(Math.random() * 90);
+        if(Math.random() > 0.5) dir = (dir + angle)%360; else dir = (dir - angle)%360;
         avancer(distMinimale);
 
        //System.out.print(">-----DEBUT - Déplacement de " + nom + "\n");
@@ -89,7 +91,7 @@ public class TortueAmelioree extends Tortue {
 
             uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
-            if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMinEntreTortues && uneTortue != this){
+            if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMinCollision && uneTortue != this){
                 if(saluer) saluerUneTortue(uneTortue);
                 uneTortue.pousserTortue(dir, distMinimale);
             }

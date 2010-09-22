@@ -29,9 +29,7 @@ public class Tortue
     protected  Color tortueCouleur; /** Couleur de la tortue */
 
 
-    final int distMinEntreTortues = 10; /** distance minimum entre deux tortues */
-
-
+    protected final int distMinEntreTortues = 1; /** distance minimum entre deux tortues */
 
 
     //######################################################################################################      CONSTRUCTEURS
@@ -168,7 +166,7 @@ public class Tortue
 
         //déplacement aléatoire
         int angle = (int)(Math.random() * 90);
-        if(Math.random() > 0.5) dir += angle; else dir -= angle;
+        if(Math.random() > 0.5) dir = (dir + angle)%360; else dir = (dir - angle)%360;
         avancer(distMinimale);
     }
 

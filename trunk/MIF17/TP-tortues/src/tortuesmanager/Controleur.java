@@ -71,7 +71,7 @@ public class Controleur {
      */
     public void procedureUne(){
 
-        int nbrTortues=10;
+        int nbrTortues=20;
 
         if(getSimpleLogo().getFeuille().getListeTortuesAmeliorees().size() < 10){
 
