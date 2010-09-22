@@ -17,7 +17,7 @@ public class JeuDeBalle extends Thread {
 
     public boolean finPartie = false;
 
-    final private int distMinPourPasse = 15; /** distance minimum pour faire une passe */
+    final protected  int distMinPourPasse = 15; /** distance minimum pour faire une passe */
 
 
     //######################################################################################################      CONSTRUCTEURS
@@ -143,11 +143,7 @@ public class JeuDeBalle extends Thread {
         TortueAmelioree tortueProche = null;
 
 
-        //Distance de déplacement
-       
-
         while(!finPartie) {
-
 
             //On fait bouger la balle et son propriétaire
             tortueProprio.deplacementAuHasard(15);
@@ -194,7 +190,6 @@ public class JeuDeBalle extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
             }
-
 
         }
     }
