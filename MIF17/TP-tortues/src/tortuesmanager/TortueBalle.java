@@ -90,7 +90,7 @@ public class TortueBalle extends Tortue {
 
             //Calcul de la direction
             double cosinus = (uneTortue.getX() - getX() ) / distTortue(uneTortue);
-            double angle = Math.acos(cosinus*360);
+            double angle = Math.toDegrees(cosinus);
 
             //System.out.println(angle);
             setDir((int) angle);
@@ -108,7 +108,6 @@ public class TortueBalle extends Tortue {
                 setX(coor_x);
                 setY(coor_y);
 
-                dessinerTortue(feuille.getGraphics());
 
                 try {
                     Thread.sleep(100);

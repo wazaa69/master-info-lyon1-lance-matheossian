@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
      //######################################################################################################      ATTRIBUTS
 
-    private FeuilleDessin feuille;
+    protected FeuilleDessin feuille;
 
     private TortueBalle balle;
 
@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
     final private int distMinPasse = 15;
 
+//    public int distanceDeplacement = 3;
 
     //######################################################################################################      CONSTRUCTEURS
 
@@ -41,7 +42,7 @@ import java.util.logging.Logger;
         }
 
         balle = new TortueBalle(feuille);
-        balle.dessinerTortue(feuille.getGraphics());
+    
 
         /*
         for(TortueAmelioree t : feuille.getListeTortuesAmeliorees()){
@@ -57,6 +58,13 @@ import java.util.logging.Logger;
         }
 
     }
+   //######################################################################################################      ACCESSEURS
+
+
+
+//    public int getDistanceDeplacement() {
+//        return distanceDeplacement;
+//    }
 
     //######################################################################################################      METHODES
 
@@ -69,7 +77,7 @@ import java.util.logging.Logger;
         int nbTortues = feuille.getListeTortuesAmeliorees().size();
         Tortue uneTortue = null;
 
-        int largeurTerrain = feuille.drawingImage.getWidth(feuille);
+        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-20;
         int hauteurTerrain = feuille.drawingImage.getHeight(feuille);
 
         int rl = largeurTerrain/(nbTortues+1);
@@ -143,7 +151,7 @@ import java.util.logging.Logger;
 
 
         //Distance de déplacement
-        int distanceDep = 15;
+       
 
 
         while(!finPartie) {
@@ -151,7 +159,7 @@ import java.util.logging.Logger;
             try {
 
                 //On fait bouger la balle et son propriétaire
-                tortueProprio.deplaceHasardEtPousse(distanceDep);
+                tortueProprio.deplacementAuHasard( 3);
                 balle.setPositionSelonTortue(tortueProprio);
 
 
@@ -160,10 +168,10 @@ import java.util.logging.Logger;
                 for (int j = 0; j < feuille.getListeTortuesAmeliorees().size(); j++) {
 
                     uneTortue = feuille.getListeTortuesAmeliorees().get(j);
-
+                   
                     //le propriétaire de la balle à déjà bougé
-                    if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(distanceDep);}
-
+                    if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard( 3);}
+                balle.dessinerTortue(feuille.getGraphics()); // A CREUSER
                 }
                 
                 //La tortue propriétaire de la balle cherche à faire une passe
@@ -181,13 +189,14 @@ import java.util.logging.Logger;
 
                     }
                 }
-
+                balle.dessinerTortue(feuille.getGraphics());
                 testFin();
 
-                balle.dessinerTortue(feuille.getGraphics());
+                
 
                 try {
-                    Thread.sleep(700);
+
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
                 }
