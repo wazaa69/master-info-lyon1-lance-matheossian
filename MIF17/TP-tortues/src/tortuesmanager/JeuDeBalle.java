@@ -4,19 +4,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-    public class JeuDeBalle extends Thread {
+/**
+ * Crée une partie de N tortues, elle se font des passes en jouant
+ */
+public class JeuDeBalle extends Thread {
 
      //######################################################################################################      ATTRIBUTS
 
-    protected FeuilleDessin feuille;
+    protected FeuilleDessin feuille;  /** une feuille de dessins */
 
     private TortueBalle balle;
 
     public boolean finPartie = false;
 
-    final private int distMinPasse = 15;
+    final private int distMinPourPasse = 15; /** distance minimum pour faire une passe */
 
-//    public int distanceDeplacement = 3;
 
     //######################################################################################################      CONSTRUCTEURS
 
@@ -58,13 +60,7 @@ import java.util.logging.Logger;
         }
 
     }
-   //######################################################################################################      ACCESSEURS
 
-
-
-//    public int getDistanceDeplacement() {
-//        return distanceDeplacement;
-//    }
 
     //######################################################################################################      METHODES
 
@@ -153,58 +149,55 @@ import java.util.logging.Logger;
         //Distance de déplacement
        
 
-
         while(!finPartie) {
+
+
+            //On fait bouger la balle et son propriétaire
+            tortueProprio.deplacementAuHasard(15);
+            balle.setPositionSelonTortue(tortueProprio);
+
+
+            //On fait bouger les autres tortues
+            Tortue uneTortue = null;
+            for (int j = 0; j < feuille.getListeTortuesAmeliorees().size(); j++) {
+
+                uneTortue = feuille.getListeTortuesAmeliorees().get(j);
+
+                //le propriétaire de la balle à déjà bougé
+                if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(15);}
+ 
+            }
+
+            //arès le déplacement des tortues
+            feuille.drawIt();
+
+
+            //La tortue propriétaire de la balle cherche à faire une passe
+            tortueProche = tortueProprio.tortueAmieLaPlusProche();
+
+            if (tortueProche != null) {
+                if (tortueProprio.distTortue(tortueProche) >= distMinPourPasse && tortueProche != ancienneProprio) {
+
+                    ancienneProprio = tortueProprio;
+                    tortueProprio = tortueProche;
+
+                    System.out.println(ancienneProprio.getNom() + " passe la balle à " + tortueProche.getNom());
+
+                    balle.setPositionSelonTortue(tortueProprio); //il faudrait utiliser la méthode passerLaBalleA
+
+                }
+            }
+
+            feuille.drawIt();
+ 
 
             try {
 
-                //On fait bouger la balle et son propriétaire
-                tortueProprio.deplacementAuHasard( 3);
-                balle.setPositionSelonTortue(tortueProprio);
-
-
-                //On fait bouger les autres tortues
-                Tortue uneTortue = null;
-                for (int j = 0; j < feuille.getListeTortuesAmeliorees().size(); j++) {
-
-                    uneTortue = feuille.getListeTortuesAmeliorees().get(j);
-                   
-                    //le propriétaire de la balle à déjà bougé
-                    if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard( 3);}
-                balle.dessinerTortue(feuille.getGraphics()); // A CREUSER
-                }
-                
-                //La tortue propriétaire de la balle cherche à faire une passe
-                tortueProche = tortueProprio.tortueAmieLaPlusProche();
-
-                if (tortueProche != null) {
-                    if (tortueProprio.distTortue(tortueProche) >= distMinPasse && tortueProche != ancienneProprio) {
-
-                        ancienneProprio = tortueProprio;
-                        tortueProprio = tortueProche;
-
-                        System.out.println(ancienneProprio.getNom() + " passe la balle à " + tortueProche.getNom());
-
-                        balle.setPositionSelonTortue(tortueProprio); //il faudrait utiliser la méthode passerLaBalleA
-
-                    }
-                }
-                balle.dessinerTortue(feuille.getGraphics());
-                testFin();
-
-                
-
-                try {
-
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            catch( InterruptedException e ) {}
 
         }
     }
@@ -219,16 +212,6 @@ import java.util.logging.Logger;
      * Lance la partie
      */
     public void lancerPartieThread() {(new Thread(this)).start();}
-
-    
-
-    public synchronized void testFin() throws InterruptedException {
-            if( finPartie ) {
-                    throw new InterruptedException();
-            }
-    }
-
-    //public synchronized void stop() {finPartie = true;}
-
+ 
 
 }

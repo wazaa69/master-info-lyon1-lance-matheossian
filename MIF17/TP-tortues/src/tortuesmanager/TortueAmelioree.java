@@ -3,7 +3,9 @@ package tortuesmanager;
 
 import java.util.ArrayList;
 
-
+/*
+ * Tortue avec plus de fonctionnalités que la tortue de base
+ */
 public class TortueAmelioree extends Tortue {
 
 
@@ -42,7 +44,7 @@ public class TortueAmelioree extends Tortue {
         
     public String getNom() {return nom;}
 
-    public int getDistMin() {return distMin;}
+    public int getDistMin() {return distMinEntreTortues;}
 
     public boolean isSaluer() {return saluer;}
 
@@ -71,12 +73,12 @@ public class TortueAmelioree extends Tortue {
     public void deplaceHasardEtPousse(int dist)
     {
         //Respect de la distance minimale ?
-        int distMinimale = distMin;
-        if(dist > distMin) distMinimale = dist;
+        int distMinimale = distMinEntreTortues;
+        if(dist > distMinEntreTortues) distMinimale = dist;
 
         //déplacement aléatoire
         int angle = (int)(Math.random()*360);
-        if(Math.random() > 0.5) droite(angle); else gauche(angle);
+        if(Math.random() > 0.5) dir = angle; else dir = - angle;
         avancer(distMinimale);
 
        //System.out.print(">-----DEBUT - Déplacement de " + nom + "\n");
@@ -87,10 +89,13 @@ public class TortueAmelioree extends Tortue {
 
             uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
-            if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMin && uneTortue != this){
+            if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMinEntreTortues && uneTortue != this){
                 if(saluer) saluerUneTortue(uneTortue);
                 uneTortue.pousserTortue(dir, distMinimale);
             }
+
+            feuille.drawIt();
+
         } //fin for
 
        //System.out.print(">-----FIN - Déplacement de " + nom + "\n");
@@ -119,7 +124,7 @@ public class TortueAmelioree extends Tortue {
         ArrayList<TortueAmelioree> liste = new ArrayList<TortueAmelioree>();
         ArrayList<TortueAmelioree> tortuesADeplacer = new ArrayList<TortueAmelioree>();
 
-        //OPTIMISATION
+
         /* le nombre de tortues à pousser pour dégager le chemin */
         int nbrTortuesApousser = feuille.getListeTortuesAmeliorees().size();
         /* la meilleur direction en fonction du nombre de tortues à pousser */
@@ -149,7 +154,7 @@ public class TortueAmelioree extends Tortue {
 
                 uneTortue = feuille.getListeTortuesAmeliorees().get(i);
        
-                if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMin && uneTortue != this){
+                if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMinEntreTortues && uneTortue != this){
                     placeDispo = false;
                     liste.add(uneTortue); //une tortue en plus
                 }
@@ -182,6 +187,8 @@ public class TortueAmelioree extends Tortue {
 
                 break; //on sort de la boucle
             }
+
+            feuille.drawIt();
 
         }
     }

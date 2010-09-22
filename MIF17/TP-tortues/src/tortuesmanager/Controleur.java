@@ -1,6 +1,8 @@
 package tortuesmanager;
 
-
+/**
+ * Controleur du Jeu
+ */
 public class Controleur {
 
 
@@ -119,7 +121,7 @@ public class Controleur {
     public void procedureTrois(){
         resetVueEtTortues();
         simpleLogo.procedureTrois();
-        JeuEquipe jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 15,15);
+        JeuEquipe jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 15, 15);
         jeuEquipe.start();
     }
 

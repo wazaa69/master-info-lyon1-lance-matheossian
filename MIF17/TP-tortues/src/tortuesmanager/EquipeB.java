@@ -2,10 +2,9 @@ package tortuesmanager;
 
 public class EquipeB extends Equipe {
 
-    public EquipeB() {
+    public EquipeB(FeuilleDessin feuille, String name, int nbrJoueurs){
+        super(feuille, name, nbrJoueurs);
     }
 
-     EquipeB(FeuilleDessin feuille, int nbJB) {
 
-}
 }

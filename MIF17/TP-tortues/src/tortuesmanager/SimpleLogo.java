@@ -8,6 +8,9 @@ import java.util.*;
 import java.util.ArrayList;
 
 
+/**
+ * Cette classe crée la Vue et associe des boutons à des actions
+ */
 public class SimpleLogo extends JFrame implements ActionListener {
 
 
@@ -391,10 +394,6 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
 
     }
-
-
-
-
 
 
 }
