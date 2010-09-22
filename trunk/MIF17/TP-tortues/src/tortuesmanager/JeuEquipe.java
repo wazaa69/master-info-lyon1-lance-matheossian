@@ -1,5 +1,6 @@
 package tortuesmanager;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,12 +15,17 @@ public class JeuEquipe extends JeuDeBalle {
 
         super(feuille, 0);
 
+        TortueEquipere uneTortue;
+
         //Création des équipes
-        for(int i = 0; i < nbJA; i++) 
-            equipeA.add(new TortueEquipere(feuille, "Equipe A", nbJA));
+        for(int i = 0; i < nbJA; i++) {
+            uneTortue = new TortueEquipere(feuille, "EA", nbJA);
+            uneTortue.setCouleur(Color.green);
+            equipeA.add(uneTortue);
+        }
 
         for(int i = 0; i < nbJB; i++)
-            equipeB.add(new TortueEquipere(feuille, "Equipe B", nbJB));
+            equipeB.add(new TortueEquipere(feuille, "EB", nbJB));
 
     }
 
@@ -30,7 +36,9 @@ public class JeuEquipe extends JeuDeBalle {
                 for(int j = 0; j < 50; j++)
                     equipeA.get(i).deplacementAuHasard(15);
 
-
+            for(int i = 0; i < equipeB.size(); i++)
+                for(int j = 0; j < 50; j++)
+                    equipeB.get(i).deplacementAuHasard(15);
     }
 
     @Override
@@ -64,8 +72,8 @@ public class JeuEquipe extends JeuDeBalle {
 
                 uneTortue = feuille.getListeTortuesAmeliorees().get(j);
 
-                //le propriétaire de la balle à déjà bougé
-                if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(15);}
+                //les autres tortues essayent d'intercepter la balle
+                if (uneTortue != tortueProprio){uneTortue.deplacementAuHasard(15);}
  
             }
 
