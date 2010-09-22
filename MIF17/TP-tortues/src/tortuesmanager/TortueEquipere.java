@@ -6,17 +6,15 @@ package tortuesmanager;
  */
 public class TortueEquipere extends TortueAmelioree {
 
-    private int strat; /** la stratégie de jeu, -1;0;1 défensif/def-attaque/attaquant */
+    private int comportement; /** comportement de la tortue, -1;0;1 défensif/def-attaque/attaquant */
 
     public TortueEquipere(FeuilleDessin feuille, String nom, int nbrJoueurs) {
 
         super(feuille, nom);
 
-        TortueAmelioree uneTortue;
-
-            this.nom = nom + "-" + nbrJoueurs;
-            saluer = false;
-        }
+        this.nom = nom + "-" + nbrJoueurs;
+        saluer = false;
+    }
 
     public void passeADix(){
 
