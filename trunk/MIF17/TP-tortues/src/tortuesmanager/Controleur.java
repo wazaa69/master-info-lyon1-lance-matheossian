@@ -102,13 +102,13 @@ public class Controleur {
     public void procedureDeux(){
         resetVueEtTortues();
         simpleLogo.creerProc2();
-        JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 20);
+        JeuDeBalle jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 30);
         jeuDeBalle.start();
     }
 
     public void stopProcDeux(){
-        jeuDeBalle.stop();
-        simpleLogo.effProc2();
+      //  jeuDeBalle.stop();
+     //   simpleLogo.effProc2();
     }
 
 
@@ -118,8 +118,9 @@ public class Controleur {
      */
     public void procedureTrois(){
         resetVueEtTortues();
-        //simpleLogo.procedureTrois();
-        //jeuEquipe.start();
+        simpleLogo.procedureTrois();
+        JeuEquipe jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 15,15);
+        jeuEquipe.start();
     }
 
 

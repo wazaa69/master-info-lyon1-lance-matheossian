@@ -233,8 +233,9 @@ public class TortueAmelioree extends Tortue {
         TortueAmelioree uneTortue = null;
         TortueAmelioree tortueProche = null;
 
+
         int distance = 0;
-        int distMinimal = Integer.MAX_VALUE; //le maximum d'un integer
+        int distMinimal = 10000; //le maximum d'un integer
 
 
         for(int i=0; i < listeAmis.size(); i++){
@@ -243,7 +244,7 @@ public class TortueAmelioree extends Tortue {
             distance = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
 
             if(distance < distMinimal && uneTortue != this){
-                distMinimal = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
+                distMinimal = distance;
                 tortueProche = uneTortue;
              }
         }

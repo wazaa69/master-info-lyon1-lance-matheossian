@@ -338,7 +338,8 @@ public class SimpleLogo extends JFrame implements ActionListener {
         else if (c.equals("Proc_1"))  controleur.procedureUne();
         else if (c.equals("Proc_2"))  controleur.procedureDeux();
         else if (c.equals("Stop Proc_2"))  controleur.stopProcDeux();
-        else if (c.equals("Proc_3"))  controleur.procedureDeux();
+        else if (c.equals("Proc_3"))  controleur.procedureTrois();
+       // else if (c.equals("Stop Proc_3"))  controleur.stopProcTrois();
         else if (c.equals("Effacer")) controleur.effacer();
         else if (c.equals("Quitter")) controleur.quitter();
     }
@@ -348,7 +349,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
      */
     void creerProc2() {
 
-        barreOutils.setVisible(false);
+       // barreOutils.setVisible(false);
 
         for(JButton b: boutton) b.setVisible(false);
 
@@ -373,6 +374,21 @@ public class SimpleLogo extends JFrame implements ActionListener {
             else
                 b.setVisible(true);
         }
+
+    }
+
+    void procedureTrois() {
+
+
+       // barreOutils.setVisible(false);
+
+        for(JButton b: boutton) b.setVisible(false);
+
+        JButton stop = new JButton("Stop Proc_3");
+        bottom.add(stop);
+        stop.addActionListener(this);
+        boutton.add(stop);
+
 
     }
 

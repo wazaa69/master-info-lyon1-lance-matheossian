@@ -34,7 +34,7 @@ class Tortue
     boolean crayon = true; /** si vrai alors le cayon est baissé, faux sinon */
     protected int traitCouleur; /** couleur du trait de la tortue courante */
 
-    final int distMin; /** distance minimum entre deux tortues */
+    final int distMin = 1; /** distance minimum entre deux tortues */
 
     /**
     * Couleur de la tortue.
@@ -53,7 +53,7 @@ class Tortue
         reset();
         this.feuille = feuille;
         this.crayon = crayon;
-        distMin = 15;
+       
         tortueCouleur = Color.BLUE;
         this.feuille.getListeTortues().add(this);
     }
@@ -121,40 +121,21 @@ class Tortue
      * @param y coordonnée en ordonné
      * @return retourne 0 si l'emplacement est libre, -1 si impossible, une direction sinon
      */
-    public int getBonEmplacement(int newX, int newY){
+    public boolean emplacementValide(int newX, int newY){
 
-        
-        Tortue uneTortue = null;
+        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-10;
+        int hauteurTerrain = feuille.drawingImage.getHeight(feuille)-10;
 
-        //La position de la tortue ne doit pas être sur une autre
-        for (int i = 0; i < feuille.getListeTortues().size(); i++){
-            uneTortue = feuille.getTortue(i);
-            if(distPoint(newX, newY, uneTortue.getX(), uneTortue.getY()) <= 5) return -1;
+        int distBord = 20;
+     
+
+        if((newX <= distBord )|| (newX >= largeurTerrain )||( newY <= distBord )|| (newY >= hauteurTerrain))
+        {
+            dir = (dir + 180) % 360;
+ 
+            return false;
         }
-
-        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-5;
-        int hauteurTerrain = feuille.drawingImage.getHeight(feuille)-5;
-
-        int distBord = 15;
-
-        /* Teste des condition
-        if(newX <= distBord || newX >= largeurTerrain || newY <= distBord || newY >= hauteurTerrain)
-        System.out.println(newX + " / " + largeurTerrain +  " - " + newY + " / "+ hauteurTerrain);
-        */
-
-        //NE FONCTIONNE PAS ! A REVOIR
-        //on tourne dans le sens des aiguilles d'une montre
-        //A revoir pour meilleur lisibilité
-        if(newX <= distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return (int) 45; //coin supérieur gauche
-        if(newX > distBord && newX < largeurTerrain && newY <= distBord && newY < hauteurTerrain) return (int) 90;
-        if(newX > distBord && newX >= largeurTerrain && newY <= distBord && newY < hauteurTerrain) return (int) 135;
-        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY < hauteurTerrain) return (int) 180;
-        if(newX > distBord && newX >= largeurTerrain && newY > distBord && newY >= hauteurTerrain) return (int) 225;
-        if(newX > distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return (int) 270;
-        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY >= hauteurTerrain) return (int) 315;
-        if(newX <= distBord && newX < largeurTerrain && newY > distBord && newY < hauteurTerrain) return (int) 360;
-
-        return 0;
+        return true;
     }
 
     /*--------------------------------------------------------*/
@@ -167,43 +148,26 @@ class Tortue
     */
     public void avancer(int dist)
     {
-        int newX = 0, newY  = 0, angle  = 500;
-        int nbrEssais= 0;
 
         Graphics g = feuille.getImageGraphics();
 
-        //Tant que l'emplacement n'est aps bon on cherche de nouvelles coordonnées
-        while(nbrEssais <= 20){
+        int newX = (int) Math.round(x + dist*Math.cos(convDegGrad*dir));
+        int newY = (int) Math.round(y + dist*Math.sin(convDegGrad*dir));
 
-            newX = (int) Math.round(x + dist*Math.cos(convDegGrad*dir));
-            newY = (int) Math.round(y + dist*Math.sin(convDegGrad*dir));
-
-            //vérifie si l'emplacement est correcte
-            angle = getBonEmplacement(newX,newY);
-
-            //if(angle > 0) {dir = angle%360; break;} //quand getBonEmplacement fonctionnera
-
-            if(angle != -1){
-                if(angle == 360) {dir = 0; break;}
-                else if(angle > 0) {dir = angle; break;}
-                else {break;} //sinon c'est que l'angle de base est correcte
-            }
-
-            nbrEssais++;
-        }
-
-
-        if(nbrEssais <= 20){
-
-            if (crayon) {
-                g.setColor(feuille.decodeColor(traitCouleur));
-                g.drawLine(x,y,newX,newY);
-            }
-
+       if (emplacementValide(newX, newY))
+       {
             x = newX;
             y = newY;
-            
+
+       }
+    
+        if (crayon) {
+            g.setColor(feuille.decodeColor(traitCouleur));
+            g.drawLine(x,y,newX,newY);
         }
+
+
+
     }
 
 
@@ -218,7 +182,7 @@ class Tortue
         if(dist > distMin) distMinimale = dist;
 
         //déplacement aléatoire
-        int angle = (int)(Math.random()*360);
+        int angle = (int)(Math.random()*45);
         if(Math.random() > 0.5) droite(angle); else gauche(angle);
         avancer(distMinimale);
     }
