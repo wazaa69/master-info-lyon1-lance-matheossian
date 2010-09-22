@@ -13,7 +13,7 @@ public class JeuDeBalle extends Thread {
 
     protected FeuilleDessin feuille;  /** une feuille de dessins */
 
-    private TortueBalle balle;
+    protected  TortueBalle balle;
 
     public boolean finPartie = false;
 
@@ -103,13 +103,10 @@ public class JeuDeBalle extends Thread {
 
             }
 
-            else{
-                balle.setPositionSelonTortue(uneTortue);
-                balle.dessinerTortue(feuille.getGraphics());
-            }
+            else balle.setPositionSelonTortue(uneTortue);
+
         }
 
-        feuille.drawIt();
   }
 
 
