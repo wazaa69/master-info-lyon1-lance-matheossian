@@ -165,7 +165,7 @@ public class Tortue
         if(dist > distMinEntreTortues) distMinimale = dist;
 
         //déplacement aléatoire
-        int angle = (int)(Math.random() * 90);
+        int angle = (int)(Math.random() * 45);
         if(Math.random() > 0.5) dir = (dir + angle)%360; else dir = (dir - angle)%360;
         avancer(distMinimale);
     }

@@ -146,7 +146,7 @@ public class JeuDeBalle extends Thread {
         while(!finPartie) {
 
             //On fait bouger la balle et son propriétaire
-            tortueProprio.deplacementAuHasard(15);
+            tortueProprio.deplacementAuHasard(5);
             balle.setPositionSelonTortue(tortueProprio);
 
 
@@ -157,7 +157,7 @@ public class JeuDeBalle extends Thread {
                 uneTortue = feuille.getListeTortuesAmeliorees().get(j);
 
                 //le propriétaire de la balle à déjà bougé
-                if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(15);}
+                if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(5);}
  
             }
 
@@ -186,7 +186,7 @@ public class JeuDeBalle extends Thread {
 
             try {
 
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
                 Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
             }
