@@ -23,7 +23,7 @@ public class FeuilleDessin extends JPanel {
 
     Image drawingImage; /** La zone Blanche de dessin  */
 
-    static final double convDegGrad = 0.0174533; // la constante de conversion de degres en gradient
+ 
 
 
 //######################################################################################################      CONSTRUCTEURS
@@ -54,6 +54,24 @@ public class FeuilleDessin extends JPanel {
        }
 
         return listeTortuesAmelioree;
+    }
+
+
+    public ArrayList<TortueEquipe> getListeTortuesEquipe() {
+
+        ArrayList<TortueEquipe> listeTortuesEquipe = new ArrayList<TortueEquipe>();
+
+        if(!tortues.isEmpty()){
+
+            for (int i = 0; i < getListeTortues().size() ; i++)
+            {
+                if(getTortue(i) instanceof TortueEquipe)
+                listeTortuesEquipe.add((TortueEquipe)getTortue(i));
+
+            }
+       }
+
+        return listeTortuesEquipe;
     }
 
     /**
