@@ -124,7 +124,7 @@ public class TortueEquipe extends TortueAmelioree {
             else
              {
                  break;
-            }
+             }
         }
 
          if (!placeDispo)
@@ -153,6 +153,8 @@ public class TortueEquipe extends TortueAmelioree {
         }
         return true;
     }
+
+
 
 
      public void avancer(int angle, int newX, int newY)
