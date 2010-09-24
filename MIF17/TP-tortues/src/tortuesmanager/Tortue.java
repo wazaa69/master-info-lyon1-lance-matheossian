@@ -147,7 +147,13 @@ public class Tortue
             y = newY;
        }
 
-       else dir = (dir + 90) % 360; //demi-tour
+       else {
+            
+            
+                 dir = (dir + 180) % 360;
+                x  = (int) Math.round(x + 30*Math.cos(convDegGrad*dir));
+                y = (int) Math.round(y + 30*Math.sin(convDegGrad*dir));
+                } //demi-tour
 
         if (crayon) {
             g.setColor(decodeColor(traitCouleur));
