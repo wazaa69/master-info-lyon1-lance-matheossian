@@ -15,7 +15,7 @@ public class TortueAmelioree extends Tortue {
 
     protected boolean saluer = true; /** précise si les tortues doivent se saluer */
 
-    private ArrayList<TortueAmelioree> listeAmis;
+    protected ArrayList<TortueAmelioree> listeAmis;
 
     private final int distMinCollision = 20; /** la distance minimum de colision entre deux tortues */
 
@@ -221,6 +221,7 @@ public class TortueAmelioree extends Tortue {
         for(int i = 0; i < liste.size(); i++)
             ajouterUneAmie(liste.get(i));
     }
+
 
 
     /**

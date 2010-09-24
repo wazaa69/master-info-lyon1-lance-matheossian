@@ -118,7 +118,7 @@ public class Tortue
      
         if((newX <= distBord )|| (newX >= largeurTerrain )||( newY <= distBord )|| (newY >= hauteurTerrain))
         {
-            dir = (dir + 180) % 360; //demi-tour
+          
  
             return false;
         }
@@ -146,7 +146,9 @@ public class Tortue
             x = newX;
             y = newY;
        }
-    
+
+       else dir = (dir + 90) % 360; //demi-tour
+
         if (crayon) {
             g.setColor(decodeColor(traitCouleur));
             g.drawLine(x,y,newX,newY);
