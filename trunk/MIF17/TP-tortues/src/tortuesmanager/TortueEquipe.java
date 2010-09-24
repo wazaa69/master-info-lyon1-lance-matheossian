@@ -121,6 +121,10 @@ public class TortueEquipe extends TortueAmelioree {
                 newY = (int) Math.round(getY()+dist*Math.sin(convDegGrad*angle));
 
              }
+            else
+             {
+                 break;
+            }
         }
 
          if (!placeDispo)
