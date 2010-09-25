@@ -38,10 +38,6 @@ public class JeuPousse implements JeuInterface {
 
         liste.addAll(feuille.getListeTortuesAmeliorees());
 
-        //Toutes les tortues doivent se connaître
-        for(TortueAmelioree t : liste){
-             t.ajouterDesAmies();
-        }
 
         if(!liste.isEmpty())
             courante = liste.get(0);
