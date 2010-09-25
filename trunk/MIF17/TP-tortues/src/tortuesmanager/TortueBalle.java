@@ -2,8 +2,6 @@ package tortuesmanager;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Une balle de jeu
@@ -39,35 +37,6 @@ public class TortueBalle extends Tortue {
     }
 
 
-
-    /*
-     * Recherche la tortue amie la plus proche
-     * @return retourne la tortue améliorée amie la plus proche
-     */
-    public TortueAmelioree tortueAmieLaPlusProche(){
-
-        TortueAmelioree uneTortue = null;
-        TortueAmelioree tortueProche = null;
-
-        int distance = 0;
-        int distMinimal = Integer.MAX_VALUE; //le maximum d'un integer
-
-
-        for(int i=0; i < feuille.getListeTortuesAmeliorees().size(); i++){
-
-            uneTortue = feuille.getListeTortuesAmeliorees().get(i);
-            distance = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
-
-            if(distance < distMinimal){
-                distMinimal = distPoint(getX(), getY(), uneTortue.getX(), uneTortue.getY());
-                tortueProche = uneTortue;
-             }
-        }
-        return tortueProche;
-    }
-
-
-
     /**
      * Met à jour les coordonées et la direction de la balle, selon une tortue
      * @param uneTortue la tortue qui possède la balle
@@ -83,7 +52,7 @@ public class TortueBalle extends Tortue {
      * Met à jour les coordonées de la balle selon une tortue
      * @param uneTortue la tortue qui possède la balle
      */
-    public void setCoordonneesSelonTortue(Tortue uneTortue){
+    protected void setCoordonneesSelonTortue(Tortue uneTortue){
         setX(uneTortue.getX()-5);
         setY(uneTortue.getY()-5);
     }

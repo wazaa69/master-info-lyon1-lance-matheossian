@@ -17,9 +17,6 @@ public class TortueAmelioree extends Tortue {
 
     protected ArrayList<TortueAmelioree> listeAmis; /** une liste d'amis */
 
-    private final int distMinCollision = 20; /** la distance minimum de colision entre deux tortues */
-
-
  //######################################################################################################      CONSTRUCTEURS
 
    /**
@@ -81,9 +78,8 @@ public class TortueAmelioree extends Tortue {
      */
     public void deplaceHasardEtPousse(int dist)
     {
-        //Respect de la distance minimale ?
-        int distMinimale = distMinCollision;
-        if(dist > distMinCollision) distMinimale = dist;
+        
+        int distMinimale = getBonneDistCollision(dist);
 
         //déplacement aléatoire
         int angle = (int)(Math.random() * 90);
@@ -120,7 +116,7 @@ public class TortueAmelioree extends Tortue {
      * @param dir la direction de la tortue pousseuse
      * @param dist la distance à parcourire pour la tortue poussée
      */
-    public void pousserTortue(int dir, int dist){
+    private void pousserTortue(int dir, int dist){
 
 
         /* Variables ------------------------------------->*/
@@ -163,7 +159,7 @@ public class TortueAmelioree extends Tortue {
 
                 uneTortue = feuille.getListeTortuesAmeliorees().get(i);
        
-                if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMinEntreTortues && uneTortue != this){
+                if(distPoint(uneTortue.getX(), uneTortue.getY(), newX, newY) <= distMinCollision && uneTortue != this){
                     placeDispo = false;
                     liste.add(uneTortue); //une tortue en plus
                 }
@@ -212,7 +208,7 @@ public class TortueAmelioree extends Tortue {
      * Ajoute une tortue améliorée dans la liste d'amis.
      * @param uneTortue une tortue de type TortueAmelioree.
      */
-    public void ajouterUneAmie(TortueAmelioree uneTortue)
+    protected void ajouterUneAmie(TortueAmelioree uneTortue)
     {
         if((uneTortue != this) && (uneTortue instanceof TortueAmelioree))
             listeAmis.add(uneTortue);
@@ -270,7 +266,7 @@ public class TortueAmelioree extends Tortue {
      * Salut une tortue.
      * @param uneTortue une tortue de type TortueAmelioree.
      */
-    public void saluerUneTortue(TortueAmelioree uneTortue){
+    private void saluerUneTortue(TortueAmelioree uneTortue){
         if(saluer) System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
     }
 

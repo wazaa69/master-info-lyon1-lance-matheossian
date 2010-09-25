@@ -10,11 +10,11 @@ import java.util.ArrayList;
  */
 public class JeuPousse implements JeuInterface {
 
-    FeuilleDessin feuille; /** la feuille de dessin */
+    private FeuilleDessin feuille; /** la feuille de dessin */
 
-    TortueAmelioree courante; /** la tortue courante */
+    private TortueAmelioree courante; /** la tortue courante */
 
-    ArrayList<TortueAmelioree> liste = new ArrayList<TortueAmelioree>(); /** la liste des tortues */
+    private ArrayList<TortueAmelioree> liste = new ArrayList<TortueAmelioree>(); /** la liste des tortues améliorées */
 
     /**
      * Constructeur

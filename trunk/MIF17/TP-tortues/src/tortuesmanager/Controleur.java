@@ -29,17 +29,10 @@ public class Controleur {
  //######################################################################################################      ACCESSEURS
 
     /**
-     * Récupération de l'attribut simpleLogo
-     * @return retourne l'attribut simpleLogo
-     */
-    public SimpleLogo getSimpleLogo(){ return simpleLogo; }
-
-    /**
      * Récupérer la tortue courante
      * @return retourne la tortue courante
      */
     public Tortue getCourante() { return courante; }
-
 
  //######################################################################################################      MUTATEURS
 
@@ -52,7 +45,16 @@ public class Controleur {
         
  //######################################################################################################      METHODES
 
+    /**
+     * Initialise tout ce qu'il faut pour pouvoir dessiner
+     */
+    private void procedureBasePrDessin(){
+        reset();
+        courante = new Tortue(simpleLogo.getFeuille(), true);
+        simpleLogo.setBarreOutilsVisible(true);
+    }
 
+    
     /* ************************************ */
     /* Les différentes figues réalisables   */
     /* ************************************ */
@@ -60,27 +62,27 @@ public class Controleur {
     /**
      * Déssine un carré
      */
-    public void carre(){courante.carre();}
+    public void carre(){procedureBasePrDessin(); courante.carre();}
 
     /**
      * Dessine un polygone
      */
-    public void poly(){courante.poly(60,8);}
+    public void poly(){procedureBasePrDessin(); courante.poly(60,8);}
 
     /**
      * Dessine une spirale
      */
-    public void spiral(){courante.spiral(50,40,6);}
+    public void spiral(){procedureBasePrDessin(); courante.spiral(50,40,6);}
 
     /**
      * Dessine un immeuble
      */
-    public void immeuble(){courante.immeuble();}
+    public void immeuble(){procedureBasePrDessin(); courante.immeuble();}
 
     /**
      * Dessine un astérisque
      */
-    public void asterisque(){courante.asterisque(50,10);}
+    public void asterisque(){procedureBasePrDessin(); courante.asterisque(50,10);}
 
     
     /**************************************/
@@ -91,9 +93,7 @@ public class Controleur {
      * Crée la tortue de dessin et dessine un immeuble
      */
     public void procedureZero(){
-        reset();
-        courante = new Tortue(simpleLogo.getFeuille(), true);
-        simpleLogo.setBarreOutilsVisible(true);
+        procedureBasePrDessin();
         immeuble();
     }
 
@@ -107,7 +107,7 @@ public class Controleur {
         simpleLogo.setBarreOutilsVisible(false);
         if(jeuPousse == null){
             reset();
-            jeuPousse = new JeuPousse(simpleLogo.getFeuille(), 10);
+            jeuPousse = new JeuPousse(simpleLogo.getFeuille(), 15);
             jeuPousse.lancerPartie();
         }
         else jeuPousse.lancerPartie();
@@ -133,7 +133,7 @@ public class Controleur {
     public void procedureTrois(){
         reset();
         simpleLogo.setBarreOutilsVisible(false);
-        jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 30, 30,"EA","EB");
+        jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 30, 30,"eVerte","eBleu");
         jeuEquipe.start();
     }
 
@@ -148,7 +148,7 @@ public class Controleur {
      * Repaint la zone de dessin en blanc,
      * Stop les thread de Jeu en cours.
      */
-    public void reset(){ 
+    private void reset(){
         simpleLogo.getFeuille().getListeTortues().clear();
         simpleLogo.getFeuille().reset();
         simpleLogo.getFeuille().repaint();
