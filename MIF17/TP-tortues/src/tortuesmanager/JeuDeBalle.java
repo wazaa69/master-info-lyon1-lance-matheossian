@@ -20,7 +20,6 @@ public class JeuDeBalle extends Thread implements JeuInterface {
 
     final protected  int distMinPourPasse = 15; /** la distance minimum pour faire une passe, au dessus, la tortue ne fait rien */
 
-
     //######################################################################################################      CONSTRUCTEURS
 
     /**
@@ -69,8 +68,8 @@ public class JeuDeBalle extends Thread implements JeuInterface {
         int nbTortues = feuille.getListeTortuesAmeliorees().size();
         Tortue uneTortue = null;
 
-        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-20;
-        int hauteurTerrain = feuille.drawingImage.getHeight(feuille);
+        int largeurTerrain = feuille.getDrawingImage().getWidth(feuille)-20;
+        int hauteurTerrain = feuille.getDrawingImage().getHeight(feuille);
 
         int rl = largeurTerrain/(nbTortues+1);
         int rh = hauteurTerrain/4;
@@ -110,7 +109,7 @@ public class JeuDeBalle extends Thread implements JeuInterface {
      * Choisit une tortue au hasard
      * @return retourne une tortue améliorée présente dans la liste des tortues
      */
-    public TortueAmelioree randomJoueuse(){
+    protected TortueAmelioree randomJoueuse(){
 
         if(!feuille.getListeTortuesAmeliorees().isEmpty()){
             int joueuse = (int) Math.round(Math.random() * (feuille.getListeTortuesAmeliorees().size()-1));
@@ -175,7 +174,7 @@ public class JeuDeBalle extends Thread implements JeuInterface {
 
                     System.out.println(ancienneProprio.getNom() + " passe la balle à " + tortueProche.getNom());
 
-                    balle.setPositionSelonTortue(tortueProprio); //il faudrait utiliser la méthode passerLaBalleA
+                    balle.setPositionSelonTortue(tortueProprio);
 
                 }
             }
@@ -183,10 +182,8 @@ public class JeuDeBalle extends Thread implements JeuInterface {
             feuille.drawIt();
  
 
-            try {
-
-                Thread.sleep(200);
-            } catch (InterruptedException ex) {
+            try {Thread.sleep(100);} catch (InterruptedException ex) {
+                System.err.println("Problème avec le sleep dans JeuDeBalle.");
                 Logger.getLogger(JeuDeBalle.class.getName()).log(Level.SEVERE, null, ex);
             }
 

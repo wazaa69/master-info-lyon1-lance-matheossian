@@ -13,23 +13,17 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
     //######################################################################################################      ATTRIBUTS
 
-	private FeuilleDessin feuille; /** la feuille de dessins */
-        private Controleur controleur; /** référence sur le controleur */
-	JTextField inputValue; /** champs de texte pour l'angle de rotation de la tortue */
+    private FeuilleDessin feuille; /** la feuille de dessins */
+    private Controleur controleur; /** référence sur le controleur */
+    private JTextField inputValue; /** champs de texte pour l'angle de rotation de la tortue */
 
-	public static final Dimension VGAP = new Dimension(1,5); /** constante de dimenssion */
-	public static final Dimension HGAP = new Dimension(5,1); /** constante de dimenssion */
+    private static final Dimension HGAP = new Dimension(5,1); /** constante de dimenssion */
 
-
-        /* ---------------------- */
-        /*   ELEMENTS GRAPHIQUES  */
-        /* ---------------------- */
-
-        private JToolBar barreOutils = null; /** la barre d'outils en haute de la fenêtre*/
+    private JToolBar barreOutils = null; /** la barre d'outils en haute de la fenêtre*/
 
     //######################################################################################################      CONSTRUCTEURS
         
-    /*
+    /**
      * Constructeur
      * @param c un controleur
      */
@@ -47,33 +41,9 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
  //######################################################################################################      ACCESSEURS
 
-    /**
-    * Récupère l'angle de rotation de la tortue dans l'affichage
-    * @return retourne une chaine de caractère qui correspond à l'angle de rotation de la tortue
-    */
-    String getInputValue(){
-        String s = inputValue.getText();
-        return(s);
-    }
-
-
     public FeuilleDessin getFeuille() {return feuille;}
 
-
  //######################################################################################################      MUTATEURS
-
-
-    /**
-    * Mise à jour du controleur
-    * @param controleur le controleur
-    */
-    public void setControleur(Controleur controleur) {this.controleur = controleur;}
-
-    /**
-     * Mise à jour de la feuilel de dessin
-     * @param feuille une feuille de dessin
-     */
-    public void setFeuille(FeuilleDessin feuille) {this.feuille = feuille;}
 
     /**
      * Mise à jour de la visibilié de la barre d'outils
@@ -87,7 +57,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     /**
     * Initialise le contenu de la fenêtre : créations des boutons et des actions associées
     */
-    public void logoInit(){
+    private void logoInit(){
 
 
             getContentPane().setLayout(new BorderLayout(10,10));
@@ -196,7 +166,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
             //BOUTONS BOTTOM--------------------->
             JPanel p2 = new JPanel(new GridLayout());
-            /*JButton b19 = new JButton("Carré");
+            JButton b19 = new JButton("Carré");
             p2.add(b19);
             b19.addActionListener(this);
             JButton b20 = new JButton("Polygone");
@@ -205,12 +175,9 @@ public class SimpleLogo extends JFrame implements ActionListener {
             JButton b21 = new JButton("Spirale");
             p2.add(b21);
             b21.addActionListener(this);
-            JButton b22 = new JButton("Immeuble");
-            p2.add(b22);
-            b22.addActionListener(this);
             JButton b23 = new JButton("Asterisque");
             p2.add(b23);
-            b23.addActionListener(this); */
+            b23.addActionListener(this);
             JButton b24 = new JButton("Proc_0");
             p2.add(b24);
             b24.addActionListener(this);
@@ -241,7 +208,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     * @param tooltiptext chaine de caractère au survol du composant
     * @param imageName chemain jusqu'à l'image du composant
     */
-    void addButton(JComponent p, String name, String tooltiptext, String imageName) {
+    private void addButton(JComponent p, String name, String tooltiptext, String imageName) {
         JButton b;
         if ((imageName == null) || (imageName.equals(""))) {
           b = (JButton) p.add(new JButton(name));
@@ -271,7 +238,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     * @param command la commande associé à l'item
     * @param key touche du clavier pour recevoir un évènement
     */
-    void addMenuItem(JMenu m, String label, String command, int key) {
+    private void addMenuItem(JMenu m, String label, String command, int key) {
         JMenuItem menuItem;
         menuItem = new JMenuItem(label);
         m.add(menuItem);
@@ -324,11 +291,11 @@ public class SimpleLogo extends JFrame implements ActionListener {
         else if (c.equals("Lever"))  controleur.getCourante().leverCrayon();
         else if (c.equals("Baisser"))  controleur.getCourante().baisserCrayon();
         // actions des boutons bottom
-        else if (c.equals("Carré"))  controleur.carre();
+        else if (c.equals("Carré"))     controleur.carre();
         else if (c.equals("Polygone"))  controleur.poly();
-        else if (c.equals("Spirale"))  controleur.spiral();
+        else if (c.equals("Spirale"))   controleur.spiral();
         else if (c.equals("Immeuble"))  controleur.immeuble();
-        else if (c.equals("Asterisque"))  controleur.asterisque();
+        else if (c.equals("Asterisque"))controleur.asterisque();
         else if (c.equals("Proc_0"))  controleur.procedureZero();
         else if (c.equals("Proc_1"))  controleur.procedureUne();
         else if (c.equals("Proc_2"))  controleur.procedureDeux();

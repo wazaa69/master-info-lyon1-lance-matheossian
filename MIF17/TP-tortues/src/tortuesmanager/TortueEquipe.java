@@ -10,10 +10,7 @@ public class TortueEquipe extends TortueAmelioree {
 
     //######################################################################################################      ATTRIBUTS
 
-    /*
-     * Le nom de l'équipe de la tortue
-     */
-    private String nomEquipe;
+    private String nomEquipe; /** Le nom de l'équipe de la tortue */
 
     //######################################################################################################      CONSTRUCTEURS
 
@@ -157,17 +154,14 @@ public class TortueEquipe extends TortueAmelioree {
     @Override
       public boolean emplacementValide(int newX, int newY){
 
-        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-10;
-        int hauteurTerrain = feuille.drawingImage.getHeight(feuille)-10;
+        int largeurTerrain = feuille.getDrawingImage().getWidth(feuille)-10;
+        int hauteurTerrain = feuille.getDrawingImage().getHeight(feuille)-10;
 
         int distBord = 50;
 
         if((newX <= distBord )|| (newX >= largeurTerrain )||( newY <= distBord )|| (newY >= hauteurTerrain))
-        {
-
-
             return false;
-        }
+        
         return true;
     }
 
@@ -182,7 +176,6 @@ public class TortueEquipe extends TortueAmelioree {
      */
      public void avancer(int angle, int newX, int newY)
     {
-
         if (crayon) {
 
             feuille.getGraphics().setColor(decodeColor(traitCouleur));
@@ -193,9 +186,6 @@ public class TortueEquipe extends TortueAmelioree {
              setY(newY);
 
              dir = angle;
-
-
-
      }
 
 

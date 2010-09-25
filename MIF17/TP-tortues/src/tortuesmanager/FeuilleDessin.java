@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 /*
- * Copyright :    Copyright (c) 2000 - J. Ferber - LIRMM - V 2.0
+ * Copyright : Copyright (c) 2000 - J. Ferber - LIRMM - V 2.0
  */
 
 /**
@@ -16,11 +16,10 @@ public class FeuilleDessin extends JPanel {
 
 //######################################################################################################      ATTRIBUTS
 
-
+    
     private ArrayList<Tortue> tortues;  /** liste des tortues */
 
-    Image drawingImage; /** Le support de dessin  */
-
+    private Image drawingImage; /** Le support de dessin  */
 
 
 //######################################################################################################      CONSTRUCTEURS
@@ -40,11 +39,14 @@ public class FeuilleDessin extends JPanel {
      */
     public Tortue getTortue(int i){return tortues.get(i);}
 
+
     /**
      * Récupère la liste de tortues
      * @return retourne une liste de tortues
      */
     public ArrayList<Tortue> getListeTortues(){return tortues;}
+
+
 
     /**
      * Crée et renvoie une liste de tortues améliorées, à partir de la liste de tortues
@@ -68,6 +70,7 @@ public class FeuilleDessin extends JPanel {
         return listeTortuesAmelioree;
     }
 
+   
 
     /**
      * Crée et renvoie une liste de "tortues equipe", à partir de la liste de tortues
@@ -100,13 +103,21 @@ public class FeuilleDessin extends JPanel {
     }
 
 
+    /**
+     * Retourne une image
+     */
+
+    public Image getDrawingImage() {
+        return drawingImage;
+    }
+
 //######################################################################################################      METHODES
 
 
     /**
     * Recrée la zone de dessin
     */
-    void reset(){
+    protected void reset(){
             Dimension dim=getSize();
             drawingImage = this.createImage(dim.width,dim.height);
             Graphics g = drawingImage.getGraphics();
@@ -146,7 +157,7 @@ public class FeuilleDessin extends JPanel {
     * Affiche chaque tortue de la liste, sur le graphique
     * @param g le support de dessin
     */
-    void showTurtles(Graphics g){
+    private void showTurtles(Graphics g){
         for(Tortue uneTortue : getListeTortues()){
             uneTortue.dessinerTortue(g);
         }

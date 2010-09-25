@@ -17,7 +17,7 @@ public class Tortue
 
 
     protected static final int rp = 10, rb = 5; /** pour le tracé de la tortue  */
-    protected FeuilleDessin feuille;     /** la feuille de dessin */
+    protected FeuilleDessin feuille; /** la feuille de dessin */
 
 
     private int x, y;	/** les coordonnées polaires de la tortue */
@@ -28,9 +28,7 @@ public class Tortue
     protected int traitCouleur = 0; /** couleur du trait du crayon, noir par défaut */
     protected  Color tortueCouleur = Color.BLUE; /** couleur de la tortue, bleu par défaut */
 
-
-    protected final int distMinEntreTortues = 1; /** distance minimum entre deux tortues */
-
+    protected final int distMinCollision = 20; /** la distance minimum de colision entre deux tortues */
 
     //######################################################################################################      CONSTRUCTEURS
 
@@ -54,7 +52,7 @@ public class Tortue
     /**
     * @return retourne la couleur de la tortue
     */
-    public Color getCouleur(){return tortueCouleur;}
+    private Color getCouleur(){return tortueCouleur;}
 
     /*
      * @return retourne l'abscisse (info : coin supérieur gauche de la feuille = (0;0)
@@ -80,12 +78,6 @@ public class Tortue
     public void setCouleur(Color coul1){tortueCouleur = coul1;}
 
     /**
-    * Mise à jour de la variable crayon
-    * @param b vrai si le crayon est baissé, faut sinon
-    */
-    public void setCrayon(boolean b){crayon = b;}
-
-    /**
      * Mise à jor de la couleur du trait
      * @param n le code couleur
      */
@@ -105,7 +97,7 @@ public class Tortue
    /**
     * Positionne la tortue en (250;180), vers le haut et avec le crayon levé
     */
-    void reset()
+    private void reset()
     {
         x = 250;
         y = 180;
@@ -120,10 +112,10 @@ public class Tortue
      * @param y coordonnée en ordonné à tester
      * @return retourne vrai si l'emplacement est valide, faux sinon
      */
-    public boolean emplacementValide(int newX, int newY){
+    protected boolean emplacementValide(int newX, int newY){
 
-        int largeurTerrain = feuille.drawingImage.getWidth(feuille)-10;
-        int hauteurTerrain = feuille.drawingImage.getHeight(feuille)-10;
+        int largeurTerrain = feuille.getDrawingImage().getWidth(feuille)-10;
+        int hauteurTerrain = feuille.getDrawingImage().getHeight(feuille)-10;
 
         int distBord = 20;
      
@@ -169,6 +161,15 @@ public class Tortue
 
     }
 
+    /**
+     * Vérifie si la distance entre les tortues est respectée
+     * @return retourne un entier correspondan
+     */
+    protected int getBonneDistCollision(int dist){
+        if(dist > distMinCollision)
+            return dist;
+        else return distMinCollision;
+    }
 
     /**
      * La tortue se déplace aléatoirement sur une distance
@@ -176,14 +177,13 @@ public class Tortue
      */
     public void deplacementAuHasard(int dist)
     {
-        //Respect de la distance minimale ?
-        int distMinimale = distMinEntreTortues;
-        if(dist > distMinEntreTortues) distMinimale = dist;
-
-        //déplacement aléatoire
         int angle = (int)(Math.random() * 45);
-        if(Math.random() > 0.5) dir = (dir + angle)%360; else dir = (dir - angle)%360;
-        avancer(distMinimale);
+        
+        if(Math.random() > 0.5)
+            dir = (dir + angle)%360;
+        else dir = (dir - angle)%360;
+
+        avancer(dist);
     }
 
     /**
@@ -254,7 +254,7 @@ public class Tortue
     * @param c un code couleur
     * @return une couleur de type Color
     */
-    Color decodeColor(int c) {
+    protected Color decodeColor(int c) {
         switch(c) {
                 case 0: return(Color.black);
                 case 1: return(Color.blue);
@@ -286,13 +286,7 @@ public class Tortue
      * Attribut une nouvelle couleur au trait de dessin
      * @param n le code couleur
      */
-    public void couleur(int n){traitCouleur = n % 12;}
-
-    /**
-     * Permet de passer à la couleur suivante en modifiant l'attribut traitCouleur
-     */
-    public void couleurSuivante() {couleur(traitCouleur+1);}
-
+    private void couleur(int n){traitCouleur = n % 12;}
 
 
     /**
@@ -301,7 +295,7 @@ public class Tortue
     * @param y coordonnee en ordonnée
     * @return distance entre la tortue et le point
     */
-    public int distPoint(int x, int y)
+    private int distPoint(int x, int y)
     {
        return (int) Math.round(Math.sqrt(Math.pow((x - this.x),2) + Math.pow((y - this.y),2)));
     }
@@ -314,7 +308,7 @@ public class Tortue
     * @param y2 seconde coordonnee en ordonnée
     * @return distance entre la tortue et le point
     */
-    public int distPoint(int x1, int y1, int x2, int y2)
+    protected int distPoint(int x1, int y1, int x2, int y2)
     {
        return (int) Math.round(Math.sqrt(Math.pow((x2 - x1),2) + Math.pow((y2 - y1),2)));
     }
@@ -342,8 +336,8 @@ public class Tortue
      */
     public void carre() {
         for (int i=0;i<4;i++) {
-                avancer(100);
-                droite(90);
+            avancer(100);
+            droite(90);
         }
         feuille.drawIt();
     }
