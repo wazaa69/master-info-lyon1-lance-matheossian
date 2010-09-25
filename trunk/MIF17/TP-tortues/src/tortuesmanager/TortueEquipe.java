@@ -32,7 +32,7 @@ public class TortueEquipe extends TortueAmelioree {
         else this.nom = nom;
 
         this.nom = nom + "-" + nbrJoueurs;
-        saluer = false;
+        parler = false;
 
         
     }

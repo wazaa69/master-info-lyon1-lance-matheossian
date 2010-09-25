@@ -13,7 +13,7 @@ public class TortueAmelioree extends Tortue {
 
     protected String nom;     /** Le nom de la tortue */
 
-    protected boolean saluer = true; /** précise si les tortues doivent se saluer */
+    protected boolean parler = true; /** précise si les tortues doivent se parler */
 
     protected ArrayList<TortueAmelioree> listeAmis; /** une liste d'amis */
 
@@ -54,15 +54,15 @@ public class TortueAmelioree extends Tortue {
      * Retourne la variable de salue, si vraie, alors la tortue salura les autres
      * @return retourne la variable de salue
      */
-    public boolean isSaluer() {return saluer;}
+    public boolean isSaluer() {return parler;}
 
 //######################################################################################################      MUTATEURS
 
     /**
-     * Mise à jour de la variable saluer
-     * @param saluer un boolean : vrai si la tortue doit en saluer d'autres, faux sinon
+     * Mise à jour de la variable parler
+     * @param parler un boolean : vrai si la tortue doit en parler d'autres, faux sinon
      */
-    public void setSaluer(boolean saluer) {this.saluer = saluer;}
+    public void setSaluer(boolean saluer) {this.parler = saluer;}
 
 //######################################################################################################      METHODES
 
@@ -95,8 +95,10 @@ public class TortueAmelioree extends Tortue {
             uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
             if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMinCollision && uneTortue != this){
-                if(saluer) saluerUneTortue(uneTortue);
-                uneTortue.pousserTortue(dir, distMinimale);
+                if(parler) saluerUneTortue(uneTortue);
+                ajouterUneAmie(uneTortue); //on l'ajoute comme amie
+                uneTortue.ajouterUneAmie(this); //elle ajoute cette tortue en amie
+                uneTortue.pousserTortue(dir, distMinimale); //puis la nouvelle amie se pousse
             }
 
             feuille.drawIt();
@@ -186,7 +188,9 @@ public class TortueAmelioree extends Tortue {
                 //aucune place trouvée, on pousse les tortues voisines
                 for(int i = 0; i < tortuesADeplacer.size(); i++){
                     uneTortue = tortuesADeplacer.get(i);
-                    if(saluer) saluerUneTortue(uneTortue);
+                    if(parler) saluerUneTortue(uneTortue);
+                    ajouterUneAmie(uneTortue); //on l'ajoute comme amie
+                    uneTortue.ajouterUneAmie(this); //elle ajoute cette tortue en amie
                     tortuesADeplacer.get(i).pousserTortue(dir,dist);
                 }
 
@@ -210,8 +214,11 @@ public class TortueAmelioree extends Tortue {
      */
     protected void ajouterUneAmie(TortueAmelioree uneTortue)
     {
-        if((uneTortue != this) && (uneTortue instanceof TortueAmelioree))
+        if((uneTortue != this) && (uneTortue instanceof TortueAmelioree) && !listeAmis.contains(uneTortue)){
             listeAmis.add(uneTortue);
+            if(parler) System.out.println(nom + " a ajouté " + uneTortue.nom + "à sa liste d'amis");
+        }
+        //Teste : else if (listeAmis.contains(uneTortue)) System.out.println(nom + " connait déjà " + uneTortue.nom);
     }
 
     /**
@@ -267,7 +274,7 @@ public class TortueAmelioree extends Tortue {
      * @param uneTortue une tortue de type TortueAmelioree.
      */
     private void saluerUneTortue(TortueAmelioree uneTortue){
-        if(saluer) System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
+        if(parler) System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
     }
 
 
