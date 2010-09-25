@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Une tortue équipière
  */
-public class TortueEquipe extends TortueAmelioree {
+public final class TortueEquipe extends TortueAmelioree {
 
 
     //######################################################################################################      ATTRIBUTS

@@ -95,9 +95,9 @@ public class TortueAmelioree extends Tortue {
             uneTortue = feuille.getListeTortuesAmeliorees().get(i);
 
             if(distPoint(uneTortue.getX(), uneTortue.getY(), this.getX(), this.getY()) <= distMinCollision && uneTortue != this){
-                if(parler) saluerUneTortue(uneTortue);
                 ajouterUneAmie(uneTortue); //on l'ajoute comme amie
                 uneTortue.ajouterUneAmie(this); //elle ajoute cette tortue en amie
+                if(parler) saluerUneTortue(uneTortue);
                 uneTortue.pousserTortue(dir, distMinimale); //puis la nouvelle amie se pousse
             }
 
@@ -216,7 +216,7 @@ public class TortueAmelioree extends Tortue {
     {
         if((uneTortue != this) && (uneTortue instanceof TortueAmelioree) && !listeAmis.contains(uneTortue)){
             listeAmis.add(uneTortue);
-            if(parler) System.out.println(nom + " a ajouté " + uneTortue.nom + "à sa liste d'amis");
+            if(parler) System.out.println(nom + " a ajouté " + uneTortue.nom + " à sa liste d'amis");
         }
         //Teste : else if (listeAmis.contains(uneTortue)) System.out.println(nom + " connait déjà " + uneTortue.nom);
     }
