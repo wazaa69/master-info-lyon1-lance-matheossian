@@ -185,7 +185,7 @@ public class JeuEquipe extends JeuDeBalle {
 
                  for (int i = 0; i < equipeB.size(); i++ )
                  {
-                     if (tortueEquipeProprio.distTortue(equipeB.get(i)) <15 && (equipeB.get(i) != tortueInterceptee))
+                     if (tortueEquipeProprio.distTortue(equipeB.get(i)) < 15 && (equipeB.get(i) != tortueInterceptee))
                      {
                          // la tortue qui avait la balle devient la tortue interceptée et la tortue intercepteur devient propriétaire de la balle
                          tortueInterceptee = tortueEquipeProprio;
