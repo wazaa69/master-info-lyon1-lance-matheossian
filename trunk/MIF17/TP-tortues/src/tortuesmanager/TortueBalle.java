@@ -3,7 +3,7 @@ package tortuesmanager;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/*
+/**
  * Une balle de jeu
  */
 public class TortueBalle extends Tortue {

@@ -29,8 +29,8 @@ public class JeuEquipe extends JeuDeBalle {
      * @param feuille la feuille de dessin
      * @param nbJA le nombre de joueurs de l'équipe A
      * @param nbJB  le nombre de joueurs de l'équipe B
-     * @param nomEquipe1 le nom de l'équipe A
-     * @param nomEquipe2 le nom de l'équipe B
+     * @param nomEquipeA le nom de l'équipe A
+     * @param nomEquipeB le nom de l'équipe B
      */
     public  JeuEquipe(FeuilleDessin feuille, int nbJA, int nbJB, String nomEquipeA, String nomEquipeB) {
 

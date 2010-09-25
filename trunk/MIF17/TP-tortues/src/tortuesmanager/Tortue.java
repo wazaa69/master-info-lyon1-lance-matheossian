@@ -7,7 +7,7 @@ import java.awt.*;
 J. Ferber - 1999-2001 Cours de DESS TNI - Montpellier II - version 2.0 - date 25/09/2001
 */
 
-/*
+/**
  * Une tortue qui se déplace en coordonnées polaires
  */
 public class Tortue
@@ -73,7 +73,7 @@ public class Tortue
 
     /**
     * Change la couleur de la tortue
-    * @param n Nouvelle couleur pour la tortue
+    * @param coul1 Nouvelle couleur pour la tortue
     */
     public void setCouleur(Color coul1){tortueCouleur = coul1;}
 
@@ -139,6 +139,8 @@ public class Tortue
 
         Graphics g = feuille.getImageGraphics();
 
+        int oldX = x;
+        int oldY = y;
         int newX = (int) Math.round(x + dist*Math.cos(convDegGrad*dir));
         int newY = (int) Math.round(y + dist*Math.sin(convDegGrad*dir));
 
@@ -147,18 +149,30 @@ public class Tortue
             x = newX;
             y = newY;
         }
-
         else { //demi-tour
             dir = (dir + 180) % 360;
-            x  = (int) Math.round(x + 30*Math.cos(convDegGrad*dir));
-            y = (int) Math.round(y + 30*Math.sin(convDegGrad*dir));
+            newX  = (int) Math.round(x + 30*Math.cos(convDegGrad*dir));
+            newY = (int) Math.round(y + 30*Math.sin(convDegGrad*dir));
+
+            x = newX;
+            y = newY;
         }
 
         if (crayon) {
             g.setColor(decodeColor(traitCouleur));
-            g.drawLine(x,y,newX,newY);
+            g.drawLine(oldX,oldY,newX,newY);
         }
 
+    }
+
+    /**
+     * Pour pouvoir dessiner
+     * @param dist la distance à parcourir
+     */
+    public void avancerDessiner(int dist)
+    {
+        avancer(dist);
+        feuille.drawIt();
     }
 
     /**
@@ -336,7 +350,7 @@ public class Tortue
      */
     public void carre() {
         for (int i=0;i<4;i++) {
-            avancer(100);
+            avancerDessiner(100);
             droite(90);
         }
         feuille.drawIt();

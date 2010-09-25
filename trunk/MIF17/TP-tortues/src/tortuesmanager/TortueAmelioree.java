@@ -234,7 +234,7 @@ public class TortueAmelioree extends Tortue {
     //public void supprimerUneAmie(TortueAmelioree uneTortue){listeAmis.remove(uneTortue);}
 
 
-    /*
+    /**
      * Recherche la tortue amie la plus proche
      * @return retourne la tortue améliorée amie la plus proche
      */
