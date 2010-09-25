@@ -1,5 +1,2 @@
--Il reste à modifier toutes les portées des attributs sans porté
--Refaire l'UML
--Faire le Rapport
-
-Dessiner immeuble : à revoir, l'affichage bug
+Refaire l'UML : en cours
+Faire le Rapport
