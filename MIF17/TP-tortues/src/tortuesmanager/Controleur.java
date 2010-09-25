@@ -49,9 +49,11 @@ public class Controleur {
      * Initialise tout ce qu'il faut pour pouvoir dessiner
      */
     private void procedureBasePrDessin(){
-        reset();
-        courante = new Tortue(simpleLogo.getFeuille(), true);
-        simpleLogo.setBarreOutilsVisible(true);
+        if(courante == null){
+            reset();
+            courante = new Tortue(simpleLogo.getFeuille(), true);
+            simpleLogo.setBarreOutilsVisible(true);
+        }
     }
 
     
@@ -155,8 +157,8 @@ public class Controleur {
         courante = null;
 
         //stop les threads
-        if(jeuDeBalle != null) jeuDeBalle.finPartie = true;
-        if(jeuEquipe != null) jeuEquipe.finPartie = true;
+        if(jeuDeBalle != null) {jeuDeBalle.setFinPartie(true); jeuDeBalle = null;}
+        if(jeuEquipe != null) {jeuEquipe.setFinPartie(true); jeuEquipe = null;}
     }
 
 

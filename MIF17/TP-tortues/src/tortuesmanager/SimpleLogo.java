@@ -166,7 +166,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
             //BOUTONS BOTTOM--------------------->
             JPanel p2 = new JPanel(new GridLayout());
-            JButton b19 = new JButton("Carré");
+            /*JButton b19 = new JButton("Carré");
             p2.add(b19);
             b19.addActionListener(this);
             JButton b20 = new JButton("Polygone");
@@ -177,7 +177,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
             b21.addActionListener(this);
             JButton b23 = new JButton("Asterisque");
             p2.add(b23);
-            b23.addActionListener(this);
+            b23.addActionListener(this);*/
             JButton b24 = new JButton("Proc_0");
             p2.add(b24);
             b24.addActionListener(this);
@@ -267,7 +267,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
         if (c.equals("Avancer")) {
             try {
               int v = Integer.parseInt(inputValue.getText());
-              controleur.getCourante().avancer(v);
+              controleur.getCourante().avancerDessiner(v);
             }
             catch (NumberFormatException ex){System.err.println("ce n'est pas un nombre : " + inputValue.getText());}
         }

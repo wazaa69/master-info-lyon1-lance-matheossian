@@ -46,7 +46,7 @@ public class TortueEquipe extends TortueAmelioree {
      */
     public String getNomEquipe() {return nomEquipe;}
 
-    /*
+    /**
     * Ajoute les coéquipières de la tortue dans sa liste
     * @param liste une liste de tortues coéquipières
     */
@@ -190,7 +190,7 @@ public class TortueEquipe extends TortueAmelioree {
 
 
 
-    /*
+    /**
      * Recherche la tortue amie la plus proche
      * @return retourne la tortue améliorée amie la plus proche
      */

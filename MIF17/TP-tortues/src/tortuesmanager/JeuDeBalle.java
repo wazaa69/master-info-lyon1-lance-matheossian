@@ -16,7 +16,7 @@ public class JeuDeBalle extends Thread implements JeuInterface {
 
     protected  TortueBalle balle; /** la balle de jeu*/
 
-    public boolean finPartie = false; /** faux si la partie n'est pas terminée, vrai sinon */
+    protected boolean finPartie = false; /** faux si la partie n'est pas terminée, vrai sinon */
 
     final protected  int distMinPourPasse = 15; /** la distance minimum pour faire une passe, au dessus, la tortue ne fait rien */
 
@@ -56,6 +56,15 @@ public class JeuDeBalle extends Thread implements JeuInterface {
 
     }
 
+
+    //######################################################################################################      ACCESSEUR
+
+
+    /**
+     * Mise à jour du booléen qui déisgne la fin de la partie
+     * @param finPartie vrai si la partie doit se finir, faux sinon
+     */
+    public void setFinPartie(boolean finPartie) {this.finPartie = finPartie;}
 
     //######################################################################################################      METHODES
 
@@ -99,9 +108,7 @@ public class JeuDeBalle extends Thread implements JeuInterface {
             }
 
             else balle.setPositionSelonTortue(uneTortue);
-
         }
-
   }
 
 
@@ -155,12 +162,9 @@ public class JeuDeBalle extends Thread implements JeuInterface {
                 uneTortue = feuille.getListeTortuesAmeliorees().get(j);
 
                 //le propriétaire de la balle à déjà bougé
-                if (uneTortue != tortueProprio) {uneTortue.deplacementAuHasard(5);}
+                if (uneTortue != tortueProprio) uneTortue.deplacementAuHasard(5);
  
             }
-
-            //après le déplacement des tortues
-            feuille.drawIt();
 
 
             //La tortue propriétaire de la balle cherche à faire une passe
