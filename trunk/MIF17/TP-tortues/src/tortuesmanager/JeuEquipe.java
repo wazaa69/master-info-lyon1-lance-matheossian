@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.*;
 /**
  * Crée une balle et 2 équipes de N tortueEquipe.
  * Les tortues jouent à la passe à dix, si les 10 passes sont réussies,
@@ -32,9 +32,10 @@ public class JeuEquipe extends JeuDeBalle {
      * @param nomEquipeA le nom de l'équipe A
      * @param nomEquipeB le nom de l'équipe B
      */
-    public  JeuEquipe(FeuilleDessin feuille, int nbJA, int nbJB, String nomEquipeA, String nomEquipeB) {
+    public  JeuEquipe(FeuilleDessin feuille, int nbJA, int nbJB, String nomEquipeA, String nomEquipeB, JTextArea text) {
 
-        super(feuille, 0);
+        super(feuille, 0,text);
+        informations = text;
 
         equipeA = new ArrayList<TortueEquipe>();
         equipeB = new ArrayList<TortueEquipe>();
@@ -49,7 +50,7 @@ public class JeuEquipe extends JeuDeBalle {
 
         //Création des équipes
         for(int i = 0; i < nbJA; i++) {
-            uneTortue = new TortueEquipe(feuille, nomEquipeA, i, false);
+            uneTortue = new TortueEquipe(feuille, nomEquipeA, i, false,text);
             uneTortue.setCouleur(Color.green);
             equipeA.add(uneTortue);
 
@@ -57,7 +58,7 @@ public class JeuEquipe extends JeuDeBalle {
 
 
         for(int i = 0; i < nbJB; i++){
-            uneTortue = new TortueEquipe(feuille, nomEquipeB, i, false);
+            uneTortue = new TortueEquipe(feuille, nomEquipeB, i, false,text);
             uneTortue.setCouleur(Color.blue);
             equipeB.add(uneTortue);
         }
@@ -138,7 +139,7 @@ public class JeuEquipe extends JeuDeBalle {
         TortueEquipe tortueEquipeProprio = randomJoueuse();
         if(tortueEquipeProprio == null) return; //si il n'y a aucune tortue on quitte
 
-
+        informations.insert("  "+tortueEquipeProprio.getNom()+ " a la balle !\n", 0);
         System.out.println(tortueEquipeProprio.getNom()+ " a la balle !");
 
 
@@ -169,7 +170,10 @@ public class JeuEquipe extends JeuDeBalle {
             Tortue uneTortue = null;
             for (int j = 0; j < feuille.getListeTortuesAmeliorees().size(); j++) {
                 uneTortue = feuille.getListeTortuesAmeliorees().get(j);
+
                 if (uneTortue != tortueEquipeProprio)
+
+//                    ((TortueEquipe) uneTortue).deplacementAuHasarddistanceDeplacement,tortueEquipeProprio);
                     uneTortue.deplacementAuHasard(distanceDeplacement);
             }
 
@@ -191,6 +195,7 @@ public class JeuEquipe extends JeuDeBalle {
                          tortueInterceptee = tortueEquipeProprio;
                          tortueEquipeProprio = equipeB.get(i);
 
+                         informations.insert("  "+tortueInterceptee.getNom() + " est interceptée par " + tortueEquipeProprio.getNom() + "\n", 0);
                          System.out.println(tortueInterceptee.getNom() + " est interceptée par " + tortueEquipeProprio.getNom());
 
                          balle.setPositionSelonTortue(tortueEquipeProprio);
@@ -214,6 +219,7 @@ public class JeuEquipe extends JeuDeBalle {
                          tortueInterceptee = tortueEquipeProprio;
                          tortueEquipeProprio = equipeA.get(i);
 
+                          informations.insert("  "+tortueInterceptee.getNom() + " est interceptée par " + tortueEquipeProprio.getNom() + "\n", 0);
                          System.out.println(tortueInterceptee.getNom() + " est interceptée par " + tortueEquipeProprio.getNom());
 
                          balle.setPositionSelonTortue(tortueEquipeProprio);
@@ -240,10 +246,12 @@ public class JeuEquipe extends JeuDeBalle {
                         ancienneEquipeProprio = tortueEquipeProprio;
                         tortueEquipeProprio = tortueEquipeProche;
 
+                        nombreDePassesEnchainees++;
+                         informations.insert("  "+ancienneEquipeProprio.getNom() + " passe la balle à " + tortueEquipeProche.getNom() + " Passe : " + nombreDePassesEnchainees + "\n", 0);
                         System.out.println(ancienneEquipeProprio.getNom() + " passe la balle à " + tortueEquipeProche.getNom() + " Passe : " + nombreDePassesEnchainees);
 
                         balle.setPositionSelonTortue(tortueEquipeProprio);
-                        nombreDePassesEnchainees++;
+                        
                     }
                 }
             }
@@ -258,14 +266,15 @@ public class JeuEquipe extends JeuDeBalle {
 
             if (nombreDePassesEnchainees == 10)
             {
-
+               
+                informations.insert("  "+"L'équipe " + EquipePossesseurBalle.getNomEquipe() + " a marqué un point !!!\n", 0);
                 System.out.println("L'équipe " + EquipePossesseurBalle.getNomEquipe() + " a marqué un point !!!");
 
 
                 if (equipeA.contains(tortueEquipeProprio)) scoreEquipeA++;
                 else if (equipeB.contains(tortueEquipeProprio))  scoreEquipeB++;
 
-
+                informations.insert("  "+"SCORE : " + equipeA.get(1).getNomEquipe() + " : " +scoreEquipeA + " / " + equipeB.get(1).getNomEquipe()  + " : " + scoreEquipeB +"\n", 0);
                 System.out.println("SCORE : " + equipeA.get(1).getNomEquipe() + " : " +scoreEquipeA + " / " + equipeB.get(1).getNomEquipe()  + " : " + scoreEquipeB);
 
                 nombreDePassesEnchainees = 0;

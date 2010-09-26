@@ -1,7 +1,7 @@
 package tortuesmanager;
 
 import java.util.ArrayList;
-
+import javax.swing.*;
 /**
  * Une tortue équipière
  */
@@ -21,9 +21,9 @@ public final class TortueEquipe extends TortueAmelioree {
      * @param nbrJoueurs le nombre de joueurs (pour le nom : "nomNBRJR")
      * @param utilisationCrayon un booléen
      */
-    public TortueEquipe(FeuilleDessin feuille, String nom, int nbrJoueurs, boolean utilisationCrayon) {
+    public TortueEquipe(FeuilleDessin feuille, String nom, int nbrJoueurs, boolean utilisationCrayon, JTextArea text) {
 
-        super(feuille, nom);
+        super(feuille, nom, text);
         crayon = utilisationCrayon;
          listeAmis  = new ArrayList<TortueAmelioree>();
          nomEquipe = nom;
@@ -217,6 +217,35 @@ public final class TortueEquipe extends TortueAmelioree {
         }
         return tortueProche;
     }
+
+
+//      public void deplacementVersBalle(int dist, TortueEquipe tortueProprio){
+//
+//          int distance = 0;
+//          int angle = 0;
+//          double ang = 0;
+//        if ((int)(Math.random()*10) > 3){
+//
+//              angle = (int)(Math.random() * 45);
+//              if(Math.random() > 0.5)
+//              dir = (dir + angle)%360;
+//        else dir = (dir - angle)%360;
+//
+//        }
+//        else
+//        {
+//             distance = distPoint(this.getX(), this.getY(), tortueProprio.getX(), tortueProprio.getY());
+//               ang =  Math.cos((getX() - tortueProprio.getX()) / distance);
+//               dir = (int) ang;
+//
+//        }
+//
+
+//
+//
+//        avancer(dist);
+//
+//     }
 
 
 }

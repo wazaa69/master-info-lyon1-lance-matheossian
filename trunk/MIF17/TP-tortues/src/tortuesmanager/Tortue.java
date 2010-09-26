@@ -1,6 +1,7 @@
 package tortuesmanager;
 
 import java.awt.*;
+import javax.swing.*;
 
 
 /* Un petit Logo minimal qui devra être amélioré par la suite
@@ -30,17 +31,20 @@ public class Tortue
 
     protected final int distMinCollision = 20; /** la distance minimum de colision entre deux tortues */
 
+   protected JTextArea informations; /** une aire de texte de plusieurs lignes affichant les informations relatives aux tortues pour les différentes procédures */
     //######################################################################################################      CONSTRUCTEURS
 
    /**
     * Constructeur
     * @param feuille la feuille de dessin
     * @param crayon si vrai alors le cayon est baissé, faux sinon
+    * @param JTextArea servant à contenir les informations relatives aux tortues
     */
-    public Tortue(FeuilleDessin feuille, boolean crayon){
+    public Tortue(FeuilleDessin feuille, boolean crayon, JTextArea text){
         reset();
         this.feuille = feuille;
         this.crayon = crayon;
+        informations = text;
        
         tortueCouleur = Color.BLUE;
         this.feuille.getListeTortues().add(this);
@@ -68,6 +72,15 @@ public class Tortue
      * @return retourne la direction = un angle en degrés
      */
     public int getDir(){return dir;}
+    
+     /*
+     * @return retourne le JTextArea servant à contenir les informations relatives aux tortues
+     */
+    public JTextArea getInformations() {
+        return informations;
+    }
+
+
 
     //######################################################################################################      MUTATEURS
 

@@ -2,7 +2,7 @@ package tortuesmanager;
 
 
 import java.util.ArrayList;
-
+import javax.swing.*;
 /*
  * Tortue avec plus de fonctionnalités que la tortue de base
  */
@@ -24,9 +24,9 @@ public class TortueAmelioree extends Tortue {
     * @param feuille la feuille de dessin
     * @param name le nom de la tortue
     */
-    public TortueAmelioree(FeuilleDessin feuille, String name){
+    public TortueAmelioree(FeuilleDessin feuille, String name, JTextArea infos){
 
-        super(feuille, false);
+        super(feuille, false, infos);
 
         listeAmis  = new ArrayList<TortueAmelioree>();
 
@@ -216,7 +216,12 @@ public class TortueAmelioree extends Tortue {
     {
         if((uneTortue != this) && (uneTortue instanceof TortueAmelioree) && !listeAmis.contains(uneTortue)){
             listeAmis.add(uneTortue);
-            if(parler) System.out.println(nom + " a ajouté " + uneTortue.nom + " à sa liste d'amis");
+            if(parler){
+
+                       informations.insert("  "+nom + " a ajouté " + uneTortue.nom + " à sa liste d'amis\n", 0);
+                       System.out.println(nom + " a ajouté " + uneTortue.nom + " à sa liste d'amis");
+            
+                    }
         }
         //Teste : else if (listeAmis.contains(uneTortue)) System.out.println(nom + " connait déjà " + uneTortue.nom);
     }
@@ -274,7 +279,11 @@ public class TortueAmelioree extends Tortue {
      * @param uneTortue une tortue de type TortueAmelioree.
      */
     private void saluerUneTortue(TortueAmelioree uneTortue){
-        if(parler) System.out.print(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n");
+        if(parler){
+            
+             informations.insert("  "+nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !\n", 0);
+            System.out.println(nom + " salut " + uneTortue.getNom() + " et lui demande de se déplacer !");
+        }
     }
 
 

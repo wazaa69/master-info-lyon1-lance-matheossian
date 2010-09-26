@@ -15,7 +15,8 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
     private FeuilleDessin feuille; /** la feuille de dessins */
     private Controleur controleur; /** référence sur le controleur */
-    private JTextField inputValue; /** champs de texte pour l'angle de rotation de la tortue */
+    private JTextField inputValue; /** champ de texte pour l'angle de rotation de la tortue */
+    private JTextArea affichageInformationsTortues; /** une aire de texte de plusieurs lignes affichant les informations relatives aux tortues pour les différentes procédures */
 
     private static final Dimension HGAP = new Dimension(5,1); /** constante de dimenssion */
 
@@ -30,7 +31,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
     public SimpleLogo(Controleur c)
     {
         // Titre de l'appli, super appel un constructeur de JFrame et envoie la chaîne en paramètre, super doit toujours être placé en 1er dans un constructeur de clase dérivé
-        super("Feuille de dessin");
+        super("Tortue Manager");
 
         //relation Vue Controleur
         controleur = c;
@@ -42,6 +43,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
  //######################################################################################################      ACCESSEURS
 
     public FeuilleDessin getFeuille() {return feuille;}
+    public JTextArea getAffichageInformationsTortues() { return affichageInformationsTortues;}
 
  //######################################################################################################      MUTATEURS
 
@@ -62,9 +64,11 @@ public class SimpleLogo extends JFrame implements ActionListener {
 
             getContentPane().setLayout(new BorderLayout(10,10));
 
-
+             this.setResizable(false);
             //BOUTONS TOP--------------------->
             JPanel buttonPanel = new JPanel();
+            
+
             JToolBar toolBar = new JToolBar();
             buttonPanel.add(toolBar);
             barreOutils = toolBar; // sauvegarde
@@ -79,6 +83,7 @@ public class SimpleLogo extends JFrame implements ActionListener {
             toolBar.add(Box.createRigidArea(HGAP));
             inputValue=new JTextField("45",5); // contenu et taille du champ de texte
             toolBar.add(inputValue);
+
 
             addButton(toolBar, "Avancer", "Avancer 50", null);
             addButton(toolBar, "Droite", "Droite 45", null);
@@ -192,6 +197,14 @@ public class SimpleLogo extends JFrame implements ActionListener {
             b27.addActionListener(this);
             getContentPane().add(p2,"South");
 
+ 
+
+            affichageInformationsTortues = new JTextArea("",10,30);
+            getContentPane().add(affichageInformationsTortues,"West");
+            affichageInformationsTortues.setLineWrap(true);
+         
+  
+       
             //--------------------------------------->
 
 

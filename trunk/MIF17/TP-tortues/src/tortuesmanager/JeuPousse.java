@@ -1,6 +1,7 @@
 package tortuesmanager;
 
 import java.util.ArrayList;
+import javax.swing.*;
 
 /**
  * Crée N tortues améliorées et les laisse se promener
@@ -21,7 +22,7 @@ public class JeuPousse implements JeuInterface {
      * @param feuille la feuille de dessin
      * @param nbr le nombre de tortues à utiliser
      */
-    public JeuPousse(FeuilleDessin feuille, int nbr) {
+    public JeuPousse(FeuilleDessin feuille, int nbr, JTextArea text ) {
 
         this.feuille = feuille;
 
@@ -29,7 +30,7 @@ public class JeuPousse implements JeuInterface {
 
         //Création des N tortues améliorées
         for(int i=0; i < nbr; i++) {
-            uneTortue = new TortueAmelioree(feuille,"Tortue" + feuille.getListeTortues().size());
+            uneTortue = new TortueAmelioree(feuille,"Tortue" + feuille.getListeTortues().size(),text);
             uneTortue.leverCrayon();
             uneTortue.setSaluer(true);
             uneTortue.droite(16*i);

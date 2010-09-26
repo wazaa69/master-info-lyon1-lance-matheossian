@@ -2,6 +2,7 @@ package tortuesmanager;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
 
 
 /**
@@ -20,6 +21,8 @@ public class JeuDeBalle extends Thread implements JeuInterface {
 
     final protected  int distMinPourPasse = 15; /** la distance minimum pour faire une passe, au dessus, la tortue ne fait rien */
 
+    protected JTextArea informations; /** une aire de texte de plusieurs lignes affichant les informations relatives aux tortues pour proc2 et proc3 */
+
     //######################################################################################################      CONSTRUCTEURS
 
     /**
@@ -27,16 +30,17 @@ public class JeuDeBalle extends Thread implements JeuInterface {
      * @param feuille la feuille de dessin.
      * @param nbrJoueurs le nombre de joueurs
      */
-    public JeuDeBalle(FeuilleDessin feuille, int nbrJoueurs) {
+    public JeuDeBalle(FeuilleDessin feuille, int nbrJoueurs, JTextArea text) {
 
         this.feuille = feuille;
+        this.informations = text;
 
         TortueAmelioree uneTortue = null;
 
         //Création des tortues Améliorées (uniquement)
         for (int i = 0; i < nbrJoueurs; i++) {
 
-            uneTortue = new TortueAmelioree(feuille,"");
+            uneTortue = new TortueAmelioree(feuille,"",text);
 
             uneTortue.setSaluer(false); //les tortues ne doivent pas se saluer
             uneTortue.setX(5);
@@ -44,7 +48,7 @@ public class JeuDeBalle extends Thread implements JeuInterface {
             uneTortue.setDir((int) Math.random() * 360); 
         }
 
-        balle = new TortueBalle(feuille);
+        balle = new TortueBalle(feuille, text);
     
         
         ArrayList<TortueAmelioree> listeJoueuses =  feuille.getListeTortuesAmeliorees();
@@ -140,6 +144,8 @@ public class JeuDeBalle extends Thread implements JeuInterface {
 
         //On met à jour la propriétaire de la balle et on l'affiche
         balle.setPositionSelonTortue(tortueProprio);
+
+        informations.insert("  "+tortueProprio.getNom()+ " a la balle !\n",0);
         System.out.println(tortueProprio.getNom()+ " a la balle !");
 
 
@@ -176,6 +182,7 @@ public class JeuDeBalle extends Thread implements JeuInterface {
                     ancienneProprio = tortueProprio;
                     tortueProprio = tortueProche;
 
+                    informations.insert("  "+ancienneProprio.getNom() + " passe la balle à " + tortueProche.getNom() +"\n",0);
                     System.out.println(ancienneProprio.getNom() + " passe la balle à " + tortueProche.getNom());
 
                     balle.setPositionSelonTortue(tortueProprio);

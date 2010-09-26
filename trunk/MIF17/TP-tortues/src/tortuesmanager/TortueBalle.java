@@ -2,7 +2,7 @@ package tortuesmanager;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
+import javax.swing.*;
 /**
  * Une balle de jeu
  */
@@ -15,9 +15,9 @@ public class TortueBalle extends Tortue {
     * Constructeur, crée la balle et lui attribut une couleur
     * @param feuille la feuille de dessin
     */
-    public TortueBalle(FeuilleDessin feuille)
+    public TortueBalle(FeuilleDessin feuille, JTextArea text)
     {
-        super(feuille, false);
+        super(feuille, false,text);
         setCouleur(Color.RED);
     }
 
