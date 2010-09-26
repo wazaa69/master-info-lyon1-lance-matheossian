@@ -1,0 +1,1 @@
+/* les bordures */table{border-collapse:collapse;}thead th:first-child {border:none;}th{border-bottom:1px solid black;}.border-right{border-right:1px solid black;}.border-bottom{border-bottom:1px solid black;}/* taille minimal */table{min-width:200px; min-height:200px;}td, img{min-width:22px; min-height:22px;}

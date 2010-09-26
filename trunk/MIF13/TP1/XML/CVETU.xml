@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE CVETU SYSTEM "CVETU.dtd">
+<CVETU>
+<Entete>
+<Etudiant Numero="000012">
+<Nom>Mathéossian
+</Nom>
+<Prenom>Dimitri
+</Prenom>
+<Adresse>50 avenue ! 
+</Adresse>
+<Adresse>69450 Décines
+</Adresse>
+<Telephone>+33 4 00 00 00 00
+</Telephone>
+<Email>dimitri.matheossian@etu.univ-lyon1.fr
+</Email>
+</Etudiant>
+<Titre>Great Etudiant Dimitri
+</Titre>
+</Entete>
+<Rubrique1 Titre="Formation">
+<Item>
+<Date>2010
+</Date>
+<Contenu1>  	Prestataire Intégrateur Webdeveloppeur
+</Contenu1>
+</Item>
+</Rubrique1>
+<Rubrique2 Titre="Competences">
+<Item>
+<SousTitre>Langages informatiques
+</SousTitre>
+<Contenu2>XHTML/CSS
+</Contenu2>
+<Contenu2>C++/C/JAVA/
+</Contenu2>
+</Item>
+</Rubrique2>
+</CVETU>
