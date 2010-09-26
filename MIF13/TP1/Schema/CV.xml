@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?>
+<CV xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CV.xsd">
+<Entete>
+<Etudiant Numero="000012">
+<Nom>Mathéossian
+</Nom>
+<Prenom>Dimitri
+</Prenom>
+<Adresse>50 avenue ! 
+</Adresse>
+<Adresse>69450 Décines
+</Adresse>
+<Telephone>+33 4 00 00 00 00
+</Telephone>
+<Email>dimitri.matheossian@etu.univ-lyon1.fr
+</Email>
+</Etudiant>
+<Titre>Great Etudiant Dimitri
+</Titre>
+</Entete>
+<Rubrique Titre="Stages">
+<Item>
+<Date>2010
+</Date>
+<Contenu>  	Prestataire Intégrateur Webdeveloppeur
+</Contenu>
+</Item>
+</Rubrique>
+<Rubrique Titre="Competences">
+<Item>
+<SousTitre>Langages informatiques
+</SousTitre>
+<Contenu>XHTML/CSS
+</Contenu>
+<Contenu>C++/C/JAVA/
+</Contenu>
+</Item>
+</Rubrique>
+</CV>

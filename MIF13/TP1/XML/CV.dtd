@@ -1,0 +1,22 @@
+<!ELEMENT CV (Entete, Rubrique+)>
+<!ELEMENT Entete (Etudiant, Titre)>
+<!ELEMENT Etudiant (Nom, Prenom, Adresse+, Telephone?, Email?, Photo?)>
+<!ATTLIST Etudiant
+					Numero CDATA #REQUIRED
+					Stages CDATA #FIXED "M1 informatique">
+<!ELEMENT Nom (#PCDATA)>
+<!ELEMENT Prenom (#PCDATA)>
+<!ELEMENT Adresse (#PCDATA)>
+<!-- Le fait de pouvoir entrer plusieurs elements Adresse est destine a permettre une adresse sur plusieurs ligne, chacune dans un element different -->
+<!ELEMENT Telephone (#PCDATA)>
+<!ELEMENT Email (#PCDATA)>
+<!ELEMENT Photo (#PCDATA)>
+<!ELEMENT Titre (#PCDATA)>
+<!ELEMENT Rubrique (Item+)>
+<!ATTLIST Rubrique
+					Titre (Stages|Experience|Competences|Divers) #REQUIRED>
+<!ELEMENT Item ((Date, Contenu)|(SousTitre, Contenu+))>
+<!-- Ici, le premier type d'item est destine aux rubriques Formation et Experience et le second type aux deux autres. -->
+<!ELEMENT Date (#PCDATA)>
+<!ELEMENT SousTitre (#PCDATA)>
+<!ELEMENT Contenu (#PCDATA)>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- Niveau 0 -->
+
+  <xs:element name="CV">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Entete" />
+        <xs:element ref="Rubrique" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+    <xs:element name="Entete">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Etudiant" />
+        <xs:element ref="Titre" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+    <xs:element name="Rubrique">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Item" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="Titre" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="Stages" />
+            <xs:enumeration value="Experience" />
+            <xs:enumeration value="Competences" />
+            <xs:enumeration value="Divers" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  
+  <!-- Niveau 1 -->
+  
+    <xs:element name="Etudiant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Nom" />
+        <xs:element ref="Prenom" />
+        <xs:element ref="Adresse" maxOccurs="unbounded" />
+        <xs:element ref="Telephone" minOccurs="0" />
+        <xs:element ref="Email" minOccurs="0" />
+        <xs:element ref="Photo" minOccurs="0" />
+      </xs:sequence>
+      <xs:attribute name="Numero" type="xs:string" use="required" />
+      <xs:attribute name="Stages" type="xs:string" fixed="M1 informatique" />
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="Titre">
+    <xs:complexType mixed="true" />
+  </xs:element>
+  
+  <xs:element name="Item">
+    <xs:complexType>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element ref="Date" />
+          <xs:element ref="Contenu" />
+        </xs:sequence>
+        <xs:sequence>
+          <xs:element ref="SousTitre" />
+          <xs:element ref="Contenu" maxOccurs="unbounded" />
+        </xs:sequence>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  
+  <!-- Niveau 2 -->
+
+  <xs:element name="Nom">
+    <xs:complexType mixed="true" />
+  </xs:element>
+  
+  <xs:element name="Prenom">
+    <xs:complexType mixed="true" />
+  </xs:element>
+  
+  <xs:element name="Adresse">
+    <xs:complexType mixed="true" />
+  </xs:element>
+  
+  <xs:element name="Telephone">
+    <xs:complexType mixed="true" />
+  </xs:element>
+  
+  <xs:element name="Email">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="Photo">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  
+  <xs:element name="Date">
+    <xs:complexType mixed="true" />
+  </xs:element>
+  
+  <xs:element name="Contenu">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+  <xs:element name="SousTitre">
+    <xs:complexType mixed="true" />
+  </xs:element>
+
+
+</xs:schema>
