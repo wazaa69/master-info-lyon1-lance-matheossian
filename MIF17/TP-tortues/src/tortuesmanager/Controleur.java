@@ -1,5 +1,7 @@
 package tortuesmanager;
 
+import java.awt.Color;
+
 /**
  * Controleur du Jeu
  */
@@ -51,7 +53,8 @@ public class Controleur {
     private void procedureBasePrDessin(){
         if(courante == null){
             reset();
-            courante = new Tortue(simpleLogo.getFeuille(), true);
+
+            courante = new Tortue(simpleLogo.getFeuille(), true, simpleLogo.getAffichageInformationsTortues());
             simpleLogo.setBarreOutilsVisible(true);
         }
     }
@@ -109,7 +112,10 @@ public class Controleur {
         simpleLogo.setBarreOutilsVisible(false);
         if(jeuPousse == null){
             reset();
-            jeuPousse = new JeuPousse(simpleLogo.getFeuille(), 15);
+             simpleLogo.getAffichageInformationsTortues().setText("");
+             simpleLogo.getAffichageInformationsTortues().setForeground(Color.blue);
+    
+            jeuPousse = new JeuPousse(simpleLogo.getFeuille(), 15, simpleLogo.getAffichageInformationsTortues());
             jeuPousse.lancerPartie();
         }
         else jeuPousse.lancerPartie();
@@ -123,7 +129,10 @@ public class Controleur {
     public void procedureDeux(){
         reset();
         simpleLogo.setBarreOutilsVisible(false);
-        jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 30);
+         simpleLogo.getAffichageInformationsTortues().setText("");
+         simpleLogo.getAffichageInformationsTortues().setForeground(Color.red);
+
+        jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 30, simpleLogo.getAffichageInformationsTortues());
         jeuDeBalle.start();
     }
 
@@ -135,7 +144,10 @@ public class Controleur {
     public void procedureTrois(){
         reset();
         simpleLogo.setBarreOutilsVisible(false);
-        jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 30, 30,"eVerte","eBleu");
+        simpleLogo.getAffichageInformationsTortues().setText("");
+        simpleLogo.getAffichageInformationsTortues().setForeground(Color.MAGENTA);
+
+        jeuEquipe = new JeuEquipe(simpleLogo.getFeuille(), 30, 30,"eVerte","eBleu", simpleLogo.getAffichageInformationsTortues());
         jeuEquipe.start();
     }
 
