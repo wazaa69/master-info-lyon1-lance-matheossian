@@ -172,8 +172,6 @@ public class JeuEquipe extends JeuDeBalle {
                 uneTortue = feuille.getListeTortuesAmeliorees().get(j);
 
                 if (uneTortue != tortueEquipeProprio)
-
-//                    ((TortueEquipe) uneTortue).deplacementAuHasarddistanceDeplacement,tortueEquipeProprio);
                     uneTortue.deplacementAuHasard(distanceDeplacement);
             }
 
@@ -288,8 +286,6 @@ public class JeuEquipe extends JeuDeBalle {
 
         }
 
-
     }
-
 
 }

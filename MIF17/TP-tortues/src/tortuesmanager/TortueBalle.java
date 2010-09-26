@@ -17,7 +17,7 @@ public class TortueBalle extends Tortue {
     */
     public TortueBalle(FeuilleDessin feuille, JTextArea text)
     {
-        super(feuille, false,text);
+        super(feuille, false);
         setCouleur(Color.RED);
     }
 

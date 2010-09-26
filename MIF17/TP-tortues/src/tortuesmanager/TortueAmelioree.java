@@ -17,6 +17,8 @@ public class TortueAmelioree extends Tortue {
 
     protected ArrayList<TortueAmelioree> listeAmis; /** une liste d'amis */
 
+       protected JTextArea informations; /** une aire de texte de plusieurs lignes affichant les informations relatives aux tortues pour les différentes procédures */
+
  //######################################################################################################      CONSTRUCTEURS
 
    /**
@@ -24,9 +26,11 @@ public class TortueAmelioree extends Tortue {
     * @param feuille la feuille de dessin
     * @param name le nom de la tortue
     */
-    public TortueAmelioree(FeuilleDessin feuille, String name, JTextArea infos){
+    public TortueAmelioree(FeuilleDessin feuille, String name, JTextArea text){
 
-        super(feuille, false, infos);
+        super(feuille, false);
+
+        informations = text;
 
         listeAmis  = new ArrayList<TortueAmelioree>();
 
@@ -63,6 +67,13 @@ public class TortueAmelioree extends Tortue {
      * @param parler un boolean : vrai si la tortue doit en parler d'autres, faux sinon
      */
     public void setSaluer(boolean saluer) {this.parler = saluer;}
+
+     /*
+     * @return retourne le JTextArea servant à contenir les informations relatives aux tortues
+     */
+    public JTextArea getInformations() {
+        return informations;
+    }
 
 //######################################################################################################      METHODES
 
