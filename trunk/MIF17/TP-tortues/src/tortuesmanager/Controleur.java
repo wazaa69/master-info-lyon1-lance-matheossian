@@ -53,8 +53,7 @@ public class Controleur {
     private void procedureBasePrDessin(){
         if(courante == null){
             reset();
-
-            courante = new Tortue(simpleLogo.getFeuille(), true, simpleLogo.getAffichageInformationsTortues());
+            courante = new Tortue(simpleLogo.getFeuille(), true);
             simpleLogo.setBarreOutilsVisible(true);
         }
     }
@@ -110,13 +109,13 @@ public class Controleur {
      */
     public void procedureUne(){
         simpleLogo.setBarreOutilsVisible(false);
+
         if(jeuPousse == null){
-            reset();
+             reset();
              simpleLogo.getAffichageInformationsTortues().setText("");
              simpleLogo.getAffichageInformationsTortues().setForeground(Color.blue);
     
             jeuPousse = new JeuPousse(simpleLogo.getFeuille(), 15, simpleLogo.getAffichageInformationsTortues());
-            jeuPousse.lancerPartie();
         }
         else jeuPousse.lancerPartie();
     }
@@ -129,12 +128,13 @@ public class Controleur {
     public void procedureDeux(){
         reset();
         simpleLogo.setBarreOutilsVisible(false);
-         simpleLogo.getAffichageInformationsTortues().setText("");
-         simpleLogo.getAffichageInformationsTortues().setForeground(Color.red);
+        simpleLogo.getAffichageInformationsTortues().setText("");
+        simpleLogo.getAffichageInformationsTortues().setForeground(Color.red);
 
         jeuDeBalle = new JeuDeBalle(simpleLogo.getFeuille(), 30, simpleLogo.getAffichageInformationsTortues());
         jeuDeBalle.start();
     }
+
 
     /**
      * Crée une balle et 2 équipes de N tortueEquipe.
@@ -152,7 +152,6 @@ public class Controleur {
     }
 
 
-
     /**************************************/
     /*          AUTERS METHODES           */
     /**************************************/
@@ -163,14 +162,14 @@ public class Controleur {
      * Stop les thread de Jeu en cours.
      */
     private void reset(){
-        simpleLogo.getFeuille().getListeTortues().clear();
-        simpleLogo.getFeuille().reset();
-        simpleLogo.getFeuille().repaint();
-        courante = null;
-
         //stop les threads
+        if(jeuPousse != null) {jeuPousse = null;}
         if(jeuDeBalle != null) {jeuDeBalle.setFinPartie(true); jeuDeBalle = null;}
         if(jeuEquipe != null) {jeuEquipe.setFinPartie(true); jeuEquipe = null;}
+
+        simpleLogo.getFeuille().getListeTortues().clear();
+        effacer();
+        courante = null;
     }
 
 
