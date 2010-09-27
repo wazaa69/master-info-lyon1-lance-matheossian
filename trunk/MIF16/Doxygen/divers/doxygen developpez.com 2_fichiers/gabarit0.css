@@ -1,0 +1,1027 @@
+@charset "iso-8859-1";
+
+img { border: 0; }
+
+body
+{
+    background: #e1e1e2;
+    margin: 0;
+}
+
+/** LAYOUT */
+#layout
+{
+    min-width: 975px;
+
+    padding: 0 ;
+    margin: auto 10px;
+}
+
+#shadow1
+{
+    background: #FFF url('./images/general/shadow-left.png') left top repeat-y;
+    padding-left: 3px;
+}
+
+#shadow2
+{
+    padding-right: 3px;    
+    background: #FFF url('./images/general/shadow-right.png') right top repeat-y;
+}
+
+div.contenuPage
+{
+    margin: 0 auto;
+    font-size: 10pt;
+    font-family: Verdana, sans-serif;
+    padding: 1em;
+}
+
+div.contenuPage a img
+{
+    border: none;
+}
+
+/* IE6 Hack */
+* html div.contenuPage
+{
+    margin-top: -12px;
+}
+
+#logo_dvp a img
+{
+    border: none;
+}
+
+#publicite
+{
+    position: relative;
+    float: right;
+
+    top: -2px;    
+    width: 728px;
+    margin-top: 10px;
+    
+    text-align: right;
+    
+    background-color: #E1E1E2;
+}
+
+#pied
+{
+    margin-top: 10px;
+    font-size: 10pt;
+    font-family: Verdana, sans-serif;
+    text-align: center;
+}
+
+div.logoXiTi
+{
+   float: right;
+   margin-right: 4px;
+}
+
+.licence
+{
+    font-family: Verdana, sans-serif;
+    text-align : justify;
+    font-size: 7pt;
+        
+    padding: 2px 30px 16px 30px;
+}
+/** LAYOUT END */
+
+/** QUICKNAV */
+#quicknav
+{
+    width: 835px;
+    height: 25px;
+
+    margin: auto;
+    
+    font-family: Verdana, sans-serif;
+    
+    background: #e1e1e2 url('./images/top-menu.gif') 10px bottom repeat-x;
+}
+
+#quicknav img
+{
+    border: none;
+    vertical-align: middle;
+}
+
+#quicknav *
+{
+    margin: 0;
+    padding: 0;
+}
+
+#quicknav #sitemap
+{
+    float: right; 
+    
+    background: transparent url('./images/top-menu-right.jpg') no-repeat bottom right;
+    
+    height: 25px;
+
+    padding-right: 9px;
+    padding-left: 5px;
+}
+
+/* IE6 Hack */
+* html #quicknav #sitemap
+{
+	height: 30px;
+}
+
+#quicknav #sitemap img
+{
+    margin-top: -6px;
+}
+
+#quicknav #quicksearch
+{
+    float: right;
+}
+
+#quicknav #quicksearch form {
+    background: #e1e1e2 url('./images/search.gif') no-repeat bottom left;
+    height: 20px;
+    padding: 0 5px 5px 0;
+
+    width: 195px;
+}
+
+#quicknav #quicksearch form #recherche_g
+{
+    border: 1px solid #DFDFDF;
+
+    font-size: 12px;   
+    color: #B4B3B3;
+    
+    width: 145px;
+    
+    margin-left: 5px;
+}
+
+#quicknav #quicksearch form #recherche_g:focus
+{
+    font-style: normal;
+    color: #2B2B2B;
+}
+
+#quicknav #quicksearch form #recherche_submit
+{
+    cursor: pointer;
+    vertical-align: -2%;
+}
+
+#quicknav ul
+{
+    list-style-type: none;
+    
+    height: 25px;
+    padding: 0 15px;
+    background: transparent url('./images/top-menu-left.gif') no-repeat bottom left;
+    
+    line-height: 17px;
+}
+
+/* IE6 Hack */
+* html #quicknav ul
+{
+    height: 25px;
+}
+
+#quicknav ul li
+{
+    display: inline;
+    margin-right: 5px;
+}
+
+#quicknav li a
+{
+    text-decoration: none;
+    color: #344E81;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#quicknav li a:hover
+{
+    text-decoration: underline;
+}
+
+#cse-search-box
+{ 
+    display: block;
+}
+
+/** QUICKNAV END */
+
+/** GABARIT */
+
+#gabarit
+{
+    clear: both;
+    font-family: Verdana, sans-serif;
+}
+
+#gabarit img
+{
+    vertical-align: middle;
+}
+
+#gabarit ul
+{
+    list-style-type: none;
+}
+
+#gabarit a
+{
+    text-decoration: none;
+    color: #3964AF;
+    font-weight: bold;
+}
+
+#gabarit a:hover
+{
+    text-decoration: underline;
+}
+
+#gabarit abbr
+{
+    border: none;
+}
+
+#gabarit *
+{
+    margin: 0;
+    padding: 0;
+}
+
+#gabarit_tabmenu
+{
+    height: 33px;
+   
+    margin: 0;
+
+    background-color: #4A638F;
+    background-image: url('./images/general/tabmenu-background.png');
+    background-repeat: repeat-x;
+}
+
+#gabarit_tabmenu div
+{
+    background-image: url('./images/general/tabmenu-right-background.png');
+    background-repeat: no-repeat;
+
+    float: right;
+
+    height: 33px;
+    width: 16px;
+}
+
+#gabarit_tabmenu #tabs
+{
+    background-image: url('./images/general/tabmenu-left-background.png');
+    background-repeat: no-repeat;
+
+    padding-left: 0.75em;
+    
+    height: 33px;
+}
+
+#gabarit_tabmenu #tabs .first
+{
+    background-image: none;
+    padding: 0;
+}
+
+#gabarit_tabmenu #tabs li
+{
+    float: left;
+    position: relative;
+    display: block;
+    
+    font-size: 13px;
+    line-height: 35px;
+    color: #D8D7D7;
+    
+    z-index: 100;
+    
+    height: 33px;
+
+    margin-right: 4px;
+    padding-left: 4px;
+
+    background-image: url('./images/general/tabmenu-separator.png');
+    background-repeat: no-repeat;
+}
+
+/* IE7 Hack */
+*+html #gabarit_tabmenu #tabs li
+{
+    line-height: 36px;
+}
+
+#gabarit_tabmenu #tabs li a
+{
+    font-size: 1em;
+    color: #FFF;
+    
+    padding: 0 2px;
+    display: block;
+    
+    height: 100%;
+}
+
+* html #gabarit_tabmenu #tabs li a
+{
+	display: inline-block;
+}
+
+#gabarit_tabmenu #tabs li:hover > a
+{
+    background-image: url('./images/general/tabmenu-background-over.png');
+    background-repeat: repeat-x;
+}
+
+#gabarit_tabmenu #tabs li a:hover
+{
+    text-decoration: none;
+
+    background-image: url('./images/general/tabmenu-background-over.png');
+    background-repeat: repeat-x;
+}
+
+#gabarit_tabmenu #tabs li a.selected
+{
+    background-image: url('./images/general/tabmenu-background-over.png');
+    background-repeat: repeat-x;
+}
+
+#gabarit_tabmenu #tabs li:hover a
+{
+    color: #FFF;
+}
+
+#gabarit_tabmenu #tabs li a .tooltip
+{
+    display: none;
+}
+
+#gabarit_tabmenu #tabs li a:hover .tooltip
+{
+    display: block;
+    position: absolute;
+    
+    z-index: 555;
+    
+    color: #25457D;
+    
+    padding-left: 5px;
+    
+    border: 1px solid #bbb;
+    background: #ffc;
+    
+    font-weight: normal;
+    font-size: 10px;
+    
+    width: 256px;
+    height: 18px;
+    line-height: 18px;
+    top: -19px;
+}
+
+#gabarit_tabmenu #tabs li.last a:hover .tooltip
+{
+    left: -110px;
+    width: 185px;
+}
+
+#gabarit_tabmenu #tabs li.prelast a:hover .tooltip
+{
+    width: 150px;
+}
+
+*+html #gabarit_tabmenu #tabs li a:hover .tooltip
+{
+    left: 4px;
+}
+
+#gabarit_tabmenu #tabs li ul.submenu
+{
+	display: none;
+}
+
+#gabarit_tabmenu #tabs li:hover a + ul.submenu, #gabarit_tabmenu #tabs li:hover ul.submenu
+{
+    display: block;
+    position: absolute;
+
+    top: 33px;
+
+    width: 185px;
+
+    border: 1px solid #CCCCCC;
+    border-bottom: 2px solid #3964AF;
+    background-color: #F9F9F9;
+}
+
+#gabarit_tabmenu #tabs li:hover ul.submenu
+{
+    display: block;
+    position: absolute;
+
+    top: 33px;
+
+    width: 185px;
+
+    border: 1px solid #CCCCCC;
+    border-bottom: 2px solid #3964AF;
+    background-color: #F9F9F9;
+}
+
+/* IE7 Hack */
+*+html #gabarit_tabmenu #tabs li:hover a + ul.submenu
+{
+    top: 33px;
+    left: 4px;
+}
+
+/* IE7 Hack */
+*+html #gabarit_tabmenu #tabs .first .submenu
+{
+    left: 0;
+}
+
+#gabarit_tabmenu #tabs .last .submenu
+{
+    left: -105px;
+}
+
+/* IE7 Hack */
+*+html #gabarit_tabmenu #tabs .last:hover a + ul.submenu
+{
+    left: -105px;
+}
+
+#gabarit_tabmenu #tabs li .submenu li
+{
+    display: block;
+
+    clear: both;
+
+    border-bottom: 1px solid #CCCCCC;
+
+    background-image: none;
+    
+    padding: 0;
+    margin: 0;
+
+    width: 100%;
+    height: 20px;
+
+    font-size: 0.8em;
+    line-height: 2.1em;
+}
+
+#gabarit_tabmenu #tabs li .submenu li:hover
+{
+    background-image: url('./images/general/menu-item-background.png');
+    background-repeat: repeat-x;
+}
+
+#gabarit_tabmenu #tabs li .submenu .last
+{
+    border-bottom: none;
+}
+
+#gabarit_tabmenu #tabs li .submenu li a
+{
+    color: #3964AF;
+    white-space: nowrap;
+
+    width: 175px;
+    height: 100%;
+    
+    display: block;
+    
+    padding: 0 0.5em;
+    margin: 0;
+
+    background-image: none;
+    
+    text-align: left;
+}
+
+#gabarit_tabmenu #tabs li .submenu li:hover a
+{
+    color: #FFF;
+    background-image: none;
+}
+
+#gabarit_tabmenu #tabs li .submenu li a:hover
+{
+    color: #FFF;
+    text-decoration: none;
+}
+
+/* IE6 Hack */
+* html #gabarit_tabmenu #tabs .item a
+{
+    margin-bottom: -8px;
+}
+
+#gabarit_tabmenu #tabs li .submenu li ul.submenu2
+{
+    display: none;
+}
+
+#gabarit_tabmenu #tabs li ul.submenu li:hover ul.submenu2
+{
+    display: block;
+    position: absolute;
+
+    top: 0;
+    left: 185px;
+    width: 185px;
+
+    border: 1px solid #CCCCCC;
+    border-bottom: 2px solid #3964AF;
+    background-color: #F9F9F9;
+}
+
+#gabarit_tabmenu #tabs li .submenu li .submenu2 li a
+{
+    color: #3964AF;
+    font-size: 10px;
+}
+
+#gabarit_tabmenu #tabs li .submenu li .submenu2 li a:hover
+{
+    color: #FFF;
+}
+
+#gabarit_topicmenu
+{
+    height: 32px;
+
+    margin: 0;
+
+    background-color: #638CDE;
+
+    font-size: 14px;
+
+    clear: left;
+}
+
+#gabarit_topicmenu div
+{
+    background-image: url('./images/general/topicmenu-right-background.png');
+    background-repeat: no-repeat;
+    
+    float: right;
+
+    height: 32px;
+    width: 26px;
+}
+
+#gabarit_topicmenu #topics
+{
+    background-image: url('./images/general/topicmenu-left-background.png');
+    background-repeat: no-repeat;
+
+    padding-left: 5px;
+
+    text-align: center;
+    
+    height: 32px;
+}
+
+#gabarit_topicmenu #topics li
+{    
+    display: inline;
+    
+    height: 32px;
+}
+
+#gabarit_topicmenu #topics li span
+{
+    display: inline-block;
+    
+    height: 32px;
+    
+    padding-left: 8px;
+    
+    background-image: url('./images/general/btg-inactif.gif');
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+
+#gabarit_topicmenu #topics li.selected span
+{
+    background-image: url('./images/general/btg-actif.gif');
+}
+
+#gabarit_topicmenu #topics li a
+{
+    font-size: 12px;
+    font-weight: bold;
+
+    color: #000;
+    
+    line-height: 26px;
+
+    display: inline-block;
+    margin-top: 3px;
+    
+    background-image: url('./images/general/intbt-inactif.gif');
+    background-repeat: repeat-x;
+}
+
+#gabarit_topicmenu #topics li.selected a
+{
+    background-image: url('./images/general/intbt-actif.gif');
+}
+
+#gabarit_topicmenu #topics li a:hover
+{
+    color: #FFF;
+    text-decoration: none;
+}
+
+#gabarit_topicmenu #topics li strong
+{
+    display: inline-block;
+
+    height: 32px;
+    
+    padding-right: 8px;
+    
+    background-image: url('./images/general/btd-inactif.gif');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+#gabarit_topicmenu #topics li.selected strong
+{
+    background-image: url('./images/general/btd-actif.gif');
+}
+
+#gabarit_topicmenu #topics li.selected
+{
+    color: #F3A11F;
+}
+
+#gabarit_resourcemenu
+{
+    height: 36px;
+
+    text-align: center;
+
+    margin: 0;
+    
+    clear: left;
+
+    background-image: url('./images/general/resourcemenu-background.png');
+    background-repeat: repeat-x;
+}
+
+#gabarit_resourcemenu div
+{
+    background-image: url('./images/general/resourcemenu-right-background.png');
+    background-repeat: repeat-y;
+
+    float: right;
+
+    height: 36px;
+    width: 16px;
+}
+
+#gabarit_resourcemenu #topic_name
+{
+    
+    font-size: 19px;
+    font-weight: bold;
+    font-style: italic;
+    
+    color: #FFF;
+
+    height: 36px;
+
+    background-image: url('./images/general/resourcemenu-left-background.png');
+    background-repeat: repeat-y;
+
+    padding-left: 8px;
+
+    line-height: 25px;
+
+    float: left;
+}
+
+/* IE6 Hack */
+* html #gabarit_resourcemenu
+{
+    height: 42px;
+}
+
+#gabarit_resourcemenu #twitter_bloc, #gabarit_resourcemenu #facebook_bloc
+{
+    float: right;
+    margin-top: 5px;
+	margin-left: 5px;
+
+    background-image: none;
+
+    cursor: pointer;
+    position: relative;
+    
+    font-size: 11px;
+
+    display: inline;
+    z-index: 0;
+}
+
+#gabarit_resourcemenu #rss_syndication
+{
+    float: right;
+    margin-top: 5px;
+
+    background-image: none;
+
+    cursor: pointer;
+    position: relative;
+    
+    font-size: 11px;
+
+    display: inline;
+    z-index: 0;
+}
+
+#gabarit_resourcemenu #rss_syndication .submenu
+{
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 1.4em;
+    left: -80px;
+    width: 100px;
+
+    border: 1px solid #CCCCCC;
+    border-bottom: 2px solid #3964AF;
+
+    background-color: #F9F9F9;
+	background-position: 15px 15px;
+}
+
+#gabarit_resourcemenu #rss_syndication .submenu li
+{
+    display: block;
+
+    clear: both;
+
+    border-bottom: 1px solid #CCCCCC;
+    z-index: 100;
+    width: 100%;
+    height: 24px;
+}
+
+#gabarit_resourcemenu #rss_syndication .submenu li.last
+{
+    border: none;
+}
+
+#gabarit_resourcemenu #rss_syndication .submenu li a
+{
+    color: #3964AF;
+    white-space: nowrap;
+    line-height: 1.9em;
+
+    display: block;
+
+    margin: 0 0.5em;
+    font-size: 12px;
+}
+
+#gabarit_resourcemenu #rss_syndication .submenu li a:hover
+{
+    text-decoration: none;
+    color: #EE7831;
+}
+
+#gabarit_resourcemenu #rss_syndication:hover .submenu
+{
+    display: block;
+}
+
+#gabarit_resourcemenu #resources
+{
+    text-align: center;
+    height: 36px;
+    
+    margin: auto;
+    
+    padding-top: 3px;
+}
+
+/* IE6 Hack */
+* html #gabarit_resourcemenu #resources
+{
+    padding-top: 0;
+}
+
+#gabarit_resourcemenu #resources li
+{
+    display: inline;
+    
+    height: 26px;
+}
+
+/* IE7 Hack */
+*+html #gabarit_resourcemenu #resources li
+{
+    display: inline;
+}
+
+/* IE6 Hack */
+* html #gabarit_resourcemenu #resources li
+{
+    display: inline;
+}
+
+#gabarit_resourcemenu #resources li span
+{
+    display: inline-block;
+    
+    height: 26px;
+   
+    padding-left: 8px;
+    
+    background-image: url('./images/general/btg.gif');
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+#gabarit_resourcemenu #resources li a
+{
+    font-size: 8pt;
+
+    color: #FFF;
+    
+    line-height: 28px;
+    display: inline-block;
+    
+    background-image: url('./images/general/int.gif');
+    background-repeat: repeat-x;
+}
+
+/* IE6 Hack */
+* html #gabarit_resourcemenu #resources li a
+{
+    margin-top: 2px;
+}
+
+#gabarit_resourcemenu #resources li a:hover
+{
+    color: #000;
+    text-decoration: none;
+}
+
+#gabarit_resourcemenu #resources li strong
+{
+    display: inline-block;
+
+    height: 26px;
+    
+    padding-right: 8px;
+    
+    background-image: url('./images/general/btd.gif');
+    background-repeat: no-repeat;
+    background-position: right;    
+}
+/** GABARIT END */
+
+
+/** FOOTER */
+#gabarit_footer
+{
+    padding: 0;
+    margin: 0;
+    
+    padding-bottom: 2px;
+
+    background-color: #638CDE;
+    background-image: url('./images/general/shadow-footer.png');
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    
+    font-family: Verdana, sans-serif;
+    
+    height: 32px;
+}
+
+#gabarit_footer a
+{
+    text-decoration: none;
+    color: #3964AF;
+    font-weight: bold;
+}
+
+#gabarit_footer a:hover
+{
+    text-decoration: underline;
+}
+
+#gabarit_footer ul
+{
+    list-style-type: none;
+}
+
+#gabarit_footer *
+{
+    margin: 0;
+    padding: 0;
+}
+
+#gabarit_footer #gabarit_footer_left
+{
+    background-image: url('./images/general/shadow-left.png');
+    background-repeat: repeat-y;
+    background-position: left;
+
+    float: left;
+
+    width: 4px;
+    height: 100%;
+}
+
+#gabarit_footer #gabarit_footer_right
+{
+    background-image: url('./images/general/shadow-right.png');
+    background-repeat: repeat-y;
+    background-position: right;
+
+    float: right;
+
+    width: 4px;
+    height: 100%;
+}
+
+#gabarit_footer #responsable
+{
+    display: block;
+    
+    font-size: 10pt;
+    text-align: center;
+
+    color: #CCDCF7;
+    padding-top: 7px;
+}
+
+#gabarit_footer #copyright
+{
+    float: right;
+
+    color: #FFF;
+
+    font-weight: bold;
+    font-size: 0.8em;
+
+    margin-top: 0.4em;
+
+    line-height: 1em;
+}
+
+#gabarit_footer a
+{
+    color: #CCDCF7;
+    color: #3964AF;
+    color: #FFF;
+    font-size: 11px;
+}
+
+#gabarit_footer a:hover
+{
+    text-decoration: underline;
+}
+
+#gabarit_footer #sitemap li
+{
+   
+    font-size: 1em;
+    font-weight: bold;
+    color: #FFF;
+
+    margin: 0.1em;
+
+    display: inline;
+}
+
+#gabarit_footer .quicklink
+{
+    color: #F18F25;
+}
+/** FOOTER END */

@@ -1,0 +1,244 @@
+1 introduction
+
+    qu'est-ce que doxygen ? (2 slides)
+
+          principe / utilité / différents langages supportés  / 2 min
+
+
+
+       
+    rapide historique (1 slide)              / 1 min
+
+        qui/ quand /
+
+        et maintenant?
+
+
+2 comment utiliser doxygen? ( 3-4 slides)         /2  min
+
+    dernière version linux/ windows / mac
+
+    installation
+   
+
+3 syntaxes ( environ 10 slides)
+
+    formes et positions des commentaires    / 4 min   
+
+    différentes balises
+
+
+4 fichier de configuration doxygen (4 slides)    /3 min
+
+    syntaxe
+
+    paramètres
+
+
+5 generation de la doc            / 1 min
+
+
+
+6 doxywizard                / 2 min
+   
+    mise en forme
+
+    autres fonctionnalités       
+
+
+--------------------------------------------
+
+
+code  / 4 min
+
+
+##########################################################################################################
+Doxygen est un outil informatique libre permettant de  générer de la documentation 
+à partir du code source du langage.
+##########################################################################################################
+même genre que JAvadoc, XmlDoc
+##########################################################################################################
+Doxygen est écrit sous Linux et Mac OS, avec un souci affiché de portabilité. 
+Il fonctionne sur la plupart des systèmes Unix et il est disponible en version exécutable sur Microsoft Windows.
+
+##########################################################################################################
+Doxygen est publié sous licence GPL.
+
+##########################################################################################################
+auteur: Dimitri van Heesch
+
+##########################################################################################################
+langages supportés: C, C++, Java, Python..
+
+
+##########################################################################################################
+
+PLusieurs intérêts:
+
+	favoriser la cohérence et inciter les developpeurs à commenter
+
+
+
+
+En permettant l'intégration de la documentation directement dans le code sources, Doxygen permet de favoriser la cohérence entre la documentation et le code et de systématiser le comportement des développeurs afin qu'ils documentent le code qu'ils produisent.
+
+Il est également possible d'extraire de la documentation à partir d’un code source non documenté au préalable, ce qui peut faciliter la compréhension d'un programme dont le code est compliqué.
+
+De nombreux projets, tels que KDE, utilisent Doxygen pour créer la documentation de leur API. KDevelop intègre le support de Doxygen. De nombreux éditeurs de texte proposent des modes ou des scripts pour faciliter l'écriture des commentaires Doxygen et la génération de la documentation.
+
+Les informations suivantes peuvent être extraites des sources :
+
+    * prototype et documentation des fonctions, qu'elles soient locales, privées ou publiques, etc. ;
+    * liste des fichiers inclus ;
+    * documentation des structures de données ;
+    * prototype et documentation des classes et leur hiérarchie ;
+    * différents types de graphes : diagrammes de classe, de collaboration, d'appels, d'inclusion, etc. (pour générer certains de ces diagrammes, l'outil gratuit Dot est nécessaire) ;
+    * un index de tous les identifiants ;
+    * des fichiers sources annotés (par exemple avec les numéro de lignes) et navigables (par exemple avec HTML, avec lequel les identifiants renvoient vers la documentation associée).
+
+
+
+
+##########################################################################################################
+
+
+
+Le code ci-dessous illustre la manière dont Doxygen permet de documenter le code.
+
+/**
+ * La classe Time représente un instant.
+ * @author Paul Hochon
+ */
+ class Time {
+ 
+   /**
+    * Constructeur.
+    * Fixe l'instant à une valeur précise.
+    * @param timemillis Millisecondes écoulées depuis le 1er janvier 1970
+    */
+   Time(int timemillis) {
+     ...
+   }
+ 
+   /**
+    * Récupère l'instant actuel.
+    * @return Un instant correspondant à l'instant présent
+    */
+   static Time now() {
+     ...
+   }
+ }
+
+##########################################################################################################
+
+\brief {texte}
+fourni un descriptif de l'élément documenté
+première occurrence = ligne de résumé
+ 
+ * \brief Classe d'exemple A * \brief Voici un petit bout de code qui illustre l'utilisation de  * Doxygen au travers d'un code de classe C++. 
+
+
+\author {texte}
+nom d'un auteur du document
+\since <date>
+date de création 
+\version <date | n° version>
+date de dernière modification ou n° de version 
+\note {texte}
+ informations diverses
+\see {texte}
+renvoi vers un autre document
+
+
+
+
+
+\mainpage {texte}
+Le texte suivant dans le bloc sera affiché sur la première page de la documentation
+
+
+
+\pre {texte}
+Précondition
+\post {texte}
+Postrelation
+\param[[in]|[out]|[in,out]] <nom-param> {description}
+Informations relatives à un paramètre
+
+
+/*!  
+ * \pre monNom non vide. 
+ * \post Construit un objet de type ClassB. 
+ * * \param [in] monNom Nom de l'instance. */ 
+ClassB(const string monNom); 
+
+
+\return {description}
+Informations sur le retour
+\retval <valeur> {description}
+Informations quand à la valeur de retour
+\throw <TypeException> {description}
+Informations quant à une exception pouvant être levée 
+
+/*!
+ * \return Retourne systématiquement NULL. * \retval NULL Valeur normale de retour.
+ * * \throw Exception Retourne une exception si appelée une seconde fois.
+ */
+double maMethode();
+
+
+\deprecated {description}
+L'élément est déprécie : présent par compatibilité mais à ne plus utiliser. 
+\bug {description}
+L'élément est bugué.
+\todo {description}
+L'élément n'est pas encore (entièrement) réalisé.
+\warning {description}
+Avertissement quant à l'utilisation de cet élément. 
+
+/*!
+ * \todo Ecrire un code fonctionnel. * \warning La méthode de la classe A n'est pas la seule de ce nom finalement !
+ */
+double maMethode();
+ 
+/*! 
+ * \deprecated Ne pas l'utiliser sinon plantage assuré... * \bug BSOD
+*/ 
+MaStruct * maMethode();
+
+
+
+##########################################################################################################
+tags: 
+
+
+    * \struct pour documenter une structure C.
+    * \union pour documenter un union C.
+    * \enum pour documenter un type énuméré.
+    * \fn pour documenter une fonction.
+    * \var pour documenter une variable / un typedef / un énuméré.
+    * \def pour documenter un #define.
+    * \typedef pour documenter la définition d'un type.
+    * \file pour documenter un fichier.
+    * \namespace pour documenter un namespace.
+    * \package pour documenter un package Java.
+    * \interface pour documenter une interface IDL.
+    * \brief pour donner une description courte.
+    * \class pour documenter classe.
+    * \param pour documenter un paramètre de fonction/méthode.
+    * \warning pour attirer l'attention.
+    * \author pour donner le nom de l'auteur.
+    * \return pour documenter les valeurs de retour d'une méthode/fonction.
+    * \see pour renvoyer le lecteur vers quelque chose (une fonction, une classe, un fichier...).
+    * \throws pour documenter les exceptions possiblement levées.
+    * \version pour donner le numéro de version.
+    * \since pour faire une note de version (ex : Disponible depuis ...).
+    * \exception pour documenter une exception.
+    * \deprecated pour spécifier qu'une fonction/méthode/variable... n'est plus utilisée.
+    * \li pour faire une puce.
+    * \todo pour faire un To Do (= "à faire")
+    * \fixme pour faire un Fix Me (= "Réparez-moi").
+
+##########################################################################################################
+DoxyWizard est une interface graphique  permettant de configurer les options de génération de Doxygen
+ et de lancer l'extraction de la documentation. Comme Doxygen, il est disponible sur différentes plates-formes.
