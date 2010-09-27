@@ -25,24 +25,16 @@ a{
 	font-weight:bold;
 }
 
-/*-----------------------------*
-*	  COULEURS DE BASE		  *
-*-----------------------------*/
+/*-----------------------------------*
+*	  COULEURS ET STYLES DE BASE	 *
+*------------------------------------*/
 
-.cyan{color:#00ffff;}
-.magenta{color:#ff26ff;}
-.jaune{color:#ffff26;}
-.important {color:#a994ff;}
 .gras{font-weight:bold;}
 .italique{font-style:italic;}
 
 /*-------------------------*
-*	  FIL D'ARIANE		  *
+*	  ARTICLE		  *
 *-------------------------*/
 
 
-/* ARTICLE */
-
 #article{color:#fff;}
-
-#article strong {color:#a994ff;}
