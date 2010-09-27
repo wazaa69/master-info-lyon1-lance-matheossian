@@ -6,14 +6,13 @@
 		L'element racine est "Manifest".
 		</xs:documentation>
 	</xs:annotation>
-
 	<!-- Definition des elements -->
 	<xs:element name="Manifest">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="Binome" type="typebinome"/>
 				<xs:element name="Rapport" minOccurs="0">
-				<!-- Fichier contenant soit un rapport, soit des commentaires eventuels -->
+					<!-- Fichier contenant soit un rapport, soit des commentaires eventuels -->
 					<xs:complexType>
 						<xs:attribute name="nom" type="typenomfichier" use="required" fixed="Rapport.pdf"/>
 					</xs:complexType>
@@ -24,16 +23,13 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-
 	<xs:element name="Dossier" type="typedossier"/>
 	<xs:element name="Fichier">
 		<xs:complexType>
 			<xs:attribute name="nom" type="typenomfichier" use="required"/>
 		</xs:complexType>
 	</xs:element>
-
 	<!-- Definition des types de contenus -->
-
 	<xs:complexType name="typebinome">
 		<xs:sequence>
 			<xs:element name="Etudiant" maxOccurs="3">
@@ -48,28 +44,24 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
 	<xs:complexType name="typedossier">
 		<xs:sequence>
-			<xs:element minOccurs="0" maxOccurs="unbounded" ref="Dossier"/>
-				<!-- Nom de chaque sous-dossier -->
-			<xs:element minOccurs="0" maxOccurs="unbounded" ref="Fichier">
+			<xs:element ref="Dossier" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Nom de chaque sous-dossier -->
+			<xs:element ref="Fichier" minOccurs="0" maxOccurs="unbounded">
 				<!-- Nom de chaque fichier texte rendu -->
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="nom" type="typenomdossier" use="required"/>
 	</xs:complexType>
-
 	<xs:simpleType name="typenomdossier">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[a-zA-Z0-9]*"/>
 		</xs:restriction>
 	</xs:simpleType>
-
 	<xs:simpleType name="typenomfichier">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="[a-zA-Z0-9]*.[a-zA-Z0-9]*"/>
+			<xs:pattern value="[a-zA-Z0-9\-_ \t]*.[a-zA-Z0-9]*"/>
 		</xs:restriction>
 	</xs:simpleType>
-
 </xs:schema>

@@ -16,11 +16,13 @@ body{
 
 #absolue{
 	position:absolute;
-	width:150px;
-	height:150px;
-	background-color:blue;
+	width:140px;
+	height:20px;
 	margin-left:550px;
 	margin-top:200px;
+	padding: 60px 5px;
+	background-color:blue;
+	
 }
 
 /*-------------------------*
