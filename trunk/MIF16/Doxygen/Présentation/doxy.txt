@@ -1,82 +1,137 @@
-1 introduction
 
-    qu'est-ce que doxygen ? (2 slides)
+1 :##########################################################################################################
 
-          principe / utilité / différents langages supportés  / 2 min
+Titre: Doxygen
+
+LANCE Florian			Jeudi 30 Septembre 2010
+MATHEOSSIAN Dimitri		Université Claude Bernard Lyon 1
+
+2 :##########################################################################################################
+
+PLAN
+
+1: Introduction
+	- Qu'est-ce que Doxygen?
+	- Installation
+
+2: Comment utiliser Doxygen ?
+	-Syntaxe des commentaires
+	-Balises communes
+	-Fichier de configuration Doxygen
+	-Générer la documentation	
+
+3: Fonctionnalités diverses
+	-Doxywizard
+	-Rendu HTML
+	-Graphiques
+
+3 :#########################################################################################################
+
+I:Introduction
+
+	1) Qu'est-ce que Doxygen?
+
+	-> un outil informatique libre permettant la génération de documentation à partir du code source du langage
+	( C++, C, Java, Objective-C, Python ... )
+	->il a été créé à la base avec DOC++ par Dimitri van Heesch
+,puis a été réécrit  sous Linux et Mac OS en favorisant la portabilité
+il fonctionne donc sur la plupart des systèmes Unix et est également
+disponible sur Windows en version exécutable)
+
+	-> il est gratuit et open-source sous la licence GNU (General Public License)
+	-> la documentation est générée à partir de commentaires à
+placer dans le code (à l'instar de Javadoc)
+		-simplicité de mise en place
+		-maintenance facile de la documentation
+		-cohérence entre documentation et code
+		-incitation des développeurs à commenter
+
+4 :##########################################################################################################
+
+	2) Installation
+
+	Cette présentation se base sur la dernière version stable, la 1.7.1.
+	Pour la récupérer:
+		
+		-Système Unix-like:
+			Présent dans les dépôt
+			sudo apt-get install doxygen (pour Debian et Ubuntu)
+
+		-Autres systèmes:
+http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc
+		
+		-Windows: assistant d'installation
+
+		-Mac OS:		
+
+		- on peut également le récupérer gravce aux dépôts subversion
+		http://sourceforge.net/scm/?type=svn&group_id=5971/
+
+5 :################################################################
+
+II: Comment utiliser Doxygen?
+
+	1: Syntaxe des commentaires
+
+
+	Style C avec deux *
+
+	/**
+	 * ... Documentation ...
+	 *
+	 */
+
+	/**
+
+	les * intermédiaires sont optionnels	
+
+	*/
+
+	Style C avec un !
+
+	/*!
+	 * ... Documentation ...
+	 */
+
+	Style C++ avec trois /
+
+	///
+	/// ... Documentation ...
+	///
+
+	Style C++ avec un !
+
+	//!
+	//! ... Documentation ...
+	//!
+
+
+	En respectant ces formes, on peut agencer les commentaires
+	comme on le souhaite, par exemple:
+
+	/////////////////////////////////////////////////
+	/// ... text ...
+	/////////////////////////////////////////////////
+
+
+6 :##########################S######################################
+
+
+	2: Position des commentaires:
+
+	Les commentaires doxygen sont généralement positionnés
+	juste avant le code qu'ils commentent:
+
+	/*! Méthode affichage */
+	void affichage();
+
+	On peut également les placer à droite des paramètres
+	et des membres de classes,structures,unions...
 
 
 
-       
-    rapide historique (1 slide)              / 1 min
 
-        qui/ quand /
-
-        et maintenant?
-
-
-2 comment utiliser doxygen? ( 3-4 slides)         /2  min
-
-    dernière version linux/ windows / mac
-
-    installation
-   
-
-3 syntaxes ( environ 10 slides)
-
-    formes et positions des commentaires    / 4 min   
-
-    différentes balises
-
-
-4 fichier de configuration doxygen (4 slides)    /3 min
-
-    syntaxe
-
-    paramètres
-
-
-5 generation de la doc            / 1 min
-
-
-
-6 doxywizard                / 2 min
-   
-    mise en forme
-
-    autres fonctionnalités       
-
-
---------------------------------------------
-
-
-code  / 4 min
-
-
-##########################################################################################################
-Doxygen est un outil informatique libre permettant de  générer de la documentation 
-à partir du code source du langage.
-##########################################################################################################
-même genre que JAvadoc, XmlDoc
-##########################################################################################################
-Doxygen est écrit sous Linux et Mac OS, avec un souci affiché de portabilité. 
-Il fonctionne sur la plupart des systèmes Unix et il est disponible en version exécutable sur Microsoft Windows.
-
-##########################################################################################################
-Doxygen est publié sous licence GPL.
-
-##########################################################################################################
-auteur: Dimitri van Heesch
-
-##########################################################################################################
-langages supportés: C, C++, Java, Python..
-
-
-##########################################################################################################
-
-PLusieurs intérêts:
-
-	favoriser la cohérence et inciter les developpeurs à commenter
-
+	2: Balises communes
 
 
 
