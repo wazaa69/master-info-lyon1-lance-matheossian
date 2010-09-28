@@ -1,5 +1,7 @@
 
 /*!
+*
+*
  * \class ClassTest1
  *
  * \brief Classe d'exemple test1
@@ -17,7 +19,7 @@
  *
  */
 
-/*! \mainpage Page d'introduction du programme d'exemple d'utilisation de doxygen
+/*! \mainpage Page d'introduction du programme d'exemple d'utilisation de Doxygen
  *
  *
  * Ceci est l'introduction du document.
@@ -29,9 +31,6 @@
 #define CLASSTEST1_H
 
 
-	//////////////////////////////////////////////
-	/*****    COMMENTAIRE DE DOCUMENTATION  *****/ 
-	//////////////////////////////////////////////
 
 /** \brief Voici une macro. */
 #define MACRO_1 11
@@ -50,23 +49,48 @@ class ClassTest1
         /*! \brief Constructeur par défaut. */
         ClassTest1();
 
-        /*! \brief Constructeur surchargé. */
+        /*!  
+        * \pre arg1 non nul 
+        * \post Construit un objet de type ClassTest1. 
+        * \param [in] <arg1> Argument utilisé lors de l'initialisation d'un attribut de la classe.*/ 
         ClassTest1(int arg1);
 
         /*! \brief Destructeur par défaut. */
         virtual ~ClassTest1();
 
+        /*!
+ 	    * \return Retourne le résultat de la division de MACRO_1 et MACRO_2
+ 	    * \retval MACRO_1/MACRO_2 valeur de retour
+    	* \throw Exception Retourne une exception si MACRO_2 est nul
+ 	    */
+        float testDivision();
+
     private:
 
         /*! \brief Constante de classe. */
-        static const RESULTAT = MACRO_1 + MACRO_2;
+        static const int RESULTAT = MACRO_1 + MACRO_2;
 
-        ///! A private variable.
-	    /*!
-	      Details.
-	    */
+        /*! Une variable privée. */
         int attribut1;
 
+        /*! \brief Une énumération de trois valeurs sur une échelle logarithmique 10. */
+        enum enum1 {
+            value1 = 1, /*!< Première valeur de l'énum (1) */
+            value2 = 2, /*!< Deuxième valeur de l'énum (2) */
+            value3 = 3,  /*!< Troisième valeur de l'énum (3) */
+            value4 = 4  /*!< Quatrième valeur de l'énum (4) */
+        };
+
+
+        /*!\brief Une structure de données .*/
+        struct struct1 {
+            /*! \brief Premier attribut de la structure. */
+            int attr1;
+            /*! \brief Second attribut de la structure. */
+            char attr2;
+        };
+
+			ClassTest2 * test2; /*!< \brief pointeur vers instance de test2. */
 };
 
 #endif // CLASSTEST1_H

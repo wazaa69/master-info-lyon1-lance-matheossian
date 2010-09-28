@@ -11,24 +11,41 @@ Classe d'exemple test1.
 
 {\ttfamily \#include $<$ClassTest1.h$>$}
 
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_class_test1_1_1struct1}{struct1}
+\begin{DoxyCompactList}\small\item\em Une structure de données . \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_class_test1_aae29f18fc50d4e51ea97c37db2c4242b}{
-\hyperlink{class_class_test1_aae29f18fc50d4e51ea97c37db2c4242b}{ClassTest1} ()}
-\label{class_class_test1_aae29f18fc50d4e51ea97c37db2c4242b}
-
-\begin{DoxyCompactList}\small\item\em Constructeur par d�faut. \item\end{DoxyCompactList}\item 
-\hypertarget{class_class_test1_abea2c07e6d5711284258437da93f968a}{
-\hyperlink{class_class_test1_abea2c07e6d5711284258437da93f968a}{ClassTest1} (int arg1)}
-\label{class_class_test1_abea2c07e6d5711284258437da93f968a}
-
-\begin{DoxyCompactList}\small\item\em Constructeur surcharg�. \item\end{DoxyCompactList}\item 
-\hypertarget{class_class_test1_a25805450c67a01271daca6124fbf9705}{
-virtual \hyperlink{class_class_test1_a25805450c67a01271daca6124fbf9705}{$\sim$ClassTest1} ()}
-\label{class_class_test1_a25805450c67a01271daca6124fbf9705}
-
-\begin{DoxyCompactList}\small\item\em Destructeur par d�faut. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\hyperlink{class_class_test1_aae29f18fc50d4e51ea97c37db2c4242b}{ClassTest1} ()
+\begin{DoxyCompactList}\small\item\em Constructeur par défaut. \item\end{DoxyCompactList}\item 
+\hyperlink{class_class_test1_abea2c07e6d5711284258437da93f968a}{ClassTest1} (int arg1)
+\begin{DoxyCompactList}\small\item\em Constructeur surchargé. \item\end{DoxyCompactList}\item 
+virtual \hyperlink{class_class_test1_a25805450c67a01271daca6124fbf9705}{$\sim$ClassTest1} ()
+\begin{DoxyCompactList}\small\item\em Destructeur par défaut. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0}{enum1} \{ \hyperlink{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0a0083b0845222328b355398da2a243488}{value1} =  1, 
+\hyperlink{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0ac39033ae1c138b9872661da3c8ae32b3}{value2} =  2, 
+\hyperlink{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0a5ca5a05dd2db5a11038e3d889141b8da}{value3} =  3, 
+\hyperlink{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0adb808db2b8b79557f1bca117fdeeaf1c}{value4} =  4
+ \}
+\begin{DoxyCompactList}\small\item\em Une énumération de trois valeurs sur une échelle logarithmique 10. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_class_test1_a2d055181de54f942df1a3e62c5c3cc72}{attribut1}
+\item 
+\hyperlink{class_class_test2}{ClassTest2} $\ast$ \hyperlink{class_class_test1_a41927c2bf56ea6d6f79b945db9095c9b}{test2}
+\begin{DoxyCompactList}\small\item\em pointeur vers instance de test2. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{class_class_test1_a681620a7f1f9533b4b9b0ad13a84eb62}{RESULTAT} = MACRO\_\-1 + MACRO\_\-2
+\begin{DoxyCompactList}\small\item\em Constante de classe. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -51,7 +68,109 @@ Partie libre qui peut accueillir n'importe quoi ou bien une licence.
 \end{DoxyVersion}
 
 
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0}{
+\index{ClassTest1@{ClassTest1}!enum1@{enum1}}
+\index{enum1@{enum1}!ClassTest1@{ClassTest1}}
+\subsubsection[{enum1}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ClassTest1::enum1}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0}
+
+
+Une énumération de trois valeurs sur une échelle logarithmique 10. 
+
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{value1@{value1}!ClassTest1@{ClassTest1}}\index{ClassTest1@{ClassTest1}!value1@{value1}}\item[{\em 
+\hypertarget{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0a0083b0845222328b355398da2a243488}{
+value1}
+\label{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0a0083b0845222328b355398da2a243488}
+}]Première valeur de l'énum (1) \index{value2@{value2}!ClassTest1@{ClassTest1}}\index{ClassTest1@{ClassTest1}!value2@{value2}}\item[{\em 
+\hypertarget{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0ac39033ae1c138b9872661da3c8ae32b3}{
+value2}
+\label{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0ac39033ae1c138b9872661da3c8ae32b3}
+}]Deuxième valeur de l'énum (2) \index{value3@{value3}!ClassTest1@{ClassTest1}}\index{ClassTest1@{ClassTest1}!value3@{value3}}\item[{\em 
+\hypertarget{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0a5ca5a05dd2db5a11038e3d889141b8da}{
+value3}
+\label{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0a5ca5a05dd2db5a11038e3d889141b8da}
+}]Troisième valeur de l'énum (3) \index{value4@{value4}!ClassTest1@{ClassTest1}}\index{ClassTest1@{ClassTest1}!value4@{value4}}\item[{\em 
+\hypertarget{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0adb808db2b8b79557f1bca117fdeeaf1c}{
+value4}
+\label{class_class_test1_a5dc78bd1ea038f197d380c096fcb57b0adb808db2b8b79557f1bca117fdeeaf1c}
+}]Quatrième valeur de l'énum (4) \end{description}
+\end{Desc}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_class_test1_aae29f18fc50d4e51ea97c37db2c4242b}{
+\index{ClassTest1@{ClassTest1}!ClassTest1@{ClassTest1}}
+\index{ClassTest1@{ClassTest1}!ClassTest1@{ClassTest1}}
+\subsubsection[{ClassTest1}]{\setlength{\rightskip}{0pt plus 5cm}ClassTest1::ClassTest1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{class_class_test1_aae29f18fc50d4e51ea97c37db2c4242b}
+
+
+Constructeur par défaut. 
+
+\hypertarget{class_class_test1_abea2c07e6d5711284258437da93f968a}{
+\index{ClassTest1@{ClassTest1}!ClassTest1@{ClassTest1}}
+\index{ClassTest1@{ClassTest1}!ClassTest1@{ClassTest1}}
+\subsubsection[{ClassTest1}]{\setlength{\rightskip}{0pt plus 5cm}ClassTest1::ClassTest1 (
+\begin{DoxyParamCaption}
+\item[{int}]{ arg1}
+\end{DoxyParamCaption}
+)}}
+\label{class_class_test1_abea2c07e6d5711284258437da93f968a}
+
+
+Constructeur surchargé. 
+
+\hypertarget{class_class_test1_a25805450c67a01271daca6124fbf9705}{
+\index{ClassTest1@{ClassTest1}!$\sim$ClassTest1@{$\sim$ClassTest1}}
+\index{$\sim$ClassTest1@{$\sim$ClassTest1}!ClassTest1@{ClassTest1}}
+\subsubsection[{$\sim$ClassTest1}]{\setlength{\rightskip}{0pt plus 5cm}ClassTest1::$\sim$ClassTest1 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_class_test1_a25805450c67a01271daca6124fbf9705}
+
+
+Destructeur par défaut. 
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_class_test1_a2d055181de54f942df1a3e62c5c3cc72}{
+\index{ClassTest1@{ClassTest1}!attribut1@{attribut1}}
+\index{attribut1@{attribut1}!ClassTest1@{ClassTest1}}
+\subsubsection[{attribut1}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf ClassTest1::attribut1}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_class_test1_a2d055181de54f942df1a3e62c5c3cc72}
+Une variable privée. \hypertarget{class_class_test1_a681620a7f1f9533b4b9b0ad13a84eb62}{
+\index{ClassTest1@{ClassTest1}!RESULTAT@{RESULTAT}}
+\index{RESULTAT@{RESULTAT}!ClassTest1@{ClassTest1}}
+\subsubsection[{RESULTAT}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf ClassTest1::RESULTAT} = MACRO\_\-1 + MACRO\_\-2\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{class_class_test1_a681620a7f1f9533b4b9b0ad13a84eb62}
+
+
+Constante de classe. 
+
+\hypertarget{class_class_test1_a41927c2bf56ea6d6f79b945db9095c9b}{
+\index{ClassTest1@{ClassTest1}!test2@{test2}}
+\index{test2@{test2}!ClassTest1@{ClassTest1}}
+\subsubsection[{test2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ClassTest2}$\ast$ {\bf ClassTest1::test2}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_class_test1_a41927c2bf56ea6d6f79b945db9095c9b}
+
+
+pointeur vers instance de test2. 
+
+
+
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 
-/home/akado/Bureau/M1/master-\/info-\/lyon1-\/lance-\/matheossian/MIF16/Doxygen/Présentation/sources/ClassTest1.h\item 
-/home/akado/Bureau/M1/master-\/info-\/lyon1-\/lance-\/matheossian/MIF16/Doxygen/Présentation/sources/ClassTest1.cpp\end{DoxyCompactItemize}
+C:/Users/Gintoki/Desktop/Proj M1/MIF16/Doxygen/Présentation/sources/\hyperlink{_class_test1_8h}{ClassTest1.h}\item 
+C:/Users/Gintoki/Desktop/Proj M1/MIF16/Doxygen/Présentation/sources/\hyperlink{_class_test1_8cpp}{ClassTest1.cpp}\end{DoxyCompactItemize}
