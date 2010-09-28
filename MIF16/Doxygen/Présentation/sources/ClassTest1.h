@@ -29,10 +29,15 @@
 #define CLASSTEST1_H
 
 
+	//////////////////////////////////////////////
+	/*****    COMMENTAIRE DE DOCUMENTATION  *****/ 
+	//////////////////////////////////////////////
+
 /** \brief Voici une macro. */
 #define MACRO_1 11
 
 /** \brief Voici une deuxième macro. */
+/** \param <MACRO_2> { Macro numéro 2} */
 #define MACRO_2 56
 
 /* Inclusion de la classe ClassTest2.h, ce commentaire n'est pas genere.*/
@@ -56,7 +61,10 @@ class ClassTest1
         /*! \brief Constante de classe. */
         static const RESULTAT = MACRO_1 + MACRO_2;
 
-        /*! \brief Premier attribut. */
+        ///! A private variable.
+	    /*!
+	      Details.
+	    */
         int attribut1;
 
 };
