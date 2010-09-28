@@ -286,7 +286,62 @@ Il en existe beaucoup d'autres !
 Liste complète: http://www.stack.nl/~dimitri/doxygen/commands.html
 
 
+15 ::##########################S######################################
 
-15 :##########################################################################################################
-DoxyWizard est une interface graphique  permettant de configurer les options de génération de Doxygen
- et de lancer l'extraction de la documentation. Comme Doxygen, il est disponible sur différentes plates-formes.
+	3: Fichier de configuration Doxygen
+	
+	Il faut créer un fichier de configuration pour le projet, ce fichier va être utilisé pour générer la documentation du code source.
+	La commande suivante permet de le créer :
+		doxygen -g nomDuFichier
+	(screenshot)
+	On peut en faire de même en passant par l'interface graphique, il faut exécuter doxywizard.
+	(screenshot)
+	
+	Les paramètres son listés et commentées dans le fichier de configuration, il faut
+	les modifier, soit à partir du fichier, soit à partir de doxywizard.
+	
+	Voici une liste de quelques paramètres
+		DOXYFILE_ENCODING = encodage du fichier config (exemple : UTF-8, ISO-88950-1)
+		PROJECT_NAME = "Nom du projet"
+		PROJECT_NUMBER = n°de révision
+		OUTPUT_DIRECTORY = répertoire de sortie ou sera généré la documentation
+		OUTPUT_LANGUAGE = la langue de la documentation (exemple : French)
+
+		EXTRACT_ALL = YES | NO tout extraire ce qu'il y a dans le code
+		EXTRACT_PRIVATE= YES | NO 
+		EXTRACT_STATIC= YES | NO
+		EXTRACT_LOCAL_CLASSES = YES | NO
+		HIDE_UNDOC_MEMBERS= YES | NO
+		HIDE_UNDOC_CLASSES= YES | NO
+		
+	Quand les paramètres sont correctes, on peut générer la documentation avec la commande :
+	doxygen nomDuFichier
+	Ou par doxywizard en cliquant sur "Run doxygen" dans l'onglet "Run".
+
+##########################################################################################################
+
+DoxyWizard est l'interface graphique (GUI) de Doxygen,
+ 
+ Il y a deux modes pour paramétrer la génération de la documentation :
+  - mode Wizard : simple et rapide, mais il propose peu d'option
+  - mode Expert : permet de gérer toutes les variables du fichier de configuration (vu précédement)
+  
+On peut lancer la génération de documentation en cliquant sur "Run doxygen" dans l'onglet "Run".
+
+
+##########################S######################################
+ 
+Graphiques
+
+Des graphe d'héritage sont créés par doxygen (si l'option est cochée), on peut obtenir un affichage tel que :
+(screenshoot)
+
+Doxygen utilise graphviz pour créer ces graphiques, et il est possible d'en obtenir de plus jolies en téléchargant graphviz :
+http://www.graphviz.org/
+
+Puis dans le mode Expert de DoxyWizard, il y a une partie "Dot" et une variable "DOT_PATH" qui permet de configurer le chemin jusqu'à graphviz.
+(screenshoot)
+
+Et on obient un des graphes :
+(screenshoot)
+
