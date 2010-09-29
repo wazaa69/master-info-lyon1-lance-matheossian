@@ -13,9 +13,10 @@ class TableDesIdentificateurs {
 		TableDesIdentificateurs();
 		~TableDesIdentificateurs();
 
-		void ajouter(std::string elem);
-		void afficherTable(int nbID);
+		int ajouter(std::string elem);
+		int TableDesIdentificateurs::getId(string elem);
 
+		void afficherTable(int nbID);
 };
 
 #endif /* _TableDesIdentificateurs_ */

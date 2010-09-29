@@ -9,11 +9,31 @@ using namespace std;
 TableDesIdentificateurs::TableDesIdentificateurs(){}
 TableDesIdentificateurs::~TableDesIdentificateurs(){}
 
-void TableDesIdentificateurs::ajouter(string elem){
+int TableDesIdentificateurs::ajouter(string elem){
 
-std::cout << "Ajout de " << elem << std::endl;
-tableId.push_back(elem);
+	std::cout << "Ajout de " << elem << std::endl;
+	int numElem  = getId(elem);
 
+	if( < 0){
+	tableId.push_back(elem);
+	return numElem;}
+
+	if(numElem >= 0)
+	return numElem;
+}
+
+int TableDesIdentificateurs::getId(string elem)
+{
+	int temp = -1;
+	
+	for (unsigned int i = 0; i < tableId.size(); i++)
+	{
+		if (tableId[i] == elem)
+		temp = i;
+		
+	}
+	
+	return temp;
 }
 
 
