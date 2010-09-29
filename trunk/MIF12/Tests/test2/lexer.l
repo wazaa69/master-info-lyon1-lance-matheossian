@@ -25,7 +25,7 @@ string                  {return KW_STRING;}
 ","                     {return SEP_COMMA;}
 
 
-[a-zA-Z][a-zA-Z0-9]*    {tableId->ajouter(yytext);  return TOK_IDENT;}
+[a-zA-Z][a-zA-Z0-9]*    {yyval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
 .                      
 \n                     
 
@@ -36,3 +36,9 @@ int yyerror(char* message)
 
     return 0;
 }
+
+
+
+
+ajouter() doit renvoyer le numéro de l'identifiant ajouté, null sinon.
+

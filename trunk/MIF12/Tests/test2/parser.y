@@ -13,27 +13,12 @@
     extern int yyerror(char* m);
 
     extern TableDesIdentificateurs* tableId;
-  //  extern TableSymbole* tableSymb;
+    extern TableSymbole* tableSymb;
 	int nbID = 0;
 
+   vector<string> tmpNumId; // contient la liste des idents (pour la table des symboles)
 
-/*
-    void addToTS(Symbole* sym)
-    {
-        // on parcourt la pile des var
-        while(!g_varStack.empty())
-        {
-            tableSymb->add(tableId->get(g_varStack.back()),sym);
-            g_varStack.pop_back();
-        }
-    }
 
-    void addToTS(Type* type)
-    {
-        addToTS(new SymbVar(type));
-    }
-
-*/
 %}
 
 %token KW_PROGRAM
@@ -52,6 +37,16 @@
 %token SEP_COMMA
 
 %token TOK_IDENT
+
+
+%token <numero> TOK_IDENT
+%type <code> Type
+
+%union{
+	int numero;
+	Type* code;
+}
+
 
 %start Program
 
@@ -74,25 +69,43 @@ ListDeclVar     : ListDeclVar DeclVar                           {printf("-5-\n")
                 | DeclVar                                       {printf("-6-\n");}
                 ;
 
-DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL              {printf("-7-\n");}
+DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL              
+								{
+									printf("-7-\n");
+									for(int i = 0; i < tmpNumId.size()){
+										tableSymb.ajouter(tmpNumId[i], "variable", $3);
+										cout << $3 << " a été ajouté à la table des symboles."<<endl;}
+								}
                 ;
 
-ListIdent       : ListIdent SEP_COMMA TOK_IDENT                 {printf("-8- \n"); }
-                | TOK_IDENT                                     {printf("-9- \n"); }
-                ;
+ListIdent        :    ListIdent SEP_COMMA TOK_IDENT	       {
+									if($3 != null) tmpNumId.ajouter($3);
+									cout << $3 << " a été ajouté à la table des identifiants."<<endl;
+								}
+                 |    TOK_IDENT   			       {
+									if($1 != null) tmpNumId.ajouter($1);
+									cout << $1 << " a été ajouté à la table des identifiants."<<endl;
+								}
+                 ;
 
 
-Type            : KW_INTEGER                                    
-                | KW_REAL                                       
-                | KW_BOOLEAN                                    {printf("-12-\n");}
-                | KW_CHAR                                       {printf("-13-\n");}
-                | KW_STRING                                     
+Type            :    KW_INTEGER 				{$$ = new TypeInt();}
+                |    KW_REAL 					{$$ = new TypeReal();}
+                |    KW_BOOLEAN 				{$$ = new TypeBool();}
+                |    KW_CHAR 					{$$ = new TypeChar();}
+                |    KW_STRING 					{$$ = new TypeString();}
                 ;
 
 BlockCode       : KW_BEGIN ListInstr KW_END                     {printf("-15-\n");}
                 ;
 
 ListInstr       :
-                                ;
+                ;
+
+
+
+
+
+
 
 %%
