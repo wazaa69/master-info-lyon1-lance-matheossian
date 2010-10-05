@@ -1,10 +1,13 @@
 %{
     #include <cstdio>
     #include <iostream>
+    #include <vector>
 
-    #include "TDI.hpp"
-  //  #include "TableSymb.hpp"
+    using namespace std;
 
+    #include "TDS.hpp"
+    #include "Symbole.hpp"
+    #include "Type.hpp"
 
 
     extern FILE* yyin;
@@ -12,12 +15,9 @@
     extern int yylex();
     extern int yyerror(char* m);
 
-    extern TableDesIdentificateurs* tableId;
-    extern TableSymbole* tableSymb;
-	int nbID = 0;
 
-   vector<string> tmpNumId; // contient la liste des idents (pour la table des symboles)
-
+    extern TableDesSymboles* tableSymb;
+    std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
 
 %}
 
@@ -36,19 +36,19 @@
 %token SEP_DOTS
 %token SEP_COMMA
 
-%token TOK_IDENT
+%start Program
 
 
 %token <numero> TOK_IDENT
-%type <code> Type
+%type <type> Type
 
+
+/* Les types */
 %union{
-	int numero;
-	Type* code;
+    int numero;
+    Type* type;
 }
 
-
-%start Program
 
 %%
 
@@ -69,43 +69,40 @@ ListDeclVar     : ListDeclVar DeclVar                           {printf("-5-\n")
                 | DeclVar                                       {printf("-6-\n");}
                 ;
 
-DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL              
-								{
-									printf("-7-\n");
-									for(int i = 0; i < tmpNumId.size()){
-										tableSymb.ajouter(tmpNumId[i], "variable", $3);
-										cout << $3 << " a été ajouté à la table des symboles."<<endl;}
-								}
+DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
+                                                                {
+
+                                                                    for(unsigned int i = 0; i < tmpNumId.size(); i++){
+
+                                                                        tableSymb->ajouter(new Symbole("variable", $3));
+
+                                                                        cout << "Un symbole a été ajouté à la table des symboles." << endl;
+                                                                    }
+
+                                                                    tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
+
+                                                                }
                 ;
 
-ListIdent        :    ListIdent SEP_COMMA TOK_IDENT	       {
-									if($3 != null) tmpNumId.ajouter($3);
-									cout << $3 << " a été ajouté à la table des identifiants."<<endl;
-								}
-                 |    TOK_IDENT   			       {
-									if($1 != null) tmpNumId.ajouter($1);
-									cout << $1 << " a été ajouté à la table des identifiants."<<endl;
-								}
+ListIdent        :    ListIdent SEP_COMMA TOK_IDENT             {tmpNumId.push_back($3);}
+                 |    TOK_IDENT                                 {tmpNumId.push_back($1);}
                  ;
 
 
-Type            :    KW_INTEGER 				{$$ = new TypeInt();}
-                |    KW_REAL 					{$$ = new TypeReal();}
-                |    KW_BOOLEAN 				{$$ = new TypeBool();}
-                |    KW_CHAR 					{$$ = new TypeChar();}
-                |    KW_STRING 					{$$ = new TypeString();}
+
+Type            :    KW_INTEGER 				                {$$ = new Type("Integer");}
+                |    KW_REAL 					                {$$ = new Type("Real");}
+                |    KW_BOOLEAN 				                {$$ = new Type("Boolean");}
+                |    KW_CHAR 					                {$$ = new Type("Char");}
+                |    KW_STRING 					                {$$ = new Type("String");}
                 ;
+
 
 BlockCode       : KW_BEGIN ListInstr KW_END                     {printf("-15-\n");}
                 ;
 
 ListInstr       :
                 ;
-
-
-
-
-
 
 
 %%
