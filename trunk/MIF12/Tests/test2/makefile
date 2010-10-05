@@ -16,7 +16,7 @@ CC      = g++
 CPP     = g++
 LD      = g++
 FLEX    = flex
-BISON   = bison
+BISON   = bison -d
 
 # flags and libs
 CPPFLAGS        = -I$(INC_DIR) -g -Wall -pipe
@@ -45,7 +45,7 @@ $(SRC_DIR)%.c : $(SRC_DIR)%.l
 	$(FLEX) -o $@ $<
 
 $(SRC_DIR)%.c : $(SRC_DIR)%.y
-	$(BISON) -d -o $@ $<
+	$(BISON) -o $@ $<
 
 $(BIN_DIR)/$(BIN): $(OBJS)
 	$(LD) $+ -o $@ $(LDFLAGS)

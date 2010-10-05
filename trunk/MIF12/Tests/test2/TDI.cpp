@@ -2,47 +2,41 @@
 
 #include "TDI.hpp"
 
-
 using namespace std;
 
 
 TableDesIdentificateurs::TableDesIdentificateurs(){}
 TableDesIdentificateurs::~TableDesIdentificateurs(){}
 
-int TableDesIdentificateurs::ajouter(string elem){
 
-	std::cout << "Ajout de " << elem << std::endl;
-	int numElem  = getId(elem);
+int TableDesIdentificateurs::ajouter(string id){
 
-	if( < 0){
-	tableId.push_back(elem);
-	return numElem;}
+	cout << "Ajout de " << id << endl;
 
-	if(numElem >= 0)
+	int numElem  = getPosId(&id);
+
+	if(numElem < 0) tableId.push_back(new string(id));  //copie
+
 	return numElem;
 }
 
-int TableDesIdentificateurs::getId(string elem)
+
+int TableDesIdentificateurs::getPosId(string* id)
 {
 	int temp = -1;
-	
+
+
 	for (unsigned int i = 0; i < tableId.size(); i++)
 	{
-		if (tableId[i] == elem)
-		temp = i;
-		
+        if (*tableId[i] == *id)
+            temp = i;
 	}
-	
 	return temp;
 }
 
 
-void TableDesIdentificateurs::afficherTable(int nbID)
+void TableDesIdentificateurs::afficherTable()
 {
-	cout<<"---"<< nbID << "---" << endl;
-	for ( std::vector < std::string >::const_iterator it = tableId.begin () ; it != tableId.end () ; ++ it )
-		{
-		cout << *it << endl;
-		}
+	for (unsigned int i = 0; i < tableId.size(); i++)
+		cout << *tableId[i] << endl;
 }
-

@@ -1,15 +1,16 @@
 %{
-    #include "parser.h"
+
+    #include "lexer.hpp"
+
     #include "TDI.hpp"
-    //#include "utils.h"
 
     extern TableDesIdentificateurs* tableId;
-  // {printf("Caractère illégal (%s)\n",yytext);}
+
 %}
 
 %%
 
-program			{return KW_PROGRAM;}
+program			        {return KW_PROGRAM;}
 var                     {return KW_VAR;}
 begin                   {return KW_BEGIN;}
 end                     {return KW_END;}
@@ -25,20 +26,15 @@ string                  {return KW_STRING;}
 ","                     {return SEP_COMMA;}
 
 
-[a-zA-Z][a-zA-Z0-9]*    {yyval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
-.                      
-\n                     
+[a-zA-Z][a-zA-Z0-9]*    {yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
+.
+\n
 
 %%
+
 int yyerror(char* message)
 {
     fprintf( stderr, "Erreur d'analyse : %s [%s]\n", message, yytext );
 
     return 0;
 }
-
-
-
-
-ajouter() doit renvoyer le numéro de l'identifiant ajouté, null sinon.
-
