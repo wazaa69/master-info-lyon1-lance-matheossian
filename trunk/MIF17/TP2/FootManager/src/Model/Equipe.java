@@ -10,7 +10,6 @@ public class Equipe {
     private Color couleur;
 
     public Equipe(Color couleur){
-
         listeJoueurs = new ArrayList<Joueur>();
         this.couleur = couleur;       
     }
@@ -21,6 +20,7 @@ public class Equipe {
     }
 
     public void ajouterUnJoueur(Joueur unJoueur){
+        System.out.println(unJoueur.getNom());
         listeJoueurs.add(unJoueur);
     }
 
