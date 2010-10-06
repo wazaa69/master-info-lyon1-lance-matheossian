@@ -10,7 +10,7 @@
 
 %%
 
-program			        {return KW_PROGRAM;}
+program			{return KW_PROGRAM;}
 var                     {return KW_VAR;}
 begin                   {return KW_BEGIN;}
 end                     {return KW_END;}

@@ -8,12 +8,13 @@
 */
 class Type {
 
-	private:
+	protected:
 
 		std::string* type; /** @param type variable, fonction, procedure, temporaire, etiquette ...  */
 
 	public:
 
+		Type();
 		Type(std::string _type);
 		~Type();
 
