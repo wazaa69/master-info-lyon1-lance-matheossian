@@ -77,7 +77,7 @@ valgrind: $(BIN_DIR)/$(BIN)
 	valgrind $(BIN_DIR)/$(BIN)
 
 clean:
-	rm -f $(OBJ_DIR)*.o $(SRC_DIR)*~ $(DEP_DIR)*.d *~
+	rm -f $(OBJ_DIR)*.o $(SRC_DIR)*~ $(DEP_DIR)*.d *~ $(BIN_DIR)/$(BIN)
 
 distclean: clean
 	rm -f $(BIN_DIR)/$(BIN)
