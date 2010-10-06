@@ -6,6 +6,8 @@ public class Joueur extends Mobile {
 
     private Equipe monEquipe; /** l'équipe du joueur */
 
+
+
     /**
      * Initialise un joueur avec un nom et son Equipe
      * @param nom le nom du joueur
