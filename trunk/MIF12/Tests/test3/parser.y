@@ -7,7 +7,15 @@
 
     #include "TDS.hpp"
     #include "Symbole.hpp"
+
     #include "Type.hpp"
+    #include "TypeInteger.hpp"
+    #include "TypeReal.hpp"
+    #include "TypeBoolean.hpp"
+    #include "TypeChar.hpp"
+    #include "TypeString.hpp"
+    #include "TypePointeur.hpp"
+
 
 
     extern FILE* yyin;
@@ -36,10 +44,13 @@
 %token SEP_DOTS
 %token SEP_COMMA
 
+%token OP_PTR
+
 %start Program
 
 
 %token <numero> TOK_IDENT
+
 %type <type> Type
 
 
@@ -52,21 +63,21 @@
 
 %%
 
-Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {printf("-1-\n");}
+Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
-ProgramHeader   : KW_PROGRAM TOK_IDENT                          {printf("-2-\n");}
+ProgramHeader   : KW_PROGRAM TOK_IDENT                          {}
                 ;
 
-Block           : BlockDeclVar BlockCode                        {printf("-3-\n");}
+Block           : BlockDeclVar BlockCode                        {}
                 ;
 
-BlockDeclVar    : KW_VAR ListDeclVar                            {printf("-4-\n"); }
-                |                                               {printf("-4b-\n");}
+BlockDeclVar    : KW_VAR ListDeclVar                            {}
+                |                                               {}
                 ;
 
-ListDeclVar     : ListDeclVar DeclVar                           {printf("-5-\n");}
-                | DeclVar                                       {printf("-6-\n");}
+ListDeclVar     : ListDeclVar DeclVar                           {}
+                | DeclVar                                       {}
                 ;
 
 DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
@@ -76,7 +87,7 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 
                                                                         tableSymb->ajouter(new Symbole("variable", $3));
 
-                                                                        cout << "Un symbole a été ajouté à la table des symboles." << endl;
+                                                                        cout << $3 <<  "a été ajouté à la table des symboles." << endl;
                                                                     }
 
                                                                     tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
@@ -90,19 +101,21 @@ ListIdent        :    ListIdent SEP_COMMA TOK_IDENT             {tmpNumId.push_b
 
 
 
-Type            :    KW_INTEGER 				                {$$ = new Type("Integer");}
-                |    KW_REAL 					                {$$ = new Type("Real");}
-                |    KW_BOOLEAN 				                {$$ = new Type("Boolean");}
-                |    KW_CHAR 					                {$$ = new Type("Char");}
-                |    KW_STRING 					                {$$ = new Type("String");}
+Type            :    KW_INTEGER 				                {$$ = new TypeInteger();}
+                |    KW_REAL 					                {$$ = new TypeReal();}
+                |    KW_BOOLEAN 				                {$$ = new TypeBoolean();}
+                |    KW_CHAR 					                {$$ = new TypeChar();}
+                |    KW_STRING 					                {$$ = new TypeString();}
+		|    OP_PTR Type						{$$ = new TypePointeur();}
                 ;
 
 
-BlockCode       : KW_BEGIN ListInstr KW_END                     {printf("-15-\n");}
+BlockCode       : KW_BEGIN ListInstr KW_END                     {}
                 ;
 
 ListInstr       :
                 ;
+
 
 
 %%

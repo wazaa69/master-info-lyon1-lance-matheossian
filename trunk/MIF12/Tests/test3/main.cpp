@@ -33,7 +33,10 @@ int main(int argc, char** argv)
     yyparse();
 
     //affichage les tables
+    std::cout << "\nTable des identifiants: \n"<<std::endl;
     tableId->afficherTable();
+
+    std::cout << "\nTable des symboles: \n"<<std::endl;
     tableSymb->afficherTable();
 
     if(yyin != NULL)

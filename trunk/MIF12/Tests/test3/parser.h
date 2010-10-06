@@ -52,7 +52,8 @@
      SEP_DOT = 268,
      SEP_DOTS = 269,
      SEP_COMMA = 270,
-     TOK_IDENT = 271
+     OP_PTR = 271,
+     TOK_IDENT = 272
    };
 #endif
 /* Tokens.  */
@@ -69,20 +70,21 @@
 #define SEP_DOT 268
 #define SEP_DOTS 269
 #define SEP_COMMA 270
-#define TOK_IDENT 271
+#define OP_PTR 271
+#define TOK_IDENT 272
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 47 "parser.y"
+#line 58 "parser.y"
 {
     int numero;
     Type* type;
 }
 /* Line 1489 of yacc.c.  */
-#line 86 "parser.h"
+#line 88 "parser.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

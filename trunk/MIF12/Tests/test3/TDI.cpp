@@ -38,5 +38,5 @@ int TableDesIdentificateurs::getPosId(string* id)
 void TableDesIdentificateurs::afficherTable()
 {
 	for (unsigned int i = 0; i < tableId.size(); i++)
-		cout << *tableId[i] << endl;
+		cout << i << " | " << *tableId[i] << endl;
 }
