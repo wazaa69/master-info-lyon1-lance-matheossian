@@ -1,0 +1,138 @@
+
+2 équipes de tortues jouant au ballon l'une contre l'autre
+
+terrain avec 2 buts
+
+ballon dans but = 1 point
+
+match limité dans le temps
+
+
+
+
+
+chaque équipe a une tactique (modifiable en cours de jeu)
+
+	tactique influence :    réaction globale des tortues
+				mouvements
+				passes
+				peut dépendre de la position des tortues
+				de l'équipe adverse/
+				des carac individuelles
+
+	-> FAIRE 3 tactiques différentes
+
+
+joueur -> caractéristiques individuelles
+	les carac -> définissent la façon de réagir si tortue a balle ou pas 
+			ou en fonction son placement sur le terrain  ou
+			de celui des adversaires
+
+exemples: défenseurs, attaquants, rapides, lents etc
+
+
+action d'une tortue -> déterminée en partie par la tactique employée
+dans l'équipe puis par ses caracs individuelles
+
+
+-> ON DOIT POUVOIR LANCER UN MATCH ENTRE 2 EQUIPES, METTRE PAYSE
+ET CHANGER LA TACTIQUE EN COURS DE JEU
+
+-------------------------------------------
+
+MODELE -> joueur, equipe, match
+VUE  	-> interface graphique -> 3 composant -> Terrain
+						 Score
+						 Possession de balle
+
+CONTROLEUR (1er objet a créer) > lance l'application
+	  
+commencer par faire un petit mvc simple
+
+
+soit repartir de logo
+soit recoder entièrement (plus simple)
+
+	-> FAIRE UN MVC QUI MARCHE AVANT
+
+
+
+Première partie du TAFF:
+
+Conception codage de l'application:
+	-> déterminer les règles du jeu
+
+		-> faire un modèle du domaine du jeu de ballon:
+
+			-joueurs
+			-caractéristiques joueurs
+			-ballon
+			-tactique
+
+		-> organiser classes en packages
+
+
+Décrire l'unique cas d'utilisation
+
+Créer un nouveau modèle : modèle de conception
+	Réutilisez le modèle correspondant au code mis en place dans la partie 1 (MVC) 
+      et complétez-le au niveau du M par des classes dont les noms /
+      attributs sont issus du modèle du domaine. 
+
+
+Complétez votre conception pour réaliser des scénarios correspondant à des interactions différentes au cours du jeu (création du jeu, phase où une équipe à la balle, passe d'une balle, etc.), notamment avec des diagrammes de séquence. Faites évoluer les classes avec les besoins identifiés, en complétant petit à petit attributs et méthodes (jusqu'à ce que vous pensiez que vous pouvez passer au codage). Utilisez diagrammes d'activités et de machine d'états pour illustrer les différents fonctionnements : système, équipe, joueurs, etc.
+
+Une fois vos classes de conception à peu près stabilisées, générez le code correspondant à votre projet, et utilisez la procédure de roundtrip pour synchroniser en permanence code et modèle.
+
+Codez vos classes, améliorez la conception, testez, en gardant synchrones modèle et code.
+
+
+
+--------------------------------------------
+
+
+tips: dans le modèle c'est en mètres, dans la vue c'est en pixels
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Rendu du travail
+
+Le TD/TP est à rendre pour le 27 octobre 2010 (M1 IF) et le 3 novembre 2010 (2A INFO EPU)
+
+Il est impératif d'aller voir et de respecter les instructions générales pour le rendu de TP.
+
+Vous enverrez à yannick.prie (a) liris.cnrs.fr une archive (zip uniquement) contenant : 
+
+    * le rapport en PDF
+    * les sources du projet (fichiers Java) 
+    * la documentation javadoc de vos classes 
+    * l'exécutable
+    * un fichier PDF ou bien un site web contenant l'ensemble des diagrammes réalisés
+    * les fichiers natifs (liés à l'outil utilisé) et XMI de votre modélisation UML
+
+N'oubliez pas de demander un accusé réception.
+Remarque
+
+Le rapport sur le projet présentera les principaux diagrammes réalisés et illustrant les choix de conception (une dizaine de pages). Vous pourrez faire quelques remarques éventuelles sur l'outil UML utilisé (fonctionnement, praticité, intégration IDE, paramétrage, comparaison à d'autres outils, etc.), n'oubliez pas de mettre en évidence les patterns utilisés, etc.
+Barême
+
+    * Modélisation : 6 points (utilisation des patterns : 3 points)
+    * Réalisation : 7 points
+    * Documentation : 2 points
+    * Rapport : 5 points (diagrammes de séquence : 2 points)
