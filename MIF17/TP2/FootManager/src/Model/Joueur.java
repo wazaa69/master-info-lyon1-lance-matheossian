@@ -1,9 +1,7 @@
 package Model;
 
-public class Joueur {
+public class Joueur extends Mobile {
 
-    private int x; /** Coordonnée polaire */
-    private int y; /** Coordonnée polaire */
     private String nom; /** nom du joueur */
 
     private Equipe monEquipe; /** l'équipe du joueur */
@@ -40,6 +38,10 @@ public class Joueur {
     private void initPosition(){
         x = 0;
         y = 0;
+    }
+
+    public String getNom() {
+        return nom;
     }
 
 }
