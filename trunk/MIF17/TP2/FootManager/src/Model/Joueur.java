@@ -1,6 +1,6 @@
 package Model;
 
-public class Joueur extends Mobile {
+public class Joueur extends ElementMobile {
 
     private String nom; /** nom du joueur */
 

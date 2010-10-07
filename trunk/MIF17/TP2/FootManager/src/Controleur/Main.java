@@ -1,28 +1,22 @@
 package Controleur;
 
-import Model.Equipe;
-import Model.Joueur;
-import Model.Terrain;
+import Model.JeuDeFoot;
 import Vue.Vue;
-import java.awt.Color;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        
-        Equipe equipeUne = new Equipe(Color.BLUE);
-        Equipe equipeDeux = new Equipe(Color.RED);
 
-        for(int i = 0; i < 11; i++){
-            equipeUne.ajouterUnJoueur(new Joueur("Bleu" + (i + 1), equipeUne));
-            equipeDeux.ajouterUnJoueur(new Joueur("Rouge" + (i + 1), equipeDeux));
-        }
+        //Initialisation du Modèles. Le modèle ne connait personne.
+        JeuDeFoot unJeuDeFoot = new JeuDeFoot();
 
-        Terrain unTerrain = new Terrain(500, 500, Color.WHITE);
+        //Initialise la fenêtre et boutons. La vue connait le modèle.
+        Vue uneVue = new Vue(unJeuDeFoot);
 
-        //1 stratégie/equipe
+        //Initialise le controleur, Le controleur connait tout le monde.
+        Controleur controleur = new Controleur(unJeuDeFoot, uneVue);
 
-        Vue vue = new Vue(unTerrain);
     }
 
 

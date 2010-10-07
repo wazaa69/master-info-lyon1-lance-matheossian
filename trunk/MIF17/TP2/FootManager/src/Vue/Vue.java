@@ -1,6 +1,9 @@
 package Vue;
 
-import Model.Terrain;
+import Model.JeuDeFoot;
+import ObservListe.ObservableBouton;
+import ObservListe.Observateur;
+import ObservListe.ObservateurBouton;
 import java.awt.BorderLayout;
 import java.awt.Event;
 import java.awt.GridLayout;
@@ -19,18 +22,31 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-public class Vue extends JFrame implements ActionListener{
 
+/**
+ * Créer la fenêtre et les boutons
+ */
+public class Vue extends JFrame implements ObservableBouton {
+
+    private JeuDeFoot unJeuDeFoot;
+
+    //Observateur
+    private ObservateurBouton unObservateur;
 
     // Les différentes vues
     private VueTerrain vueTerrain;
+   
 
+    public Vue(JeuDeFoot unJeuDeFoot) {
 
-    public Vue(Terrain unTerrain) {
-        this.vueTerrain = new VueTerrain(unTerrain);
+        this.unJeuDeFoot = unJeuDeFoot;
+
+        //Crée une Vue du Terrain. La vue du terrain connait le "Terrain modèle".
+        vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain());
+
+        //Fenêtre et boutons
         initVue();
     }
-
 
 
     /**
@@ -53,9 +69,9 @@ public class Vue extends JFrame implements ActionListener{
 
 
         //MENUS TOP--------------------->
-        JMenuBar menubar=new JMenuBar();
+        JMenuBar menubar = new JMenuBar();
         setJMenuBar(menubar);
-        JMenu menuFile=new JMenu("Fichier");
+        JMenu menuFile = new JMenu("Fichier");
         menubar.add(menuFile);
 
         addMenuItem(menuFile, "Quitter", "Quitter", KeyEvent.VK_Q);
@@ -71,29 +87,31 @@ public class Vue extends JFrame implements ActionListener{
         JPanel actions = new JPanel(new GridLayout());
         JButton b0 = new JButton("Start");
         actions.add(b0);
-        b0.addActionListener(this);
+        b0.addActionListener(new ActionListener() {
+
+            //On définit l'action directement
+            public void actionPerformed(ActionEvent e) {
+                notifierObserveur("Start");
+            }
+            
+        });
+
         JButton b1 = new JButton("Pause");
         actions.add(b1);
-        b1.addActionListener(this);
-        getContentPane().add(actions,"EAST");
+        b1.addActionListener(new ActionListener() {
+
+            //On définit l'action directement
+            public void actionPerformed(ActionEvent e) {
+                notifierObserveur("Pause");
+            }
+
+        });
+
+        getContentPane().add(actions,"East");
         //--------------------------------------->
 
         pack();
         setVisible(true);
-    }
-
-    /**
-    * TODO -> ACTION ? CONTROLEUR OU VUE ?
-    * Gestion des actions des boutons
-    * @param e l'action à effectuer
-    */
-    public void actionPerformed(ActionEvent e)
-    {
-        String c = e.getActionCommand();
-
-        if (c.equals("Start"))  controleur.procedureZero();
-        else if (c.equals("Stop"))  ;
-        else if (c.equals("Quitter")) controleur.quitter();
     }
 
 
@@ -106,7 +124,8 @@ public class Vue extends JFrame implements ActionListener{
     * @param tooltiptext chaine de caractère au survol du composant
     * @param imageName chemain jusqu'à l'image du composant
     */
-    private void addButton(JComponent p, String name, String tooltiptext, String imageName) {
+    /*
+    public void addButton(JComponent p, String name, String tooltiptext, String imageName) {
 
         JButton b;
 
@@ -131,6 +150,7 @@ public class Vue extends JFrame implements ActionListener{
         b.setMargin(new Insets(0,0,0,0));
         b.addActionListener(this);
     }
+    */
 
 
     /**
@@ -140,14 +160,21 @@ public class Vue extends JFrame implements ActionListener{
     * @param command la commande associé à l'item
     * @param key touche du clavier pour recevoir un évènement
     */
-    private void addMenuItem(JMenu m, String label, String command, int key) {
+    private void addMenuItem(JMenu m, final String label, String command, int key) {
 
         JMenuItem menuItem;
         menuItem = new JMenuItem(label);
         m.add(menuItem);
 
         menuItem.setActionCommand(command);
-        menuItem.addActionListener(this);
+        menuItem.addActionListener(new ActionListener() {
+
+            //On définit l'action directement
+            public void actionPerformed(ActionEvent e) {
+                notifierObserveur(label);
+            }
+
+        });
 
         if (key > 0) {
             if (key != KeyEvent.VK_DELETE)
@@ -157,5 +184,17 @@ public class Vue extends JFrame implements ActionListener{
         }
     }
 
+
+    public void ajouterObserveur(ObservateurBouton unObs) {
+        this.unObservateur = unObs;
+    }
+
+    public void supprimerObserveur() {
+        unObservateur = null;
+    }
+
+    public void notifierObserveur(String action) {
+        unObservateur.miseAJour(action);
+    }
 
 }

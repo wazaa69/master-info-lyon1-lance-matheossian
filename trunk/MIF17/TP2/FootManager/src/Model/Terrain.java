@@ -13,5 +13,14 @@ public class Terrain {
         this.largeur = largeur;
         this.couleur = couleur;
     }
+
+    public int getLargeur() {
+        return largeur;
+    }
+
+    public int getLongeur() {
+        return longeur;
+    }
+    
     
 }
