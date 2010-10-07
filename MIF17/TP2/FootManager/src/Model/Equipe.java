@@ -20,7 +20,7 @@ public class Equipe {
     }
 
     public void ajouterUnJoueur(Joueur unJoueur){
-        System.out.println(unJoueur.getNom());
+//        System.out.println(unJoueur.getNom());
         listeJoueurs.add(unJoueur);
     }
 
