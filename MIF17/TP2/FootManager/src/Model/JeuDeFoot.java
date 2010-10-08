@@ -10,8 +10,8 @@ public class JeuDeFoot extends Thread {
 
     private Terrain unTerrain; /** le terrain de jeu */
 
-    private boolean partieTerminee = true; /** vrai si la partie est terminée, faux sinon */
-    private boolean pause = true; /** vrai si le jeu de Foot est en pause, faux sinon */
+    private boolean partieEncours; /** vrai si la partie est en cours, faux sinon */
+    private boolean pause; /** vrai si le jeu de Foot est en pause, faux sinon */
 
     /**
      * Constructeur, initialise les deux équipes, les joueurs, le terrain et la balle
@@ -27,6 +27,9 @@ public class JeuDeFoot extends Thread {
         }
 
         this.unTerrain = new Terrain(500, 500, Color.WHITE);
+
+        partieEncours = false;
+        pause = false;
 
         //ajouetr 1 stratégie/equipe
 
@@ -50,14 +53,14 @@ public class JeuDeFoot extends Thread {
     @Override
     public void run(){demarrerLaPartie();}
 
+    
 
     /**
      * Lance les thread de chaque joueurs
      */
-    private synchronized void demarrerLaPartie() {
+    private void demarrerLaPartie() {
 
-        partieTerminee = false;
-        pause = false;
+        partieEncours = true;
 
         ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
         ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
@@ -75,11 +78,12 @@ public class JeuDeFoot extends Thread {
      */
     public Terrain getUnTerrain() {return unTerrain;}
 
+
     /**
      * Remet à zéro les variable du jeu
      */
     public void creer() {
-        partieTerminee = false;
+        partieEncours = false;
         pause = false;
 
     }
@@ -90,16 +94,21 @@ public class JeuDeFoot extends Thread {
      * @param pause vrai pour dire que le jeu de Foot est en pause, faux sinon
      */
     public synchronized void setPause(boolean pause) {
-    
+
+        //System.out.println("Pause : " + pause);
         this.pause = pause;
 
         //Tant que la reprise n'a pas été décidée par l'utilisateur, faire une pause pour chaque joueur
 
     }
 
-    public void setPartieTerminee(boolean partieTerminee) {this.partieTerminee = partieTerminee;}
+    public boolean isPause() {return pause;}
 
-    public boolean isPartieTerminee() {return partieTerminee;}
+
+
+    public void setPartieTerminee(boolean partieTerminee) {this.partieEncours = partieTerminee;}
+
+    public boolean isPartieEnCours() {return partieEncours;}
 
     
 }

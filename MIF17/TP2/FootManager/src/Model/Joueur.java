@@ -49,11 +49,11 @@ public class Joueur extends ElementMobile {
     @Override
     public void run() {
         //boucle qui fait jouer le joueur
-        demarrerLaPartie();
+        demarrerJoueur();
     }
 
-    public void demarrerLaPartie(){
-        System.out.println("Lancement du Thread joueur");
+    public void demarrerJoueur(){
+        //System.out.println(nom + " - Lancement du Thread joueur");
     }
 
 }

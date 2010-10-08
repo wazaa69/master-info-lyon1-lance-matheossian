@@ -17,12 +17,10 @@ public class VueTerrain extends JPanel {
         this.unTerrain = unTerrain;
         setBackground(Color.white);
         setPreferredSize(new Dimension(unTerrain.getLongeur(),unTerrain.getLargeur()));
-        //reset();
     }
 
     /**
-     * TODO !! La taille de la fenêtre n'est pas prise en compte, enfin je crois
-     * Faudra vérifier ce que récupère getSize(); pour savoir si on peut utiliser "dim"
+     * Crée le terrain
      */
     private void reset(){
         drawingImage = this.createImage(unTerrain.getLongeur(),unTerrain.getLargeur());
@@ -35,6 +33,10 @@ public class VueTerrain extends JPanel {
     }
 
 
+    /**
+     * Redéfinition de la méthode paintComponent() de JPanel (héritée de JComponent)
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g){
         if (drawingImage == null) reset();
