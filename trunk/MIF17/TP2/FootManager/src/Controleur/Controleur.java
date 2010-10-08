@@ -12,6 +12,7 @@ public class Controleur {
     private JeuDeFoot unJeuDeFoot;
 
     Controleur(JeuDeFoot _unJeuDeFoot, Vue uneVue) {
+
         this.uneVue = uneVue;
 
         this.unJeuDeFoot = _unJeuDeFoot;
@@ -21,20 +22,34 @@ public class Controleur {
 
             //Ce qui va réaliser l'action
             public void miseAJour(String str){
-                //différencier les cas(on pourra appeler une méthode
-                unJeuDeFoot.lancerPartie();
-            }
 
-            //ne pas implémanter
-            public void miseAJour() {
-                throw new UnsupportedOperationException("Not supported yet.");
+                if(str.equals("Démarrer/Relancer")){
+                    if(isEnCoursDePartie())
+                        unJeuDeFoot.setPause(false);
+                    else
+                        unJeuDeFoot.lancerThreadJeuDeFoot();
+                }
+
+                else if(str.equals("Pause") && unJeuDeFoot != null)
+                    unJeuDeFoot.setPause(true);
+
+                else if(str.equals("Mise à zéro"))
+                    unJeuDeFoot.creer();
+
+                else
+                    System.exit(0);
+                    
             }
 
         } );
-
-
     }
 
-    
+
+    /**
+     * @return retourne vrai si le jeu de Foot est lancé
+     */
+    private boolean isEnCoursDePartie(){
+        return (unJeuDeFoot != null && unJeuDeFoot.isPartieTerminee());
+    }
 
 }

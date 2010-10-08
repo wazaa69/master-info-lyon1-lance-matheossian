@@ -1,6 +1,10 @@
 package Model;
 
-public class ElementMobile {
+/**
+ * Tout élément mobile sera gérer sous forme de thread.
+ * Un élément mobile peut se déplacer et modifier ses attributs lié à un déplacement.
+ */
+public abstract class ElementMobile extends Thread {
 
     protected int x; /** Coordonnée polaire */
     protected int y; /** Coordonnée polaire */
@@ -15,4 +19,11 @@ public class ElementMobile {
 
     public void droite(){angle = (angle + 90) % 360;}
     public void gauche(){angle = (angle - 90) % 360;}
+
+    /**
+     * Chaque fils devra écrire cette méthode
+     */
+    @Override
+    public abstract void run();
+
 }

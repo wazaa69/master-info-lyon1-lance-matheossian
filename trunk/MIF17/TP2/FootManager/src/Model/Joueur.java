@@ -7,7 +7,6 @@ public class Joueur extends ElementMobile {
     private Equipe monEquipe; /** l'équipe du joueur */
 
 
-
     /**
      * Initialise un joueur avec un nom et son Equipe
      * @param nom le nom du joueur
@@ -42,8 +41,19 @@ public class Joueur extends ElementMobile {
         y = 0;
     }
 
-    public String getNom() {
-        return nom;
+    /**
+     * @return Retourne le nom du joueur
+     */
+    public String getNom() {return nom;}
+
+    @Override
+    public void run() {
+        //boucle qui fait jouer le joueur
+        demarrerLaPartie();
+    }
+
+    public void demarrerLaPartie(){
+        System.out.println("Lancement du Thread joueur");
     }
 
 }

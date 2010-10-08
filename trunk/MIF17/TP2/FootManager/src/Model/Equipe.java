@@ -9,6 +9,7 @@ public class Equipe {
 
     private Color couleur;
 
+    
     public Equipe(Color couleur){
         listeJoueurs = new ArrayList<Joueur>();
         this.couleur = couleur;       
@@ -17,6 +18,11 @@ public class Equipe {
     public Equipe(Color couleur, ArrayList<Joueur> listeJoueurs) {
         this.listeJoueurs = listeJoueurs;
         this.couleur = couleur;
+    }
+
+
+    public ArrayList<Joueur> getListeJoueurs() {
+        return listeJoueurs;
     }
 
     public void ajouterUnJoueur(Joueur unJoueur){
