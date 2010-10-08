@@ -79,41 +79,38 @@ public class Vue extends JFrame implements ObservableBouton {
 
         //BOUTONS --------------------->
         JPanel boutons = new JPanel(new GridLayout());
-        JButton start = new JButton("Démarrer/Relancer");
+
+        JButton start = new JButton("Démarrer");
         boutons.add(start);
         start.addActionListener(new ActionListener() {
 
-            //On définit l'action directement
             public void actionPerformed(ActionEvent e) {
-                notifierObserveur("Démarrer/Relancer");
+                notifierObserveur("Démarrer");
             }
             
         });
 
-        JButton pause = new JButton("Pause");
+        JButton pause = new JButton("Pause/Repartir");
         boutons.add(pause);
         pause.addActionListener(new ActionListener() {
 
-            //On définit l'action directement
             public void actionPerformed(ActionEvent e) {
-                notifierObserveur("Pause");
+                notifierObserveur("Pause/Repartir");
             }
 
         });
 
         
         JButton redemarrer = new JButton("Mise à zéro");
-        boutons.add(pause);
+        boutons.add(redemarrer);
         redemarrer.addActionListener(new ActionListener() {
 
-            //On définit l'action directement
             public void actionPerformed(ActionEvent e) {
                 notifierObserveur("Mise à zéro");
             }
 
         });
 
-        boutons.setSize(200, 200);
 
         getContentPane().add(boutons,"East");
         //--------------------------------------->

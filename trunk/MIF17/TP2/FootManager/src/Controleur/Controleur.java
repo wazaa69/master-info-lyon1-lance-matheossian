@@ -17,26 +17,26 @@ public class Controleur {
 
         this.unJeuDeFoot = _unJeuDeFoot;
         
-        //Ajout d'un observateur sur la vue. Le controleur Observe la vue
+        //Ajout d'un observateur sur la vue. Le controleur Observe la vue.
         this.uneVue.ajouterObserveur(new ObservateurBouton() {
 
-            //Ce qui va réaliser l'action
+            //L'observateur va réaliser différentes actions
             public void miseAJour(String str){
 
-                if(str.equals("Démarrer/Relancer")){
-                    if(isEnCoursDePartie())
+                if(str.equals("Démarrer")){
+                    if(isPartieEnCours())
                         unJeuDeFoot.setPause(false);
                     else
                         unJeuDeFoot.lancerThreadJeuDeFoot();
                 }
 
-                else if(str.equals("Pause") && unJeuDeFoot != null)
-                    unJeuDeFoot.setPause(true);
+                else if(str.equals("Pause/Repartir")&& isPartieEnCours())
+                    unJeuDeFoot.setPause(!unJeuDeFoot.isPause());
 
                 else if(str.equals("Mise à zéro"))
                     unJeuDeFoot.creer();
 
-                else
+                else if(str.equals("Quitter"))
                     System.exit(0);
                     
             }
@@ -46,10 +46,10 @@ public class Controleur {
 
 
     /**
-     * @return retourne vrai si le jeu de Foot est lancé
+     * @return retourne vrai si le jeu de Foot est lancé (donc qu'il existe aussi)
      */
-    private boolean isEnCoursDePartie(){
-        return (unJeuDeFoot != null && unJeuDeFoot.isPartieTerminee());
+    private boolean isPartieEnCours(){
+        return (unJeuDeFoot != null && unJeuDeFoot.isPartieEnCours());
     }
 
 }
