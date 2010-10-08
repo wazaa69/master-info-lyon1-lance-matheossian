@@ -2,6 +2,7 @@ package Vue;
 
 import Model.Terrain;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JPanel;
@@ -14,16 +15,16 @@ public class VueTerrain extends JPanel {
 
     public VueTerrain(Terrain unTerrain) {
         this.unTerrain = unTerrain;
+        setBackground(Color.white);
+        setPreferredSize(new Dimension(unTerrain.getLongeur(),unTerrain.getLargeur()));
         //reset();
     }
 
     /**
-     * TODO !! La taille d ela fenêtre n'est pas prise en compte, enfin je crois
+     * TODO !! La taille de la fenêtre n'est pas prise en compte, enfin je crois
      * Faudra vérifier ce que récupère getSize(); pour savoir si on peut utiliser "dim"
      */
     private void reset(){
-        //Dimension dim = getSize();
-        //drawingImage = this.createImage(dim.width,dim.height);
         drawingImage = this.createImage(unTerrain.getLongeur(),unTerrain.getLargeur());
         Graphics g = drawingImage.getGraphics();
         Color c = g.getColor();

@@ -2,19 +2,14 @@ package Vue;
 
 import Model.JeuDeFoot;
 import ObservListe.ObservableBouton;
-import ObservListe.Observateur;
 import ObservListe.ObservateurBouton;
 import java.awt.BorderLayout;
 import java.awt.Event;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -44,7 +39,6 @@ public class Vue extends JFrame implements ObservableBouton {
         //Crée une Vue du Terrain. La vue du terrain connait le "Terrain modèle".
         vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain());
 
-        //Fenêtre et boutons
         initVue();
     }
 
@@ -57,7 +51,7 @@ public class Vue extends JFrame implements ObservableBouton {
         getContentPane().setLayout(new BorderLayout(10,10));
 
         //taille de la fenêtre
-        setSize(500,500);
+        setSize(800,800);
         this.setResizable(false);
         
         // Centre l'interface
@@ -81,24 +75,24 @@ public class Vue extends JFrame implements ObservableBouton {
         //AJOUT DU TERRAIN ------------->
         getContentPane().add(vueTerrain,"Center");
         //--------------------------------------->
+        
 
-
-        //BOUTONS BOTTOM--------------------->
-        JPanel actions = new JPanel(new GridLayout());
-        JButton b0 = new JButton("Start");
-        actions.add(b0);
-        b0.addActionListener(new ActionListener() {
+        //BOUTONS --------------------->
+        JPanel boutons = new JPanel(new GridLayout());
+        JButton start = new JButton("Démarrer/Relancer");
+        boutons.add(start);
+        start.addActionListener(new ActionListener() {
 
             //On définit l'action directement
             public void actionPerformed(ActionEvent e) {
-                notifierObserveur("Start");
+                notifierObserveur("Démarrer/Relancer");
             }
             
         });
 
-        JButton b1 = new JButton("Pause");
-        actions.add(b1);
-        b1.addActionListener(new ActionListener() {
+        JButton pause = new JButton("Pause");
+        boutons.add(pause);
+        pause.addActionListener(new ActionListener() {
 
             //On définit l'action directement
             public void actionPerformed(ActionEvent e) {
@@ -107,50 +101,27 @@ public class Vue extends JFrame implements ObservableBouton {
 
         });
 
-        getContentPane().add(actions,"East");
+        
+        JButton redemarrer = new JButton("Mise à zéro");
+        boutons.add(pause);
+        redemarrer.addActionListener(new ActionListener() {
+
+            //On définit l'action directement
+            public void actionPerformed(ActionEvent e) {
+                notifierObserveur("Mise à zéro");
+            }
+
+        });
+
+        boutons.setSize(200, 200);
+
+        getContentPane().add(boutons,"East");
         //--------------------------------------->
 
         pack();
         setVisible(true);
     }
 
-
-
-    
-    /**
-    * Utilitaires pour installer des boutons et des menus
-    * @param p un composant
-    * @param name le nom du composant
-    * @param tooltiptext chaine de caractère au survol du composant
-    * @param imageName chemain jusqu'à l'image du composant
-    */
-    /*
-    public void addButton(JComponent p, String name, String tooltiptext, String imageName) {
-
-        JButton b;
-
-        if ((imageName == null) || (imageName.equals("")))
-            b = (JButton) p.add(new JButton(name));
-
-        else {
-            
-            java.net.URL u = this.getClass().getResource(imageName);
-
-            if (u != null){
-                  ImageIcon im = new ImageIcon (u);
-                  b = (JButton) p.add(new JButton(im));
-            } else
-                b = (JButton) p.add(new JButton(name));
-
-            b.setActionCommand(name);
-        }
-
-        b.setToolTipText(tooltiptext);
-        b.setBorder(BorderFactory.createRaisedBevelBorder());
-        b.setMargin(new Insets(0,0,0,0));
-        b.addActionListener(this);
-    }
-    */
 
 
     /**
