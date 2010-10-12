@@ -15,6 +15,7 @@ class Type {
 	public:
 
 		Type();
+		Type(const Type &_type);
 		Type(std::string _type);
 		~Type();
 
@@ -23,6 +24,10 @@ class Type {
         *   \return Retourne un pointeur sur une chaine de caractères
         */
 		std::string* getStringType();
+
+
+
+		
 	
 };
 

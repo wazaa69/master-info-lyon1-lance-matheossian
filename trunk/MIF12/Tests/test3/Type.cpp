@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 
 #include "Type.hpp"
@@ -10,7 +11,19 @@ Type::Type(string _type){
     type = new string(_type); //copie
 }
 
+
+Type::Type(const Type &_type){
+	
+	type =  new string("");
+	type = _type.type;
+
+}
+
+
+
 Type::~Type(){}
+
+
 
 string* Type::getStringType(){return type;}
 

@@ -63,7 +63,7 @@
 
 %%
 
-Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
+Program         : ProgramHeader SEP_SCOL Block SEP_DOT         {}
                 ;
 
 ProgramHeader   : KW_PROGRAM TOK_IDENT                          {}
@@ -87,7 +87,7 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 
                                                                         tableSymb->ajouter(new Symbole("variable", $3));
 
-                                                                        cout << $3 <<  "a été ajouté à la table des symboles." << endl;
+                                                                        cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles." << endl;
                                                                     }
 
                                                                     tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
@@ -106,7 +106,8 @@ Type            :    KW_INTEGER 				                {$$ = new TypeInteger();}
                 |    KW_BOOLEAN 				                {$$ = new TypeBoolean();}
                 |    KW_CHAR 					                {$$ = new TypeChar();}
                 |    KW_STRING 					                {$$ = new TypeString();}
-		|    OP_PTR Type						{$$ = new TypePointeur();}
+		|    OP_PTR Type						{$$ = new TypePointeur(*$2);}
+
                 ;
 
 
