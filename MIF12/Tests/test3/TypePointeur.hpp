@@ -8,11 +8,18 @@
 */
 class TypePointeur : public Type {
 
-	public:
+	private:
 
+	Type* reference;
+
+	public:
 		TypePointeur();
 		~TypePointeur();
 
+		TypePointeur(const Type &ref);
+
+		//Type* getReference() const;
+		std::string* getStringType();
 };
 
 #endif

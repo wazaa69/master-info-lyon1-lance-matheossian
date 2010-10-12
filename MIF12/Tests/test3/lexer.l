@@ -28,11 +28,12 @@ string                  {column += yyleng; return KW_STRING;}
 ","                     {column += yyleng; return SEP_COMMA;}
 
 
-"#"                     {column += yyleng; return OP_PTR;}
+"->" |
+"^"                     {column += yyleng; return OP_PTR;}
 
 
 [a-zA-Z][a-zA-Z0-9]*    {column += yyleng; yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
-.			{printf("Char illégal %s", yytext);}
+.			
 \n
 
 %%
