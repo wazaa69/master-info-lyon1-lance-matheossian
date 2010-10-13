@@ -19,7 +19,7 @@ class TypePointeur : public Type {
 		TypePointeur(const Type &ref);
 
 		//Type* getReference() const;
-		std::string* getStringType();
+		//std::string* getStringType();
 };
 
 #endif

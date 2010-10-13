@@ -9,6 +9,14 @@
 
 %}
 
+
+chiffre  [0-9]
+chiffres  [0-9]+
+
+TOK_IDENT   [a-zA-Z][a-zA-Z0-9]*
+TOK_INTEGER {chiffres}
+
+
 %%
 
 
@@ -21,18 +29,26 @@ real                    {column += yyleng; return KW_REAL;}
 boolean                 {column += yyleng; return KW_BOOLEAN;}
 char                    {column += yyleng; return KW_CHAR;}
 string                  {column += yyleng; return KW_STRING;}
+array			{return KW_ARRAY;}
+of			{ return KW_OF;}
 
 "."                     {column += yyleng; return SEP_DOT;}
 ":"                     {column += yyleng; return SEP_DOTS;}
 ";"                     {column += yyleng; return SEP_SCOL;}
 ","                     {column += yyleng; return SEP_COMMA;}
+"["			{column += yyleng; return SEP_CO;}
+"]"			{column += yyleng; return SEP_CF;}
+".."			{return SEP_DOTDOT;}
 
 
 "->" |
 "^"                     {column += yyleng; return OP_PTR;}
+"-"			{ return OP_SUB;}
 
 
-[a-zA-Z][a-zA-Z0-9]*    {column += yyleng; yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
+
+{TOK_INTEGER}	{ return TOK_INTEGER;}
+{TOK_IDENT}    {column += yyleng; yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
 .			
 \n
 
