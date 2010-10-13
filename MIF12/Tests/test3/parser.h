@@ -48,12 +48,19 @@
      KW_BOOLEAN = 264,
      KW_CHAR = 265,
      KW_STRING = 266,
-     SEP_SCOL = 267,
-     SEP_DOT = 268,
-     SEP_DOTS = 269,
-     SEP_COMMA = 270,
-     OP_PTR = 271,
-     TOK_IDENT = 272
+     KW_ARRAY = 267,
+     KW_OF = 268,
+     SEP_SCOL = 269,
+     SEP_DOT = 270,
+     SEP_DOTS = 271,
+     SEP_COMMA = 272,
+     SEP_CO = 273,
+     SEP_CF = 274,
+     SEP_DOTDOT = 275,
+     OP_PTR = 276,
+     OP_SUB = 277,
+     TOK_IDENT = 278,
+     TOK_INTEGER = 279
    };
 #endif
 /* Tokens.  */
@@ -66,25 +73,37 @@
 #define KW_BOOLEAN 264
 #define KW_CHAR 265
 #define KW_STRING 266
-#define SEP_SCOL 267
-#define SEP_DOT 268
-#define SEP_DOTS 269
-#define SEP_COMMA 270
-#define OP_PTR 271
-#define TOK_IDENT 272
+#define KW_ARRAY 267
+#define KW_OF 268
+#define SEP_SCOL 269
+#define SEP_DOT 270
+#define SEP_DOTS 271
+#define SEP_COMMA 272
+#define SEP_CO 273
+#define SEP_CF 274
+#define SEP_DOTDOT 275
+#define OP_PTR 276
+#define OP_SUB 277
+#define TOK_IDENT 278
+#define TOK_INTEGER 279
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 58 "parser.y"
+#line 65 "parser.y"
 {
+
     int numero;
     Type* type;
+    TypeInterval* typeInterval;
+    char* interBase;
+
+
 }
 /* Line 1489 of yacc.c.  */
-#line 88 "parser.h"
+#line 107 "parser.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

@@ -12,11 +12,11 @@ TypePointeur::TypePointeur(const Type &ref)
 
 TypePointeur::~TypePointeur(){}
 
-
+/*
 string* TypePointeur::getStringType(){
 	return new string (*type + " , " );
 }
-
+*/
 
 //+ *(reference.type)
 

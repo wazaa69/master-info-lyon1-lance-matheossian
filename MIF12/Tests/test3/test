@@ -6,6 +6,7 @@ var v0 , v1 : integer;
     b1,b2 : boolean;
     d1 : ^ integer;
 
+
 begin
 end. 
 
