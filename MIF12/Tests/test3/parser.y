@@ -16,6 +16,7 @@
     #include "TypeString.hpp"
     #include "TypePointeur.hpp"
     #include "TypeInterval.hpp"
+    #include "TypeArray.hpp"
 
     extern FILE* yyin;
     extern char* yytext;
@@ -59,6 +60,7 @@
 %type <type> Type
 %type <typeInterval> InterType
 %type <interBase> InterBase
+%type <typeArray> ArrayType
 
 /* Les types */
 
@@ -68,6 +70,7 @@
     Type* type;
     TypeInterval* typeInterval;
     char* interBase;
+    TypeArray* typeArray;
 
 
 }
@@ -126,19 +129,19 @@ Type            :    KW_INTEGER 				                {$$ = new TypeInteger();}
 
                
 
-UserType       : ArrayType
+UserType       : ArrayType							{}
 
 
 ArrayType      : KW_ARRAY SEP_CO ArrayIndex SEP_CF KW_OF Type    { /*   array[ 6 .. 10 ] of integer  ou array[ a .. b ] of real */ 
-
+								   $$ = new TypeArray();
                ;						}
 
 ArrayIndex     : TOK_IDENT					{/*  a ou  6 .. 10 */}
-               | InterType
+               | InterType					{}
 
 
-InterType      : InterBase SEP_DOTDOT InterBase             {/* 6 .. 10  ou a .. 15 ou -7 .. b  */
-								 $$ = new TypeInterval($1,$3); 
+InterType      : InterBase SEP_DOTDOT InterBase             {/* 6 .. 10  ou a .. 15 ou -7 .. b   */
+								 $$ = new TypeInterval(); 
 							     }
                ;
 

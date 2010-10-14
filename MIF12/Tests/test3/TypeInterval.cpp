@@ -9,14 +9,16 @@ TypeInterval::TypeInterval()
 	
 }
 
-TypeInterval::~TypeInterval(){}
+TypeInterval::~TypeInterval(){
+
+}
 
 
 TypeInterval::TypeInterval(const string _debut, const string _fin)
 {
 	
-	debut = _debut;
-	fin = _fin;
+	//debut = _debut;
+	//fin = _fin;
 	type = new string("Interval");
 
 }
