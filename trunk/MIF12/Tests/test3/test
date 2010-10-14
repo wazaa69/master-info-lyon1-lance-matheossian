@@ -1,11 +1,18 @@
 program test;
 var v0 , v1 : integer;
     vreal,vreal2  : real;
-
     temp   : string;
     b1,b2 : boolean;
+
     d1 : ^ integer;
 
+    i1 : 1..10; 
+    i3 : -5..-3;
+
+    t1 : array[10] of integer; 
+ 
+
+KW_ARRAY SEP_CO ArrayIndex SEP_CF KW_OF Type 
 
 begin
 end. 

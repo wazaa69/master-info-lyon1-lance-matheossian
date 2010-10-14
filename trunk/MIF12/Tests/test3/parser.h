@@ -92,18 +92,19 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 65 "parser.y"
+#line 67 "parser.y"
 {
 
     int numero;
     Type* type;
     TypeInterval* typeInterval;
     char* interBase;
+    TypeArray* typeArray;
 
 
 }
 /* Line 1489 of yacc.c.  */
-#line 107 "parser.h"
+#line 108 "parser.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
