@@ -11,16 +11,16 @@ public abstract class ElementMobile extends Thread implements Observable {
 
     protected Observateur unObservateur; /** celui qui observe l'élément mobile */
 
-    protected int x; /** Coordonnée polaire */
-    protected int y; /** Coordonnée polaire */
-    protected int angle; /** angle comme sur un cercle trigonométrique */
+    protected int x; /** @param x Coordonnée en abscisse */
+    protected int y; /** @param y Coordonnée en ordonnée */
+    protected int angle; /** @param angle  Schéma :  180 --- | ---- 0°  */
 
     
     public static double convDegGrad = 0.0174533; /** la constante de conversion de degres en gradient  */
 
-    public void avancer(){
-        x = (int) Math.round(x + 30*Math.cos(convDegGrad*angle));
-        y = (int) Math.round(y + 30*Math.sin(convDegGrad*angle));
+    public void avancer(int distance){
+        x = (int) Math.round(x + distance*Math.cos(convDegGrad*angle));
+        y = (int) Math.round(y + distance*Math.sin(convDegGrad*angle));
     }
 
     public void droite(){angle = (angle + 90) % 360;}

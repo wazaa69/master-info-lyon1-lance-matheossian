@@ -170,14 +170,6 @@ public class Vue extends JFrame implements ObservableBouton {
         //on initialise la vue du terrain
         vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain(), listeJoueurs);
 
-        /*
-        //la vue du Terrain observe maintenant chaque joueur
-        for(int i = 0; i < listeJoueurEquUne.size(); i++)
-            listeJoueurEquUne.get(i).ajouterObservateur(vueTerrain);
-
-        for(int i = 0; i < listeJoueurEquDeux.size(); i++)
-            listeJoueurEquDeux.get(i).ajouterObservateur(vueTerrain);
-*/
     }
 
     /**************************

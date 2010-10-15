@@ -4,24 +4,18 @@ import java.awt.Color;
 
 public class Terrain {
 
-    private int longeur;
-    private int largeur;
+    public static int LONGUEUR; /** @param LONGUEUR longueur du terrin*/
+    public static int LARGEUR; /** @param LARGEUR largeur du terrin*/
+
+    public final static int BORDUREINTE = 20; /** @param BORDUREINTE bordure intérieur */
 
     private Color couleur;
 
     public Terrain(int longueur, int largeur, Color couleur){
-        this.longeur = longueur;
-        this.largeur = largeur;
+        Terrain.LONGUEUR = longueur;
+        Terrain.LARGEUR = largeur;
         this.couleur = couleur;
     }
 
-    public int getLargeur() {
-        return largeur;
-    }
-
-    public int getLongeur() {
-        return longeur;
-    }
-    
     
 }
