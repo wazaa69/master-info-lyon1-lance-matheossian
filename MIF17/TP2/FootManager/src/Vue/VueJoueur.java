@@ -38,13 +38,12 @@ class VueJoueur {
     /**
      * Dessine le joueur
      */
-    public void afficher(){
+    public synchronized void afficher(){
         
         //System.out.println("Joueur " + unJoueur.getNom() + " dessiné.");
 
         Graphics g = vueTerrain.getImageGraphics();
 
-        
         //Calcule les 3 coins du triangle a partir de la position du joueur
         Point pointUn = new Point(unJoueur.getX(),unJoueur.getY());
         Polygon arrow = new Polygon();

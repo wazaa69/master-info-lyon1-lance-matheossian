@@ -20,7 +20,6 @@ public class VueTerrain extends JPanel {
 
     Image drawingImage;
 
-
     /**
      * Initialisation des valeurs de la vue du terrain
      * @param unTerrain leTerrain provenant du model
@@ -37,7 +36,7 @@ public class VueTerrain extends JPanel {
             listeVueJoueurs.add(new VueJoueur(this, listeJoueurs.get(i)));
         
         setBackground(Color.white);
-        setPreferredSize(new Dimension(unTerrain.getLongeur(),unTerrain.getLargeur()));
+        setPreferredSize(new Dimension(Terrain.LONGUEUR,Terrain.LARGEUR));
 
     }
 
@@ -48,8 +47,8 @@ public class VueTerrain extends JPanel {
      */
     @Override
     public void paintComponent(Graphics g){
-        if (drawingImage == null) reset(); //initialise juste
-        g.drawImage(drawingImage,0,0,null); //--> scnintillement venai peut etre de la
+        if (drawingImage == null) reset();
+        g.drawImage(drawingImage,0,0,null);
     }
 
 
@@ -63,14 +62,34 @@ public class VueTerrain extends JPanel {
      * Créaton de la vue du terrain
      */
     private void reset(){
-        drawingImage = this.createImage(unTerrain.getLongeur(),unTerrain.getLargeur());
+
+        /* 
+         * Il faudrait vérifier la taille du terrain, en fonction de la résolution d'écran.
+         * Si le terrain est trop grand, on notifie le controleur, qui va modifier la taille de base.
+         */
+
+        drawingImage = this.createImage(Terrain.LONGUEUR,Terrain.LARGEUR);
         Graphics g = drawingImage.getGraphics();
         Color c = g.getColor();
         g.setColor(Color.white);
-        //g.fillRect(0,0,dim.width, dim.height);
-        g.fillRect(0,0,500, 500);
+        g.fillRect(0,0,Terrain.LONGUEUR,Terrain.LARGEUR); //cadre blanc de fond
         g.setColor(c);
     }
+
+    public synchronized void dessinetTerrain(){
+
+        /*
+        Graphics g = getImageGraphics();
+        g.drawImage(drawingImage,0,0,null);
+        */
+        
+        
+
+        //updateUI();
+
+    }
+
+    public Image getDrawingImage() {return drawingImage;}
     
 
 }

@@ -13,21 +13,21 @@ public class JeuDeFoot extends Thread {
     private boolean partieEncours; /** vrai si la partie est en cours, faux sinon */
     private boolean pause; /** vrai si le jeu de Foot est en pause, faux sinon */
 
+
     /**
      * Constructeur, initialise les deux équipes, les joueurs, le terrain et la balle
+     * @param longueurTerrain
+     * @param largeurTerrain
      */
-    public JeuDeFoot() {
+    public JeuDeFoot(int longueurTerrain, int largeurTerrain) {
 
-        int longueur = 500;
-        int largeur = 500;
-
-        int x = Math.round(longueur/2);
-        int yCentre = Math.round(largeur/2);
+        int x = Math.round(longueurTerrain/2);
+        int yCentre = Math.round(largeurTerrain/2);
 
         this.equipeUne = new Equipe(Color.BLUE);
         this.equipeDeux = new Equipe(Color.RED);
 
-        this.unTerrain = new Terrain(longueur, largeur, Color.WHITE);
+        this.unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
 
         for(int i = 0; i < 11; i++){
             equipeUne.ajouterUnJoueur(new Joueur(x, yCentre, "Bleu" + (i + 1), equipeUne));
@@ -42,6 +42,8 @@ public class JeuDeFoot extends Thread {
 
     }
 
+
+/**********************************  THREAD  **********************************/
 
     /**
      * Lance le jeu
@@ -78,23 +80,6 @@ public class JeuDeFoot extends Thread {
         for(int i = 0; i < listeJoueurEquDeux.size(); i++)
             listeJoueurEquDeux.get(i).start();
 
-
-
-    }
-
-    /**
-     * @return Retourne le terrain de foot
-     */
-    public Terrain getUnTerrain() {return unTerrain;}
-
-
-
-    /**
-     * Remet à zéro les variable du jeu
-     */
-    public void creer() {
-        partieEncours = false;
-        pause = false;
     }
 
     /**
@@ -111,6 +96,28 @@ public class JeuDeFoot extends Thread {
 
     }
 
+
+/*********************************   METHODES  *********************************/
+
+    /**
+     * @return Retourne le terrain de foot
+     */
+    public Terrain getUnTerrain() {return unTerrain;}
+
+
+
+    /**
+     * Remet à zéro les variable du jeu
+     */
+    public void creer() {
+        partieEncours = false;
+        pause = false;
+    }
+
+
+/******************************  GETTER/SETTERS  ******************************/
+
+
     public boolean isPause() {return pause;}
 
 
@@ -120,8 +127,5 @@ public class JeuDeFoot extends Thread {
 
     public Equipe getEquipeUne() {return equipeUne;}
     public Equipe getEquipeDeux() {return equipeDeux;}
-
-
-
     
 }
