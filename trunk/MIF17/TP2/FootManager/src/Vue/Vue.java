@@ -1,6 +1,7 @@
 package Vue;
 
 import Model.JeuDeFoot;
+import Model.Joueur;
 import ObservListe.ObservableBouton;
 import ObservListe.ObservateurBouton;
 import java.awt.BorderLayout;
@@ -9,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -36,8 +38,7 @@ public class Vue extends JFrame implements ObservableBouton {
 
         this.unJeuDeFoot = unJeuDeFoot;
 
-        //Crée une Vue du Terrain. La vue du terrain connait le "Terrain modèle".
-        vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain());
+        initVueTerrain();
 
         initVue();
     }
@@ -80,9 +81,9 @@ public class Vue extends JFrame implements ObservableBouton {
         //BOUTONS --------------------->
         JPanel boutons = new JPanel(new GridLayout());
 
-        JButton start = new JButton("Démarrer");
-        boutons.add(start);
-        start.addActionListener(new ActionListener() {
+        JButton demarrer = new JButton("Démarrer");
+        boutons.add(demarrer);
+        demarrer.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 notifierObserveur("Démarrer");
@@ -141,7 +142,6 @@ public class Vue extends JFrame implements ObservableBouton {
             public void actionPerformed(ActionEvent e) {
                 notifierObserveur(label);
             }
-
         });
 
         if (key > 0) {
@@ -152,6 +152,37 @@ public class Vue extends JFrame implements ObservableBouton {
         }
     }
 
+
+    /**
+     * Crée une Vue du Terrain qui connait le "Terrain modèle".
+     * La vue du terrain observe chaque joueur.
+     */
+    private void initVueTerrain(){
+
+        //on récupère chaque équipe
+        ArrayList<Joueur> listeJoueurEquUne = unJeuDeFoot.getEquipeUne().getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquDeux = unJeuDeFoot.getEquipeDeux().getListeJoueurs();
+
+        //on concatène les deux listes
+        ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>(listeJoueurEquUne);
+        listeJoueurs.addAll(listeJoueurEquDeux);
+
+        //on initialise la vue du terrain
+        vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain(), listeJoueurs);
+
+        /*
+        //la vue du Terrain observe maintenant chaque joueur
+        for(int i = 0; i < listeJoueurEquUne.size(); i++)
+            listeJoueurEquUne.get(i).ajouterObservateur(vueTerrain);
+
+        for(int i = 0; i < listeJoueurEquDeux.size(); i++)
+            listeJoueurEquDeux.get(i).ajouterObservateur(vueTerrain);
+*/
+    }
+
+    /**************************
+     *  Méthodes de l'observé
+     **************************/
 
     public void ajouterObserveur(ObservateurBouton unObs) {
         this.unObservateur = unObs;

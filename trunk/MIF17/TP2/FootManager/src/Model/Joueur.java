@@ -1,6 +1,9 @@
 package Model;
 
+import ObservListe.Observateur;
+
 public class Joueur extends ElementMobile {
+
 
     private String nom; /** nom du joueur */
 
@@ -41,19 +44,57 @@ public class Joueur extends ElementMobile {
         y = 0;
     }
 
+
+    @Override
+    public void run() {demarrerJoueur();}
+
     /**
+     * Boucle qui fait jouer le joueur
+     */
+    public void demarrerJoueur(){
+
+            //System.out.println(nom + " - Lancement du Thread joueur : demarrerJoueur()");
+            /*
+            while(true){
+            //notifier
+            }
+             */
+
+        /*
+        try {
+            wait(200);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         */
+
+        notifierObservateur();
+    }
+
+
+     /**
      * @return Retourne le nom du joueur
      */
     public String getNom() {return nom;}
 
-    @Override
-    public void run() {
-        //boucle qui fait jouer le joueur
-        demarrerJoueur();
+    public Equipe getMonEquipe() {return monEquipe;}
+
+
+
+    /**************************
+     *  Méthodes de l'observé
+     **************************/
+
+    public void ajouterObservateur(Observateur obs) {
+        unObservateur = obs;
     }
 
-    public void demarrerJoueur(){
-        //System.out.println(nom + " - Lancement du Thread joueur");
+    public void supprimerObservateur() {
+        unObservateur = null;
+    }
+
+    public void notifierObservateur() {
+        unObservateur.miseAJour();
     }
 
 }

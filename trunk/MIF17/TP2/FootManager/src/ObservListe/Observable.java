@@ -5,7 +5,7 @@ package ObservListe;
  * de la classe Observable utilisent la classe Observateur
  */
 public interface Observable {
-	public void ajouterObserveur(Observateur obs);
-	public void supprimerObserveur(Observateur obs);
-	public void notifierObserveur();
+	public void ajouterObservateur(Observateur obs);
+	public void supprimerObservateur();
+	public void notifierObservateur();
 }
