@@ -18,20 +18,27 @@ public class JeuDeFoot extends Thread {
      */
     public JeuDeFoot() {
 
+        int longueur = 500;
+        int largeur = 500;
+
+        int x = Math.round(longueur/2);
+        int yCentre = Math.round(largeur/2);
+
         this.equipeUne = new Equipe(Color.BLUE);
         this.equipeDeux = new Equipe(Color.RED);
 
-        for(int i = 0; i < 11; i++){
-            equipeUne.ajouterUnJoueur(new Joueur("Bleu" + (i + 1), equipeUne));
-            equipeDeux.ajouterUnJoueur(new Joueur("Rouge" + (i + 1), equipeDeux));
-        }
+        this.unTerrain = new Terrain(longueur, largeur, Color.WHITE);
 
-        this.unTerrain = new Terrain(500, 500, Color.WHITE);
+        for(int i = 0; i < 11; i++){
+            equipeUne.ajouterUnJoueur(new Joueur(x, yCentre, "Bleu" + (i + 1), equipeUne));
+            equipeDeux.ajouterUnJoueur(new Joueur(x, yCentre, "Rouge" + (i + 1), equipeDeux));
+        }
 
         partieEncours = false;
         pause = false;
 
-        //ajouetr 1 stratégie/equipe
+        //ajouter un comportement par tortue
+        //ajouetr une stratégie par equipe
 
     }
 
@@ -70,7 +77,9 @@ public class JeuDeFoot extends Thread {
 
         for(int i = 0; i < listeJoueurEquDeux.size(); i++)
             listeJoueurEquDeux.get(i).start();
-        
+
+
+
     }
 
     /**
@@ -79,13 +88,13 @@ public class JeuDeFoot extends Thread {
     public Terrain getUnTerrain() {return unTerrain;}
 
 
+
     /**
      * Remet à zéro les variable du jeu
      */
     public void creer() {
         partieEncours = false;
         pause = false;
-
     }
 
     /**
@@ -95,7 +104,7 @@ public class JeuDeFoot extends Thread {
      */
     public synchronized void setPause(boolean pause) {
 
-        //System.out.println("Pause : " + pause);
+        System.out.println("Pause : " + pause);
         this.pause = pause;
 
         //Tant que la reprise n'a pas été décidée par l'utilisateur, faire une pause pour chaque joueur
@@ -105,10 +114,14 @@ public class JeuDeFoot extends Thread {
     public boolean isPause() {return pause;}
 
 
-
-    public void setPartieTerminee(boolean partieTerminee) {this.partieEncours = partieTerminee;}
-
+    public void setPartieTerminee(boolean partieEncours) {this.partieEncours = partieEncours;}
     public boolean isPartieEnCours() {return partieEncours;}
+
+
+    public Equipe getEquipeUne() {return equipeUne;}
+    public Equipe getEquipeDeux() {return equipeDeux;}
+
+
 
     
 }

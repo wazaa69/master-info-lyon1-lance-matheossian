@@ -6,6 +6,7 @@ public class Terrain {
 
     private int longeur;
     private int largeur;
+
     private Color couleur;
 
     public Terrain(int longueur, int largeur, Color couleur){

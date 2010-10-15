@@ -16,26 +16,24 @@ public class Controleur {
         this.uneVue = uneVue;
 
         this.unJeuDeFoot = _unJeuDeFoot;
-        
+
+
         //Ajout d'un observateur sur la vue. Le controleur Observe la vue.
         this.uneVue.ajouterObserveur(new ObservateurBouton() {
 
             //L'observateur va réaliser différentes actions
             public void miseAJour(String str){
 
-                if(str.equals("Démarrer")){
-                    if(isPartieEnCours())
-                        unJeuDeFoot.setPause(false);
-                    else
+                if(str.equals("Démarrer") && !isPartieEnCours())
                         unJeuDeFoot.lancerThreadJeuDeFoot();
-                }
 
                 else if(str.equals("Pause/Repartir")&& isPartieEnCours())
                     unJeuDeFoot.setPause(!unJeuDeFoot.isPause());
 
-                else if(str.equals("Mise à zéro"))
-                    unJeuDeFoot.creer();
-
+                /*else if(str.equals("Mise à zéro"))
+                    /unJeuDeFoot.creer();
+                 */
+                
                 else if(str.equals("Quitter"))
                     System.exit(0);
                     
