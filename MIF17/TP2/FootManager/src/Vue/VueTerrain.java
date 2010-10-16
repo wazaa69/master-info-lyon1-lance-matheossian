@@ -2,23 +2,22 @@ package Vue;
 
 import Model.Joueur;
 import Model.Terrain;
+import ObservListe.Observateur;
+import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.ArrayList;
-import javax.swing.JPanel;
+
 
 /**
  * Cette classe affiche le terrain et son contenu
  */
-public class VueTerrain extends JPanel {
+public class VueTerrain extends Applet {
 
     Terrain unTerrain;
 
     ArrayList<VueJoueur> listeVueJoueurs;
-
-    Image drawingImage;
 
     /**
      * Initialisation des valeurs de la vue du terrain
@@ -31,65 +30,55 @@ public class VueTerrain extends JPanel {
 
         listeVueJoueurs =  new ArrayList<VueJoueur>();
 
-        //chaqu joueur du model aura une vue
-        for(int i = 0; i < listeJoueurs.size(); i++)
-            listeVueJoueurs.add(new VueJoueur(this, listeJoueurs.get(i)));
-        
         setBackground(Color.white);
         setPreferredSize(new Dimension(Terrain.LONGUEUR,Terrain.LARGEUR));
 
+        //chaqu joueur du model aura une vue
+        for(int i = 0; i < listeJoueurs.size(); i++){
+            listeVueJoueurs.add(new VueJoueur(this, listeJoueurs.get(i)));
+
+            //le terrain observe chaque joueur
+            listeJoueurs.get(i).ajouterObservateur(new Observateur() {
+
+                public void miseAJour() {
+                    
+                    if (isOpaque()) resetBackground();
+                    dessiner(getGraphics());
+                    
+                }
+            });
+        }
+        
     }
 
 
     /**
-     * Redéfinition de la méthode paintComponent() de JPanel (héritée de JComponent)
-     * @param g
+     * Remet le fond du terrain en blanc
      */
-    @Override
-    public void paintComponent(Graphics g){
-        if (drawingImage == null) reset();
-        g.drawImage(drawingImage,0,0,null);
-    }
-
-
-    public Graphics getImageGraphics(){
-        if (drawingImage == null) reset();
-        return drawingImage.getGraphics();
-    }
-
-
-    /**
-     * Créaton de la vue du terrain
-     */
-    private void reset(){
-
-        /* 
-         * Il faudrait vérifier la taille du terrain, en fonction de la résolution d'écran.
-         * Si le terrain est trop grand, on notifie le controleur, qui va modifier la taille de base.
-         */
-
-        drawingImage = this.createImage(Terrain.LONGUEUR,Terrain.LARGEUR);
-        Graphics g = drawingImage.getGraphics();
+    private void resetBackground(){
+        Graphics g = getGraphics();
         Color c = g.getColor();
         g.setColor(Color.white);
         g.fillRect(0,0,Terrain.LONGUEUR,Terrain.LARGEUR); //cadre blanc de fond
         g.setColor(c);
     }
 
-    public synchronized void dessinetTerrain(){
 
-        /*
-        Graphics g = getImageGraphics();
-        g.drawImage(drawingImage,0,0,null);
-        */
-        
-        
 
-        //updateUI();
+
+    /**
+     * Dessine les joueurs
+     * @param g contexte graphique ne connaissant rien du précédant
+     */
+    public void dessiner(Graphics g) {
+
+        for(int i = 0; i < listeVueJoueurs.size(); i++)
+            listeVueJoueurs.get(i).dessiner(g);
+
+        g.dispose(); //relachement du context graphique
+
+        super.paintComponents(getGraphics());
 
     }
-
-    public Image getDrawingImage() {return drawingImage;}
-    
 
 }
