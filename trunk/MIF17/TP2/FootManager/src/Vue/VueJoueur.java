@@ -1,6 +1,7 @@
 package Vue;
 
 import Model.Joueur;
+import Model.Terrain;
 import ObservListe.Observateur;
 import java.awt.Graphics;
 
@@ -12,37 +13,27 @@ import java.awt.Polygon;
  */
 class VueJoueur {
 
-    VueTerrain vueTerrain; /** cette vue connait son conteneur parent */
-
     Joueur unJoueur; /** la vue à une référence sur le model */
 
     protected static final int rp = 10, rb = 5; /** pour le tracé des joueurs  */
 
     /**
-     * Les coordonnées du model serviront à afficher le joueur aux bonnes coordonnées polaires
+     * Les coordonnées du model serviront à dessiner le joueur aux bonnes coordonnées polaires
+     * @param vueTerrain la vue du terrain
      * @param unJoueur une joueur du model
      */
-    public VueJoueur(VueTerrain vueTerrain, Joueur unJoueur) {
-
-        this.vueTerrain = vueTerrain;
+    public VueJoueur(VueTerrain vueTer, Joueur unJoueur) {
 
         this.unJoueur = unJoueur;
-        
-        this.unJoueur.ajouterObservateur(new Observateur() {
 
-            public void miseAJour() {afficher();}
-
-        } );
     }
 
     /**
      * Dessine le joueur
      */
-    public synchronized void afficher(){
+    public synchronized void dessiner(Graphics g){
         
         //System.out.println("Joueur " + unJoueur.getNom() + " dessiné.");
-
-        Graphics g = vueTerrain.getImageGraphics();
 
         //Calcule les 3 coins du triangle a partir de la position du joueur
         Point pointUn = new Point(unJoueur.getX(),unJoueur.getY());
@@ -74,15 +65,11 @@ class VueJoueur {
 
         arrow.addPoint(pointDeux.x,pointDeux.y);
 
-
-        
         //on accède au modèle pour récupérer la couleur de l'équipe
         g.setColor(unJoueur.getMonEquipe().getCouleur());
         
         g.fillPolygon(arrow);
 
-        //on rafraichi le conteneur de cette tortue
-        vueTerrain.updateUI();
 
     }
 
