@@ -1,8 +1,6 @@
 package Vue;
 
 import Model.Joueur;
-import Model.Terrain;
-import ObservListe.Observateur;
 import java.awt.Graphics;
 
 import java.awt.Point;
