@@ -53,16 +53,36 @@ public class VueTerrain extends Applet {
 
 
     /**
-     * Remet le fond du terrain en blanc
+     * Redessine le fond du terrain
      */
     private void resetBackground(){
         Graphics g = getGraphics();
         Color c = g.getColor();
         g.setColor(Color.white);
         g.fillRect(0,0,Terrain.LONGUEUR,Terrain.LARGEUR); //cadre blanc de fond
-        g.setColor(c);
+        dessinerTerrain();
     }
 
+    private void dessinerTerrain(){
+
+        int longueur = Terrain.LONGUEUR;
+        int largeur = Terrain.LARGEUR;
+
+        int longueurCage = 50;
+        int largeurCage = 10;
+
+        Graphics g = getGraphics();
+        g.setColor(Color.GRAY); //on dessine les traits en noir
+
+        //Gauche
+        g.drawRect(-1, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
+        g.drawRect(longueur + 1 - largeurCage, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
+
+        g.drawLine(longueur/2, 0, longueur/2, largeur );
+        
+        drawOvale();
+
+    }
 
 
 

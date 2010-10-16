@@ -56,12 +56,12 @@ public class Joueur extends ElementMobile {
 
         while(true){
 
-            deplacementAuHasard(5);
+            deplacementAuHasard(3);
             notifierObservateur();
 
             
             try {
-                sleep(200);
+                sleep(150);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
             }
