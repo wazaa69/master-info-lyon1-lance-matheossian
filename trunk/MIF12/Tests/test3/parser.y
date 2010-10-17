@@ -2,6 +2,7 @@
     #include <cstdio>
     #include <iostream>
     #include <vector>
+    #include <string>
 
     using namespace std;
 
@@ -17,6 +18,7 @@
     #include "TypePointeur.hpp"
     #include "TypeInterval.hpp"
     #include "TypeArray.hpp"
+    #include "TypeRecord.hpp"
 
     extern FILE* yyin;
     extern char* yytext;
@@ -25,6 +27,7 @@
 
     extern TableDesSymboles* tableSymb;
     std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
+    int numeroContexte = 0;
 
 %}
 
@@ -39,6 +42,8 @@
 %token KW_STRING
 %token KW_ARRAY
 %token KW_OF
+%token KW_TYPE
+%token KW_RECORD
 
 %token SEP_SCOL
 %token SEP_DOT
@@ -50,6 +55,7 @@
 
 %token OP_PTR
 %token OP_SUB
+%token OP_EQ
 
 %token <numero> TOK_IDENT
 %token TOK_INTEGER
@@ -58,9 +64,12 @@
 
 
 %type <type> Type
+%type <type> BaseType
 %type <typeInterval> InterType
 %type <interBase> InterBase
 %type <typeArray> ArrayType
+%type <typePointeur> PointerType
+%type <typeRecord> RecordType
 
 /* Les types */
 
@@ -69,8 +78,10 @@
     int numero;
     Type* type;
     TypeInterval* typeInterval;
-    char* interBase;
+    int interBase;
     TypeArray* typeArray;
+    TypePointeur* typePointeur;
+    TypeRecord* typeRecord;
 
 
 }
@@ -78,14 +89,30 @@
 
 %%
 
-Program         : ProgramHeader SEP_SCOL Block SEP_DOT         {}
+Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
-ProgramHeader   : KW_PROGRAM TOK_IDENT                          {}
+ProgramHeader   : KW_PROGRAM TOK_IDENT                          { tableSymb->ajouter(new Symbole("prog"));}
                 ;
 
-Block           : BlockDeclVar BlockCode                        {}
-                ;
+
+Block         :  BlockDeclType BlockDeclVar BlockCode		{}
+              ;
+
+
+BlockDeclType  : KW_TYPE ListDeclType				
+               |						
+               ;
+
+ListDeclType   : ListDeclType DeclType				
+               | DeclType					
+               ;
+
+DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			
+
+
+
+
 
 BlockDeclVar    : KW_VAR ListDeclVar                            {}
                 |                                               {}
@@ -98,7 +125,7 @@ ListDeclVar     : ListDeclVar DeclVar                           {}
 DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
                                                                 {
 
-                                                                    for(unsigned int i = 0; i < tmpNumId.size(); i++){
+                                                                    for(unsigned int i = 0; i < tmpNumId.size() ; i++){
 
                                                                         tableSymb->ajouter(new Symbole("variable", $3));
 
@@ -116,20 +143,33 @@ ListIdent        :    ListIdent SEP_COMMA TOK_IDENT             {tmpNumId.push_b
 
 
 
-Type            :    KW_INTEGER 				                {$$ = new TypeInteger();}
+Type            :    TOK_IDENT							{}	                
+		|    UserType							{}
+		|    BaseType							{}
+                ;
+
+BaseType	:    KW_INTEGER 				                {$$ = new TypeInteger();}
                 |    KW_REAL 					                {$$ = new TypeReal();}
                 |    KW_BOOLEAN 				                {$$ = new TypeBoolean();}
                 |    KW_CHAR 					                {$$ = new TypeChar();}
-                |    KW_STRING 					                {$$ = new TypeString();}
-		|    OP_PTR Type						{$$ = new TypePointeur(*$2);}
-		|    InterType							{/* équivaut à $$ = $1; */}
-		|    UserType							{}
-                ;
-
-
+                |    KW_STRING 							{$$ = new TypeString();}
                
 
-UserType       : ArrayType							{}
+UserType       :    ArrayType							{}
+	       |    InterType							{}
+	       |    PointerType							{}
+	       |    RecordType							{}
+	       ;		
+
+RecordType     : KW_RECORD RecordFields KW_END					{$$ = new TypeRecord();}
+               ;
+
+RecordFields   : RecordFields SEP_SCOL RecordField				
+               | RecordField							{}
+               ;
+
+RecordField    : ListIdent SEP_DOTS Type					{}		
+
 
 
 ArrayType      : KW_ARRAY SEP_CO ArrayIndex SEP_CF KW_OF Type    { /*   array[ 6 .. 10 ] of integer  ou array[ a .. b ] of real */ 
@@ -141,9 +181,15 @@ ArrayIndex     : TOK_IDENT					{/*  a ou  6 .. 10 */}
 
 
 InterType      : InterBase SEP_DOTDOT InterBase             {/* 6 .. 10  ou a .. 15 ou -7 .. b   */
-								 $$ = new TypeInterval(); 
+								
+								 $$ = new TypeInterval($1,$3);
 							     }
                ;
+
+PointerType    : OP_PTR Type			{$$ = new TypePointeur(*$2);}
+               ;
+
+
 
 InterBase      : NSInterBase			{ /* a ou 6 */}
                | OP_SUB NSInterBase		{ /* - a ou -6 */}
@@ -159,6 +205,9 @@ BlockCode       : KW_BEGIN ListInstr KW_END                     {}
 
 ListInstr       :
                 ;
+
+
+
 
 
 %%

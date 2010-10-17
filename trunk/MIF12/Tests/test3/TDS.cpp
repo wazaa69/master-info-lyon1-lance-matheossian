@@ -12,7 +12,8 @@ void TableDesSymboles::ajouter(Symbole* symb){tableSymb.push_back(symb);}
 
 
 void TableDesSymboles::afficherTable()
-{
-	for (unsigned int i = 0; i < tableSymb.size(); i++)
+{	cout << 0 << " | " <<(*tableSymb[0]->getCategorie()) << " | "<< endl;
+
+	for (unsigned int i = 1; i < tableSymb.size(); i++)
 		cout << i << " | " <<(*tableSymb[i]->getCategorie()) << " | " << *(tableSymb[i]->getType()->getStringType()) << endl;
 }

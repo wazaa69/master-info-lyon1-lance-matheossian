@@ -5,6 +5,12 @@
 using namespace std;
 
 
+Symbole::Symbole(string _categorie){
+    categorie = new string(_categorie); //copie
+
+}
+
+
 Symbole::Symbole(string _categorie, Type* _type){
     categorie = new string(_categorie); //copie
     type = _type;

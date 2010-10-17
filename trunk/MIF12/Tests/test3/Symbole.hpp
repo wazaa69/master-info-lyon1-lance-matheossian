@@ -14,6 +14,12 @@ class Symbole {
         Type* type; /** int, bool, char, ... */
 
     public:
+	
+	/**
+        *   @brief Constructeur, initialise le symbole avec une catégorie
+        *   @param _categorie la catégorie du symbole
+        */
+        Symbole(std::string _categorie);
 
         /**
         *   @brief Constructeur, initialise le symbole avec une catégorie et un type
