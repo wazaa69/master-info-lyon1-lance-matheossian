@@ -11,18 +11,18 @@ import java.util.ArrayList;
 
 
 /**
- * Cette classe affiche le terrain et son contenu
+ * Cette classe représente la vue du terrain de jeu
  */
 public class VueTerrain extends Applet {
 
-    Terrain unTerrain;
+    Terrain unTerrain; /** @param unTerrain le terrain de jeu provenant du model */
 
-    ArrayList<VueJoueur> listeVueJoueurs;
+    ArrayList<VueJoueur> listeVueJoueurs; /** @param listeVueJoueurs tableau des joueurs pour l'affichage */
 
     /**
      * Initialisation des valeurs de la vue du terrain
      * @param unTerrain leTerrain provenant du model
-     * @param listeJoueurs la liste de tous les joueurs du model
+     * @param listeJoueurs la liste de tous les joueurs provenant du model
      */
     public VueTerrain(Terrain unTerrain, ArrayList<Joueur> listeJoueurs) {
 
@@ -43,7 +43,7 @@ public class VueTerrain extends Applet {
                 public void miseAJour() {
                     
                     if (isOpaque()) resetBackground();
-                    dessiner(getGraphics());
+                    dessinerJoueurs(getGraphics());
                     
                 }
             });
@@ -53,7 +53,7 @@ public class VueTerrain extends Applet {
 
 
     /**
-     * Redessine le fond du terrain
+     * Dessine le fond blanc du terrain
      */
     private void resetBackground(){
         Graphics g = getGraphics();
@@ -63,6 +63,9 @@ public class VueTerrain extends Applet {
         dessinerTerrain();
     }
 
+    /**
+     * Dessine les traits du terrain
+     */
     private void dessinerTerrain(){
 
         int longueur = Terrain.LONGUEUR;
@@ -74,13 +77,17 @@ public class VueTerrain extends Applet {
         Graphics g = getGraphics();
         g.setColor(Color.GRAY); //on dessine les traits en noir
 
-        //Gauche
+        //Cage Gauche
         g.drawRect(-1, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
-        g.drawRect(longueur + 1 - largeurCage, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
 
-        g.drawLine(longueur/2, 0, longueur/2, largeur );
-        
-        drawOvale();
+        //ligne centrale
+        g.drawLine(Math.round(longueur/2), 0, Math.round(longueur/2), largeur );
+
+        //rond centrale
+        g.drawOval(Math.round(longueur/2)-30, Math.round(largeur/2)-30, 60, 60);
+
+        //Cage Droite
+        g.drawRect(longueur + 1 - largeurCage, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
 
     }
 
@@ -88,9 +95,9 @@ public class VueTerrain extends Applet {
 
     /**
      * Dessine les joueurs
-     * @param g contexte graphique ne connaissant rien du précédant
+     * @param g contexte graphique
      */
-    public void dessiner(Graphics g) {
+    public void dessinerJoueurs(Graphics g) {
 
         for(int i = 0; i < listeVueJoueurs.size(); i++)
             listeVueJoueurs.get(i).dessiner(g);
