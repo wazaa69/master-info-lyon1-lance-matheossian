@@ -11,7 +11,7 @@ public class Terrain {
     public static int LONGUEUR; /**   longueur du terrin*/
     public static int LARGEUR; /**  largeur du terrin*/
 
-    public final static int MARGESEINTE = 20; /**  marge intérieur */
+    public final static int MARGESEINTE = 10; /**  marge intérieur */
 
     private Color couleur;
 
