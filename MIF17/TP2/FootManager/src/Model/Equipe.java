@@ -8,11 +8,11 @@ import java.util.ArrayList;
  */
 public class Equipe {
 
-    private ArrayList<Joueur> listeJoueurs; /** @param listeJoueurs la liste des joueurs */
+    private ArrayList<Joueur> listeJoueurs; /**  listeJoueurs la liste des joueurs */
 
-    private Color couleur;  /** @param couleur la couleur qui représente l'équipe */
+    private Color couleur;  /**  couleur la couleur qui représente l'équipe */
 
-    private int score = 0; /** @param le score actuel de l'équipe */
+    private int score = 0; /**  le score actuel de l'équipe */
 
     
     public Equipe(Color couleur){

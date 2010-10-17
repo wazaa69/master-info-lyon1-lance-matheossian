@@ -1,20 +1,28 @@
 package Model;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * La classe qui gère un jeu de foot
  */
 public class JeuDeFoot extends Thread {
 
-    private Equipe equipeUne; /** @param equipeUne première équipe */
-    private Equipe equipeDeux; /** @param equipeDeux seconde équipe */
 
-    private Terrain unTerrain; /** @param unTerrain le terrain de jeu */
+    private Date horloge; /**  horloge pour gérer le temps de jeu */
 
-    private boolean partieEnCours; /** @param partieEnCours vrai si la partie est en cours, faux sinon */
-    private boolean pause; /** @param pause vrai si le jeu de Foot est en pause, faux sinon */
+    private Equipe equipeUne; /**   première équipe */
+    private Equipe equipeDeux; /**   seconde équipe */
+
+    private Ballon unBallon; /**  le ballon de foot */
+
+    private Terrain unTerrain; /**  le terrain de jeu */
+
+    private boolean partieEnCours; /**   vrai si la partie est en cours, faux sinon */
+    private boolean pause; /**   vrai si le jeu de Foot est en pause, faux sinon */
 
 
     /**
@@ -24,25 +32,89 @@ public class JeuDeFoot extends Thread {
      */
     public JeuDeFoot(int longueurTerrain, int largeurTerrain) {
 
-        int x = Math.round(longueurTerrain/2);
-        int yCentre = Math.round(largeurTerrain/2);
+        unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
 
-        this.equipeUne = new Equipe(Color.BLUE);
-        this.equipeDeux = new Equipe(Color.RED);
+        unBallon = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), Color.MAGENTA);
 
-        this.unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
-
-        for(int i = 0; i < 11; i++){
-            equipeUne.ajouterUnJoueur(new Joueur(x, yCentre, "Bleu" + (i + 1), equipeUne));
-            equipeDeux.ajouterUnJoueur(new Joueur(x, yCentre, "Rouge" + (i + 1), equipeDeux));
-        }
+        initEquipes();
 
         partieEnCours = false;
+
         pause = false;
+    }
 
-        //ajouter un comportement par tortue
-        //ajouetr une stratégie par equipe
 
+/***********************   Initialisation des Equipes  ************************/
+
+
+    private void initEquipes(){
+
+        int nbJoueurs = 11;
+        
+        equipeUne = new Equipe(Color.BLUE);
+        equipeDeux = new Equipe(Color.RED);
+
+        initJoueursEquipe(equipeUne,equipeDeux, nbJoueurs);
+        initJoueursEquipe(equipeDeux, equipeUne, nbJoueurs);
+
+    }
+
+    /**
+     * Créé un certain nombre de Joueurs et les ajoutes dans une équipe.
+     * Chaque joueur est placé aléatoirement sur le terrain.
+     * @param courante l'équipe qui doit acqueuillir de nouveaux joueurs
+     * @param adverse l'équipe adverse
+     * @param nbJoueurs le nombre de joueur dans l'équipe
+     */
+    private void initJoueursEquipe(Equipe courante, Equipe adverse, int nbJoueurs){
+        
+        int angle = 0;
+        Point unPoint = null;
+        Joueur unJoueur = null;
+
+        for(int i = 0; i < nbJoueurs; i++){
+            while(unPoint == null) {unPoint = pointHasardDsTerrain();}
+            angle = (int) (Math.random() * 360);
+            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), angle, "Rouge" + (i + 1), courante, adverse);
+            courante.ajouterUnJoueur(unJoueur);
+            unPoint = null;
+        }
+
+    }
+
+    /**
+     * Recherche un point et une zone au hasard sur le terrain,
+     * qui n'est pas déjà occupé par un autre joueur.
+     * @return retourne le point libre si il est dispponible, null sinon
+     */
+    private Point pointHasardDsTerrain(){
+
+
+        //on récupère chaque équipe
+        ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
+
+        //on concatène les deux listes
+        ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>(listeJoueurEquUne);
+        listeJoueurs.addAll(listeJoueurEquDeux);
+
+
+        Dimension dim = Terrain.getDimTerrain();
+        Point unPoint = new Point(
+                    (int) Math.round(Math.random() * dim.getWidth()) + Terrain.MARGESEINTE,
+                    (int) Math.round(Math.random() * dim.getHeight()) + Terrain.MARGESEINTE
+                    );
+
+
+        boolean pasDeContact = true;
+
+        for(int i = 0; i < listeJoueurs.size() && pasDeContact; i++){
+            if(!listeJoueurs.get(i).isValideDistContact(unPoint))
+                pasDeContact = !pasDeContact;
+        }
+
+        if(pasDeContact)return unPoint;
+        else return null;
     }
 
 
@@ -102,12 +174,6 @@ public class JeuDeFoot extends Thread {
 
 /*********************************   METHODES  *********************************/
 
-    /**
-     * @return Retourne le terrain de foot
-     */
-    public Terrain getUnTerrain() {return unTerrain;}
-
-
 
     /**
      * Remet à zéro les variable du jeu
@@ -121,14 +187,17 @@ public class JeuDeFoot extends Thread {
 /******************************  GETTER/SETTERS  ******************************/
 
 
-    public boolean isPause() {return pause;}
+    public Equipe getEquipeUne() {return equipeUne;}
+    public Equipe getEquipeDeux() {return equipeDeux;}
 
+    public Terrain getUnTerrain() {return unTerrain;}
+    public Ballon getUnBallon() {return unBallon;}
+
+    public boolean isPause() {return pause;}
 
     public void setPartieTerminee(boolean partieEncours) {this.partieEnCours = partieEncours;}
     public boolean isPartieEnCours() {return partieEnCours;}
 
 
-    public Equipe getEquipeUne() {return equipeUne;}
-    public Equipe getEquipeDeux() {return equipeDeux;}
     
 }

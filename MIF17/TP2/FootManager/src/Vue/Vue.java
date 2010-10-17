@@ -25,11 +25,11 @@ import javax.swing.KeyStroke;
  */
 public class Vue extends JFrame implements ObservableBouton {
 
-    private JeuDeFoot unJeuDeFoot; /** @param unJeuDeFoot référence sur le jeu de foot*/
+    private JeuDeFoot unJeuDeFoot; /** référence sur le jeu de foot*/
 
-    private ObservateurBouton unObservateurBouton; /** @param un observateur de boutons */
+    private ObservateurBouton unObservateurBouton; /**  un observateur de boutons */
 
-    private VueTerrain vueTerrain;  /** @param la vue du terrain */
+    private VueTerrain vueTerrain;  /** la vue du terrain */
 
     /**
      * Constructeur, initialise le terrain et la fenêtre
@@ -171,7 +171,7 @@ public class Vue extends JFrame implements ObservableBouton {
         listeJoueurs.addAll(listeJoueurEquDeux);
 
         //on initialise la vue du terrain
-        vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain(), listeJoueurs);
+        vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain(), listeJoueurs, unJeuDeFoot.getUnBallon());
 
     }
 
