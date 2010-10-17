@@ -1,7 +1,9 @@
 package Model;
 
-import ObservListe.Observateur;
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,21 +13,10 @@ import java.util.logging.Logger;
 public class Joueur extends ElementMobile {
 
 
-    private String nom; /** @param nom nom du joueur */
+    private String nom; /** nom du joueur */
+    private Equipe monEquipe; /**  l'équipe du joueur */
+    private Equipe equipeAdverse; /** equipe advese */
 
-    private Equipe monEquipe; /** @param monEquipe l'équipe du joueur */
-
-    /**
-     * Initialise un joueur avec un nom et son Equipe
-     * @param nom le nom du joueur
-     * @param monEquipe l'équipe du joueur
-     */
-    public Joueur(String nom, Equipe monEquipe) {
-        x = 0;
-        y = 0;
-        this.nom = nom;
-        this.monEquipe = monEquipe;
-    }
 
     /**
      * Initialise un joueur avec des coordonnées, un nom et une Equipe
@@ -33,12 +24,29 @@ public class Joueur extends ElementMobile {
      * @param y coordonnées polaires
      * @param nom le nom du joueur
      * @param monEquipe l'équipe du joueur
+     * @param equipeAdverse equipe adverse
      */
-    public Joueur(int x, int y, String nom, Equipe monEquipe) {
+    public Joueur(int x, int y, int angle,String nom, Equipe monEquipe, Equipe equipeAdverse) {
         this.x = x;
         this.y = y;
+        this.angle = angle;
+        
         this.nom = nom;
         this.monEquipe = monEquipe;
+        this.equipeAdverse = equipeAdverse;
+    }
+    
+
+    /**
+     * Initialise un joueur avec un nom et son Equipe
+     * @param nom le nom du joueur
+     * @param monEquipe l'équipe du joueur
+     * @param equipeAdverse equipe adverse
+     */
+    public Joueur(String nom, Equipe monEquipe, Equipe equipeAdverse) {
+        this.nom = nom;
+        this.monEquipe = monEquipe;
+        this.equipeAdverse = equipeAdverse;
     }
 
 
@@ -77,7 +85,7 @@ public class Joueur extends ElementMobile {
 
     /**
      * Le joueur se déplace aléatoirement sur une distance
-     * @param dist la distance à parcourir
+     * @param distance la distance à parcourir
      */
     public void deplacementAuHasard(int distance)
     {
@@ -93,51 +101,82 @@ public class Joueur extends ElementMobile {
    /**
     * Fait avancer le joueur sur la feuille de dessin, si il atteint un bord,
     * il fait demi-tour et s'avance.
-    * @param dist la distance à parcourir
+    * @param distance la distance à parcourir
     */
     @Override
-    public void avancer(int distance)
-    {
+    public void avancer(int distance){avancerAvecEssais(distance,5);}
 
-        Point nouveauPoint = coordonneesSelonAngle(x,y,distance,angle);
+    /**
+     * Fait avancer le joueur sur la feuille de dessin, si le prochain déplacement atteint un bord,
+     * il fait demi-tour et s'avance (si possible).
+     * @param distance la distance à parcourir
+     * @param nbEssais nombre d'essaie pour se déplacer
+     */
+    public void avancerAvecEssais(int distance, int nbEssais){
 
-        if (isEmplacementValide(nouveauPoint))
-        {
-            x = (int) nouveauPoint.getX();
-            y = (int) nouveauPoint.getY();
+        if(nbEssais > 0){
+        
+            Point nouveauPoint = coordonneesDeplacement(x,y,distance,angle);
+
+            boolean bonEmplacement = isEmplacementValide(nouveauPoint);
+            boolean pasDeContact = isValideDistContact(nouveauPoint);
+
+            if (bonEmplacement && pasDeContact) //1 1
+                setXY(nouveauPoint);
+
+            else if(!bonEmplacement){ //0 1 ou 0 0
+                angle = (angle + 180) % 360; //demi-tour
+                avancerAvecEssais(distance, nbEssais-1); //teste nouveau déplacement
+            }
+
+            else avancerAvecEssais(distance, nbEssais-1); //1 0
+            
         }
-        else { //demi-tour
-
-            angle = (angle + 180) % 360;
-
-            //on recalcul avec le nouvel angle
-            nouveauPoint.setLocation(coordonneesSelonAngle(x,y,distance,angle));
-
-            x = (int) nouveauPoint.getX();
-            y = (int) nouveauPoint.getY();
-        }
-
+        
     }
 
 
 /******************************  VERIFICATIONS  ******************************/
 
      /*
-     * Teste si le joueur ne sort pas de la feuille de dessin
-     * @param x coordonnée en abscisse à tester
-     * @param y coordonnée en ordonné à tester
+     * Teste si le point ne sort pas de la feuille de dessin
+     * @param unPoint coordonnée à tester
      * @return retourne vrai si l'emplacement est valide, faux sinon
      */
-    protected boolean isEmplacementValide(Point point){
+    protected boolean isEmplacementValide(Point unPoint){
 
-        int longueurTerrain = Terrain.LONGUEUR - Terrain.BORDUREINTE;
-        int largeurTerrain = Terrain.LARGEUR - Terrain.BORDUREINTE;
-        
-        if(( point.getX() <= Terrain.BORDUREINTE ) || (point.getX() >= longueurTerrain )
-        || ( point.getY() <= Terrain.BORDUREINTE ) || (point.getY() >= largeurTerrain))
+        Dimension dim =  Terrain.getDimTerrain();
+
+        if(( unPoint.getX() < Terrain.MARGESEINTE  || unPoint.getX() > (dim.getWidth() + Terrain.MARGESEINTE))
+        || ( unPoint.getY() < Terrain.MARGESEINTE  || unPoint.getY() > (dim.getHeight() + Terrain.MARGESEINTE)))
             return false;
 
         return true;
+    }
+
+
+    /**
+     * Teste si le point n'est pas à l'intérieur du rayon de contact d'un joueur
+     * @param unPoint coordonnée à tester
+     * @return
+     */
+    public boolean isValideDistContact(Point unPoint){
+
+        //on récupère chaque équipe
+        ArrayList<Joueur> listeJoueurEquUne = monEquipe.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquDeux = equipeAdverse.getListeJoueurs();
+
+        //on concatène les deux listes
+        ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>(listeJoueurEquUne);
+        listeJoueurs.addAll(listeJoueurEquDeux);
+
+        for(int i = 0; i < listeJoueurs.size(); i++)
+            if(listeJoueurs.get(i) != this)
+                if(!isBonneDistance(unPoint, listeJoueurs.get(i)))
+                    return false; //distance non respectée
+
+        return true;
+
     }
 
     
@@ -152,7 +191,7 @@ public class Joueur extends ElementMobile {
      * @param angle l'angle
      * @return retourne la position du nouveau point
      */
-    private Point coordonneesSelonAngle(int x, int y, int distance, int angle){
+    private Point coordonneesDeplacement(int x, int y, int distance, int angle){
 
         Point point = new Point();
 
@@ -175,22 +214,12 @@ public class Joueur extends ElementMobile {
 
     public Equipe getMonEquipe() {return monEquipe;}
 
-
-
-
-/***************************** Méthodes de l'observé **************************/
-     
-
-    public void ajouterObservateur(Observateur obs) {
-        unObservateur = obs;
+    public void setXY(Point unPoint) {
+         x = (int) unPoint.getX();
+         y = (int) unPoint.getY();
     }
 
-    public void supprimerObservateur() {
-        unObservateur = null;
-    }
 
-    public void notifierObservateur() {
-        unObservateur.miseAJour();
-    }
+
 
 }

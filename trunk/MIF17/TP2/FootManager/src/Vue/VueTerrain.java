@@ -1,5 +1,6 @@
 package Vue;
 
+import Model.Ballon;
 import Model.Joueur;
 import Model.Terrain;
 import ObservListe.Observateur;
@@ -15,27 +16,28 @@ import java.util.ArrayList;
  */
 public class VueTerrain extends Applet {
 
-    Terrain unTerrain; /** @param unTerrain le terrain de jeu provenant du model */
+    Terrain unTerrain; /** le terrain de jeu provenant du model */
 
-    ArrayList<VueJoueur> listeVueJoueurs; /** @param listeVueJoueurs tableau des joueurs pour l'affichage */
+    ArrayList<VueElemMobiles> listeVueElemMobiles; /** tableau des joueurs pour l'affichage */
 
     /**
      * Initialisation des valeurs de la vue du terrain
      * @param unTerrain leTerrain provenant du model
      * @param listeJoueurs la liste de tous les joueurs provenant du model
      */
-    public VueTerrain(Terrain unTerrain, ArrayList<Joueur> listeJoueurs) {
+    public VueTerrain(Terrain unTerrain, ArrayList<Joueur> listeJoueurs, Ballon unBallon) {
 
         this.unTerrain = unTerrain;
 
-        listeVueJoueurs =  new ArrayList<VueJoueur>();
+        listeVueElemMobiles =  new ArrayList<VueElemMobiles>();
 
         setBackground(Color.white);
         setPreferredSize(new Dimension(Terrain.LONGUEUR,Terrain.LARGEUR));
 
-        //chaqu joueur du model aura une vue
+        //Création des vues pour chaque joueur
         for(int i = 0; i < listeJoueurs.size(); i++){
-            listeVueJoueurs.add(new VueJoueur(this, listeJoueurs.get(i)));
+            
+            listeVueElemMobiles.add(new VueJoueur(listeJoueurs.get(i)));
 
             //le terrain observe chaque joueur
             listeJoueurs.get(i).ajouterObservateur(new Observateur() {
@@ -43,11 +45,14 @@ public class VueTerrain extends Applet {
                 public void miseAJour() {
                     
                     if (isOpaque()) resetBackground();
-                    dessinerJoueurs(getGraphics());
+                    dessinerElemMobiles(getGraphics());
                     
                 }
             });
         }
+
+        //Vue du ballon
+        listeVueElemMobiles.add(new VueBallon(unBallon));
         
     }
 
@@ -59,7 +64,8 @@ public class VueTerrain extends Applet {
         Graphics g = getGraphics();
         Color c = g.getColor();
         g.setColor(Color.white);
-        g.fillRect(0,0,Terrain.LONGUEUR,Terrain.LARGEUR); //cadre blanc de fond
+        //cadre blanc de fond --> fait scintiller l'affichage : redessine le tout
+        g.fillRect(0,0,Terrain.LONGUEUR,Terrain.LARGEUR);
         dessinerTerrain();
     }
 
@@ -72,7 +78,7 @@ public class VueTerrain extends Applet {
         int largeur = Terrain.LARGEUR;
 
         int longueurCage = 50;
-        int largeurCage = 10;
+        int largeurCage = Terrain.MARGESEINTE;
 
         Graphics g = getGraphics();
         g.setColor(Color.GRAY); //on dessine les traits en noir
@@ -97,10 +103,10 @@ public class VueTerrain extends Applet {
      * Dessine les joueurs
      * @param g contexte graphique
      */
-    public void dessinerJoueurs(Graphics g) {
+    public void dessinerElemMobiles(Graphics g) {
 
-        for(int i = 0; i < listeVueJoueurs.size(); i++)
-            listeVueJoueurs.get(i).dessiner(g);
+        for(int i = 0; i < listeVueElemMobiles.size(); i++)
+            listeVueElemMobiles.get(i).dessiner(g, false);
 
         g.dispose(); //relachement du context graphique
 

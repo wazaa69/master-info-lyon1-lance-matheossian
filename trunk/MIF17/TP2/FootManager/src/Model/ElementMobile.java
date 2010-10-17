@@ -10,17 +10,17 @@ import java.awt.Point;
  */
 public abstract class ElementMobile extends Thread implements Observable {
 
-    protected Observateur unObservateur; /** @param unObservateur celui qui observe l'élément mobile */
+    protected Observateur unObservateur; /** celui qui observe l'élément mobile */
 
-    protected int x; /** @param x Coordonnée en abscisse */
-    protected int y; /** @param y Coordonnée en ordonnée */
-    protected int angle; /** @param angle  Schéma :  180 --- | ---- 0°  */
+    protected int x; /**  Coordonnée en abscisse */
+    protected int y; /** Coordonnée en ordonnée */
+    protected int angle = 0; /**  Schéma :  180° --- | ---- 0°  */
 
     
-    public final static double convDegGrad = 0.0174533; /** @param convDegGrad la constante de conversion de degres en gradient  */
+    public final static double convDegGrad = 0.0174533; /**  la constante de conversion de degres en gradient  */
 
-    /** @param DistanceMinContact distance minimal entre deux elements mobiles, si elle n'est pas respectée, les deux éléments rentrent en collision */
-    private Integer DistanceMinContact;
+    /**  distance minimal entre deux elements mobiles, si elle n'est pas respectée, les deux éléments rentrent en collision */
+    protected int distanceMinContact = 25;
 
 
 
@@ -62,12 +62,14 @@ public abstract class ElementMobile extends Thread implements Observable {
 /******************************  VERIFICATIONS  ******************************/
 
     /**
-     * Vérifie si la distance entre deux éléments est respectées
+     * Vérifie si la distance entre deux points est respectée
+     * @param x coordonnée en abscisse
+     * @param y coordonnée en odronnée
      * @param unElemMobile l'élément distant
-     * @return retourne vrai si la distance minimal est respectée, faux sinon
+     * @return retourne vrai si la distance minimal (distance >= distance Minimal) est respectée, faux sinon
      */
-    public boolean isBonneDistance(ElementMobile unElemMobile){
-        return (getDistance(unElemMobile) >= DistanceMinContact);
+    public boolean isBonneDistance(Point unPoint, ElementMobile unElemMobile){
+        return (getDistance(unPoint, unElemMobile) >= distanceMinContact);
     }
 
 
@@ -76,18 +78,32 @@ public abstract class ElementMobile extends Thread implements Observable {
      * @param unElemMobile l'élément distant
      * @return retourne un entier qui indique la distance
      */
-    public Integer getDistance(ElementMobile unElemMobile) {
-        System.out.println((int) Point.distance(x, y, unElemMobile.getX(), unElemMobile.getY()));
-        return (int) Point.distance(x, y, unElemMobile.getX(), unElemMobile.getY());
+    public int getDistance(Point unPoint, ElementMobile unElemMobile) {
+        return (int) Point.distance((int) unPoint.getX(),(int) unPoint.getY(), unElemMobile.getX(), unElemMobile.getY());
     }
 
 
 /******************************  GETTER/SETTERS  ******************************/
+
 
     public int getAngle() {return angle;}
     public int getX() {return x;}
     public int getY() {return y;}
 
 
+/***************************** Méthodes de l'observé **************************/
+
+
+    public void ajouterObservateur(Observateur obs) {
+        unObservateur = obs;
+    }
+
+    public void supprimerObservateur() {
+        unObservateur = null;
+    }
+
+    public void notifierObservateur() {
+        unObservateur.miseAJour();
+    }
 
 }

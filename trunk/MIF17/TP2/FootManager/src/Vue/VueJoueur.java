@@ -8,28 +8,28 @@ import java.awt.Polygon;
 
 /**
  * La classe qui représente visuellement un joueur
+ * TODO :
+ * un joueur doit pouvoir noifier sa VueJoueur, et VuJoueur doit mettre à jour son affichage (et non VueTerrain)
+ * -> déjà testé mais les joueurs ne s'affichaient pas. Voir pour plus tard.
  */
-class VueJoueur {
+class VueJoueur extends VueElemMobiles {
 
-    Joueur unJoueur; /** @param unJoueur la vue à une référence sur le model */
+    Joueur unJoueur; /** la vue à une référence sur le model */
 
     protected static final Integer rp = 10, rb = 5; /** pour le tracé des joueurs  */
 
     /**
-     * Les coordonnées du model serviront à dessiner le joueur aux bonnes coordonnées polaires
-     * @param vueTerrain la vue du terrain
+     * Les coordonnées du model serviront à dessiner le joueur
      * @param unJoueur une joueur du model
      */
-    public VueJoueur(VueTerrain vueTer, Joueur unJoueur) {
-
+    public VueJoueur(Joueur unJoueur) {
         this.unJoueur = unJoueur;
-
     }
 
     /**
      * Dessine le joueur
      */
-    public synchronized void dessiner(Graphics g){
+    public void dessiner(Graphics g, Boolean clear){
         
         //System.out.println("Joueur " + unJoueur.getNom() + " dessiné.");
 
