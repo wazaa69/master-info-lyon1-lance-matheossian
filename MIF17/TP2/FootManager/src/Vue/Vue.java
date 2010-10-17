@@ -25,15 +25,16 @@ import javax.swing.KeyStroke;
  */
 public class Vue extends JFrame implements ObservableBouton {
 
-    private JeuDeFoot unJeuDeFoot;
+    private JeuDeFoot unJeuDeFoot; /** @param unJeuDeFoot référence sur le jeu de foot*/
 
-    //Observateur
-    private ObservateurBouton unObservateur;
+    private ObservateurBouton unObservateurBouton; /** @param un observateur de boutons */
 
-    // Les différentes vues
-    private VueTerrain vueTerrain;
-   
+    private VueTerrain vueTerrain;  /** @param la vue du terrain */
 
+    /**
+     * Constructeur, initialise le terrain et la fenêtre
+     * @param unJeuDeFoot un jeu de foot
+     */
     public Vue(JeuDeFoot unJeuDeFoot) {
 
         this.unJeuDeFoot = unJeuDeFoot;
@@ -43,6 +44,8 @@ public class Vue extends JFrame implements ObservableBouton {
         initVue();
     }
 
+
+/**************************** Initialisation des vues *************************/
 
     /**
     * Initialise le contenu de la fenêtre : créations des boutons et des actions associées
@@ -172,20 +175,21 @@ public class Vue extends JFrame implements ObservableBouton {
 
     }
 
-    /**************************
-     *  Méthodes de l'observé
-     **************************/
 
+
+/***************************** Méthodes de l'observé **************************/
+
+    
     public void ajouterObserveur(ObservateurBouton unObs) {
-        this.unObservateur = unObs;
+        this.unObservateurBouton = unObs;
     }
 
     public void supprimerObserveur() {
-        unObservateur = null;
+        unObservateurBouton = null;
     }
 
     public void notifierObserveur(String action) {
-        unObservateur.miseAJour(action);
+        unObservateurBouton.miseAJour(action);
     }
 
 }

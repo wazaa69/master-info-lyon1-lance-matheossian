@@ -5,13 +5,15 @@ import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Un joueur appartenant à une équipe
+ */
 public class Joueur extends ElementMobile {
 
 
-    private String nom; /** nom du joueur */
+    private String nom; /** @param nom nom du joueur */
 
-    private Equipe monEquipe; /** l'équipe du joueur */
-
+    private Equipe monEquipe; /** @param monEquipe l'équipe du joueur */
 
     /**
      * Initialise un joueur avec un nom et son Equipe
@@ -73,7 +75,6 @@ public class Joueur extends ElementMobile {
 
 /*******************************  DEPLACEMENT  *******************************/
 
-    
     /**
      * Le joueur se déplace aléatoirement sur une distance
      * @param dist la distance à parcourir
@@ -90,8 +91,8 @@ public class Joueur extends ElementMobile {
     }
 
    /**
-    * Fait avancer la tortue sur la feuille de dessin, si elle atteint un bord,
-    * elle fait demi-tour et s'avance.
+    * Fait avancer le joueur sur la feuille de dessin, si il atteint un bord,
+    * il fait demi-tour et s'avance.
     * @param dist la distance à parcourir
     */
     @Override
@@ -100,7 +101,7 @@ public class Joueur extends ElementMobile {
 
         Point nouveauPoint = coordonneesSelonAngle(x,y,distance,angle);
 
-        if (emplacementValide(nouveauPoint))
+        if (isEmplacementValide(nouveauPoint))
         {
             x = (int) nouveauPoint.getX();
             y = (int) nouveauPoint.getY();
@@ -127,7 +128,7 @@ public class Joueur extends ElementMobile {
      * @param y coordonnée en ordonné à tester
      * @return retourne vrai si l'emplacement est valide, faux sinon
      */
-    protected boolean emplacementValide(Point point){
+    protected boolean isEmplacementValide(Point point){
 
         int longueurTerrain = Terrain.LONGUEUR - Terrain.BORDUREINTE;
         int largeurTerrain = Terrain.LARGEUR - Terrain.BORDUREINTE;
@@ -138,7 +139,6 @@ public class Joueur extends ElementMobile {
 
         return true;
     }
-
 
     
 
@@ -165,7 +165,6 @@ public class Joueur extends ElementMobile {
 
     }
 
-
 /******************************  GETTER/SETTERS  ******************************/
 
 
@@ -178,11 +177,9 @@ public class Joueur extends ElementMobile {
 
 
 
-    
 
-    /**************************
-     *  Méthodes de l'observé
-     **************************/
+/***************************** Méthodes de l'observé **************************/
+     
 
     public void ajouterObservateur(Observateur obs) {
         unObservateur = obs;

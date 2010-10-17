@@ -2,6 +2,9 @@ package Model;
 
 import java.awt.Color;
 
+/**
+ * Le terrain de jeu
+ */
 public class Terrain {
 
     public static int LONGUEUR; /** @param LONGUEUR longueur du terrin*/

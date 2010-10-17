@@ -11,9 +11,9 @@ import java.awt.Polygon;
  */
 class VueJoueur {
 
-    Joueur unJoueur; /** la vue à une référence sur le model */
+    Joueur unJoueur; /** @param unJoueur la vue à une référence sur le model */
 
-    protected static final int rp = 10, rb = 5; /** pour le tracé des joueurs  */
+    protected static final Integer rp = 10, rb = 5; /** pour le tracé des joueurs  */
 
     /**
      * Les coordonnées du model serviront à dessiner le joueur aux bonnes coordonnées polaires
@@ -33,10 +33,11 @@ class VueJoueur {
         
         //System.out.println("Joueur " + unJoueur.getNom() + " dessiné.");
 
+
         //Calcule les 3 coins du triangle a partir de la position du joueur
         Point pointUn = new Point(unJoueur.getX(),unJoueur.getY());
-        Polygon arrow = new Polygon();
 
+        Polygon arrow = new Polygon();
 
         //Calcule des deux bases
 
@@ -63,10 +64,19 @@ class VueJoueur {
 
         arrow.addPoint(pointDeux.x,pointDeux.y);
 
-        //on accède au modèle pour récupérer la couleur de l'équipe
         g.setColor(unJoueur.getMonEquipe().getCouleur());
         
         g.fillPolygon(arrow);
+
+
+        /* Autre dessin (rectangle à angles arrondis)
+        Point point = new Point(unJoueur.getX(),unJoueur.getY());
+
+        //on accède au modèle pour récupérer la couleur de l'équipe
+        g.setColor(unJoueur.getMonEquipe().getCouleur());
+
+        g.fillRoundRect((int) point.getX(), (int) point.getY(), 10, 10, 15, 15);
+        */
 
 
     }

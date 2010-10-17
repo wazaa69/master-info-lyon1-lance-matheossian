@@ -3,11 +3,16 @@ package Model;
 import java.awt.Color;
 import java.util.ArrayList;
 
+/**
+ * Un équipe avec une stratégie et composée de plusieurs joueurs
+ */
 public class Equipe {
 
-    private ArrayList<Joueur> listeJoueurs;
+    private ArrayList<Joueur> listeJoueurs; /** @param listeJoueurs la liste des joueurs */
 
-    private Color couleur;
+    private Color couleur;  /** @param couleur la couleur qui représente l'équipe */
+
+    private int score = 0; /** @param le score actuel de l'équipe */
 
     
     public Equipe(Color couleur){
@@ -21,13 +26,17 @@ public class Equipe {
     }
 
 
-    public ArrayList<Joueur> getListeJoueurs() {
-        return listeJoueurs;
-    }
+    
 
+/******************************  GETTER/SETTERS  ******************************/
+    
     public void ajouterUnJoueur(Joueur unJoueur){
         //System.out.println(unJoueur.getNom());
         listeJoueurs.add(unJoueur);
+    }
+
+    public ArrayList<Joueur> getListeJoueurs() {
+        return listeJoueurs;
     }
 
     public Color getCouleur() {
@@ -35,5 +44,4 @@ public class Equipe {
     }
 
     
-
 }

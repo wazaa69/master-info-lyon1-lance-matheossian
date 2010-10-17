@@ -3,15 +3,18 @@ package Model;
 import java.awt.Color;
 import java.util.ArrayList;
 
+/**
+ * La classe qui gère un jeu de foot
+ */
 public class JeuDeFoot extends Thread {
 
-    private Equipe equipeUne; /** première équipe */
-    private Equipe equipeDeux; /** seconde équipe */
+    private Equipe equipeUne; /** @param equipeUne première équipe */
+    private Equipe equipeDeux; /** @param equipeDeux seconde équipe */
 
-    private Terrain unTerrain; /** le terrain de jeu */
+    private Terrain unTerrain; /** @param unTerrain le terrain de jeu */
 
-    private boolean partieEncours; /** vrai si la partie est en cours, faux sinon */
-    private boolean pause; /** vrai si le jeu de Foot est en pause, faux sinon */
+    private boolean partieEnCours; /** @param partieEnCours vrai si la partie est en cours, faux sinon */
+    private boolean pause; /** @param pause vrai si le jeu de Foot est en pause, faux sinon */
 
 
     /**
@@ -34,7 +37,7 @@ public class JeuDeFoot extends Thread {
             equipeDeux.ajouterUnJoueur(new Joueur(x, yCentre, "Rouge" + (i + 1), equipeDeux));
         }
 
-        partieEncours = false;
+        partieEnCours = false;
         pause = false;
 
         //ajouter un comportement par tortue
@@ -50,7 +53,7 @@ public class JeuDeFoot extends Thread {
      */
     public void lancerThreadJeuDeFoot() {
 
-        System.out.println("Lancement du thread");
+        System.out.println("Lancement du thread de Jeu");
 
         //Lance le Thread de Jeu de Foot
         (new Thread(this)).start();
@@ -69,7 +72,7 @@ public class JeuDeFoot extends Thread {
      */
     private void demarrerLaPartie() {
 
-        partieEncours = true;
+        partieEnCours = true;
 
         ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
         ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
@@ -110,7 +113,7 @@ public class JeuDeFoot extends Thread {
      * Remet à zéro les variable du jeu
      */
     public void creer() {
-        partieEncours = false;
+        partieEnCours = false;
         pause = false;
     }
 
@@ -121,8 +124,8 @@ public class JeuDeFoot extends Thread {
     public boolean isPause() {return pause;}
 
 
-    public void setPartieTerminee(boolean partieEncours) {this.partieEncours = partieEncours;}
-    public boolean isPartieEnCours() {return partieEncours;}
+    public void setPartieTerminee(boolean partieEncours) {this.partieEnCours = partieEncours;}
+    public boolean isPartieEnCours() {return partieEnCours;}
 
 
     public Equipe getEquipeUne() {return equipeUne;}
