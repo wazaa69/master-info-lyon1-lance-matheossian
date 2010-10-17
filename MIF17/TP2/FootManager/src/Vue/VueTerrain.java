@@ -27,6 +27,7 @@ public class VueTerrain extends Applet {
      */
     public VueTerrain(Terrain unTerrain, ArrayList<Joueur> listeJoueurs, Ballon unBallon) {
 
+
         this.unTerrain = unTerrain;
 
         listeVueElemMobiles =  new ArrayList<VueElemMobiles>();
@@ -107,8 +108,6 @@ public class VueTerrain extends Applet {
 
         for(int i = 0; i < listeVueElemMobiles.size(); i++)
             listeVueElemMobiles.get(i).dessiner(g, false);
-
-        g.dispose(); //relachement du context graphique
 
         super.paintComponents(getGraphics());
 

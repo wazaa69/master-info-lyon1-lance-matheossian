@@ -30,6 +30,7 @@ public class Vue extends JFrame implements ObservableBouton {
     private ObservateurBouton unObservateurBouton; /**  un observateur de boutons */
 
     private VueTerrain vueTerrain;  /** la vue du terrain */
+    private VueScore vueScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
 
     /**
      * Constructeur, initialise le terrain et la fenêtre
@@ -40,6 +41,8 @@ public class Vue extends JFrame implements ObservableBouton {
         this.unJeuDeFoot = unJeuDeFoot;
 
         initVueTerrain();
+
+        vueScore = new VueScore(this);
 
         initVue();
     }
@@ -60,7 +63,7 @@ public class Vue extends JFrame implements ObservableBouton {
         
         // Centre l'interface
         setLocationRelativeTo(null);
-        setTitle("Jeu de tortues");
+        setTitle("Jeu de Foot");
 
         //ferme la (les) fenêtres
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -82,7 +85,7 @@ public class Vue extends JFrame implements ObservableBouton {
         
 
         //BOUTONS --------------------->
-        JPanel boutons = new JPanel(new GridLayout());
+        JPanel boutons = new JPanel(new GridLayout(3,1));
 
         JButton demarrer = new JButton("Démarrer");
         boutons.add(demarrer);
@@ -174,6 +177,7 @@ public class Vue extends JFrame implements ObservableBouton {
         vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain(), listeJoueurs, unJeuDeFoot.getUnBallon());
 
     }
+
 
 
 
