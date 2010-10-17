@@ -14,7 +14,7 @@ TypeInterval::~TypeInterval(){
 }
 
 
-TypeInterval::TypeInterval(const string _debut, const string _fin)
+TypeInterval::TypeInterval(int _debut, int _fin)
 {
 	
 	//debut = _debut;

@@ -17,7 +17,7 @@ class TypeInterval : public Type {
 		TypeInterval();
 		~TypeInterval();
 		
-		TypeInterval(const std::string _debut, const std::string _fin);
+		TypeInterval(int _debut, int _fin);
 
 };
 

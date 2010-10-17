@@ -17,6 +17,7 @@ TOK_INTEGER {chiffres}
 SEP_CO				"["
 SEP_CF				"]"
 
+OP_EQ				"="
 
 %%
 
@@ -30,20 +31,25 @@ real                    {column += yyleng; return KW_REAL;}
 boolean                 {column += yyleng; return KW_BOOLEAN;}
 char                    {column += yyleng; return KW_CHAR;}
 string                  {column += yyleng; return KW_STRING;}
-array			{return KW_ARRAY;}
-of			{return KW_OF;}
+array			{column += yyleng; return KW_ARRAY;}
+of			{column += yyleng; return KW_OF;}
+type			{column += yyleng; return KW_TYPE;}
+record			{column += yyleng; return KW_RECORD;}
+
 
 "."                     {column += yyleng; return SEP_DOT;}
 ":"                     {column += yyleng; return SEP_DOTS;}
 ";"                     {column += yyleng; return SEP_SCOL;}
 ","                     {column += yyleng; return SEP_COMMA;}
-{SEP_CO}			{column += yyleng; return SEP_CO;}
-{SEP_CF}			{column += yyleng; return SEP_CF;}
-".."			{return SEP_DOTDOT;}
+{SEP_CO}		{column += yyleng; return SEP_CO;}
+{SEP_CF}		{column += yyleng; return SEP_CF;}
+".."			{column += yyleng; return SEP_DOTDOT;}
 
+
+{OP_EQ}			{column += yyleng; return OP_EQ;}
 "->" |
 "^"                     {column += yyleng; return OP_PTR;}
-"-"			{ return OP_SUB;}
+"-"			{column += yyleng; return OP_SUB;}
 
 
 
