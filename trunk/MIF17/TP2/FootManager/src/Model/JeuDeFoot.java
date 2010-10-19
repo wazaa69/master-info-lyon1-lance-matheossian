@@ -174,22 +174,20 @@ public class JeuDeFoot extends Thread {
 
         if(pauseRepartir){
             for(int i = 0; i < listeJoueurEquUne.size(); i++)
-                listeJoueurEquUne.get(i).setEstEnpause(pauseRepartir);
+                listeJoueurEquUne.get(i).setEstEnpause();
 
             for(int i = 0; i < listeJoueurEquDeux.size(); i++)
-                listeJoueurEquDeux.get(i).setEstEnpause(pauseRepartir);
+                listeJoueurEquDeux.get(i).setEstEnpause();
         }
         else
         {
             
             for(int i = 0; i < listeJoueurEquUne.size(); i++){
-                listeJoueurEquUne.get(i).setEstEnpause(pauseRepartir);
-                listeJoueurEquUne.get(i).notify();
-                
+                listeJoueurEquUne.get(i).setEstEnpause();     
             }
 
             for(int i = 0; i < listeJoueurEquDeux.size(); i++){
-                listeJoueurEquDeux.get(i).setEstEnpause(pauseRepartir);
+                listeJoueurEquDeux.get(i).setEstEnpause();
             }
              
         }
