@@ -23,14 +23,14 @@ public class VueTerrain extends Applet {
     /**
      * Initialisation des valeurs de la vue du terrain
      * @param unTerrain leTerrain provenant du model
-     * @param listeJoueurs la liste de tous les joueurs provenant du model
+     * @param listeVueElemMobiles la liste de tous les joueurs provenant du model
      */
     public VueTerrain(Terrain unTerrain, ArrayList<Joueur> listeJoueurs, Ballon unBallon) {
 
 
         this.unTerrain = unTerrain;
 
-        listeVueElemMobiles =  new ArrayList<VueElemMobiles>();
+        this.listeVueElemMobiles =  new ArrayList<VueElemMobiles>();
 
         setBackground(Color.white);
         setPreferredSize(new Dimension(Terrain.LONGUEUR,Terrain.LARGEUR));
@@ -38,22 +38,20 @@ public class VueTerrain extends Applet {
         //Création des vues pour chaque joueur
         for(int i = 0; i < listeJoueurs.size(); i++){
             
-            listeVueElemMobiles.add(new VueJoueur(listeJoueurs.get(i)));
+            this.listeVueElemMobiles.add(new VueJoueur(listeJoueurs.get(i)));
 
             //le terrain observe chaque joueur
             listeJoueurs.get(i).ajouterObservateur(new Observateur() {
 
                 public void miseAJour() {
-                    
-                    if (isOpaque()) resetBackground();
-                    dessinerElemMobiles(getGraphics());
-                    
+                    resetBackground();
+                    dessinerElemMobiles(getGraphics()); 
                 }
             });
         }
 
         //Vue du ballon
-        listeVueElemMobiles.add(new VueBallon(unBallon));
+        this.listeVueElemMobiles.add(new VueBallon(unBallon));
         
     }
 

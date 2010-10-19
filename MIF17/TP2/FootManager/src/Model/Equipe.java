@@ -14,6 +14,7 @@ public class Equipe {
 
     private int score = 0; /**  le score actuel de l'équipe */
 
+    private int startegie = 0; /** la stratégie adoptée par l'équipe */
     
     public Equipe(Color couleur){
         listeJoueurs = new ArrayList<Joueur>();

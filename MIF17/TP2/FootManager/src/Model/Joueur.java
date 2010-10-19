@@ -1,8 +1,8 @@
 package Model;
 
+import Model.Strategies.Strategie;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +17,9 @@ public class Joueur extends ElementMobile {
     private Equipe monEquipe; /**  l'équipe du joueur */
     private Equipe equipeAdverse; /** equipe advese */
 
+    private Strategie stratAdoptee; /** la stratégie adopté par le joueur en fonction de son équipe */
+
+    private Caracteristiques caracteristiques; /** les caractéristiques du joueur */
 
     /**
      * Initialise un joueur avec des coordonnées, un nom et une Equipe
@@ -66,12 +69,12 @@ public class Joueur extends ElementMobile {
 
         while(true){
 
-            deplacementAuHasard(3);
+            deplacementAuHasard(1);
             notifierObservateur();
 
             
             try {
-                sleep(150);
+                sleep(50);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -89,7 +92,7 @@ public class Joueur extends ElementMobile {
      */
     public void deplacementAuHasard(int distance)
     {
-        int rotation = (int)(Math.random() * 45);
+        int rotation = (int)(Math.random() * 30);
         
         if(Math.random() > 0.5)
             angle = (angle + rotation)%360;
