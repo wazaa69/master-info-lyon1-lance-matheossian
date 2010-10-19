@@ -238,10 +238,12 @@ public class Joueur extends ElementMobile {
          y = (int) unPoint.getY();
     }
 
-    public boolean isEstEnpause() {return estEnpause;}
-
-    public void setEstEnpause(boolean estEnpause) {
-        this.estEnpause = estEnpause;
+    /**
+     * Réactive le thread si il était en pause
+     */
+    public void setEstEnpause() {
+        this.estEnpause = !estEnpause;
+        synchronized(this){notify();}
     }
 
 }
