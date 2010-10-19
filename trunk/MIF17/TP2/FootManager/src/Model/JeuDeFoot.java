@@ -17,7 +17,7 @@ public class JeuDeFoot extends Thread {
     private Equipe equipeUne; /**   première équipe */
     private Equipe equipeDeux; /**   seconde équipe */
 
-    private Ballon unBallon; /**  le ballon de foot */
+    private static Ballon unBallon; /**  le ballon de foot disponible */
 
     private Terrain unTerrain; /**  le terrain de jeu */
 

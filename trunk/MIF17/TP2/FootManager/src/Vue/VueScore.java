@@ -25,6 +25,7 @@ public class VueScore extends JFrame implements Observateur {
         setSize(100,100);
         setResizable(false);
 
+
         /** Lecture de la taille de l'écran */
         Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
