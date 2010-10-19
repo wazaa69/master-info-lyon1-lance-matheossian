@@ -28,7 +28,7 @@ public class Controleur {
                         unJeuDeFoot.lancerThreadJeuDeFoot();
 
                 else if(str.equals("Pause/Repartir")&& isPartieEnCours())
-                    unJeuDeFoot.setPause(!unJeuDeFoot.isPause());
+                    unJeuDeFoot.setPauseRepartir();
 
                 /*else if(str.equals("Mise à zéro"))
                     /unJeuDeFoot.creer();

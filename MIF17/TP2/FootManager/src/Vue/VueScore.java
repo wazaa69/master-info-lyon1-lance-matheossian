@@ -18,7 +18,7 @@ public class VueScore extends JFrame implements Observateur {
     JLabel scoreGauche = new JLabel("0", JLabel.CENTER);
     JLabel scoreDroit =  new JLabel("0", JLabel.CENTER);
 
-    public VueScore(Vue vue) {
+    public VueScore() {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Score");
@@ -28,12 +28,6 @@ public class VueScore extends JFrame implements Observateur {
 
         /** Lecture de la taille de l'écran */
         Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-
-
-        setLocation(
-            ((tailleEcran.width-getWidth())/2) + vue.getWidth(),
-            ((tailleEcran.height-getHeight())/2)  + vue.getHeight()
-            );
 
 
         //Layout type

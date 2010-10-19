@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * La classe qui gère un jeu de foot
@@ -22,7 +24,7 @@ public class JeuDeFoot extends Thread {
     private Terrain unTerrain; /**  le terrain de jeu */
 
     private boolean partieEnCours; /**   vrai si la partie est en cours, faux sinon */
-    private boolean pause; /**   vrai si le jeu de Foot est en pause, faux sinon */
+    private boolean pauseRepartir; /**   vrai si le jeu de Foot est en pause, faux sinon */
 
 
     /**
@@ -40,7 +42,7 @@ public class JeuDeFoot extends Thread {
 
         partieEnCours = false;
 
-        pause = false;
+        pauseRepartir = false;
     }
 
 
@@ -158,16 +160,41 @@ public class JeuDeFoot extends Thread {
     }
 
     /**
-     * TODO
      * Active/Désactive la pause
-     * @param pause vrai pour dire que le jeu de Foot est en pause, faux sinon
      */
-    public synchronized void setPause(boolean pause) {
+    public synchronized void setPauseRepartir() {
 
-        System.out.println("Pause : " + pause);
-        this.pause = pause;
+        //faux de base
+        pauseRepartir = !pauseRepartir;
 
-        //Tant que la reprise n'a pas été décidée par l'utilisateur, faire une pause pour chaque joueur
+        ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
+
+
+
+        if(pauseRepartir){
+            for(int i = 0; i < listeJoueurEquUne.size(); i++)
+                listeJoueurEquUne.get(i).setEstEnpause(pauseRepartir);
+
+            for(int i = 0; i < listeJoueurEquDeux.size(); i++)
+                listeJoueurEquDeux.get(i).setEstEnpause(pauseRepartir);
+        }
+        else
+        {
+            
+            for(int i = 0; i < listeJoueurEquUne.size(); i++){
+                listeJoueurEquUne.get(i).setEstEnpause(pauseRepartir);
+                listeJoueurEquUne.get(i).notify();
+                
+            }
+
+            for(int i = 0; i < listeJoueurEquDeux.size(); i++){
+                listeJoueurEquDeux.get(i).setEstEnpause(pauseRepartir);
+            }
+             
+        }
+
+
 
     }
 
@@ -180,7 +207,7 @@ public class JeuDeFoot extends Thread {
      */
     public void creer() {
         partieEnCours = false;
-        pause = false;
+        pauseRepartir = false;
     }
 
 
@@ -192,8 +219,6 @@ public class JeuDeFoot extends Thread {
 
     public Terrain getUnTerrain() {return unTerrain;}
     public Ballon getUnBallon() {return unBallon;}
-
-    public boolean isPause() {return pause;}
 
     public void setPartieTerminee(boolean partieEncours) {this.partieEnCours = partieEncours;}
     public boolean isPartieEnCours() {return partieEnCours;}
