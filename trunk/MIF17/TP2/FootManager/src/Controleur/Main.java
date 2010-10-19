@@ -3,7 +3,14 @@ package Controleur;
 import Model.JeuDeFoot;
 import Vue.Vue;
 
-
+/**
+ * 
+ * Jeu de Foot basique avec quelques stratégies.
+ * 
+ * @version 2.0
+ * @author LANCE Florian  n°Etu : 10604720
+ * @author MATHEOSSIAN Dimitri n°Etu : 10604950
+ */
 public class Main {
 
     public static void main(String[] args) {

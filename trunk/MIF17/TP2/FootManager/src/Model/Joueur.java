@@ -21,6 +21,9 @@ public class Joueur extends ElementMobile {
 
     private Caracteristiques caracteristiques; /** les caractéristiques du joueur */
 
+    private boolean estEnpause; /** le joueur est en pause café */
+
+    
     /**
      * Initialise un joueur avec des coordonnées, un nom et une Equipe
      * @param x coordonnées polaires
@@ -29,7 +32,7 @@ public class Joueur extends ElementMobile {
      * @param monEquipe l'équipe du joueur
      * @param equipeAdverse equipe adverse
      */
-    public Joueur(int x, int y, int angle,String nom, Equipe monEquipe, Equipe equipeAdverse) {
+    public Joueur(int x, int y, int angle, String nom, Equipe monEquipe, Equipe equipeAdverse) {
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -37,6 +40,8 @@ public class Joueur extends ElementMobile {
         this.nom = nom;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
+
+        this.estEnpause = true;
     }
     
 
@@ -50,6 +55,7 @@ public class Joueur extends ElementMobile {
         this.nom = nom;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
+        this.estEnpause = true;
     }
 
 
@@ -67,7 +73,17 @@ public class Joueur extends ElementMobile {
 
         //System.out.println(nom + " - Lancement du Thread joueur : demarrerJoueur()");
 
+        estEnpause = false;
+
         while(true){
+
+            if(estEnpause){
+                try {
+                    synchronized(this){wait();} //aller boire un café
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
 
             deplacementAuHasard(1);
             notifierObservateur();
@@ -222,7 +238,10 @@ public class Joueur extends ElementMobile {
          y = (int) unPoint.getY();
     }
 
+    public boolean isEstEnpause() {return estEnpause;}
 
-
+    public void setEstEnpause(boolean estEnpause) {
+        this.estEnpause = estEnpause;
+    }
 
 }
