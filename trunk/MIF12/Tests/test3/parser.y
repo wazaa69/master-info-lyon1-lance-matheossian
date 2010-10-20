@@ -25,8 +25,11 @@
     extern int yylex();
     extern int yyerror(char* m);
 
-    extern TableDesSymboles* tableSymb;
+    extern TableDesSymboles* tableSymb; //la table principale des symboles
+    TableDesSymboles* tmpTds; //une table des symboles temporaires (pour les sous-contextes)
+
     std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
+
     int numeroContexte = 0;
 
 %}
@@ -126,7 +129,7 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
                                                                 {
 
                                                                     for(unsigned int i = 0; i < tmpNumId.size() ; i++){
-
+									
                                                                         tableSymb->ajouter(new Symbole("variable", $3));
 
                                                                         cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles." << endl;
@@ -161,14 +164,38 @@ UserType       :    ArrayType							{}
 	       |    RecordType							{}
 	       ;		
 
-RecordType     : KW_RECORD RecordFields KW_END					{$$ = new TypeRecord();}
+RecordType     : KW_RECORD RecordFields KW_END					{
+								cout << "étape 1 "<< endl;
+								tmpTds = new TableDesSymboles();
+								TypeRecord* tmpRec = new TypeRecord(tmpTds);
+
+							        $$ = tmpRec;
+
+										}
                ;
 
 RecordFields   : RecordFields SEP_SCOL RecordField				
                | RecordField							{}
                ;
 
-RecordField    : ListIdent SEP_DOTS Type					{}		
+
+RecordField    : ListIdent SEP_DOTS Type					{
+
+		cout << "étape 2 "<< endl;
+		for(unsigned int i = 0; i < tmpNumId.size() ; i++){
+									
+                               tmpTds->ajouter(new Symbole("variable", $3));
+
+                               cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles temporaire." << endl;
+                   }
+
+                tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
+
+}
+
+
+
+
 
 
 
@@ -177,7 +204,7 @@ ArrayType      : KW_ARRAY SEP_CO ArrayIndex SEP_CF KW_OF Type    { /*   array[ 
                ;						}
 
 ArrayIndex     : TOK_IDENT					{/*  a ou  6 .. 10 */}
-               | InterType					{}
+               | InterType					{/* on pourrait ramener un intervalle pour les 2 cas à rajouter dans arraytype */}
 
 
 InterType      : InterBase SEP_DOTDOT InterBase             {/* 6 .. 10  ou a .. 15 ou -7 .. b   */
