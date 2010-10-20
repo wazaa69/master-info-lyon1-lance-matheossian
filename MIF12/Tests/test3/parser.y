@@ -26,7 +26,7 @@
     extern int yyerror(char* m);
 
     extern TableDesSymboles* tableSymb; //la table principale des symboles
-    TableDesSymboles* tmpTds; //une table des symboles temporaires (pour les sous-contextes)
+    TableDesSymboles* tmpTds =  new TableDesSymboles(); //une table des symboles temporaires (pour les sous-contextes)
 
     std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
 
@@ -165,31 +165,34 @@ UserType       :    ArrayType							{}
 	       ;		
 
 RecordType     : KW_RECORD RecordFields KW_END					{
-								cout << "étape 1 "<< endl;
-								tmpTds = new TableDesSymboles();
+								
+								
 								TypeRecord* tmpRec = new TypeRecord(tmpTds);
-
+								
+								tmpNumId.push_back(0);
 							        $$ = tmpRec;
-
+								tmpTds = new TableDesSymboles();
 										}
                ;
 
-RecordFields   : RecordFields SEP_SCOL RecordField				
+RecordFields   : RecordFields SEP_SCOL RecordField				{}				
                | RecordField							{}
                ;
 
 
+
 RecordField    : ListIdent SEP_DOTS Type					{
-
-		cout << "étape 2 "<< endl;
+		
 		for(unsigned int i = 0; i < tmpNumId.size() ; i++){
-									
-                               tmpTds->ajouter(new Symbole("variable", $3));
 
+                               tmpTds->ajouter(new Symbole("variable", $3));
+				
                                cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles temporaire." << endl;
                    }
 
                 tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
+		
+		//$$ = tmpTds;
 
 }
 
