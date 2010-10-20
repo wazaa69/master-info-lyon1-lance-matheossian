@@ -9,6 +9,15 @@ TypeRecord::TypeRecord()
 	
 }
 
+TypeRecord::TypeRecord(TableDesSymboles* _TDSLocale)
+{
+	type = new string("Record");
+	TDSLocale = _TDSLocale;
+	
+}
+
+
+
 TypeRecord::~TypeRecord(){
 
 }

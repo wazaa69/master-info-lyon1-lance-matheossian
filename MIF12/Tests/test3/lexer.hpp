@@ -5,6 +5,7 @@
 	#include "TypeInterval.hpp"
 	#include "TypeArray.hpp"
 	#include "TypePointeur.hpp"
+	#include "TypeRecord.hpp"
 
 	#include "parser.h"
 	

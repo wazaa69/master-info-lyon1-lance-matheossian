@@ -15,6 +15,8 @@ class TypeArray : public Type {
 		TypeArray();
 		~TypeArray();
 		
+		//TypeArray(TypeInterval* taille);
+		TypeArray(int taille);
 		
 
 };
