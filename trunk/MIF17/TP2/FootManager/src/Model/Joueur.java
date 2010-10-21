@@ -17,8 +17,6 @@ public class Joueur extends ElementMobile {
     private Equipe monEquipe; /**  l'équipe du joueur */
     private Equipe equipeAdverse; /** equipe advese */
 
-    private Strategie stratAdoptee; /** la stratégie adopté par le joueur en fonction de son équipe */
-
     private Caracteristiques caracteristiques; /** les caractéristiques du joueur */
 
     private boolean estEnpause; /** le joueur est en pause café */
@@ -42,6 +40,7 @@ public class Joueur extends ElementMobile {
         this.equipeAdverse = equipeAdverse;
 
         this.estEnpause = true;
+        
     }
     
 
@@ -85,9 +84,15 @@ public class Joueur extends ElementMobile {
                 }
             }
 
-            deplacementAuHasard(1);
-            notifierObservateur();
-
+            switch(monEquipe.getStartegie()){
+                case 0: //neutre
+                    deplacementAuHasard(1);
+                    break;
+                case 1: //defense
+                    break;
+                case 2: //attaque
+                    break;
+            }
             
             try {
                 sleep(50);
@@ -101,6 +106,16 @@ public class Joueur extends ElementMobile {
 
 
 /*******************************  DEPLACEMENT  *******************************/
+
+
+    protected void deplacement(){
+
+
+
+        
+
+    }
+
 
     /**
      * Le joueur se déplace aléatoirement sur une distance
@@ -140,8 +155,10 @@ public class Joueur extends ElementMobile {
             boolean bonEmplacement = isEmplacementValide(nouveauPoint);
             boolean pasDeContact = isValideDistContact(nouveauPoint);
 
-            if (bonEmplacement && pasDeContact) //1 1
+            if (bonEmplacement && pasDeContact){ //1 1
                 setXY(nouveauPoint);
+                notifierObservateur(); //demande de rafaichissement de la vue des joueurs
+            }
 
             else if(!bonEmplacement){ //0 1 ou 0 0
                 angle = (angle + 180) % 360; //demi-tour
@@ -200,7 +217,7 @@ public class Joueur extends ElementMobile {
 
     
 
-/*******************************  COORDONNEES  *******************************/
+/***************************  COORDONNEES ET ANGLE  ***************************/
 
     /**
      * Calcul des nouvelles coordonnées selon un point de départ, une distance et un angle
@@ -221,6 +238,25 @@ public class Joueur extends ElementMobile {
 
         return point;
 
+    }
+
+    /**
+     * Retourne l'angle où le ballon peut être vu, depuis la position du joueur
+     * @return retourne un entier correspondant à l'angle
+     */
+    protected int setAngleSelonBallon(){
+
+        //calcul des différnces de coordonnées polaires
+        int diffX = JeuDeFoot.UNBALLON.getX() - x;
+        int diffY = JeuDeFoot.UNBALLON.getY() - y;
+
+        //côté adjancent sur opposé
+        int adjSurOpp = Math.round( diffX/(diffY+1) );
+
+        //System.out.println(Math.toDegrees(Math.atan(adjSurOpp)));
+
+        //tan-1(adj/opp)
+        return (int) Math.toDegrees(Math.atan(adjSurOpp));
     }
 
 /******************************  GETTER/SETTERS  ******************************/
