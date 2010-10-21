@@ -1,6 +1,8 @@
 package Vue;
 
 import Model.Ballon;
+import Model.Cage;
+import Model.JeuDeFoot;
 import Model.Joueur;
 import Model.Terrain;
 import ObservListe.Observateur;
@@ -26,7 +28,6 @@ public class VueTerrain extends Applet {
      * @param listeVueElemMobiles la liste de tous les joueurs provenant du model
      */
     public VueTerrain(Terrain unTerrain, ArrayList<Joueur> listeJoueurs, Ballon unBallon) {
-
 
         this.unTerrain = unTerrain;
 
@@ -76,14 +77,15 @@ public class VueTerrain extends Applet {
         int longueur = Terrain.LONGUEUR;
         int largeur = Terrain.LARGEUR;
 
-        int longueurCage = 50;
-        int largeurCage = Terrain.MARGESEINTE;
-
         Graphics g = getGraphics();
         g.setColor(Color.GRAY); //on dessine les traits en noir
 
+        Cage uneCage;
+
         //Cage Gauche
-        g.drawRect(-1, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
+        uneCage = unTerrain.getCageGauche();
+        g.drawRect((int) uneCage.getCoordonnees().getX(), (int)uneCage.getCoordonnees().getY(),
+                uneCage.getLargeur(), uneCage.getLongueur());
 
         //ligne centrale
         g.drawLine(Math.round(longueur/2), 0, Math.round(longueur/2), largeur );
@@ -92,7 +94,9 @@ public class VueTerrain extends Applet {
         g.drawOval(Math.round(longueur/2)-30, Math.round(largeur/2)-30, 60, 60);
 
         //Cage Droite
-        g.drawRect(longueur + 1 - largeurCage, (largeur/2) - longueurCage, largeurCage, 2*longueurCage);
+        uneCage = unTerrain.getCageDroite();
+        g.drawRect((int) uneCage.getCoordonnees().getX(), (int)uneCage.getCoordonnees().getY(),
+                uneCage.getLargeur(), uneCage.getLongueur());
 
     }
 

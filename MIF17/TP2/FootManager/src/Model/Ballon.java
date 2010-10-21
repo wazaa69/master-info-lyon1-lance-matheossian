@@ -11,8 +11,8 @@ public class Ballon extends ElementMobile {
 
     public Ballon(int x, int y, Color couleur) {
 
-        this.x = x;
-        this.y = y;
+        this.x = x +100 ;
+        this.y = y + 100;
 
         this.couleur = couleur;
         this.possesseur = null;

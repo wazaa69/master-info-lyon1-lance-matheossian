@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * La classe qui gère un jeu de foot
@@ -14,17 +11,19 @@ import java.util.logging.Logger;
 public class JeuDeFoot extends Thread {
 
 
-    private Date horloge; /**  horloge pour gérer le temps de jeu */
+    private long horlogeDebutMatch; /**  horloge pour gérer le temps de jeu */
 
     private Equipe equipeUne; /**   première équipe */
     private Equipe equipeDeux; /**   seconde équipe */
-
-    private static Ballon unBallon; /**  le ballon de foot disponible */
 
     private Terrain unTerrain; /**  le terrain de jeu */
 
     private boolean partieEnCours; /**   vrai si la partie est en cours, faux sinon */
     private boolean pauseRepartir; /**   vrai si le jeu de Foot est en pause, faux sinon */
+
+
+    // -> voir si on met une ref dans Joueur au lieu du ballon static ! */
+    public static Ballon UNBALLON; /**  le ballon de foot disponible */
 
 
     /**
@@ -34,15 +33,15 @@ public class JeuDeFoot extends Thread {
      */
     public JeuDeFoot(int longueurTerrain, int largeurTerrain) {
 
+        partieEnCours = false;
+        pauseRepartir = false;
+
         unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
 
-        unBallon = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), Color.MAGENTA);
+        UNBALLON = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), Color.MAGENTA);
 
         initEquipes();
 
-        partieEnCours = false;
-
-        pauseRepartir = false;
     }
 
 
@@ -53,10 +52,10 @@ public class JeuDeFoot extends Thread {
 
         int nbJoueurs = 11;
         
-        equipeUne = new Equipe(Color.BLUE);
-        equipeDeux = new Equipe(Color.RED);
+        equipeUne = new Equipe("RedTeam",Color.BLUE, unTerrain.getCageGauche());
+        equipeDeux = new Equipe("BlueTeam",Color.RED, unTerrain.getCageDroite());
 
-        initJoueursEquipe(equipeUne,equipeDeux, nbJoueurs);
+        initJoueursEquipe(equipeUne, equipeDeux, nbJoueurs);
         initJoueursEquipe(equipeDeux, equipeUne, nbJoueurs);
 
     }
@@ -72,14 +71,29 @@ public class JeuDeFoot extends Thread {
         
         int angle = 0;
         Point unPoint = null;
+        String nom = "";
         Joueur unJoueur = null;
 
-        for(int i = 0; i < nbJoueurs; i++){
+        //Création du goal
+        nom = courante.getNomEquipe() + " - Goal";
+        unJoueur = new JoueurGoal(nom, courante, adverse);
+        courante.ajouterUnJoueur(unJoueur);
+
+        //création du reste de l'équipe, on commence à 1
+        for(int i = 1; i < nbJoueurs; i++){
+
             while(unPoint == null) {unPoint = pointHasardDsTerrain();}
             angle = (int) (Math.random() * 360);
-            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), angle, "Rouge" + (i + 1), courante, adverse);
+
+            nom = courante.getNomEquipe() + " - " + (i + 1);
+
+            //création du joueur
+            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), angle, nom, courante, adverse);
+
             courante.ajouterUnJoueur(unJoueur);
+            
             unPoint = null;
+            
         }
 
     }
@@ -147,6 +161,9 @@ public class JeuDeFoot extends Thread {
     private void demarrerLaPartie() {
 
         partieEnCours = true;
+
+        //initialisation de l'horloge, à partir de l'heure actuelle (en millisecondes)
+        horlogeDebutMatch = System.currentTimeMillis();
 
         ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
         ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
@@ -216,11 +233,17 @@ public class JeuDeFoot extends Thread {
     public Equipe getEquipeDeux() {return equipeDeux;}
 
     public Terrain getUnTerrain() {return unTerrain;}
-    public Ballon getUnBallon() {return unBallon;}
+    public Ballon getUnBallon() {return UNBALLON;}
 
     public void setPartieTerminee(boolean partieEncours) {this.partieEnCours = partieEncours;}
     public boolean isPartieEnCours() {return partieEnCours;}
 
-
-    
+    /**
+     * Retourne le temps écoulé depuis le début du match
+     * @return retourne un long qui correspond au temps de match
+     */
+    public long tempsEcoule(){
+        return horlogeDebutMatch - System.currentTimeMillis();
+    }
+  
 }

@@ -16,7 +16,8 @@ class VueJoueur extends VueElemMobiles {
 
     Joueur unJoueur; /** la vue à une référence sur le model */
 
-    protected static final Integer rp = 10, rb = 5; /** pour le tracé des joueurs  */
+    protected final Integer hauteur = 10; /** hauteur du triangle isocel */
+    protected final Integer largeurBase = 5; /** largeurBase de la base du triangle isocel */
 
     /**
      * Les coordonnées du model serviront à dessiner le joueur
@@ -42,11 +43,11 @@ class VueJoueur extends VueElemMobiles {
         //Calcule des deux bases
 
         //Angle de la droite
-        double theta = Joueur.convDegGrad * (- unJoueur.getAngle());
+        double theta = Joueur.convDegGrad * -(unJoueur.getAngle());
         //Demi angle au sommet du triangle
-        double alpha = Math.atan( (float) rb / (float)rp );
+        double alpha = Math.atan( (float) largeurBase / (float)hauteur );
         //Rayon de la fleche
-        double r = Math.sqrt( rp*rp + rb*rb );
+        double r = Math.sqrt( hauteur*hauteur + largeurBase*largeurBase );
         //Sens de la fleche
 
         //Pointe
@@ -67,16 +68,6 @@ class VueJoueur extends VueElemMobiles {
         g.setColor(unJoueur.getMonEquipe().getCouleur());
         
         g.fillPolygon(arrow);
-
-
-        /* Autre dessin (rectangle à angles arrondis)
-        Point point = new Point(unJoueur.getX(),unJoueur.getY());
-
-        //on accède au modèle pour récupérer la couleur de l'équipe
-        g.setColor(unJoueur.getMonEquipe().getCouleur());
-
-        g.fillRoundRect((int) point.getX(), (int) point.getY(), 10, 10, 15, 15);
-        */
 
 
     }

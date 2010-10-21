@@ -62,7 +62,7 @@ public class Vue extends JFrame implements ObservableBouton {
 
         //taille de la fenêtre
         setSize(800,800);
-        this.setResizable(false);
+        //this.setResizable(false);
         
         // Centre l'interface
         setLocationRelativeTo(null);
