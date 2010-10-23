@@ -12,6 +12,7 @@ class Symbole {
 
         std::string* categorie; /** variable, constante, fonction, procedure, etiquette, temporaire ... */
         Type* type; /** int, bool, char, ... */
+	int id;
 
     public:
 	
@@ -28,6 +29,14 @@ class Symbole {
         */
         Symbole(std::string _categorie, Type* _type);
 
+	    /**
+        *   @brief Constructeur, initialise le symbole avec une catégorie et un type
+        *   @param _categorie la catégorie du symbole
+        *   @param _type le type du symbole
+	*   @param _id identifiant du symbole
+        */
+        Symbole(std::string _categorie, Type* _type, int _id);
+
         /**
         *   @brief Destructeur
         */
@@ -43,6 +52,11 @@ class Symbole {
         *   @return Retourne l'adresse d'une instance de la classe Type
         */
         Type* getType();
+
+	/**
+        *   @return Retourne l'identifiant du symbole
+        */
+        int getID();
 
 };
 

@@ -26,11 +26,15 @@
     extern int yyerror(char* m);
 
     extern TableDesSymboles* tableSymb; //la table principale des symboles
-    TableDesSymboles* tmpTds =  new TableDesSymboles(); //une table des symboles temporaires (pour les sous-contextes)
+    extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
 
+    TableDesSymboles* tmpTds =  new TableDesSymboles(tableSymb->incNumContexteActuel()); //une table des symboles temporaires (pour les sous-contextes)
     std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
-
-    int numeroContexte = 0;
+  
+    bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
+    int diffRecord; // 
+    int numIdRecord; // numero Id du record à écrire dans la table des symboles
+    bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
 
 %}
 
@@ -95,7 +99,10 @@
 Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
-ProgramHeader   : KW_PROGRAM TOK_IDENT                          { tableSymb->ajouter(new Symbole("prog"));}
+ProgramHeader   : KW_PROGRAM TOK_IDENT                          {	
+									listeTDS.push_back(tableSymb);
+									tableSymb->ajouter(new Symbole("prog"));
+								}
                 ;
 
 
@@ -130,12 +137,16 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 
                                                                     for(unsigned int i = 0; i < tmpNumId.size() ; i++){
 									
-                                                                        tableSymb->ajouter(new Symbole("variable", $3));
-
-                                                                        cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles." << endl;
+									if (!ajoutRecord){
+									tableSymb->ajouter(new Symbole("variable", $3, tableSymb->incNumIdActuel())); 
+									}
+                                                                        else{tableSymb->ajouter(new Symbole("variable", $3, numIdRecord)); ajoutRecord = false;}
+															
+                                                                        cout << *($3->getStringType()) <<  " ajoute à TS principale" <<  endl;
                                                                     }
 
-                                                                    tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
+                                                                    tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante						     
+									cout << "On efface tmpNumId" << endl;
 
                                                                 }
                 ;
@@ -170,8 +181,12 @@ RecordType     : KW_RECORD RecordFields KW_END					{
 								TypeRecord* tmpRec = new TypeRecord(tmpTds);
 								
 								tmpNumId.push_back(0);
-							        $$ = tmpRec;
-								tmpTds = new TableDesSymboles();
+							        $$ = tmpRec; // on remonte le record
+								
+								cout <<  "TS" << tmpTds->getNumContexte() << " a une taile de  " << tmpTds->getTableSymb().size() << " et est envoyé dans la liste des TS \n\n"<< endl;
+
+								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								
 										}
                ;
 
@@ -182,18 +197,31 @@ RecordFields   : RecordFields SEP_SCOL RecordField				{}
 
 
 RecordField    : ListIdent SEP_DOTS Type					{
-		
-		for(unsigned int i = 0; i < tmpNumId.size() ; i++){
 
-                               tmpTds->ajouter(new Symbole("variable", $3));
+		// on doit enlever 1 à la taille de tmpTds car il compte le TOKIDENT du record pendant la déclaration
+		if(nouveauRecord){
+			diffRecord = 1;
+			nouveauRecord = false; 
+			numIdRecord = tableSymb->incNumIdActuel();
+			ajoutRecord = true;
+
+			tmpTds = new TableDesSymboles(tableSymb->incNumContexteActuel()); // on initialise tmpTds pour le nouveau contexte
+			cout <<  "\n\nCréation TS" << tmpTds->getNumContexte() << endl;
+		}
+
+		else{diffRecord = 0;}
 				
-                               cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles temporaire." << endl;
+			
+		for(unsigned int i = 0; i < tmpNumId.size() - diffRecord ; i++){
+				
+				
+                               tmpTds->ajouter(new Symbole("variable", $3, tableSymb->incNumIdActuel()));
+				
+                               cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles temporaire." << tableSymb->getNumIdActuel() <<endl;
+
                    }
 
                 tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
-		
-		//$$ = tmpTds;
-
 }
 
 
