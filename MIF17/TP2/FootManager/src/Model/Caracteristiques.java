@@ -10,7 +10,7 @@ package Model;
 public class Caracteristiques {
 
     /* Caractéristiques personnelles, non modifiables */
-    private int vitesseMaxDep; /** c'est la distance maximal que peut parcourir le joueur en un deplacement */
+    private int distDep;  /** c'est la distance maximal qui peut être parcourue en un deplacement */
     private int distMaxTir; /** la distance maximal d'où le joueur peut tirer */
     private int distMinPrendreBalle; /** distance minimum pour prendre la balle */
 
@@ -21,8 +21,12 @@ public class Caracteristiques {
     private boolean jeuSolitaire; /** vrai si le joueur joue solitaire, faux sinon */
 
 
+    public Caracteristiques() {}
+
+
 /******************************  GETTER/SETTERS  ******************************/
-    
+
+
     public boolean isAttaquant() {
         return attaquant;
     }
@@ -37,6 +41,14 @@ public class Caracteristiques {
 
     public void setDefenseur(boolean defenseur) {
         this.defenseur = defenseur;
+    }
+
+    public int getDistDep() {
+        return distDep;
+    }
+
+    public void setDistDep(int distDep) {
+        this.distDep = distDep;
     }
 
     public int getDistMaxTir() {
@@ -62,14 +74,5 @@ public class Caracteristiques {
     public void setJeuSolitaire(boolean jeuSolitaire) {
         this.jeuSolitaire = jeuSolitaire;
     }
-
-    public int getVitesseMaxDep() {
-        return vitesseMaxDep;
-    }
-
-    public void setVitesseMaxDep(int vitesseMaxDep) {
-        this.vitesseMaxDep = vitesseMaxDep;
-    }
-
 
 }

@@ -20,6 +20,8 @@ public class Equipe {
     private Cage nosCage; /** les cages de l'équipe*/
 
 
+/*******************************  CONSTRUCTEUR  *******************************/
+
     public Equipe(String nomEquipe, Color couleur, Cage nosCage){
         this.nomEquipe = nomEquipe;
         listeJoueurs = new ArrayList<Joueur>();
@@ -33,8 +35,6 @@ public class Equipe {
         this.nosCage = nosCage;
     }
 
-
-    
 
 /******************************  GETTER/SETTERS  ******************************/
     

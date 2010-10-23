@@ -14,16 +14,19 @@ public abstract class ElementMobile extends Thread implements Observable {
 
     protected int x; /**  Coordonnée en abscisse */
     protected int y; /** Coordonnée en ordonnée */
-    protected int angle = 0; /**  Schéma :  180° --- | ---- 0°  */
-
-    
-    public final static double convDegGrad = 0.0174533; /**  la constante de conversion de degres en gradient  */
+    protected int angle; /**  Schéma :  180° --- | ---- 0°  */
 
     /**  distance minimal entre deux elements mobiles, si elle n'est pas respectée, les deux éléments rentrent en collision */
-    protected int distanceMinContact = 25;
+    protected int distanceMinContact;
 
 
-
+    public ElementMobile() {
+        x = 0;
+        y = 0;
+        angle = 0;
+        distanceMinContact = 25;
+    }
+  
 /**********************************  THREAD  **********************************/
 
 
@@ -37,14 +40,33 @@ public abstract class ElementMobile extends Thread implements Observable {
 
 /*******************************  DEPLACEMENT  *******************************/
 
+    /**
+     * Calcul des nouvelles coordonnées selon un point de départ, une distance et un angle
+     * @param x point de départ en abscisse
+     * @param y point de départ en ordonnée
+     * @param distDep une vitesse de déplacement
+     * @param angle l'angle
+     * @return retourne la position du nouveau point
+     */
+    protected  Point coordApresDep(int x, int y, int distDep, int angle){
+
+        Point point = new Point();
+
+        point.setLocation(
+                Math.round(x + distDep * Math.cos(Math.toRadians(angle))),
+                Math.round(y + distDep * Math.sin(Math.toRadians(angle)))
+                );
+
+        return point;
+    }
 
     /**
      * Avance l'élément sur une distance
      * @param distance la distance à parcourir
      */
-    public void avancer(int distance){
-        x = (int) Math.round(x + distance*Math.cos(convDegGrad*angle));
-        y = (int) Math.round(y + distance*Math.sin(convDegGrad*angle));
+    public void avancer(int distDep){
+        x = (int) Math.round(x + distDep*Math.cos(Math.toRadians(angle)));
+        y = (int) Math.round(y + distDep*Math.sin(Math.toRadians(angle)));
     }
 
     /**
@@ -90,6 +112,10 @@ public abstract class ElementMobile extends Thread implements Observable {
     public int getX() {return x;}
     public int getY() {return y;}
 
+    public void setXY(Point unPoint) {
+         x = (int) unPoint.getX();
+         y = (int) unPoint.getY();
+    }
 
 /***************************** Méthodes de l'observé **************************/
 

@@ -33,6 +33,10 @@ public class Vue extends JFrame implements ObservableBouton {
     private VueScore vueScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
     private VueChoixStrategie vueChoixStrategie; /** la vue qui perme de choisir une stratégie par équipe */
 
+
+
+/*******************************  CONSTRUCTEUR  *******************************/
+    
     /**
      * Constructeur, initialise le terrain et la fenêtre
      * @param unJeuDeFoot un jeu de foot

@@ -22,6 +22,10 @@ public class VueTerrain extends Applet {
 
     ArrayList<VueElemMobiles> listeVueElemMobiles; /** tableau des joueurs pour l'affichage */
 
+
+/*******************************  CONSTRUCTEUR  *******************************/
+
+
     /**
      * Initialisation des valeurs de la vue du terrain
      * @param unTerrain leTerrain provenant du model
@@ -57,6 +61,10 @@ public class VueTerrain extends Applet {
     }
 
 
+
+/**********************************  DESSIN  **********************************/
+
+    
     /**
      * Dessine le fond blanc du terrain
      */

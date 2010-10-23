@@ -10,9 +10,13 @@ public class VueBallon extends VueElemMobiles {
 
     Ballon unBallon;  /** le ballon du model */
 
+/*******************************  CONSTRUCTEUR  *******************************/
+
     public VueBallon(Ballon unBallon) {
         this.unBallon = unBallon;
     }
+
+/**********************************  DESSIN  **********************************/
 
     /**
      * Dessine le ballon
