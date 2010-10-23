@@ -18,6 +18,8 @@ public class Terrain {
     private Cage cageGauche; /** cage à gauche du terrain */
     private Cage cageDroite; /** cage à droite du terrain */
 
+/*******************************  CONSTRUCTEUR  *******************************/
+
 
     public Terrain(int longueur, int largeur, Color couleur){
 
@@ -32,6 +34,8 @@ public class Terrain {
         this.couleur = couleur;
     }
 
+
+/******************************  GETTERS/SETTERS  *****************************/
     /**
      * Calcul de la taille du terrain en supprimant les marges intérieurs
      * @return retourne une dimenssion

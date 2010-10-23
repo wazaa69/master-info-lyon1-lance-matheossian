@@ -1,6 +1,5 @@
 package Model;
 
-import Model.Strategies.Strategie;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -16,46 +15,70 @@ public class Joueur extends ElementMobile {
     private String nom; /** nom du joueur */
     private Equipe monEquipe; /**  l'équipe du joueur */
     private Equipe equipeAdverse; /** equipe advese */
+    private boolean estEnpause; /** le joueur est en pause */
+    private Caracteristiques caracteristiques; /** les caractéristiques  */
 
-    private Caracteristiques caracteristiques; /** les caractéristiques du joueur */
-
-    private boolean estEnpause; /** le joueur est en pause café */
 
     
+
+/*******************************  CONSTRUCTEUR  *******************************/
+
     /**
-     * Initialise un joueur avec des coordonnées, un nom et une Equipe
+     * Initialise un joueur en lui donnant un nom, une Equipe et la connaissance de l'équipe adverse
+     * @param nom le nom du joueur
+     * @param monEquipe équipe du joueur
+     * @param equipeAdverse équipe adverse
+     */
+    public Joueur(String nom, Equipe monEquipe, Equipe equipeAdverse) {
+        super();
+        initSimpleJoueur(nom, monEquipe, equipeAdverse);
+    }
+
+
+    /**
+     * Initialise un joueur
      * @param x coordonnées polaires
      * @param y coordonnées polaires
      * @param nom le nom du joueur
-     * @param monEquipe l'équipe du joueur
-     * @param equipeAdverse equipe adverse
+     * @param monEquipe équipe du joueur
+     * @param equipeAdverse équipe adverse
      */
-    public Joueur(int x, int y, int angle, String nom, Equipe monEquipe, Equipe equipeAdverse) {
+    public Joueur(int x, int y, String nom, Equipe monEquipe, Equipe equipeAdverse) {
+
+        super();
+        
         this.x = x;
         this.y = y;
-        this.angle = angle;
-        
-        this.nom = nom;
-        this.monEquipe = monEquipe;
-        this.equipeAdverse = equipeAdverse;
+        angle = getAngleSelonBallon(); //le joueur regarde le ballon
 
-        this.estEnpause = true;
+        initSimpleJoueur(nom, monEquipe, equipeAdverse);
         
     }
     
 
     /**
-     * Initialise un joueur avec un nom et son Equipe
+     * Initialise un joueur avec un nom, son Equipe et la connaissance de l'équipe adverse
      * @param nom le nom du joueur
      * @param monEquipe l'équipe du joueur
      * @param equipeAdverse equipe adverse
      */
-    public Joueur(String nom, Equipe monEquipe, Equipe equipeAdverse) {
+    private void initSimpleJoueur(String nom, Equipe monEquipe, Equipe equipeAdverse){
         this.nom = nom;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
         this.estEnpause = true;
+
+        setCaracteristiques();
+
     }
+
+
+    public void setCaracteristiques(){
+        caracteristiques = new Caracteristiques();
+        caracteristiques.setDistMinPrendreBalle(distanceMinContact);
+        caracteristiques.setDistDep(1);
+    }
+
 
 
 /**********************************  THREAD  **********************************/
@@ -78,16 +101,28 @@ public class Joueur extends ElementMobile {
 
             if(estEnpause){
                 try {
-                    synchronized(this){wait();} //aller boire un café
+                    synchronized(this){wait();}
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
             switch(monEquipe.getStartegie()){
-                case 0: //neutre
-                    deplacementAuHasard(1);
+                case 0:{ //neutre
+
+                    if(JeuDeFoot.UNBALLON.getPossesseur() != this){
+                        if(getDistance(new Point(x,y),JeuDeFoot.UNBALLON) <= caracteristiques.getDistMinPrendreBalle())
+                        JeuDeFoot.UNBALLON.setPossesseur(this);
+                    }
+
+                    deplacement();
+
+                    if(JeuDeFoot.UNBALLON.getPossesseur() == this){
+                        JeuDeFoot.UNBALLON.majXY();
+                    }
+
                     break;
+                }
                 case 1: //defense
                     break;
                 case 2: //attaque
@@ -110,47 +145,45 @@ public class Joueur extends ElementMobile {
 
     protected void deplacement(){
 
+        angle = getAngleSelonBallon();
 
-
-        
-
+        avancer();
     }
 
 
     /**
      * Le joueur se déplace aléatoirement sur une distance
-     * @param distance la distance à parcourir
      */
-    public void deplacementAuHasard(int distance)
+    public void deplacementAuHasard()
     {
         int rotation = (int)(Math.random() * 30);
-        
+
         if(Math.random() > 0.5)
             angle = (angle + rotation)%360;
         else angle = (angle - rotation)%360;
-        
-        avancer(distance);
+
+        angle = getAngleSelonBallon();
+
+        avancer();
     }
 
    /**
     * Fait avancer le joueur sur la feuille de dessin, si il atteint un bord,
     * il fait demi-tour et s'avance.
-    * @param distance la distance à parcourir
     */
-    @Override
-    public void avancer(int distance){avancerAvecEssais(distance,5);}
+
+    public void avancer(){avancerAvecEssais(5);}
 
     /**
      * Fait avancer le joueur sur la feuille de dessin, si le prochain déplacement atteint un bord,
      * il fait demi-tour et s'avance (si possible).
-     * @param distance la distance à parcourir
      * @param nbEssais nombre d'essaie pour se déplacer
      */
-    public void avancerAvecEssais(int distance, int nbEssais){
+    public void avancerAvecEssais(int nbEssais){
 
         if(nbEssais > 0){
         
-            Point nouveauPoint = coordonneesDeplacement(x,y,distance,angle);
+            Point nouveauPoint = coordApresDep(x,y,caracteristiques.getDistDep(),angle);
 
             boolean bonEmplacement = isEmplacementValide(nouveauPoint);
             boolean pasDeContact = isValideDistContact(nouveauPoint);
@@ -162,10 +195,10 @@ public class Joueur extends ElementMobile {
 
             else if(!bonEmplacement){ //0 1 ou 0 0
                 angle = (angle + 180) % 360; //demi-tour
-                avancerAvecEssais(distance, nbEssais-1); //teste nouveau déplacement
+                avancerAvecEssais(nbEssais-1); //teste nouveau déplacement
             }
 
-            else avancerAvecEssais(distance, nbEssais-1); //1 0
+            else avancerAvecEssais(nbEssais-1); //1 0
             
         }
         
@@ -203,7 +236,7 @@ public class Joueur extends ElementMobile {
         ArrayList<Joueur> listeJoueurEquDeux = equipeAdverse.getListeJoueurs();
 
         //on concatène les deux listes
-        ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>(listeJoueurEquUne);
+        ArrayList<ElementMobile> listeJoueurs = new ArrayList<ElementMobile>(listeJoueurEquUne);
         listeJoueurs.addAll(listeJoueurEquDeux);
 
         for(int i = 0; i < listeJoueurs.size(); i++)
@@ -217,65 +250,44 @@ public class Joueur extends ElementMobile {
 
     
 
-/***************************  COORDONNEES ET ANGLE  ***************************/
-
-    /**
-     * Calcul des nouvelles coordonnées selon un point de départ, une distance et un angle
-     * @param x point de départ en abscisse
-     * @param y point de départ en ordonnée
-     * @param distance la distance à parcourir
-     * @param angle l'angle
-     * @return retourne la position du nouveau point
-     */
-    private Point coordonneesDeplacement(int x, int y, int distance, int angle){
-
-        Point point = new Point();
-
-        point.setLocation(
-                Math.round(x + distance*Math.cos(convDegGrad*angle)),
-                Math.round(y + distance*Math.sin(convDegGrad*angle))
-                );
-
-        return point;
-
-    }
-
-    /**
-     * Retourne l'angle où le ballon peut être vu, depuis la position du joueur
-     * @return retourne un entier correspondant à l'angle
-     */
-    protected int setAngleSelonBallon(){
-
-        //calcul des différnces de coordonnées polaires
-        int diffX = JeuDeFoot.UNBALLON.getX() - x;
-        int diffY = JeuDeFoot.UNBALLON.getY() - y;
-
-        //côté adjancent sur opposé
-        int adjSurOpp = Math.round( diffX/(diffY+1) );
-
-        //System.out.println(Math.toDegrees(Math.atan(adjSurOpp)));
-
-        //tan-1(adj/opp)
-        return (int) Math.toDegrees(Math.atan(adjSurOpp));
-    }
-
 /******************************  GETTER/SETTERS  ******************************/
 
-
-     /**
-     * @return Retourne le nom du joueur
+    /**
+     * Retourne l'angle pour que le joueur se dirige vers le ballon
+     * @return retourne un entier correspondant à l'angle
      */
-    public String getNom() {return nom;}
+    protected int getAngleSelonBallon(){
 
-    public Equipe getMonEquipe() {return monEquipe;}
+        //calcul des différnces de coordonnées polaires
+        float diffX = JeuDeFoot.UNBALLON.getX() - x;
+        float diffY = JeuDeFoot.UNBALLON.getY() - y;
 
-    public void setXY(Point unPoint) {
-         x = (int) unPoint.getX();
-         y = (int) unPoint.getY();
+        float differentZero = (float) 0.01;
+
+        //côté opposé sur adjancent
+        float oppSurAdj = diffY/(diffX + differentZero);
+
+        //tan-1(opp/adj)
+        int unAngle = (int) Math.toDegrees(Math.atan(oppSurAdj));
+        
+
+        if(diffX >= 0)
+            return unAngle; //si le joueur actuel est à gauche de la balle
+        else
+            return 180 + unAngle; //sinon il est à droite
+
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public Equipe getMonEquipe() {
+        return monEquipe;
     }
 
     /**
-     * Réactive le thread si il était en pause
+     * "Active/Désactive" le joueur
      */
     public void setEstEnpause() {
         this.estEnpause = !estEnpause;

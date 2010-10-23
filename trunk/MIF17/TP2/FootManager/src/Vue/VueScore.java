@@ -18,6 +18,10 @@ public class VueScore extends JFrame implements Observateur {
     JLabel scoreGauche = new JLabel("0", JLabel.CENTER);
     JLabel scoreDroit =  new JLabel("0", JLabel.CENTER);
 
+
+
+/*******************************  CONSTRUCTEUR  *******************************/
+
     public VueScore() {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -69,6 +73,9 @@ public class VueScore extends JFrame implements Observateur {
 
 
     }
+
+
+/**************************  Méthode de l'observeur  **************************/
 
     public void miseAJour() {
         throw new UnsupportedOperationException("Not supported yet.");

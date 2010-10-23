@@ -26,6 +26,9 @@ public class JeuDeFoot extends Thread {
     public static Ballon UNBALLON; /**  le ballon de foot disponible */
 
 
+/*******************************  CONSTRUCTEUR  *******************************/
+
+
     /**
      * Constructeur, initialise les deux équipes, les joueurs, le terrain et la balle
      * @param longueurTerrain
@@ -69,7 +72,6 @@ public class JeuDeFoot extends Thread {
      */
     private void initJoueursEquipe(Equipe courante, Equipe adverse, int nbJoueurs){
         
-        int angle = 0;
         Point unPoint = null;
         String nom = "";
         Joueur unJoueur = null;
@@ -83,12 +85,11 @@ public class JeuDeFoot extends Thread {
         for(int i = 1; i < nbJoueurs; i++){
 
             while(unPoint == null) {unPoint = pointHasardDsTerrain();}
-            angle = (int) (Math.random() * 360);
 
             nom = courante.getNomEquipe() + " - " + (i + 1);
 
             //création du joueur
-            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), angle, nom, courante, adverse);
+            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), nom, courante, adverse);
 
             courante.ajouterUnJoueur(unJoueur);
             
@@ -209,13 +210,10 @@ public class JeuDeFoot extends Thread {
              
         }
 
-
-
     }
 
 
 /*********************************   METHODES  *********************************/
-
 
     /**
      * Remet à zéro les variable du jeu
