@@ -23,7 +23,7 @@ public class JeuDeFoot extends Thread {
 
 
     // -> voir si on met une ref dans Joueur au lieu du ballon static ! */
-    public static Ballon UNBALLON; /**  le ballon de foot disponible */
+    public static Ballon UNBALLON; /**  le ballon de foot */
 
 
 /*******************************  CONSTRUCTEUR  *******************************/
@@ -33,17 +33,18 @@ public class JeuDeFoot extends Thread {
      * Constructeur, initialise les deux équipes, les joueurs, le terrain et la balle
      * @param longueurTerrain
      * @param largeurTerrain
+     * @param nbJoueursParEq le nombre de joueur par équipe
      */
-    public JeuDeFoot(int longueurTerrain, int largeurTerrain) {
+    public JeuDeFoot(int longueurTerrain, int largeurTerrain, int nbJoueursParEq) {
 
         partieEnCours = false;
         pauseRepartir = false;
 
         unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
 
-        UNBALLON = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), Color.MAGENTA);
+        UNBALLON = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), 5, Color.MAGENTA);
 
-        initEquipes();
+        initEquipes(nbJoueursParEq);
 
     }
 
@@ -51,9 +52,7 @@ public class JeuDeFoot extends Thread {
 /***********************   Initialisation des Equipes  ************************/
 
 
-    private void initEquipes(){
-
-        int nbJoueurs = 11;
+    private void initEquipes(int nbJoueurs){
         
         equipeUne = new Equipe("RedTeam",Color.BLUE, unTerrain.getCageGauche());
         equipeDeux = new Equipe("BlueTeam",Color.RED, unTerrain.getCageDroite());

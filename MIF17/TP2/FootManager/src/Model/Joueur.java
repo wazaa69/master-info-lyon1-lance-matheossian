@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Strategies.StrategieAttaque;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -12,11 +13,11 @@ import java.util.logging.Logger;
 public class Joueur extends ElementMobile {
 
 
-    private String nom; /** nom du joueur */
-    private Equipe monEquipe; /**  l'équipe du joueur */
-    private Equipe equipeAdverse; /** equipe advese */
-    private boolean estEnpause; /** le joueur est en pause */
-    private Caracteristiques caracteristiques; /** les caractéristiques  */
+    protected String nom; /** nom du joueur */
+    protected Equipe monEquipe; /**  l'équipe du joueur */
+    protected Equipe equipeAdverse; /** equipe advese */
+    protected boolean estEnpause; /** le joueur est en pause */
+    protected Caracteristiques caracteristiques; /** les caractéristiques  */
 
 
     
@@ -109,18 +110,7 @@ public class Joueur extends ElementMobile {
 
             switch(monEquipe.getStartegie()){
                 case 0:{ //neutre
-
-                    if(JeuDeFoot.UNBALLON.getPossesseur() != this){
-                        if(getDistance(new Point(x,y),JeuDeFoot.UNBALLON) <= caracteristiques.getDistMinPrendreBalle())
-                        JeuDeFoot.UNBALLON.setPossesseur(this);
-                    }
-
-                    deplacement();
-
-                    if(JeuDeFoot.UNBALLON.getPossesseur() == this){
-                        JeuDeFoot.UNBALLON.majXY();
-                    }
-
+                    StrategieAttaque.utiliserStrat(this);
                     break;
                 }
                 case 1: //defense
@@ -143,7 +133,7 @@ public class Joueur extends ElementMobile {
 /*******************************  DEPLACEMENT  *******************************/
 
 
-    protected void deplacement(){
+    public void deplacementVersballon(){
 
         angle = getAngleSelonBallon();
 
@@ -161,8 +151,6 @@ public class Joueur extends ElementMobile {
         if(Math.random() > 0.5)
             angle = (angle + rotation)%360;
         else angle = (angle - rotation)%360;
-
-        angle = getAngleSelonBallon();
 
         avancer();
     }
@@ -286,6 +274,11 @@ public class Joueur extends ElementMobile {
         return monEquipe;
     }
 
+    public Caracteristiques getCaracteristiques() {
+        return caracteristiques;
+    }
+
+   
     /**
      * "Active/Désactive" le joueur
      */

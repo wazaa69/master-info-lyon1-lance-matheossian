@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Initialisation du Modèles. Le modèle ne connait personne.
-        JeuDeFoot unJeuDeFoot = new JeuDeFoot(500,375);
+        JeuDeFoot unJeuDeFoot = new JeuDeFoot(500,375,11);
 
         //Initialise la fenêtre et boutons. La vue connait le modèle.
         Vue uneVue = new Vue(unJeuDeFoot);

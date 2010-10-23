@@ -6,18 +6,22 @@ import java.awt.Point;
 
 public class Ballon extends ElementMobile {
 
+    private int rayon;
     private Color couleur;
     private Joueur possesseur;
     private Joueur ancienPoss; /** l'ancien pocesseur */
 
 
-    public Ballon(int x, int y, Color couleur) {
+    public Ballon(int x, int y, int rayon, Color couleur) {
+
+        this.rayon = rayon;
 
         this.x = x;
         this.y = y;
 
         this.couleur = couleur;
         this.possesseur = null;
+        this.ancienPoss = null;
 
     }
 
@@ -39,6 +43,11 @@ public class Ballon extends ElementMobile {
         return couleur;
     }
 
+    public int getRayon() {
+        return rayon;
+    }
+
+
     public Joueur getPossesseur() {
         return possesseur;
     }
@@ -51,6 +60,16 @@ public class Ballon extends ElementMobile {
         this.possesseur = possesseur;
         majXY();
     }
+
+    public void setAncienPoss(Joueur ancienPoss) {
+        this.ancienPoss = ancienPoss;
+    }
+
+    public Joueur getAncienPoss() {
+        return ancienPoss;
+    }
+
+    
 
     /**
      * Met à jour les coordonnées du ballon, de façon à le placer devant le joueur
