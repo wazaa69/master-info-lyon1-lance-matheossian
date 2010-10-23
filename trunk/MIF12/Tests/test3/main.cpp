@@ -13,8 +13,9 @@ extern int yyparse();
 
 
 /* Déclaration gloable pour pouvoir les utiliser dans flex ou bison */
-TableDesIdentificateurs* tableId;
-TableDesSymboles* tableSymb;
+TableDesIdentificateurs* tableId = new TableDesIdentificateurs();
+TableDesSymboles* tableSymb = new TableDesSymboles();
+std::vector<TableDesSymboles*> listeTDS;
 
 
 int main(int argc, char** argv)
@@ -25,10 +26,6 @@ int main(int argc, char** argv)
     else yyin = stdin;
 
 
-    tableId = new TableDesIdentificateurs();
-    tableSymb = new TableDesSymboles();
-
-
     //yylex();
     yyparse();
 
@@ -36,9 +33,12 @@ int main(int argc, char** argv)
     std::cout << "\nTable des identifiants: \n"<<std::endl;
     tableId->afficherTable();
 
-    std::cout << "\nTable des symboles: \n"<<std::endl;
-    tableSymb->afficherTable();
-
+    //std::cout << "\nTable des symboles: \n"<<std::endl;
+   // tableSymb->afficherTable();
+    
+     std::cout << std::endl;
+     tableSymb->afficherTables(listeTDS);
+	
     if(yyin != NULL)
         fclose(yyin);
 

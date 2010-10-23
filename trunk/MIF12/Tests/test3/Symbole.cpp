@@ -16,6 +16,13 @@ Symbole::Symbole(string _categorie, Type* _type){
     type = _type;
 }
 
+
+ Symbole::Symbole(string _categorie, Type* _type, int _id){
+	categorie = new string(_categorie); //copie
+    	type = _type;
+	id = _id;
+}
+
 Symbole::~Symbole(){}
 
 
@@ -23,3 +30,5 @@ string* Symbole::getCategorie(){return categorie;}
 
 
 Type* Symbole::getType(){return type;}
+
+int Symbole::getID(){return id;}

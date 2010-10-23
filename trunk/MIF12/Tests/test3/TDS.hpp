@@ -13,14 +13,26 @@ class TableDesSymboles {
 	private:
 
 		std::vector<Symbole*> tableSymb; /** @param tableSymb la table des symboles */
-
+		
 	public:
 
+		int numeroContexteTS;
+		int numIdActuel;	
+		
+		int incNumIdActuel();
+		int incNumContexteActuel();
 
+		
+		int getNumContexte();
+		int getNumIdActuel();
+		
+		std::vector<Symbole*> getTableSymb();
         /**
         *   @brief Constructeur
         */
-		TableDesSymboles();
+		TableDesSymboles(); // constructeur appelé uniquement par la table des symboles mère (num contexte initialisé à 0)
+
+		TableDesSymboles(int numContexte);
 
         /**
         *   @brief Destructeur
@@ -37,7 +49,11 @@ class TableDesSymboles {
         /**
         *   @brief Affiche le contenu de la table
         */
-		void afficherTable();
+	void afficherTablePrincipale();
+	
+	void afficherTable();
+
+	void afficherTables(std::vector<TableDesSymboles*> listeTDS);
 };
 
 #endif
