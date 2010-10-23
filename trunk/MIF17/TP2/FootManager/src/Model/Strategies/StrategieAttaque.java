@@ -1,6 +1,9 @@
 package Model.Strategies;
 
+import Model.Caracteristiques;
+import Model.JeuDeFoot;
 import Model.Joueur;
+import java.awt.Point;
 
 /**
  * Stratégie d'attaque :
@@ -19,9 +22,31 @@ import Model.Joueur;
  */
 public class StrategieAttaque extends Strategie {
 
-    public static void utiliserStrat(Joueur unJoueur){
-        
-    }
+    public static synchronized void utiliserStrat(Joueur unJoueur){
 
+        Joueur possesseur = JeuDeFoot.UNBALLON.getPossesseur();
+        Joueur ancienPoss= JeuDeFoot.UNBALLON.getAncienPoss();
+        
+        int distanceAuBallon = unJoueur.getDistance(new Point(unJoueur.getX(),unJoueur.getY()),JeuDeFoot.UNBALLON);
+
+        Caracteristiques caractUnJoueur = unJoueur.getCaracteristiques();
+
+        if(possesseur != unJoueur){
+            if(distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle() && unJoueur != ancienPoss){
+                JeuDeFoot.UNBALLON.setAncienPoss(possesseur);
+                JeuDeFoot.UNBALLON.setPossesseur(unJoueur);
+            }
+            
+        }
+
+        if(possesseur == unJoueur){
+            unJoueur.deplacementAuHasard();
+            JeuDeFoot.UNBALLON.majXY();
+        }
+        else if(distanceAuBallon > caractUnJoueur.getDistMinPrendreBalle()*2)
+            unJoueur.deplacementAuHasard();
+
+        else unJoueur.deplacementVersballon();
+    }
 
 }

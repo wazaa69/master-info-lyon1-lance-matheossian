@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +39,10 @@ public class JoueurGoal extends Joueur {
         y = (int) monEquipe.getCage().getCoordonnees().getY() + (monEquipe.getCage().getLongueur()/2);
 
 
+        //modification de la distance d'interception du gardien en fonction de la longueur des cages
+        caracteristiques.setDistMinPrendreBalle(monEquipe.getCage().getLongueur()/5);
+        caracteristiques.setDistDep(5);
+
         //Délimitation de sa zone de déplacement
         yMin = (int) monEquipe.getCage().getCoordonnees().getY();
         yMax = yMin + monEquipe.getCage().getLongueur();
@@ -51,7 +56,27 @@ public class JoueurGoal extends Joueur {
 
         
         while(true){
+
             angle = getAngleSelonBallon();
+
+            int tmpY = y;
+
+            //nouveaux y
+            if(Math.random() >  0.5)
+                tmpY += caracteristiques.getDistDep();
+            else
+                tmpY -= caracteristiques.getDistDep();
+
+            //minoration, majoration
+            if(tmpY >= yMax)
+                tmpY = yMax;
+            else if (tmpY <= yMin)
+                tmpY = yMin;
+
+            //validité
+            if(isValideDistContact(new Point(x,tmpY)))
+                y = tmpY;
+            
 
             try {
                 sleep(50);

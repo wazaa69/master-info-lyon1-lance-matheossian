@@ -7,6 +7,6 @@ import Model.Joueur;
  */
 public class Strategie {
 
-    public static void utiliserStrat(Joueur unJoueur){}
+    public static synchronized void utiliserStrat(Joueur unJoueur){}
 
 }

@@ -24,7 +24,7 @@ public class VueBallon extends VueElemMobiles {
      */
     public void dessiner(Graphics g, Boolean clear){
         g.setColor(unBallon.getCouleur());
-        g.fillOval(unBallon.getX()-5, unBallon.getY()-5, 10, 10);
+        g.fillOval(unBallon.getX()-5, unBallon.getY()-5, unBallon.getRayon()*2, unBallon.getRayon()*2);
     }
 
 }
