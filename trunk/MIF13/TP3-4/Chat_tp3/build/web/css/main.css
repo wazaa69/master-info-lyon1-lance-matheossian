@@ -1,0 +1,85 @@
+body {
+    font-size: 14px;
+    font-family: 'Trebuchet MS', Verdana, serif;
+}
+h1 {
+    font-size: 1.8em;
+}
+h2 {
+    font-size: 1.4em;
+}
+h3 {
+    font-size: 1.2em;
+}
+p {
+    margin: 10px 0;
+}
+strong {
+    font-weight: bold;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    height: 55px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 3px solid blue;
+}
+    #header h1 {
+        font-size: 2.5em;
+    }
+    #header h2 {
+        font-size: 1.1em;
+        font-weight: bold;
+        font-style: italic;
+        margin-left: 200px;
+    }
+
+/* Home page */
+#content {
+    padding: 20px;
+    width: 800px;
+    margin: auto;
+}
+
+/* Error displaying */
+#error {
+	color: red;
+}
+
+/* Messages */
+#messages {
+    margin: 70px auto 40px;
+    padding: 20px 10%;
+}
+    #messages p {
+        border-bottom: 1px dashed #ccc;
+    }
+        #messages p span {
+            display: inline-block;
+            width: 120px;
+            text-align: right;
+            margin-right: 4px;
+        }
+
+/* Message form */
+#text-enter {
+	height: 70px;
+    width: 80%;
+    padding: 0 10%;
+	position: fixed;
+	bottom: 0;
+    background-color: white;
+    text-align: center;
+}
+    #text-enter .username {
+        font-size: 0.9em;
+    }
+    #text-enter .logout {
+        float: right;
+        font-weight: bold;
+    }
+    #text-enter #msg_text {
+        width: 400px;
+    }

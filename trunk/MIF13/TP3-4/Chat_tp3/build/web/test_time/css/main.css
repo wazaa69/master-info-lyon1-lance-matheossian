@@ -1,0 +1,18 @@
+body {
+    font-size: 14px;
+    font-family: 'Trebuchet MS', Verdana, serif;
+    padding: 20px;
+    text-align: center;
+}
+h1 {
+    font-size: 1.8em;
+}
+h2 {
+    font-size: 1.4em;
+}
+h3 {
+    font-size: 1.2em;
+}
+p {
+    margin: 10px 0;
+}
