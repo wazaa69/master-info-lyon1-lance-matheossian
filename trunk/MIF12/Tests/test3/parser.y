@@ -183,10 +183,12 @@ RecordType     : KW_RECORD RecordFields KW_END					{
 								tmpNumId.push_back(0);
 							        $$ = tmpRec; // on remonte le record
 								
-								cout <<  "TS" << tmpTds->getNumContexte() << " a une taile de  " << tmpTds->getTableSymb().size() << " et est envoyé dans la liste des TS \n\n"<< endl;
-
-								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								cout <<  "TS" << tmpTds->getNumContexteTS() << " a une taile de  " << tmpTds->getTableSymb().size() << " et est envoyé dans la liste des TS \n\n"<< endl;
 								
+								nouveauRecord = true;
+								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								tmpTds = new TableDesSymboles(tableSymb->incNumContexteActuel()); // on initialise tmpTds pour le nouveau contexte
+			cout <<  "\nCréation TS" << tmpTds->getNumContexteTS() << endl;
 										}
                ;
 
@@ -204,20 +206,21 @@ RecordField    : ListIdent SEP_DOTS Type					{
 			nouveauRecord = false; 
 			numIdRecord = tableSymb->incNumIdActuel();
 			ajoutRecord = true;
-
-			tmpTds = new TableDesSymboles(tableSymb->incNumContexteActuel()); // on initialise tmpTds pour le nouveau contexte
-			cout <<  "\n\nCréation TS" << tmpTds->getNumContexte() << endl;
+			
+			
 		}
 
 		else{diffRecord = 0;}
-				
-			
+		
+		
+		
+
 		for(unsigned int i = 0; i < tmpNumId.size() - diffRecord ; i++){
 				
 				
                                tmpTds->ajouter(new Symbole("variable", $3, tableSymb->incNumIdActuel()));
 				
-                               cout << *($3->getStringType()) <<  " a été ajouté à la table des symboles temporaire." << tableSymb->getNumIdActuel() <<endl;
+                               cout << "Id: " << tableSymb->getNumIdActuel() << "Type: " <<*($3->getStringType()) <<  " a été ajouté à TS temp" <<endl;
 
                    }
 

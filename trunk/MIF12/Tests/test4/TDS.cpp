@@ -18,7 +18,7 @@ TableDesSymboles::TableDesSymboles(int numContexte)
 }
 
 
-int TableDesSymboles::getNumContexte()
+int TableDesSymboles::getNumContexteTS()
 {
 	return numeroContexteTS;
 }
@@ -27,6 +27,7 @@ int TableDesSymboles::getNumIdActuel()
 {
 	return numIdActuel;
 }
+
 
 int TableDesSymboles::incNumIdActuel()
 {
@@ -41,7 +42,7 @@ int TableDesSymboles::incNumIdActuel()
 
 int TableDesSymboles::incNumContexteActuel()
 {
-	static int numeroContexte = 0;	
+	static int numeroContexte = 1;	
 	
 	int temp = numeroContexte;
 	numeroContexte++;
