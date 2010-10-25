@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//############################################################### CONSTRUCTEURS/DESTRUCTEURS
 
 TableDesSymboles::TableDesSymboles()
 {	
@@ -12,53 +13,60 @@ TableDesSymboles::TableDesSymboles()
 
 TableDesSymboles::~TableDesSymboles(){}
 
+
+
+
 TableDesSymboles::TableDesSymboles(int numContexte)
 {
 	numeroContexteTS = numContexte;
 }
 
+//############################################################### ACCESSEURS
+
+int TableDesSymboles::getNumIdActuel(bool incrementation)
+{	
+	static int numeroId = 0;
+	if(incrementation)numeroId++;
+	return numeroId;
+}
+
+int TableDesSymboles::getNumContexteTSActuel(bool incrementation)
+{	
+	static int numeroContexte = 1;
+	if(incrementation)numeroContexte++;
+	return numeroContexte;
+}
 
 int TableDesSymboles::getNumContexteTS()
-{
+{		
 	return numeroContexteTS;
 }
-
-int TableDesSymboles::getNumIdActuel()
-{
-	return numIdActuel;
-}
-
-
-int TableDesSymboles::incNumIdActuel()
-{
-	static int numeroId = 0;	
-	
-	
-	numeroId++;
-	numIdActuel = numeroId;
-	return numeroId;
-	
-}
-
-int TableDesSymboles::incNumContexteActuel()
-{
-	static int numeroContexte = 1;	
-	
-	int temp = numeroContexte;
-	numeroContexte++;
-
-	return temp;
-}
-
 
 std::vector<Symbole*> TableDesSymboles::getTableSymb()
 {
 	return tableSymb;
 }
 
+//############################################################### MUTATEURS
+/*
+void TableDesSymboles::incNumIdActuel()
+{
+	static int numeroId = 0;	
+	numeroId++;
+	//numIdActuel = numeroId;
+}
+
+void TableDesSymboles::incNumContexteActuel()
+{
+	static int numeroContexte = 0;	
+	//int temp = numeroContexte;
+	numeroContexte++;
+}
+*/
+//############################################################### METHODES
+
+
 void TableDesSymboles::ajouter(Symbole* symb){tableSymb.push_back(symb);}
-
-
 
 
 void TableDesSymboles::afficherTablePrincipale()
