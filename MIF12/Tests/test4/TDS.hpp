@@ -14,12 +14,10 @@ class TableDesSymboles {
 
 		std::vector<Symbole*> tableSymb; /** @param tableSymb la table des symboles */
 		int numeroContexteTS;
-		int numIdActuel;
 		
 	public:
 
-		int incNumIdActuel();
-		int incNumContexteActuel();
+		
 
 //###################################################################################### CONSTRUCTEURS/DESTRUCTEURS
 		
@@ -50,10 +48,15 @@ class TableDesSymboles {
 
 	/**
         *   @brief Accesseur
-	*   Récupère numIdActuel
+	*   Récupère le numéro d'id actuel (static)
         */
-		int getNumIdActuel();
-
+		int getNumIdActuel(bool incrementation);
+	
+	/**
+        *   @brief Accesseur
+	*   Récupère le numéro de contexte actuel (static)
+        */
+		int getNumContexteTSActuel(bool incrementation);
 	
 	/**
         *   @brief Accesseur
@@ -62,7 +65,10 @@ class TableDesSymboles {
 		std::vector<Symbole*> getTableSymb();
 
 
-//######################################################################################
+//###################################################################################### METHODES
+	
+//	void incNumIdActuel();
+//	void incNumContexteActuel();
 
         /**
         *   @brief Ajoute le symble dans la liste des symboles
