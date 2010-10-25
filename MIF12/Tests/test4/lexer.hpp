@@ -6,6 +6,7 @@
 	#include "TypeArray.hpp"
 	#include "TypePointeur.hpp"
 	#include "TypeRecord.hpp"
+	#include "TypeUser.hpp"
 
 	#include "parser.h"
 	

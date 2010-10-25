@@ -19,6 +19,7 @@
     #include "TypeInterval.hpp"
     #include "TypeArray.hpp"
     #include "TypeRecord.hpp"
+    #include "TypeUser.hpp"
 
     extern FILE* yyin;
     extern char* yytext;
@@ -29,8 +30,15 @@
     extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
 
     TableDesSymboles* tmpTds =  new TableDesSymboles(tableSymb->getNumContexteTSActuel(false)); //une table des symboles temporaires (pour les sous-contextes)
-    std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
+    extern std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
+
+//###############################################  USERTYPE  
   
+    extern TypeUser* typeUser;
+    extern std::vector<TypeUser*> listeTypeUser;
+
+//###############################################  RECORDS  
+
     bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
     int diffRecord; // 
     int numIdRecord; // numero Id du record à écrire dans la table des symboles
@@ -106,7 +114,7 @@ ProgramHeader   : KW_PROGRAM TOK_IDENT                          {
                 ;
 
 
-Block         :  BlockDeclType BlockDeclVar BlockCode		{}
+Block         :  BlockDeclType BlockDeclType BlockDeclVar BlockCode		{}
               ;
 
 
@@ -118,9 +126,10 @@ ListDeclType   : ListDeclType DeclType
                | DeclType					
                ;
 
-DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			
-
-
+DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			{
+									//typeUser = new TypeUser($3);
+									//listeTypeUser.push_back(typeUser);
+								}
 
 
 
