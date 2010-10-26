@@ -101,6 +101,8 @@ public class JeuDeFoot extends Thread {
 
     }
 
+/***********************   Placement  ********/
+
     /**
      * Recherche un point et une zone au hasard sur le terrain,
      * qui n'est pas déjà occupé par un autre joueur.
@@ -109,14 +111,8 @@ public class JeuDeFoot extends Thread {
     private Point pointHasardDsTerrain(){
 
 
-        //on récupère chaque équipe
-        ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
-        ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
-
         //on concatène les deux listes
-        ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>(listeJoueurEquUne);
-        listeJoueurs.addAll(listeJoueurEquDeux);
-
+        ArrayList<Joueur> listeJoueurs = getJoueurs();
 
         Dimension dim = Terrain.getDimTerrain();
         Point unPoint = new Point(
@@ -233,7 +229,7 @@ public class JeuDeFoot extends Thread {
      * Retourne la liste de tous les éléments qui bougent sur le terrain (sauf le ballon)
      * @return retourne une liste d'éléments mobiles
      */
-    public ArrayList<Joueur> getElementsModbiles(){
+    public ArrayList<Joueur> getJoueurs(){
         
         //on concatène les deux listes
         ArrayList<Joueur> listeElementsModbiles = new ArrayList<Joueur>(equipeUne.getListeJoueurs());

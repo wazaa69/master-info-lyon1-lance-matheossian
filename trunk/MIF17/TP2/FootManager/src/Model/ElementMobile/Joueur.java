@@ -1,6 +1,5 @@
 package Model.ElementMobile;
 
-import Model.Caracteristiques;
 import Model.Equipe;
 import Model.Terrain.Terrain;
 
