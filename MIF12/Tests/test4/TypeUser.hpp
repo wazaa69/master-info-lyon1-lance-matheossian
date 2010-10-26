@@ -15,7 +15,7 @@ class TypeUser : public Type {
 	
 	public:
 
-		TypeUser(Type* _type);
+		TypeUser(Type* _type, std::string nomUserType);
 		~TypeUser();
 
 };

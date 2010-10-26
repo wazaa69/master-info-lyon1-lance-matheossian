@@ -41,6 +41,9 @@ class TableDesIdentificateurs {
 		int getPosId(std::string* id);
 
 
+		std::string getElement(int posId);
+
+
         /**
         *   \brief Affiche le contenu de la table
         */

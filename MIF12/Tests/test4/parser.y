@@ -7,6 +7,7 @@
     using namespace std;
 
     #include "TDS.hpp"
+    #include "TDI.hpp"
     #include "Symbole.hpp"
 
     #include "Type.hpp"
@@ -26,6 +27,7 @@
     extern int yylex();
     extern int yyerror(char* m);
 
+    extern TableDesIdentificateurs* tableId;
     extern TableDesSymboles* tableSymb; //la table principale des symboles
     extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
 
@@ -127,8 +129,9 @@ ListDeclType   : ListDeclType DeclType
                ;
 
 DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			{
-									//typeUser = new TypeUser($3);
-									//listeTypeUser.push_back(typeUser);
+									
+									typeUser = new TypeUser($3, tableId->getElement($1));
+									
 								}
 
 
