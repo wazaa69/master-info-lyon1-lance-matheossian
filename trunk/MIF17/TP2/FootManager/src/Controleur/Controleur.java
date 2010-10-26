@@ -2,7 +2,6 @@ package Controleur;
 
 import Model.JeuDeFoot;
 import ObservListe.ObservateurBouton;
-
 import Vue.Vue;
 
 
@@ -19,13 +18,13 @@ public class Controleur {
 
 
         //Ajout d'un observateur sur la vue. Le controleur Observe la vue.
-        this.uneVue.ajouterObserveur(new ObservateurBouton() {
+        this.uneVue.getFenetreControls().ajouterObserveur(new ObservateurBouton() {
 
             //L'observateur va réaliser différentes actions
             public void miseAJour(String str){
 
                 if(str.equals("Démarrer") && !isPartieEnCours())
-                        unJeuDeFoot.lancerThreadJeuDeFoot();
+                    unJeuDeFoot.lancerThreadJeuDeFoot();
 
                 else if(str.equals("Pause/Repartir")&& isPartieEnCours())
                     unJeuDeFoot.setPauseRepartir();

@@ -1,172 +1,57 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package Vue;
 
-import Vue.Terrain.VueTerrain;
 import Model.JeuDeFoot;
-import ObservListe.ObservableBouton;
-import ObservListe.ObservateurBouton;
-import java.awt.BorderLayout;
-import java.awt.Event;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-
+import Vue.Terrain.FenetreTerrain;
 
 /**
- * Créer la fenêtre et les boutons
+ * Cette classe va creer les diférentes fenêtres du jeu
  */
-public class Vue extends JFrame implements ObservableBouton {
+public class Vue {
 
     private JeuDeFoot unJeuDeFoot; /** référence sur le jeu de foot*/
 
-    private ObservateurBouton unObservateurBouton; /**  un observateur de boutons */
-
-    private VueTerrain vueTerrain;  /** la vue du terrain */
-    private VueCouleurEtScore vueScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
-    private VueControls vueChoixStrategie; /** la vue qui perme de choisir une stratégie par équipe */
-
+    private FenetreTerrain fenetreTerrain;  /** la vue du terrain */
+    private FenetreCouleurEtScore fenetreCouleurEtScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
+    private FenetreControls fenetreControls; /** la vue qui perme de choisir une stratégie par équipe */
 
 
 /*******************************  CONSTRUCTEUR  *******************************/
+
     
-    /**
-     * Constructeur, initialise le terrain et la fenêtre
-     * @param unJeuDeFoot un jeu de foot
-     */
     public Vue(JeuDeFoot unJeuDeFoot) {
 
         this.unJeuDeFoot = unJeuDeFoot;
 
-        vueTerrain = new VueTerrain(unJeuDeFoot);
+        this.fenetreTerrain = new FenetreTerrain(unJeuDeFoot);
 
-        vueScore = new VueCouleurEtScore();
-
-        vueChoixStrategie = new VueControls();
-
-        initVue();
-    }
-
-
-/**************************** Initialisation des vues *************************/
-
-    /**
-    * Initialise le contenu de la fenêtre : créations des boutons et des actions associées
-    */
-    private void initVue(){
-
-        getContentPane().setLayout(new BorderLayout(10,10));
-
-        //taille de la fenêtre
-        setSize(800,800);
-        //this.setResizable(false);
+        this.fenetreCouleurEtScore = new FenetreCouleurEtScore();
         
-        // Centre l'interface
-        setLocationRelativeTo(null);
-        setTitle("Jeu de Foot");
+        this.fenetreControls = new FenetreControls();
 
-        //ferme la (les) fenêtres
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-
-        //MENUS TOP--------------------->
-        JMenuBar menubar = new JMenuBar();
-        setJMenuBar(menubar);
-        JMenu menuFile = new JMenu("Fichier");
-        menubar.add(menuFile);
-
-        addMenuItem(menuFile, "Quitter", "Quitter", KeyEvent.VK_Q);
-        //--------------------------------------->
-
-
-        //AJOUT DU TERRAIN ------------->
-        getContentPane().add(vueTerrain,"Center");
-        //--------------------------------------->
-        
-
-        //BOUTONS --------------------->
-        JPanel boutons = new JPanel(new GridLayout(2,1));
-
-        JButton demarrer = new JButton("Démarrer");
-        boutons.add(demarrer);
-        demarrer.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                notifierObserveur("Démarrer");
-            }
-            
-        });
-
-        JButton pause = new JButton("Pause/Repartir");
-        boutons.add(pause);
-        pause.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                notifierObserveur("Pause/Repartir");
-            }
-
-        });
-
-
-        getContentPane().add(boutons,"East");
-        //--------------------------------------->
-
-        pack();
-        setVisible(true);
     }
 
+/******************************  GETTER/SETTERS  ******************************/
 
-
-    /**
-    * Utilitaires pour installer des boutons et des menus
-    * @param m un menu
-    * @param label intitulé de l'item
-    * @param command la commande associé à l'item
-    * @param key touche du clavier pour recevoir un évènement
-    */
-    private void addMenuItem(JMenu m, final String label, String command, int key) {
-
-        JMenuItem menuItem;
-        menuItem = new JMenuItem(label);
-        m.add(menuItem);
-
-        menuItem.setActionCommand(command);
-        menuItem.addActionListener(new ActionListener() {
-
-            //On définit l'action directement
-            public void actionPerformed(ActionEvent e) {
-                notifierObserveur(label);
-            }
-        });
-
-        if (key > 0) {
-            if (key != KeyEvent.VK_DELETE)
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Event.CTRL_MASK, false));
-            else
-                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, 0, false));
-        }
+    public FenetreControls getFenetreControls() {
+        return fenetreControls;
     }
 
-
-/***************************** Méthodes de l'observé **************************/
-
-    
-    public void ajouterObserveur(ObservateurBouton unObs) {
-        this.unObservateurBouton = unObs;
+    public FenetreCouleurEtScore getFenetreCouleurEtScore() {
+        return fenetreCouleurEtScore;
     }
 
-    public void supprimerObserveur() {
-        unObservateurBouton = null;
+    public FenetreTerrain getFenetreTerrain() {
+        return fenetreTerrain;
     }
 
-    public void notifierObserveur(String action) {
-        unObservateurBouton.miseAJour(action);
+    public JeuDeFoot getUnJeuDeFoot() {
+        return unJeuDeFoot;
     }
+
 
 }

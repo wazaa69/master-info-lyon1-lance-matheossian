@@ -23,6 +23,7 @@ public class Main {
 
         //Initialise le controleur, Le controleur connait tout le monde.
         Controleur controleur = new Controleur(unJeuDeFoot, uneVue);
+        ControleurStrategie controleurStrategie = new ControleurStrategie(unJeuDeFoot, uneVue.getFenetreControls());
 
     }
 
