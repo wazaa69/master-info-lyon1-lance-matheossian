@@ -1,5 +1,6 @@
 package Vue;
 
+import Vue.Terrain.VueTerrain;
 import Model.JeuDeFoot;
 import ObservListe.ObservableBouton;
 import ObservListe.ObservateurBouton;
@@ -28,8 +29,8 @@ public class Vue extends JFrame implements ObservableBouton {
     private ObservateurBouton unObservateurBouton; /**  un observateur de boutons */
 
     private VueTerrain vueTerrain;  /** la vue du terrain */
-    private VueScore vueScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
-    private VueChoixStrategie vueChoixStrategie; /** la vue qui perme de choisir une stratégie par équipe */
+    private VueCouleurEtScore vueScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
+    private VueControls vueChoixStrategie; /** la vue qui perme de choisir une stratégie par équipe */
 
 
 
@@ -45,9 +46,9 @@ public class Vue extends JFrame implements ObservableBouton {
 
         vueTerrain = new VueTerrain(unJeuDeFoot);
 
-        vueScore = new VueScore();
+        vueScore = new VueCouleurEtScore();
 
-        vueChoixStrategie = new VueChoixStrategie();
+        vueChoixStrategie = new VueControls();
 
         initVue();
     }

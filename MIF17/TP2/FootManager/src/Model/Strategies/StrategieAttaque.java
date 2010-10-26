@@ -1,6 +1,6 @@
 package Model.Strategies;
 
-import Model.Caracteristiques;
+import Model.ElementMobile.Caracteristiques;
 import Model.ElementMobile.Ballon;
 import Model.ElementMobile.Joueur;
 import java.awt.Point;
