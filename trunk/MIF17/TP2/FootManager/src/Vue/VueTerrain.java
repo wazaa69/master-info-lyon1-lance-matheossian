@@ -1,7 +1,5 @@
 package Vue;
 
-import Model.ElementMobile.Ballon;
-import Model.ElementMobile.ElementMobile;
 import Model.Terrain.Cage;
 import Model.ElementMobile.Joueur;
 import Model.JeuDeFoot;

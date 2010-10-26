@@ -18,10 +18,10 @@ public class JoueurGoal extends Joueur {
     
 /*******************************  CONSTRUCTEUR  *******************************/
 
-    public JoueurGoal(String nom, Equipe monEquipe, Equipe equipeAdverse) {
+    public JoueurGoal(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse) {
 
         //appel du constructeur parent, notamment pour ajouter les équipes
-        super(nom, monEquipe, equipeAdverse);
+        super(nom, ballonDuJeu, monEquipe, equipeAdverse);
 
         //positionnement du goal au milieu de ses cages
         //on différencie les deux cas, si le goal est dans la cage de gauche ou de droite

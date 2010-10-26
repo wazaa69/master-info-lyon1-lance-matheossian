@@ -1,7 +1,7 @@
 package Model.Strategies;
 
 import Model.Caracteristiques;
-import Model.JeuDeFoot;
+import Model.ElementMobile.Ballon;
 import Model.ElementMobile.Joueur;
 import java.awt.Point;
 
@@ -24,24 +24,25 @@ public class StrategieAttaque implements Strategie {
 
     public void utiliserStrat(Joueur unJoueur){
 
-        Joueur possesseur = JeuDeFoot.UNBALLON.getPossesseur();
-        Joueur ancienPoss= JeuDeFoot.UNBALLON.getAncienPoss();
+        Ballon ballonDuJeu = unJoueur.getBallonDuJeu();
+        Joueur possesseur = ballonDuJeu.getPossesseur();
+        Joueur ancienPoss= ballonDuJeu.getAncienPoss();
         
-        int distanceAuBallon = unJoueur.getDistance(new Point(unJoueur.getX(),unJoueur.getY()),JeuDeFoot.UNBALLON);
+        int distanceAuBallon = unJoueur.getDistance(new Point(unJoueur.getX(),unJoueur.getY()),ballonDuJeu);
 
         Caracteristiques caractUnJoueur = unJoueur.getCaracteristiques();
 
         if(possesseur != unJoueur){
             if(distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle() && unJoueur != ancienPoss){
-                JeuDeFoot.UNBALLON.setAncienPoss(possesseur);
-                JeuDeFoot.UNBALLON.setPossesseur(unJoueur);
+                ballonDuJeu.setAncienPoss(possesseur);
+                ballonDuJeu.setPossesseur(unJoueur);
             }
             
         }
 
         if(possesseur == unJoueur){
             unJoueur.deplacementAuHasard();
-            JeuDeFoot.UNBALLON.majXY();
+            unJoueur.getBallonDuJeu().majXY();
         }
         else if(distanceAuBallon > caractUnJoueur.getDistMinPrendreBalle()*2)
             unJoueur.deplacementAuHasard();

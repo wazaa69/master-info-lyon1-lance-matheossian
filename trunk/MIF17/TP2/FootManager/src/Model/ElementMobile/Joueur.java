@@ -2,7 +2,6 @@ package Model.ElementMobile;
 
 import Model.Caracteristiques;
 import Model.Equipe;
-import Model.JeuDeFoot;
 import Model.Terrain.Terrain;
 
 import java.awt.Dimension;
@@ -18,10 +17,14 @@ public class Joueur extends ElementMobile {
 
 
     protected String nom; /** nom du joueur */
+    protected Caracteristiques caracteristiques; /** les caractéristiques  */
+
+    protected Ballon ballonDuJeu; /** le ballon du jeu de foot en cours */
     protected Equipe monEquipe; /**  l'équipe du joueur */
     protected Equipe equipeAdverse; /** equipe advese */
+
     protected boolean estEnpause; /** le joueur est en pause */
-    protected Caracteristiques caracteristiques; /** les caractéristiques  */
+
 
   
 
@@ -30,12 +33,13 @@ public class Joueur extends ElementMobile {
     /**
      * Initialise un joueur en lui donnant un nom, une Equipe et la connaissance de l'équipe adverse
      * @param nom le nom du joueur
+     * @param ballonDuJeu le ballon du jeu en cours
      * @param monEquipe équipe du joueur
      * @param equipeAdverse équipe adverse
      */
-    public Joueur(String nom, Equipe monEquipe, Equipe equipeAdverse) {
+    public Joueur(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse) {
         super();
-        initSimpleJoueur(nom, monEquipe, equipeAdverse);
+        initSimpleJoueur(nom, ballonDuJeu, monEquipe, equipeAdverse);
     }
 
 
@@ -44,18 +48,18 @@ public class Joueur extends ElementMobile {
      * @param x coordonnées polaires
      * @param y coordonnées polaires
      * @param nom le nom du joueur
+     * @param ballonDuJeu le ballon du jeu en cours
      * @param monEquipe équipe du joueur
      * @param equipeAdverse équipe adverse
      */
-    public Joueur(int x, int y, String nom, Equipe monEquipe, Equipe equipeAdverse) {
+    public Joueur(int x, int y, String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse) {
 
         super();
         
         this.x = x;
         this.y = y;
-        angle = getAngleSelonBallon(); //le joueur regarde le ballon
 
-        initSimpleJoueur(nom, monEquipe, equipeAdverse);
+        initSimpleJoueur(nom, ballonDuJeu, monEquipe, equipeAdverse);
         
     }
     
@@ -66,8 +70,9 @@ public class Joueur extends ElementMobile {
      * @param monEquipe l'équipe du joueur
      * @param equipeAdverse equipe adverse
      */
-    private void initSimpleJoueur(String nom, Equipe monEquipe, Equipe equipeAdverse){
+    private void initSimpleJoueur(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse){
         this.nom = nom;
+        this.ballonDuJeu = ballonDuJeu;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
         this.estEnpause = true;
@@ -181,8 +186,7 @@ public class Joueur extends ElementMobile {
                 avancerAvecEssais(nbEssais-1); //teste nouveau déplacement
             }
 
-            else avancerAvecEssais(nbEssais-1); //1 0
-            
+            else avancerAvecEssais(nbEssais-1); //1 0 
         }
         
     }
@@ -242,8 +246,8 @@ public class Joueur extends ElementMobile {
     protected int getAngleSelonBallon(){
 
         //calcul des différnces de coordonnées polaires
-        float diffX = JeuDeFoot.UNBALLON.getX() - x;
-        float diffY = JeuDeFoot.UNBALLON.getY() - y;
+        float diffX = ballonDuJeu.getX() - x;
+        float diffY = ballonDuJeu.getY() - y;
 
         float differentZero = (float) 0.01;
 
@@ -261,19 +265,15 @@ public class Joueur extends ElementMobile {
 
     }
 
-    public String getNom() {
-        return nom;
-    }
+    public String getNom() {return nom;}
 
-    public Equipe getMonEquipe() {
-        return monEquipe;
-    }
+    public Caracteristiques getCaracteristiques() {return caracteristiques;}
 
-    public Caracteristiques getCaracteristiques() {
-        return caracteristiques;
-    }
+    public Ballon getBallonDuJeu() {return ballonDuJeu;}
 
-   
+    public Equipe getMonEquipe() {return monEquipe;}
+
+
     /**
      * "Active/Désactive" le joueur
      */
