@@ -30,9 +30,6 @@ public class Controleur {
                 else if(str.equals("Pause/Repartir")&& isPartieEnCours())
                     unJeuDeFoot.setPauseRepartir();
 
-                /*else if(str.equals("Mise à zéro"))
-                    /unJeuDeFoot.creer();
-                 */
                 
                 else if(str.equals("Quitter"))
                     System.exit(0);

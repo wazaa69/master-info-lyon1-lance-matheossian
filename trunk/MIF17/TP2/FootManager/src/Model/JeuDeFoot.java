@@ -1,6 +1,7 @@
 package Model;
 
 import Model.ElementMobile.Ballon;
+import Model.ElementMobile.ElementMobile;
 import Model.Terrain.Terrain;
 import Model.ElementMobile.Joueur;
 import Model.ElementMobile.JoueurGoal;
@@ -22,7 +23,7 @@ public class JeuDeFoot extends Thread {
 
     private Terrain unTerrain; /**  le terrain de jeu */
 
-    private boolean partieEnCours; /**   vrai si la partie est en cours, faux sinon */
+    private static boolean PARTIEENCOURS; /**   vrai si la partie est en cours, faux sinon */
     private boolean pauseRepartir; /**   vrai si le jeu de Foot est en pause, faux sinon */
 
 
@@ -41,7 +42,7 @@ public class JeuDeFoot extends Thread {
      */
     public JeuDeFoot(int longueurTerrain, int largeurTerrain, int nbJoueursParEq) {
 
-        partieEnCours = false;
+        PARTIEENCOURS = false;
         pauseRepartir = false;
 
         unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
@@ -164,7 +165,7 @@ public class JeuDeFoot extends Thread {
      */
     private void demarrerLaPartie() {
 
-        partieEnCours = true;
+        PARTIEENCOURS = true;
 
         //initialisation de l'horloge, à partir de l'heure actuelle (en millisecondes)
         horlogeDebutMatch = System.currentTimeMillis();
@@ -222,7 +223,7 @@ public class JeuDeFoot extends Thread {
      * Remet à zéro les variable du jeu
      */
     public void creer() {
-        partieEnCours = false;
+        PARTIEENCOURS = false;
         pauseRepartir = false;
     }
 
@@ -230,14 +231,28 @@ public class JeuDeFoot extends Thread {
 /******************************  GETTER/SETTERS  ******************************/
 
 
+    /**
+     * Retourne la liste de tous les éléments qui bougent sur le terrain (sauf le ballon)
+     * @return retourne une liste d'éléments mobiles
+     */
+    public ArrayList<Joueur> getElementsModbiles(){
+        
+        //on concatène les deux listes
+        ArrayList<Joueur> listeElementsModbiles = new ArrayList<Joueur>(equipeUne.getListeJoueurs());
+        listeElementsModbiles.addAll(equipeDeux.getListeJoueurs());
+
+        return listeElementsModbiles;
+
+    }
+
     public Equipe getEquipeUne() {return equipeUne;}
     public Equipe getEquipeDeux() {return equipeDeux;}
 
     public Terrain getUnTerrain() {return unTerrain;}
-    public Ballon getUnBallon() {return UNBALLON;}
+    public static Ballon getUnBallon() {return UNBALLON;}
 
-    public void setPartieTerminee(boolean partieEncours) {this.partieEnCours = partieEncours;}
-    public boolean isPartieEnCours() {return partieEnCours;}
+    public void setPartieTerminee(boolean partieEncours) {PARTIEENCOURS = partieEncours;}
+    public static boolean isPartieEnCours() {return PARTIEENCOURS;}
 
     /**
      * Retourne le temps écoulé depuis le début du match
