@@ -28,7 +28,7 @@ public class Ballon extends ElementMobile {
 /**********************************  THREAD ***********************************/
 
     /**
-     * Pour plus tard si on veut montrer une passe
+     * Pour plus tard, si on veut montrer une passe en temps réel
      */
     @Override
     public void run() {
