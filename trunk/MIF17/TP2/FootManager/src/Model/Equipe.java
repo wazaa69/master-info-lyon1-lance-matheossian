@@ -1,5 +1,9 @@
 package Model;
 
+import Model.Terrain.Cage;
+import Model.ElementMobile.Joueur;
+import Model.Strategies.Strategie;
+import Model.Strategies.StrategieFactory;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -13,7 +17,7 @@ public class Equipe {
 
 
     private ArrayList<Joueur> listeJoueurs; /**  listeJoueurs la liste des joueurs */
-    private int startegie = 0; /** la stratégie adoptée par l'équipe, neutre par défaut */
+    private Strategie startegie = (new StrategieFactory()).creerStrategie(2); /** la stratégie adoptée par l'équipe, attaque par défaut */
 
 
     private int score = 0; /** le score actuel de l'équipe, 0 par défaut */
@@ -59,11 +63,19 @@ public class Equipe {
         this.score = score;
     }
 
-    public int getStartegie() {
+    /**
+     * Attention, Strategie est une interface. Cette méthode récupère la stratégie de l'équipe
+     * @return retourne une instance d'une classe, qui implémante Strategie
+     */
+    public Strategie getStartegie() {
         return startegie;
     }
 
-    public void setStartegie(int startegie) {
+    /**
+     * Met à jour la strategie de l'équipe
+     * @param une instance d'une classe, qui implémante Strategie
+     */
+    public void setStartegie(Strategie startegie) {
         this.startegie = startegie;
     }
 

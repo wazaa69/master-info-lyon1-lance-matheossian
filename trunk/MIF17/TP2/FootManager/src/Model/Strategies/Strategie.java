@@ -1,12 +1,12 @@
 package Model.Strategies;
 
-import Model.Joueur;
+import Model.ElementMobile.Joueur;
 
 /**
  * Chaque fils contiendra la méthode uiliserStrat().
  */
-public class Strategie {
+public interface Strategie {
 
-    public static synchronized void utiliserStrat(Joueur unJoueur){}
+    public void utiliserStrat(Joueur unJoueur);
 
 }

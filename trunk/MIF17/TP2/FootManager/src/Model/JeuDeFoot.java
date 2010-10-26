@@ -1,5 +1,8 @@
 package Model;
 
+import Model.Terrain.Terrain;
+import Model.ElementMobile.Joueur;
+import Model.ElementMobile.JoueurGoal;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;

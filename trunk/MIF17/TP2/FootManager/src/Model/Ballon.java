@@ -1,5 +1,7 @@
 package Model;
 
+import Model.ElementMobile.ElementMobile;
+import Model.ElementMobile.Joueur;
 import java.awt.Color;
 import java.awt.Point;
 

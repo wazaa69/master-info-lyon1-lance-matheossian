@@ -1,7 +1,7 @@
 package Vue;
 
 import Model.JeuDeFoot;
-import Model.Joueur;
+import Model.ElementMobile.Joueur;
 import ObservListe.ObservableBouton;
 import ObservListe.ObservateurBouton;
 import java.awt.BorderLayout;
