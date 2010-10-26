@@ -1,9 +1,11 @@
 %{
 
     #include "lexer.hpp"
+ 
+	
     #include "TDI.hpp"
-
     extern TableDesIdentificateurs* tableId;
+
     int column = 0;
 
 %}

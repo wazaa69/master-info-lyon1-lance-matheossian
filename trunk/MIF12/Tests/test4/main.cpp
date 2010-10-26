@@ -16,6 +16,7 @@ extern int yyparse();
 /* Déclaration gloable pour pouvoir les utiliser dans flex ou bison */
 TableDesIdentificateurs* tableId = new TableDesIdentificateurs();
 TableDesSymboles* tableSymb = new TableDesSymboles();
+TypeUser* typeUser;
 
 std::vector<TableDesSymboles*> listeTDS;
 std::vector<int> tmpNumId;
@@ -23,7 +24,9 @@ std::vector<TypeUser*> listeTypeUser;
 
 
 int main(int argc, char** argv)
-{
+{   
+    
+  
     yyin = NULL;
 
     if(argc > 1) yyin = fopen( argv[1], "r" );
