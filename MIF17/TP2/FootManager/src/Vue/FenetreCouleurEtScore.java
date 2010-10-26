@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 /**
  * Affichage des scores
  */
-public class VueCouleurEtScore extends JFrame implements Observateur {
+public class FenetreCouleurEtScore extends JFrame implements Observateur {
 
     JLabel scoreGauche = new JLabel("0", JLabel.CENTER);
     JLabel scoreDroit =  new JLabel("0", JLabel.CENTER);
@@ -22,7 +22,7 @@ public class VueCouleurEtScore extends JFrame implements Observateur {
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
-    public VueCouleurEtScore() {
+    public FenetreCouleurEtScore() {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Score");
@@ -63,9 +63,9 @@ public class VueCouleurEtScore extends JFrame implements Observateur {
         couleur.setPreferredSize(new Dimension(100,80));
 
 
-        getContentPane().add("North", titre);
-        getContentPane().add("Center", conteneurScore);
-        getContentPane().add("South", couleur);
+        getContentPane().add(BorderLayout.NORTH, titre);
+        getContentPane().add(BorderLayout.CENTER, conteneurScore);
+        getContentPane().add(BorderLayout.SOUTH, couleur);
 
 
         pack();

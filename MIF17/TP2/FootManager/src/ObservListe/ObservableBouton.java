@@ -1,7 +1,7 @@
 package ObservListe;
 
 /**
- * Pour gérer les actions de clic de l'utilisateur
+ * Pour gérer les actions de clic de l'utilisateur, sur les boutons simples
  */
 public interface ObservableBouton {
     public void ajouterObserveur(ObservateurBouton obs);
