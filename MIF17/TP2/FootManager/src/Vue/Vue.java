@@ -45,7 +45,7 @@ public class Vue extends JFrame implements ObservableBouton {
 
         this.unJeuDeFoot = unJeuDeFoot;
 
-        initVueTerrain();
+        vueTerrain = new VueTerrain(unJeuDeFoot);
 
         vueScore = new VueScore();
 
@@ -92,7 +92,7 @@ public class Vue extends JFrame implements ObservableBouton {
         
 
         //BOUTONS --------------------->
-        JPanel boutons = new JPanel(new GridLayout(3,1));
+        JPanel boutons = new JPanel(new GridLayout(2,1));
 
         JButton demarrer = new JButton("Démarrer");
         boutons.add(demarrer);
@@ -110,17 +110,6 @@ public class Vue extends JFrame implements ObservableBouton {
 
             public void actionPerformed(ActionEvent e) {
                 notifierObserveur("Pause/Repartir");
-            }
-
-        });
-
-        
-        JButton redemarrer = new JButton("Mise à zéro");
-        boutons.add(redemarrer);
-        redemarrer.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                notifierObserveur("Mise à zéro");
             }
 
         });
@@ -164,28 +153,6 @@ public class Vue extends JFrame implements ObservableBouton {
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(key, 0, false));
         }
     }
-
-
-    /**
-     * Crée une Vue du Terrain qui connait le "Terrain modèle".
-     * La vue du terrain observe chaque joueur.
-     */
-    private void initVueTerrain(){
-
-        //on récupère chaque équipe
-        ArrayList<Joueur> listeJoueurEquUne = unJeuDeFoot.getEquipeUne().getListeJoueurs();
-        ArrayList<Joueur> listeJoueurEquDeux = unJeuDeFoot.getEquipeDeux().getListeJoueurs();
-
-        //on concatène les deux listes
-        ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>(listeJoueurEquUne);
-        listeJoueurs.addAll(listeJoueurEquDeux);
-
-        //on initialise la vue du terrain
-        vueTerrain = new VueTerrain(unJeuDeFoot.getUnTerrain(), listeJoueurs, unJeuDeFoot.getUnBallon());
-
-    }
-
-
 
 
 /***************************** Méthodes de l'observé **************************/
