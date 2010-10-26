@@ -1,7 +1,5 @@
-package Model;
+package Model.ElementMobile;
 
-import Model.ElementMobile.ElementMobile;
-import Model.ElementMobile.Joueur;
 import java.awt.Color;
 import java.awt.Point;
 
@@ -28,7 +26,7 @@ public class Ballon extends ElementMobile {
     }
 
 /**********************************  THREAD ***********************************/
-    
+
     /**
      * Pour plus tard si on veut montrer une passe
      */
@@ -40,7 +38,7 @@ public class Ballon extends ElementMobile {
 
 
 /******************************  GETTER/SETTERS  ******************************/
-    
+
     public Color getCouleur() {
         return couleur;
     }
@@ -71,7 +69,7 @@ public class Ballon extends ElementMobile {
         return ancienPoss;
     }
 
-    
+
 
     /**
      * Met à jour les coordonnées du ballon, de façon à le placer devant le joueur

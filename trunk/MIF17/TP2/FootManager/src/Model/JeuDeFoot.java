@@ -1,5 +1,6 @@
 package Model;
 
+import Model.ElementMobile.Ballon;
 import Model.Terrain.Terrain;
 import Model.ElementMobile.Joueur;
 import Model.ElementMobile.JoueurGoal;

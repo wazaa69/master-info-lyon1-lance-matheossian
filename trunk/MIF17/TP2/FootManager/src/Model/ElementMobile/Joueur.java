@@ -3,7 +3,7 @@ package Model.ElementMobile;
 import Model.Caracteristiques;
 import Model.Equipe;
 import Model.JeuDeFoot;
-import Model.Terrain;
+import Model.Terrain.Terrain;
 
 import java.awt.Dimension;
 import java.awt.Point;
