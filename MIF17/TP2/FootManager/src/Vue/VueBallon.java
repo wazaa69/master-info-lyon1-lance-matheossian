@@ -1,6 +1,6 @@
 package Vue;
 
-import Model.Ballon;
+import Model.ElementMobile.Ballon;
 import java.awt.Graphics;
 
 /**
