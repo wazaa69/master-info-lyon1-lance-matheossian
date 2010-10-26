@@ -1,7 +1,6 @@
 package Model;
 
 import Model.ElementMobile.Ballon;
-import Model.ElementMobile.ElementMobile;
 import Model.Terrain.Terrain;
 import Model.ElementMobile.Joueur;
 import Model.ElementMobile.JoueurGoal;
@@ -23,12 +22,11 @@ public class JeuDeFoot extends Thread {
 
     private Terrain unTerrain; /**  le terrain de jeu */
 
+    public  Ballon ballonDuJeu; /**  le ballon de foot */
+
     private static boolean PARTIEENCOURS; /**   vrai si la partie est en cours, faux sinon */
     private boolean pauseRepartir; /**   vrai si le jeu de Foot est en pause, faux sinon */
 
-
-    // -> voir si on met une ref dans Joueur au lieu du ballon static ! */
-    public static Ballon UNBALLON; /**  le ballon de foot */
 
 
 /*******************************  CONSTRUCTEUR  *******************************/
@@ -42,14 +40,14 @@ public class JeuDeFoot extends Thread {
      */
     public JeuDeFoot(int longueurTerrain, int largeurTerrain, int nbJoueursParEq) {
 
-        PARTIEENCOURS = false;
-        pauseRepartir = false;
-
         unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
 
-        UNBALLON = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), 5, Color.MAGENTA);
+        ballonDuJeu = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), 5, Color.MAGENTA);
 
         initEquipes(nbJoueursParEq);
+
+        PARTIEENCOURS = false;
+        pauseRepartir = false;
 
     }
 
@@ -82,7 +80,7 @@ public class JeuDeFoot extends Thread {
 
         //Création du goal
         nom = courante.getNomEquipe() + " - Goal";
-        unJoueur = new JoueurGoal(nom, courante, adverse);
+        unJoueur = new JoueurGoal(nom, ballonDuJeu, courante, adverse);
         courante.ajouterUnJoueur(unJoueur);
 
         //création du reste de l'équipe, on commence à 1
@@ -93,7 +91,7 @@ public class JeuDeFoot extends Thread {
             nom = courante.getNomEquipe() + " - " + (i + 1);
 
             //création du joueur
-            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), nom, courante, adverse);
+            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), nom, ballonDuJeu, courante, adverse);
 
             courante.ajouterUnJoueur(unJoueur);
             
@@ -249,7 +247,7 @@ public class JeuDeFoot extends Thread {
     public Equipe getEquipeDeux() {return equipeDeux;}
 
     public Terrain getUnTerrain() {return unTerrain;}
-    public static Ballon getUnBallon() {return UNBALLON;}
+    public Ballon getUnBallon() {return ballonDuJeu;}
 
     public void setPartieTerminee(boolean partieEncours) {PARTIEENCOURS = partieEncours;}
     public static boolean isPartieEnCours() {return PARTIEENCOURS;}
