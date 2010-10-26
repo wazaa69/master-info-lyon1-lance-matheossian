@@ -1,10 +1,10 @@
 package Vue;
 
 import Model.Ballon;
-import Model.Cage;
+import Model.Terrain.Cage;
 import Model.JeuDeFoot;
-import Model.Joueur;
-import Model.Terrain;
+import Model.ElementMobile.Joueur;
+import Model.Terrain.Terrain;
 import ObservListe.Observateur;
 import java.applet.Applet;
 import java.awt.Color;

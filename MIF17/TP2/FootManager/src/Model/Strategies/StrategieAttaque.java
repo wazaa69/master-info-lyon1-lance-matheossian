@@ -2,7 +2,7 @@ package Model.Strategies;
 
 import Model.Caracteristiques;
 import Model.JeuDeFoot;
-import Model.Joueur;
+import Model.ElementMobile.Joueur;
 import java.awt.Point;
 
 /**
@@ -20,9 +20,9 @@ import java.awt.Point;
  *
  *      Les joueurs proches du pocesseur tenent d'intercepter la balles.
  */
-public class StrategieAttaque extends Strategie {
+public class StrategieAttaque implements Strategie {
 
-    public static synchronized void utiliserStrat(Joueur unJoueur){
+    public void utiliserStrat(Joueur unJoueur){
 
         Joueur possesseur = JeuDeFoot.UNBALLON.getPossesseur();
         Joueur ancienPoss= JeuDeFoot.UNBALLON.getAncienPoss();

@@ -1,6 +1,6 @@
 package Vue;
 
-import Model.Joueur;
+import Model.ElementMobile.Joueur;
 import java.awt.Graphics;
 
 import java.awt.Point;

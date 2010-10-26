@@ -1,12 +1,12 @@
 package Model.Strategies;
 
-import Model.Joueur;
+import Model.ElementMobile.Joueur;
 
 /**
  *
  */
-public class StrategieNeutre extends Strategie{
+public class StrategieNeutre implements Strategie{
 
-    public static void utiliserStrat(Joueur unJoueur){}
+    public void utiliserStrat(Joueur unJoueur){}
     
 }
