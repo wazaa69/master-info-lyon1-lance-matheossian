@@ -1,7 +1,7 @@
 package Model.ElementMobile;
 
 import ObservListe.Observable;
-import ObservListe.Observateur;
+import ObservListe.Observeur;
 import java.awt.Point;
 
 /**
@@ -10,7 +10,7 @@ import java.awt.Point;
  */
 public abstract class ElementMobile extends Thread implements Observable {
 
-    protected Observateur unObservateur; /** celui qui observe l'élément mobile */
+    protected Observeur unObservateur; /** celui qui observe l'élément mobile */
 
     protected int x; /**  Coordonnée en abscisse */
     protected int y; /** Coordonnée en ordonnée */
@@ -111,6 +111,8 @@ public abstract class ElementMobile extends Thread implements Observable {
     public int getAngle() {return angle;}
     public int getX() {return x;}
     public int getY() {return y;}
+    
+    public Point getXY() {return new Point(x,y);}
 
     public void setXY(Point unPoint) {
          x = (int) unPoint.getX();
@@ -120,15 +122,15 @@ public abstract class ElementMobile extends Thread implements Observable {
 /***************************** Méthodes de l'observé **************************/
 
 
-    public void ajouterObservateur(Observateur obs) {
+    public void ajouterObserveur(Observeur obs) {
         unObservateur = obs;
     }
 
-    public void supprimerObservateur() {
+    public void supprimerObserveur() {
         unObservateur = null;
     }
 
-    public void notifierObservateur() {
+    public void notifierObserveur() {
         unObservateur.miseAJour();
     }
 

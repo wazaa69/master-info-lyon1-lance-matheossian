@@ -17,8 +17,8 @@ public class JeuDeFoot extends Thread {
 
     private long horlogeDebutMatch; /**  horloge pour gérer le temps de jeu */
 
-    private Equipe equipeUne; /**   première équipe */
-    private Equipe equipeDeux; /**   seconde équipe */
+    private Equipe equipeGauche; /**   équipe à gauche sur le terrain */
+    private Equipe equipeDroite; /**   équipe à droite sur le terrain */
 
     private Terrain unTerrain; /**  le terrain de jeu */
 
@@ -57,11 +57,11 @@ public class JeuDeFoot extends Thread {
 
     private void initEquipes(int nbJoueurs){
         
-        equipeUne = new Equipe("RedTeam",Color.BLUE, unTerrain.getCageGauche());
-        equipeDeux = new Equipe("BlueTeam",Color.RED, unTerrain.getCageDroite());
+        equipeGauche = new Equipe("RedTeam",Color.BLUE, unTerrain.getCageGauche());
+        equipeDroite = new Equipe("BlueTeam",Color.RED, unTerrain.getCageDroite());
 
-        initJoueursEquipe(equipeUne, equipeDeux, nbJoueurs);
-        initJoueursEquipe(equipeDeux, equipeUne, nbJoueurs);
+        initJoueursEquipe(equipeGauche, equipeDroite, nbJoueurs);
+        initJoueursEquipe(equipeDroite, equipeGauche, nbJoueurs);
 
     }
 
@@ -164,8 +164,8 @@ public class JeuDeFoot extends Thread {
         //initialisation de l'horloge, à partir de l'heure actuelle (en millisecondes)
         horlogeDebutMatch = System.currentTimeMillis();
 
-        ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
-        ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquUne = equipeGauche.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquDeux = equipeDroite.getListeJoueurs();
 
         for(int i = 0; i < listeJoueurEquUne.size(); i++)
             listeJoueurEquUne.get(i).start();
@@ -183,8 +183,8 @@ public class JeuDeFoot extends Thread {
         //faux de base
         pauseRepartir = !pauseRepartir;
 
-        ArrayList<Joueur> listeJoueurEquUne = equipeUne.getListeJoueurs();
-        ArrayList<Joueur> listeJoueurEquDeux = equipeDeux.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquUne = equipeGauche.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurEquDeux = equipeDroite.getListeJoueurs();
 
 
 
@@ -232,15 +232,15 @@ public class JeuDeFoot extends Thread {
     public ArrayList<Joueur> getJoueurs(){
         
         //on concatène les deux listes
-        ArrayList<Joueur> listeElementsModbiles = new ArrayList<Joueur>(equipeUne.getListeJoueurs());
-        listeElementsModbiles.addAll(equipeDeux.getListeJoueurs());
+        ArrayList<Joueur> listeElementsModbiles = new ArrayList<Joueur>(equipeGauche.getListeJoueurs());
+        listeElementsModbiles.addAll(equipeDroite.getListeJoueurs());
 
         return listeElementsModbiles;
 
     }
 
-    public Equipe getEquipeUne() {return equipeUne;}
-    public Equipe getEquipeDeux() {return equipeDeux;}
+    public Equipe getEquipeGauche() {return equipeGauche;}
+    public Equipe getEquipeDroite() {return equipeDroite;}
 
     public Terrain getUnTerrain() {return unTerrain;}
     public Ballon getUnBallon() {return ballonDuJeu;}

@@ -4,13 +4,17 @@ import Model.Terrain.Cage;
 import Model.ElementMobile.Joueur;
 import Model.Strategies.Strategie;
 import Model.Strategies.StrategieFactory;
+import ObservListe.Observeur;
 import java.awt.Color;
 import java.util.ArrayList;
+
 
 /**
  * Un équipe avec une stratégie et composée de plusieurs joueurs
  */
-public class Equipe {
+public class Equipe implements ObservListe.Observable {
+
+    Observeur unObservateur;
 
     private String nomEquipe; /** le nom de l'équipe */
     private Color couleur;  /** couleur la couleur qui représente l'équipe */
@@ -61,6 +65,7 @@ public class Equipe {
 
     public void setScore(int score) {
         this.score = score;
+        unObservateur.miseAJour();
     }
 
     /**
@@ -91,6 +96,19 @@ public class Equipe {
         this.nosCage = cage;
     }
 
-    
-  
+
+/***************************** Méthodes de l'observé **************************/
+
+
+    public void ajouterObserveur(Observeur obs) {
+        unObservateur = obs;
+    }
+
+    public void supprimerObserveur() {
+        unObservateur = null;
+    }
+
+    public void notifierObserveur() {
+        unObservateur.miseAJour();
+    }
 }

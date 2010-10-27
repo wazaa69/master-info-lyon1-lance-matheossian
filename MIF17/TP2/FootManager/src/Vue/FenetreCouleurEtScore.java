@@ -1,6 +1,9 @@
 package Vue;
 
-import ObservListe.Observateur;
+import Model.Equipe;
+import Model.JeuDeFoot;
+import Model.Strategies.Strategie;
+import ObservListe.ObserveurComboBox;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,16 +16,18 @@ import javax.swing.JPanel;
 /**
  * Affichage des scores
  */
-public class FenetreCouleurEtScore extends JFrame implements Observateur {
-
-    JLabel scoreGauche = new JLabel("0", JLabel.CENTER);
-    JLabel scoreDroit =  new JLabel("0", JLabel.CENTER);
+public class FenetreCouleurEtScore extends JFrame implements ObserveurComboBox {
 
 
+    private Equipe equipeGauche; /** Référence sur l'équipe Gauche (pour les changements de stratégies) */
+    private Equipe equipeDroite; /** Référence sur l'équipes Droite (pour les changements de stratégies) */
+
+    JLabel scoreGauche = new JLabel("0", JLabel.CENTER); /** le score de l'équipe de gauche */
+    JLabel scoreDroit =  new JLabel("0", JLabel.CENTER); /** le score de l'équipe de droite */
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
-    public FenetreCouleurEtScore() {
+    public FenetreCouleurEtScore(JeuDeFoot unJeuDeFoot) {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Score");
@@ -37,6 +42,9 @@ public class FenetreCouleurEtScore extends JFrame implements Observateur {
         //Layout type
         getContentPane().setLayout(new BorderLayout(10,10));
         
+
+        equipeGauche = unJeuDeFoot.getEquipeGauche();
+        equipeDroite = unJeuDeFoot.getEquipeDroite();
 
         Font font = new Font(Font.SERIF, Font.PLAIN, 24);
 
@@ -77,11 +85,11 @@ public class FenetreCouleurEtScore extends JFrame implements Observateur {
 
 /**************************  Méthode de l'observeur  **************************/
 
-    public void miseAJour() {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public void miseAJour(Equipe uneEquipe, Strategie strategie) {
+        scoreGauche.setText(null);
+        scoreDroit.setText(null);
     }
-
-
 
 
 }

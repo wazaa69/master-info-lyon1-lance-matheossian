@@ -1,11 +1,11 @@
 package ObservListe;
 
 /**
- * Relation de dépendance Observable ---> Observateur, car des méthodes
- * de la classe Observable utilisent la classe Observateur
+ * Relation de dépendance Observable ---> Observeur, car des méthodes
+ * de la classe Observable utilisent la classe Observeur
  */
 public interface Observable {
-	public void ajouterObservateur(Observateur obs);
-	public void supprimerObservateur();
-	public void notifierObservateur();
+	public void ajouterObserveur(Observeur obs);
+	public void supprimerObserveur();
+	public void notifierObserveur();
 }

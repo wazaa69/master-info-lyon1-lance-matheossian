@@ -21,7 +21,7 @@ public class Main {
         //Initialise la fenêtre et boutons. La vue connait le modèle.
         Vue uneVue = new Vue(unJeuDeFoot);
 
-        //Initialise le controleur, Le controleur connait tout le monde.
+        //Initialise les controleurs. Le controleur connait tout le monde.
         Controleur controleur = new Controleur(unJeuDeFoot, uneVue);
         ControleurStrategie controleurStrategie = new ControleurStrategie(unJeuDeFoot, uneVue.getFenetreControls());
 
