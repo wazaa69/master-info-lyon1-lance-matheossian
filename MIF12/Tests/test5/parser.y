@@ -61,6 +61,8 @@
 %token KW_OF
 %token KW_TYPE
 %token KW_RECORD
+%token KW_FUNC
+%token KW_PROC
 
 %token SEP_SCOL
 %token SEP_DOT
@@ -69,6 +71,8 @@
 %token SEP_CO
 %token SEP_CF
 %token SEP_DOTDOT
+%token SEP_PO
+%token SEP_PF
 
 %token OP_PTR
 %token OP_SUB
@@ -116,8 +120,82 @@ ProgramHeader   : KW_PROGRAM TOK_IDENT                          {
                 ;
 
 
-Block         :  BlockDeclType BlockDeclType BlockDeclVar BlockCode		{}
+
+
+
+
+
+
+
+
+
+Block         :  BlockDeclType BlockDeclType BlockDeclVar BlockDeclFunc BlockCode		{}
               ;
+
+
+
+
+BlockDeclFunc : ListDeclFunc SEP_SCOL
+               |
+               ;
+
+ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
+               | DeclFunc
+               ;
+
+DeclFunc       : ProcDecl
+               | FuncDecl
+               ;
+
+ProcDecl       : ProcHeader SEP_SCOL Block
+               ;
+
+ProcHeader     : ProcIdent
+               | ProcIdent FormalArgs
+               ;
+
+ProcIdent      : KW_PROC TOK_IDENT
+               ;
+
+FormalArgs     : SEP_PO ListFormalArgs SEP_PF
+               ;
+
+ListFormalArgs : ListFormalArgs SEP_SCOL FormalArg
+               | FormalArg
+               ;
+
+FormalArg      : ValFormalArg
+               | VarFormalArg
+               ;
+
+ValFormalArg   : ListIdent SEP_DOTS TOK_IDENT
+               ;
+
+VarFormalArg   : KW_VAR ListIdent SEP_DOTS TOK_IDENT
+               ;
+
+ProcDecl       : ProcHeader SEP_SCOL Block
+               ;
+
+FuncDecl	:	FuncHeader SEP_SCOL Block
+		;
+
+FuncHeader     : FuncIdent FuncResult
+               | FuncIdent FormalArgs FuncResult
+               ;
+
+FuncIdent      : KW_FUNC TOK_IDENT
+               ;
+
+FuncResult     : SEP_DOTS TOK_IDENT
+               ;
+
+
+
+
+
+
+
 
 
 BlockDeclType  : KW_TYPE ListDeclType				
@@ -134,6 +212,8 @@ DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			{
 									tableSymb->ajouter(new Symbole("  type  ",typeUser, tableSymb->getNumIdActuel(true)));
 									
 								}
+
+
 
 
 
@@ -166,9 +246,16 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
                                                                 }
                 ;
 
+
 ListIdent        :    ListIdent SEP_COMMA TOK_IDENT             {tmpNumId.push_back($3);}
                  |    TOK_IDENT                                 {tmpNumId.push_back($1);}
                  ;
+
+
+
+
+
+
 
 
 
@@ -276,14 +363,13 @@ NSInterBase    : TOK_IDENT			{ /* a */}
                ;
 
 
-BlockCode       : KW_BEGIN ListInstr KW_END                     {}
-                ;
-
-ListInstr       :
+BlockCode       : KW_BEGIN ListTest KW_END      {}
                 ;
 
 
-
+ListTest        :       ListTest SEP_SCOL TOK_IDENT { /*cout << "Identificateur: "<< tableId->getElement($3) << endl;*/}
+                |       TOK_IDENT  { /*cout << "Identificateur: "<< tableId->getElement($1) << endl;*/} /* afficher la signification de l'identificateur (en fonction de la portee) */
+                ;
 
 
 %%
