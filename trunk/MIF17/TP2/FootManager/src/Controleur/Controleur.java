@@ -1,7 +1,7 @@
 package Controleur;
 
 import Model.JeuDeFoot;
-import ObservListe.ObservateurBouton;
+import ObservListe.ObserveurBouton;
 import Vue.Vue;
 
 
@@ -18,7 +18,7 @@ public class Controleur {
 
 
         //Ajout d'un observateur sur la vue. Le controleur Observe la vue.
-        this.uneVue.getFenetreControls().ajouterObserveur(new ObservateurBouton() {
+        this.uneVue.getFenetreControls().ajouterObserveur(new ObserveurBouton() {
 
             //L'observateur va réaliser différentes actions
             public void miseAJour(String str){

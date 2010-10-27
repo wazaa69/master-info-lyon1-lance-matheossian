@@ -4,7 +4,7 @@ import Model.Terrain.Cage;
 import Model.ElementMobile.Joueur;
 import Model.JeuDeFoot;
 import Model.Terrain.Terrain;
-import ObservListe.Observateur;
+import ObservListe.Observeur;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -54,7 +54,7 @@ public class VueTerrain extends Applet {
             this.listeVueElemMobiles.add(new VueJoueur(listeJoueurs.get(i)));
 
             //le terrain observe chaque joueur
-            listeJoueurs.get(i).ajouterObservateur(new Observateur() {
+            listeJoueurs.get(i).ajouterObserveur(new Observeur() {
 
                 public void miseAJour() {
                     repaint();

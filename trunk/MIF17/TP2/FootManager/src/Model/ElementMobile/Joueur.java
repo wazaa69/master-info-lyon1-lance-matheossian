@@ -177,7 +177,7 @@ public class Joueur extends ElementMobile {
 
             if (bonEmplacement && pasDeContact){ //1 1
                 setXY(nouveauPoint);
-                notifierObservateur(); //demande de rafaichissement de la vue des joueurs
+                notifierObserveur(); //demande de rafaichissement de la vue des joueurs
             }
 
             else if(!bonEmplacement){ //0 1 ou 0 0
@@ -243,6 +243,15 @@ public class Joueur extends ElementMobile {
      * @return retourne un entier correspondant à l'angle
      */
     protected int getAngleSelonBallon(){
+        return getAngleSelon(ballonDuJeu.getXY());
+    }
+
+    /**
+     * Retourne l'angle pour se diriger vers le point
+     * @param unPoint un point
+     * @return retourne un entier correspondant à l'angle
+     */
+    protected int getAngleSelon(Point unPoint){
 
         //calcul des différnces de coordonnées polaires
         float diffX = ballonDuJeu.getX() - x;

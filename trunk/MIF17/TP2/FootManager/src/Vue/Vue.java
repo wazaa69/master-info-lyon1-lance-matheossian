@@ -5,6 +5,7 @@
 
 package Vue;
 
+import Vue.Controls.FenetreControls;
 import Model.JeuDeFoot;
 import Vue.Terrain.FenetreTerrain;
 
@@ -25,13 +26,13 @@ public class Vue {
     
     public Vue(JeuDeFoot unJeuDeFoot) {
 
-        this.unJeuDeFoot = unJeuDeFoot;
+        unJeuDeFoot = unJeuDeFoot;
 
-        this.fenetreTerrain = new FenetreTerrain(unJeuDeFoot);
+        fenetreTerrain = new FenetreTerrain(unJeuDeFoot);
 
-        this.fenetreCouleurEtScore = new FenetreCouleurEtScore();
+        fenetreCouleurEtScore = new FenetreCouleurEtScore(unJeuDeFoot);
         
-        this.fenetreControls = new FenetreControls();
+        fenetreControls = new FenetreControls(unJeuDeFoot);
 
     }
 

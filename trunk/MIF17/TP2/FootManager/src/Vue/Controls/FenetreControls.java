@@ -1,9 +1,13 @@
-package Vue;
+package Vue.Controls;
 
 
+import Model.Equipe;
+import Model.JeuDeFoot;
+import Model.Strategies.Strategie;
+import Model.Strategies.StrategieFactory;
 import ObservListe.ObservableBouton;
-import ObservListe.ObservateurBouton;
-import ObservListe.ObservateurComboBox;
+import ObservListe.ObserveurBouton;
+import ObservListe.ObserveurComboBox;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -29,17 +33,19 @@ import javax.swing.KeyStroke;
 public class FenetreControls extends JFrame implements ObservableBouton {
 
 
-    private ObservateurComboBox unObservateurComboBox; /** celui qui observe les actions sur les boutons */
-    private ObservateurBouton unObservateurBouton;
+    private ObserveurBouton unObservateurBouton; /** celui qui observe les actions sur les boutons */
+    private ObserveurComboBox unObservateurComboBox;  /** celui qui observe les changements de stratégies */
 
-    private JComboBox stratEqG = new JComboBox();
-    private JComboBox stratEqD = new JComboBox();
+    private JComboBox comboBoxEqG = new JComboBox(); /** liste déroulante de l'équipe à gauche sur le terrain */
+    private JComboBox comboBoxEqD = new JComboBox(); /** liste déroulante de l'équipe à droite sur le terrain */
 
+    private Equipe equipeGauche; /** Référence sur l'équipe Gauche (pour les changements de stratégies) */
+    private Equipe equipeDroite; /** Référence sur l'équipes Droite (pour les changements de stratégies) */
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
     
-    public FenetreControls(){
+    public FenetreControls(JeuDeFoot unJeuDeFoot){
 
         getContentPane().setLayout(new BorderLayout(2,1));
 
@@ -53,6 +59,10 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 
         //ferme la (les) fenêtres
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
+        equipeGauche = unJeuDeFoot.getEquipeGauche();
+        equipeDroite = unJeuDeFoot.getEquipeDroite();
 
 
         //MENUS TOP--------------------->
@@ -113,59 +123,75 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 
 
     /**
-     * 
-     * @return
+     * Crée la liste déroulante des stratégies, pour chaque équipe
+     * @return retourne le conteneur des listes déroulantes et des labels
      */
     private JPanel creerChoixStrategies(){
 
+
         JPanel grille = new JPanel(new GridLayout(1,4));
-        String[] starts = {"Attaque", "Neutre", "Défense"};
+ 
+        //Création des listes
+        comboBoxEqG = new JComboBox();
+        comboBoxEqD = new JComboBox();
 
-
-
-        //EQUIPE DE GAUCHE----------------------------->
-
-        grille.add(new JLabel(" Equipe Gauche : "));
-
-        this.stratEqG = new JComboBox(starts);
-        stratEqG.setSelectedIndex(1); //Neutre par défaut
-        stratEqG.addActionListener(new NouvelleStrat(0));
-        grille.add(stratEqG);
-
-        //EQUIPE DE DROITE----------------------------->
+        //Ajout des stratégies
+        OptionStrategie uneStrat = null;
+        String[] stringStrat = {"Attaque", "Neutre", "Défense"};
         
-        grille.add(new JLabel("  Equipe Droite : "));
+        for(int i = 0; i < stringStrat.length; i++){
+            uneStrat = new OptionStrategie(stringStrat[i], i);
+            comboBoxEqG.addItem(uneStrat);
+            comboBoxEqD.addItem(uneStrat);
+        }
 
-        this.stratEqD = new JComboBox(starts);
-        stratEqD.setSelectedIndex(1);  //Neutre par défaut
-        stratEqD.addActionListener(new NouvelleStrat(1));
-        grille.add(stratEqD);
+
+        //Premier élément selectionné, et ajout d'un écouteur sur les listes
+        comboBoxEqG.setSelectedIndex(1); //Neutre par défaut
+        comboBoxEqD.setSelectedIndex(1); //Neutre par défaut
+        comboBoxEqG.addActionListener(new NouvelleStrat(equipeGauche));
+        comboBoxEqD.addActionListener(new NouvelleStrat(equipeDroite));
+  
+
+        //Ajout au panel
+        grille.add(new JLabel(" Equipe Gauche : "));
+        grille.add(comboBoxEqG);
+        grille.add(new JLabel("  Equipe Droite : "));
+        grille.add(comboBoxEqD);
 
         return grille;
     }
 
 
     /**
-     * Cette classe va permettre de connaitre le choix de l'utilisateur
+     * Cette classe va permettre d'informer l'obervateur, du choix de l'utilisateur
      */
     class NouvelleStrat implements ActionListener{
 
-        int eqGOueqD; /** cet attribut permet de savoir quelle équipe à été modifiée*/
 
-        public NouvelleStrat(int eqGOueqD) {this.eqGOueqD = eqGOueqD;}
+        Equipe eqGeqD; /** soit l'équipe de gauche, soit celle de droite */
+
 
         /**
-         * Va avertir ses observateurs qu'il faut modifier la stratégie d'une des deux équipes
+         * @param eqGeqD équipe dont la comboBox à été modifiée
+         */
+        public NouvelleStrat(Equipe eqGeqD) {this.eqGeqD = eqGeqD;}
+ 
+         /* Va avertir ses observateurs qu'il faut modifier la stratégie d'une des deux équipes
          * @param e un évènement
          */
         public void actionPerformed(ActionEvent e) {
-            /*
-            if(eqGOueqD == 0)
-                //il faut renvoyer l'équipe + la nouvelle strat
-                unObservateurComboBox.miseAJour(0,stratEqG.get);
+
+            OptionStrategie choixEqu;
+
+            if(eqGeqD == equipeGauche)
+                choixEqu = (OptionStrategie) comboBoxEqG.getSelectedItem();
             else
-                unObservateurComboBox.miseAJour(1, (String) stratEqD.getSelectedItem());
-             */
+                choixEqu = (OptionStrategie) comboBoxEqD.getSelectedItem();
+
+            //notifie l'observateur, en précisant l'équipe dont la stratégie doit être modifiée
+            unObservateurComboBox.miseAJour(eqGeqD, new StrategieFactory().creerStrategie(choixEqu.getValeur()));
+
         }
     }
 
@@ -205,30 +231,31 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 /***************************** Méthodes de l'observé **************************/
 
 
-    public void ajouterObserveur(ObservateurBouton unObs) {
+    //Pour les JButton et la JComboBox------------------->
+    public void supprimerObserveur() {
+        unObservateurBouton = null;
+        unObservateurComboBox = null;
+    }
+
+    //Pour les JButton------------------->
+    public void ajouterObserveur(ObserveurBouton unObs) {
         this.unObservateurBouton = unObs;
     }
 
-    public void supprimerObserveur() {
-        unObservateurBouton = null;
-    }
 
     public void notifierObserveur(String action) {
         unObservateurBouton.miseAJour(action);
     }
 
-    /*
-    public void ajouterObserveur(ObservateurComboBox unObs) {
+
+    //Pour la JComboBox------------------->
+    public void ajouterObserveur(ObserveurComboBox unObs) {
         this.unObservateurComboBox = unObs;
     }
 
-    public void supprimerObserveur() {
-        unObservateurComboBox = null;
-    }
 
-    public void notifierObserveur(int element, String action) {
-        unObservateurComboBox.miseAJour(element, action);
+    public void notifierObserveur(Equipe uneEquipe, Strategie strategie) {
+        unObservateurComboBox.miseAJour(uneEquipe, strategie);
     }
-     */
 
 }

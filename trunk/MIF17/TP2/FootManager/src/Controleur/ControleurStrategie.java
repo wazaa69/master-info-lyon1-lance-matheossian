@@ -1,8 +1,10 @@
 package Controleur;
 
+import Model.Equipe;
 import Model.JeuDeFoot;
-import ObservListe.ObservateurComboBox;
-import Vue.FenetreControls;
+import Model.Strategies.Strategie;
+import ObservListe.ObserveurComboBox;
+import Vue.Controls.FenetreControls;
 
 /**
  * Le controleur qui gère le changement de stratégie
@@ -15,14 +17,14 @@ public class ControleurStrategie{
 
         this.unJeuDeFoot = unJeuDeFoot;
 
-        /*
-        uneFenetreControl.ajouterObserveur(new ObservateurComboBox() {
 
-            public void miseAJour(int element, String action) {
-                throw new UnsupportedOperationException("Not supported yet.");
+        uneFenetreControl.ajouterObserveur(new ObserveurComboBox() {
+
+            public void miseAJour(Equipe uneEquipe, Strategie strategie) {
+                uneEquipe.setStartegie(strategie);
             }
         });
-         */
+
 
     }
 
