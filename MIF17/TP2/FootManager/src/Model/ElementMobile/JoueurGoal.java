@@ -23,23 +23,7 @@ public class JoueurGoal extends Joueur {
         //appel du constructeur parent, notamment pour ajouter les équipes
         super(nom, ballonDuJeu, monEquipe, equipeAdverse);
 
-        //positionnement du goal au milieu de ses cages
-        //on différencie les deux cas, si le goal est dans la cage de gauche ou de droite
-        int xCage = (int) monEquipe.getCage().getCoordonnees().getX();
-
-        //si l'angle supérieur gauche de la cage est à gauche
-        if(xCage < Terrain.LARGEUR/2){
-            x = xCage + monEquipe.getCage().getLargeur();
-            angle = getAngleSelonBallon(); //goal de gauche
-        }
-        
-        else {
-            x = xCage; //abscisse de l'angle supérieur gauche de la cage
-            angle = 180 + getAngleSelonBallon(); //goal de droite
-        }
-
-        y = (int) monEquipe.getCage().getCoordonnees().getY() + (monEquipe.getCage().getLongueur()/2);
-
+        placerJoueur();
 
         //modification de la distance d'interception du gardien en fonction de la longueur des cages
         caracteristiques.setDistMinPrendreBalle(monEquipe.getCage().getLongueur()/5);
@@ -49,6 +33,27 @@ public class JoueurGoal extends Joueur {
         yMin = (int) monEquipe.getCage().getCoordonnees().getY();
         yMax = yMin + monEquipe.getCage().getLongueur();
 
+
+    }
+
+/*******************************  CONSTRUCTEUR  *******************************/
+
+    public void placerJoueur(){
+
+        //positionnement du goal au milieu de ses cages
+        //on différencie les deux cas, si le goal est dans la cage de gauche ou de droite
+        int xCage = (int) monEquipe.getCage().getCoordonnees().getX();
+
+        //si l'angle supérieur gauche de la cage est à gauche
+        if(xCage < Terrain.LARGEUR/2)
+            x = xCage + monEquipe.getCage().getLargeur();
+        else
+            x = xCage; //abscisse de l'angle supérieur gauche de la cage
+
+        y = (int) monEquipe.getCage().getCoordonnees().getY() + (monEquipe.getCage().getLongueur()/2);
+
+        angle = getAngleSelonBallon();
+        
     }
 
 /****************************** BOUCLE DE THREAD ******************************/
@@ -57,7 +62,7 @@ public class JoueurGoal extends Joueur {
     public void demarrerJoueur() {
 
         
-        while(true){
+        while(!threadEstTermine){
 
             angle = getAngleSelonBallon();
 

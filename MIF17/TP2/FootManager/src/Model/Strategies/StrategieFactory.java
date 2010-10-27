@@ -13,12 +13,12 @@ public class StrategieFactory {
     public Strategie creerStrategie(int choixStrat){
 
         switch(choixStrat){
-            case 0: //neutre
-                return new StrategieNeutre();
-            case 1: //defense
-                return new StrategieDefense();
-            case 2: //attaque
+            case 0: //attaque
                 return new StrategieAttaque();
+            case 1: //neutre
+                return new StrategieNeutre();
+            case 2: //defense
+                return new StrategieDefense();
 
             default:
                 return new StrategieNeutre();

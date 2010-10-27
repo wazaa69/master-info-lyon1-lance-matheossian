@@ -23,6 +23,7 @@ public class Joueur extends ElementMobile {
     protected Equipe equipeAdverse; /** equipe advese */
 
     protected boolean estEnpause; /** le joueur est en pause */
+    protected boolean threadEstTermine; /** pour terminer le thread */
 
 
   
@@ -74,7 +75,8 @@ public class Joueur extends ElementMobile {
         this.ballonDuJeu = ballonDuJeu;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
-        this.estEnpause = true;
+        estEnpause = true;
+        threadEstTermine = false;
 
         setCaracteristiques();
 
@@ -105,7 +107,7 @@ public class Joueur extends ElementMobile {
 
         estEnpause = false;
 
-        while(true){
+        while(!threadEstTermine){
 
             if(estEnpause){
                 try {
@@ -167,6 +169,9 @@ public class Joueur extends ElementMobile {
      * @param nbEssais nombre d'essaie pour se déplacer
      */
     public void avancerAvecEssais(int nbEssais){
+
+        //Cette ligne est là, juste pour tester l'affichage.
+        //notifierObserveur(); //Ne pas activer sinon (sa sert à rien).
 
         if(nbEssais > 0){
         
@@ -275,6 +280,7 @@ public class Joueur extends ElementMobile {
 
     public String getNom() {return nom;}
 
+
     public Caracteristiques getCaracteristiques() {return caracteristiques;}
 
     public Ballon getBallonDuJeu() {return ballonDuJeu;}
@@ -290,4 +296,14 @@ public class Joueur extends ElementMobile {
         synchronized(this){notify();}
     }
 
+    /**
+     * Permet de terminer le thread
+     */
+    public void setThreadEstTermine(boolean threadEstTermine) {this.threadEstTermine = threadEstTermine;}
+
+    /**
+     * @return vrai si le thread est terminé, faux sinon
+     */
+    public boolean getThreadEstTermine() {return threadEstTermine;}
+    
 }

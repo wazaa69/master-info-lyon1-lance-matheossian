@@ -52,13 +52,19 @@ public class Ballon extends ElementMobile {
         return possesseur;
     }
 
+
     /**
      * Changement de pocesseur
-     * @param possesseur le nouveau pocesseur du ballon
+     * @param nouveauPossesseur le nouveau pocesseur du ballon
      */
-    public void setPossesseur(Joueur possesseur) {
-        this.possesseur = possesseur;
-        majXY();
+    public void passerLeBallonA(Joueur nouveauPossesseur) {
+        this.possesseur = nouveauPossesseur;
+        
+        if(nouveauPossesseur != null){
+            unObservateur.miseAJour();
+            majXY();
+        }
+ 
     }
 
     public void setAncienPoss(Joueur ancienPoss) {
@@ -75,7 +81,6 @@ public class Ballon extends ElementMobile {
      * Met à jour les coordonnées du ballon, de façon à le placer devant le joueur
      */
     public void majXY(){
-
         Point coordonnees = coordApresDep(possesseur.getX(), possesseur.getY(), 15, possesseur.getAngle());
         setXY(coordonnees);
         angle = possesseur.getAngle();

@@ -69,7 +69,6 @@ public class VueTerrain extends Applet {
     }
 
 
-
 /*********************************  OVERRIDE  *********************************/
 
 

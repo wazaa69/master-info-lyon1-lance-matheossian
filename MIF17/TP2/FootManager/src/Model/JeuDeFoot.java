@@ -15,18 +15,19 @@ import java.util.ArrayList;
 public class JeuDeFoot extends Thread {
 
 
-    private long horlogeDebutMatch; /**  horloge pour gérer le temps de jeu */
+    private long chronometre; /**  horloge pour gérer le temps de jeu */
+    private int dureeDuMatch = 25; /** le temps que dure un match */
 
     private Equipe equipeGauche; /**   équipe à gauche sur le terrain */
     private Equipe equipeDroite; /**   équipe à droite sur le terrain */
 
     private Terrain unTerrain; /**  le terrain de jeu */
 
-    public  Ballon ballonDuJeu; /**  le ballon de foot */
+    private Ballon ballonDuJeu; /**  le ballon de foot */
+    private int limiteDeButs = 3; /** nombre de but(s) maximal que peut marquer une équipe, le jeu s'arrête */
 
     private static boolean PARTIEENCOURS; /**   vrai si la partie est en cours, faux sinon */
     private boolean pauseRepartir; /**   vrai si le jeu de Foot est en pause, faux sinon */
-
 
 
 /*******************************  CONSTRUCTEUR  *******************************/
@@ -41,14 +42,31 @@ public class JeuDeFoot extends Thread {
     public JeuDeFoot(int longueurTerrain, int largeurTerrain, int nbJoueursParEq) {
 
         unTerrain = new Terrain(longueurTerrain, largeurTerrain, Color.WHITE);
-
-        ballonDuJeu = new Ballon(Math.round(longueurTerrain/2), Math.round(largeurTerrain/2), 5, Color.MAGENTA);
+        
+        ballonDuJeu = new Ballon(0, 0, 5, Color.MAGENTA);
+        
+        initBallon();
 
         initEquipes(nbJoueursParEq);
 
+        initBooleans();
+
+    }
+
+    /**
+     * Place le ballon au centre du terrain
+     */
+    private void initBallon(){
+        ballonDuJeu.setXY(new Point((int) Math.round(Terrain.LONGUEUR/2),(int) Math.round(Terrain.LARGEUR/2)));
+        ballonDuJeu.passerLeBallonA(null);
+    }
+
+    /**
+     * Initialise les booléen : "partie en cours ?" et "pause ?"
+     */
+    private void initBooleans() {
         PARTIEENCOURS = false;
         pauseRepartir = false;
-
     }
 
 
@@ -77,14 +95,17 @@ public class JeuDeFoot extends Thread {
         Point unPoint = null;
         String nom = "";
         Joueur unJoueur = null;
+        int tmpNbJoueurs = nbJoueurs;
 
         //Création du goal
         nom = courante.getNomEquipe() + " - Goal";
         unJoueur = new JoueurGoal(nom, ballonDuJeu, courante, adverse);
         courante.ajouterUnJoueur(unJoueur);
 
+        if (nbJoueurs > 50){tmpNbJoueurs = 50;}
+
         //création du reste de l'équipe, on commence à 1
-        for(int i = 1; i < nbJoueurs; i++){
+        for(int i = 1; i < tmpNbJoueurs; i++){
 
             while(unPoint == null) {unPoint = pointHasardDsTerrain();}
 
@@ -139,18 +160,26 @@ public class JeuDeFoot extends Thread {
      * Lance le jeu
      */
     public void lancerThreadJeuDeFoot() {
-
-        System.out.println("Lancement du thread de Jeu");
-
-        //Lance le Thread de Jeu de Foot
+        //System.out.println("Lancement du thread de Jeu");
         (new Thread(this)).start();
     }
 
     /**
-     * Boucle de jeu
+     * Boucle de jeu, si le temps de match est écoulé, ou si le nombre de but(s)
+     * maximum est atteint, on affiche le gagnant et on réinitialise les valeurs
+     * du jeuDeFoot.
      */
     @Override
-    public void run(){demarrerLaPartie();}
+    public void run(){
+
+        demarrerLaPartie();
+
+        while(getTempsEcoule() <= dureeDuMatch && !isNbButMaxAtteint());
+
+        afficherGagnantMatch();
+        resetJeuDeFoot();
+
+    }
 
     
 
@@ -161,17 +190,24 @@ public class JeuDeFoot extends Thread {
 
         PARTIEENCOURS = true;
 
-        //initialisation de l'horloge, à partir de l'heure actuelle (en millisecondes)
-        horlogeDebutMatch = System.currentTimeMillis();
+        demarrerChronometre(); //pour controler le temps de jeu
 
-        ArrayList<Joueur> listeJoueurEquUne = equipeGauche.getListeJoueurs();
-        ArrayList<Joueur> listeJoueurEquDeux = equipeDroite.getListeJoueurs();
+        //On récupère la liste des joueurs
+        ArrayList<Joueur> listeJoueurs = getJoueurs();
 
-        for(int i = 0; i < listeJoueurEquUne.size(); i++)
-            listeJoueurEquUne.get(i).start();
+        boolean etaitTermine = false;
 
-        for(int i = 0; i < listeJoueurEquDeux.size(); i++)
-            listeJoueurEquDeux.get(i).start();
+        //Si le premier joueur est stopé, c'est que tous les autres le sont
+        if (!listeJoueurs.isEmpty())
+            etaitTermine = listeJoueurs.get(listeJoueurs.size()-1).getThreadEstTermine();
+
+        //On positionne de nouveau les joueurs
+        if(etaitTermine) placerJoueurs();
+
+        for(int i = 0; i < listeJoueurs.size(); i++){
+            if(etaitTermine) listeJoueurs.get(i).setThreadEstTermine(false);
+            listeJoueurs.get(i).lancerThread();
+        }
 
     }
 
@@ -183,42 +219,93 @@ public class JeuDeFoot extends Thread {
         //faux de base
         pauseRepartir = !pauseRepartir;
 
-        ArrayList<Joueur> listeJoueurEquUne = equipeGauche.getListeJoueurs();
-        ArrayList<Joueur> listeJoueurEquDeux = equipeDroite.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurs = getJoueurs();
 
+        for(int i = 0; i < listeJoueurs.size(); i++)
+            listeJoueurs.get(i).setEstEnpause();
 
+    }
 
-        if(pauseRepartir){
-            for(int i = 0; i < listeJoueurEquUne.size(); i++)
-                listeJoueurEquUne.get(i).setEstEnpause();
-
-            for(int i = 0; i < listeJoueurEquDeux.size(); i++)
-                listeJoueurEquDeux.get(i).setEstEnpause();
-        }
-        else
-        {
-            
-            for(int i = 0; i < listeJoueurEquUne.size(); i++){
-                listeJoueurEquUne.get(i).setEstEnpause();     
-            }
-
-            for(int i = 0; i < listeJoueurEquDeux.size(); i++){
-                listeJoueurEquDeux.get(i).setEstEnpause();
-            }
-             
-        }
-
+    private void terminerThreadsJoueurs(){
+        //On termine les threads
+        ArrayList<Joueur> listeJoueurs = getJoueurs();
+        for(int i = 0; i < listeJoueurs.size(); i++)
+            listeJoueurs.get(i).setThreadEstTermine(true);
     }
 
 
 /*********************************   METHODES  *********************************/
 
+
+    /**
+     * Initialisation du chronomètre, à partir de l'heure actuelle (en millisecondes)
+     */
+    private void demarrerChronometre(){
+        chronometre = System.currentTimeMillis();
+    }
+
+    /**
+     * Repositionne les joueurs sur le terrain
+     */
+    private void placerJoueurs(){
+
+        Point unPoint = null;
+        JoueurGoal unJoueurGoal = null;
+
+        //On termine les threads
+        ArrayList<Joueur> listeJoueurs = getJoueurs();
+        for(int i = 0; i < listeJoueurs.size(); i++){
+            if(!(listeJoueurs.get(i) instanceof JoueurGoal)){
+                while(unPoint == null) unPoint = pointHasardDsTerrain();
+                listeJoueurs.get(i).setXY(unPoint);
+                unPoint = null;
+            }
+            else {
+                unJoueurGoal =(JoueurGoal) listeJoueurs.get(i);
+                unJoueurGoal.placerJoueur();
+            }
+        }
+
+    }
+
+
+/**************************   TESTE ET FIN DE MATCH  **************************/
+
+
+    private boolean isNbButMaxAtteint(){
+        return equipeGauche.getScore() >= limiteDeButs || equipeDroite.getScore() >= limiteDeButs;
+    }
+
+
+    /**
+     * Affiche le gagnant du match
+     */
+    private void afficherGagnantMatch(){
+        if(equipeGauche.getScore() > equipeDroite.getScore())
+
+            System.out.println("L'équipe " + equipeGauche.getNomEquipe()
+                    + " (" + equipeGauche.getCouleur().toString() +
+                    ") remporte le match !");
+
+        else if (equipeGauche.getScore() < equipeDroite.getScore())
+            System.out.println("L'équipe " + equipeDroite.getNomEquipe()
+                    + " (" + equipeDroite.getCouleur().toString() +
+                    ") remporte le match !");
+        else
+            System.out.println("Le match se termine en nul !!");
+    }
+
+
     /**
      * Remet à zéro les variable du jeu
      */
-    public void creer() {
-        PARTIEENCOURS = false;
-        pauseRepartir = false;
+    private void resetJeuDeFoot() {
+
+        terminerThreadsJoueurs();
+
+        initBallon();
+
+        initBooleans();
     }
 
 
@@ -252,8 +339,8 @@ public class JeuDeFoot extends Thread {
      * Retourne le temps écoulé depuis le début du match
      * @return retourne un long qui correspond au temps de match
      */
-    public long tempsEcoule(){
-        return horlogeDebutMatch - System.currentTimeMillis();
+    public long getTempsEcoule(){
+        return  (System.currentTimeMillis() - chronometre)/1000;
     }
   
 }

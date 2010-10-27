@@ -35,7 +35,7 @@ public class StrategieAttaque implements Strategie {
         if(possesseur != unJoueur){
             if(distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle() && unJoueur != ancienPoss){
                 ballonDuJeu.setAncienPoss(possesseur);
-                ballonDuJeu.setPossesseur(unJoueur);
+                ballonDuJeu.passerLeBallonA(unJoueur);
             }
             
         }
@@ -48,6 +48,7 @@ public class StrategieAttaque implements Strategie {
             unJoueur.deplacementAuHasard();
 
         else unJoueur.deplacementVersballon();
+
     }
 
 }

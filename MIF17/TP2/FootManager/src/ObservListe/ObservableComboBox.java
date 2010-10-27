@@ -6,7 +6,7 @@ import Model.Strategies.Strategie;
 /**
  * L'observable pour les listes déroulantes
  */
-public interface ObservableEquipe {
+public interface ObservableComboBox {
     public void ajouterObserveur(ObserveurComboBox obs);
     public void supprimerObserveur();
 

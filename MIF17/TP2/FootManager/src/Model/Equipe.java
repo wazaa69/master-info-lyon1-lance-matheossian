@@ -21,7 +21,7 @@ public class Equipe implements ObservListe.Observable {
 
 
     private ArrayList<Joueur> listeJoueurs; /**  listeJoueurs la liste des joueurs */
-    private Strategie startegie = (new StrategieFactory()).creerStrategie(2); /** la stratégie adoptée par l'équipe, attaque par défaut */
+    private Strategie startegie = (new StrategieFactory()).creerStrategie(0); /** la stratégie adoptée par l'équipe, attaque par défaut */
 
 
     private int score = 0; /** le score actuel de l'équipe, 0 par défaut */
