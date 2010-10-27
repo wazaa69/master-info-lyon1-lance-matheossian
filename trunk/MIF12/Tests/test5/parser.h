@@ -52,18 +52,22 @@
      KW_OF = 268,
      KW_TYPE = 269,
      KW_RECORD = 270,
-     SEP_SCOL = 271,
-     SEP_DOT = 272,
-     SEP_DOTS = 273,
-     SEP_COMMA = 274,
-     SEP_CO = 275,
-     SEP_CF = 276,
-     SEP_DOTDOT = 277,
-     OP_PTR = 278,
-     OP_SUB = 279,
-     OP_EQ = 280,
-     TOK_IDENT = 281,
-     TOK_INTEGER = 282
+     KW_FUNC = 271,
+     KW_PROC = 272,
+     SEP_SCOL = 273,
+     SEP_DOT = 274,
+     SEP_DOTS = 275,
+     SEP_COMMA = 276,
+     SEP_CO = 277,
+     SEP_CF = 278,
+     SEP_DOTDOT = 279,
+     SEP_PO = 280,
+     SEP_PF = 281,
+     OP_PTR = 282,
+     OP_SUB = 283,
+     OP_EQ = 284,
+     TOK_IDENT = 285,
+     TOK_INTEGER = 286
    };
 #endif
 /* Tokens.  */
@@ -80,25 +84,29 @@
 #define KW_OF 268
 #define KW_TYPE 269
 #define KW_RECORD 270
-#define SEP_SCOL 271
-#define SEP_DOT 272
-#define SEP_DOTS 273
-#define SEP_COMMA 274
-#define SEP_CO 275
-#define SEP_CF 276
-#define SEP_DOTDOT 277
-#define OP_PTR 278
-#define OP_SUB 279
-#define OP_EQ 280
-#define TOK_IDENT 281
-#define TOK_INTEGER 282
+#define KW_FUNC 271
+#define KW_PROC 272
+#define SEP_SCOL 273
+#define SEP_DOT 274
+#define SEP_DOTS 275
+#define SEP_COMMA 276
+#define SEP_CO 277
+#define SEP_CF 278
+#define SEP_DOTDOT 279
+#define SEP_PO 280
+#define SEP_PF 281
+#define OP_PTR 282
+#define OP_SUB 283
+#define OP_EQ 284
+#define TOK_IDENT 285
+#define TOK_INTEGER 286
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 93 "parser.y"
+#line 97 "parser.y"
 {
 
     int numero;
@@ -112,7 +120,7 @@ typedef union YYSTYPE
 
 }
 /* Line 1489 of yacc.c.  */
-#line 116 "parser.h"
+#line 124 "parser.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
