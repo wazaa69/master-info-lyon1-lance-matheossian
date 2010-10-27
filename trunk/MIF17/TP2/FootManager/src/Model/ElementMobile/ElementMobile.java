@@ -29,6 +29,9 @@ public abstract class ElementMobile extends Thread implements Observable {
   
 /**********************************  THREAD  **********************************/
 
+    public void lancerThread() {
+        (new Thread(this)).start();
+    }
 
     /**
      * Le thread qui s'occupe de l'élément mobile.
@@ -114,10 +117,16 @@ public abstract class ElementMobile extends Thread implements Observable {
     
     public Point getXY() {return new Point(x,y);}
 
+    public void setX(int x) {this.x = x;}
+    public void setY(int y) {this.y = y;}
+
     public void setXY(Point unPoint) {
          x = (int) unPoint.getX();
          y = (int) unPoint.getY();
     }
+
+
+
 
 /***************************** Méthodes de l'observé **************************/
 

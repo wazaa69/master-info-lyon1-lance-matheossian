@@ -1,9 +1,9 @@
 package Vue;
 
+import Model.ElementMobile.Ballon;
 import Model.Equipe;
 import Model.JeuDeFoot;
-import Model.Strategies.Strategie;
-import ObservListe.ObserveurComboBox;
+import ObservListe.Observeur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,14 +16,17 @@ import javax.swing.JPanel;
 /**
  * Affichage des scores
  */
-public class FenetreCouleurEtScore extends JFrame implements ObserveurComboBox {
+public class FenetreCouleurEtScore extends JFrame {
+    
+    private Equipe equipeGauche; /** Référence sur l'équipe Gauche (pour les changements de score) */
+    private Equipe equipeDroite; /** Référence sur l'équipes Droite (pour les changements de score) */
+    private JLabel scoreGauche = new JLabel("0", JLabel.CENTER); /** le score de l'équipe de gauche */
+    private JLabel scoreDroit =  new JLabel("0", JLabel.CENTER); /** le score de l'équipe de droite */
 
+    
+    private Ballon unBallon; /** Référence sur le ballon pour connaître la couleur du pocesseur */
+    private JPanel couleurPossesseur; /** la couleur actuel du pocesseur de la balle */
 
-    private Equipe equipeGauche; /** Référence sur l'équipe Gauche (pour les changements de stratégies) */
-    private Equipe equipeDroite; /** Référence sur l'équipes Droite (pour les changements de stratégies) */
-
-    JLabel scoreGauche = new JLabel("0", JLabel.CENTER); /** le score de l'équipe de gauche */
-    JLabel scoreDroit =  new JLabel("0", JLabel.CENTER); /** le score de l'équipe de droite */
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
@@ -41,13 +44,29 @@ public class FenetreCouleurEtScore extends JFrame implements ObserveurComboBox {
 
         //Layout type
         getContentPane().setLayout(new BorderLayout(10,10));
-        
 
+
+        
+        //Références sur les équipes et ajout des observeurs
         equipeGauche = unJeuDeFoot.getEquipeGauche();
         equipeDroite = unJeuDeFoot.getEquipeDroite();
 
-        Font font = new Font(Font.SERIF, Font.PLAIN, 24);
+        equipeGauche.ajouterObserveur(new Observeur() {
+            public void miseAJour() {majScores();}
+        });
 
+        equipeDroite.ajouterObserveur(new Observeur() {
+            public void miseAJour() {majScores();} 
+        });
+
+
+        unBallon = unJeuDeFoot.getUnBallon();
+        unBallon.ajouterObserveur(new Observeur() {
+            public void miseAJour() {majScores();}
+        });
+        
+
+        Font font = new Font(Font.SERIF, Font.PLAIN, 24);
 
         //Titre
         JLabel titre = new JLabel("Score :", JLabel.CENTER);
@@ -67,7 +86,8 @@ public class FenetreCouleurEtScore extends JFrame implements ObserveurComboBox {
 
         //Couleur de possession de balle
         JPanel couleur = new JPanel();
-        couleur.setBackground(Color.BLACK);
+        couleurPossesseur = couleur;
+        couleur.setBackground(Color.WHITE);
         couleur.setPreferredSize(new Dimension(100,80));
 
 
@@ -83,13 +103,16 @@ public class FenetreCouleurEtScore extends JFrame implements ObserveurComboBox {
     }
 
 
-/**************************  Méthode de l'observeur  **************************/
+/*********************************  Méthode  **********************************/
 
+    public void majScores() {
+        scoreGauche.setText((new Integer(equipeGauche.getScore()).toString()));
+        scoreDroit.setText((new Integer(equipeDroite.getScore()).toString()));
 
-    public void miseAJour(Equipe uneEquipe, Strategie strategie) {
-        scoreGauche.setText(null);
-        scoreDroit.setText(null);
+        if(unBallon.getPossesseur() != null)
+            couleurPossesseur.setBackground(unBallon.getPossesseur().getMonEquipe().getCouleur());
+        else
+            couleurPossesseur.setBackground(Color.WHITE);
     }
-
 
 }
