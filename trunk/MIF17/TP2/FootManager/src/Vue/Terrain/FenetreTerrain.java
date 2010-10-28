@@ -16,6 +16,12 @@ public class FenetreTerrain extends JFrame {
      */
     public FenetreTerrain(JeuDeFoot unJeuDeFoot){
 
+        setTitle("Terrain");
+
+        //ferme la (les) fenêtres
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
         getContentPane().setLayout(new BorderLayout(10,10));
 
         //taille de la fenêtre
@@ -24,10 +30,8 @@ public class FenetreTerrain extends JFrame {
 
         // Centre l'interface
         setLocationRelativeTo(null);
-        setTitle("Terrain");
+        setLocation(getX() + 150, getY() + 100);
 
-        //ferme la (les) fenêtres
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         //Ajout du terrain dans la fenêtre
         getContentPane().add(new VueTerrain(unJeuDeFoot), BorderLayout.CENTER);
