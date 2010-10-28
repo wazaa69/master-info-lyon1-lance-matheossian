@@ -58,6 +58,29 @@ string TableDesSymboles::getPortee()
 	return portee;
 }
 
+TableDesSymboles* TableDesSymboles::getTableSymbContenantI(vector<TableDesSymboles&> &listeTDS, int identifiantSymbole)
+{
+	TableDesSymboles* TDS_vide = NULL;
+	
+
+	for (unsigned i = 0; i < listeTDS.size() ; i++)
+	{
+		cout << listeTDS[i].getNumContexteTS();
+/*
+		for (unsigned j = 0; j < listeTDS[i]->getTableSymb().size(); j++)
+		{
+			if(listeTDS[i]->getTableSymb()->getElement(j) == identifiantSymbole)
+			{
+				return listeTDS[i]->getTableSymb();
+			}
+		
+		}
+		*/
+	}
+	
+	return TDS_vide;
+} 
+
 
 //############################################################### MUTATEURS
 /*
@@ -110,3 +133,5 @@ void TableDesSymboles::afficherTables(std::vector<TableDesSymboles*> listeTDS)
 	}
 
 }
+
+
