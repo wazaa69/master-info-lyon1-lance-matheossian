@@ -38,8 +38,8 @@ public class FenetreCouleurEtScore extends JFrame {
         setResizable(false);
 
 
-        /** Lecture de la taille de l'écran */
-        Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setLocationRelativeTo(null);
+        setLocation(getX() + 325, getY() - 125);
 
 
         //Layout type

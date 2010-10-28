@@ -47,6 +47,11 @@ public class FenetreControls extends JFrame implements ObservableBouton {
     
     public FenetreControls(JeuDeFoot unJeuDeFoot){
 
+        setTitle("Controles");
+
+        //ferme la (les) fenêtres
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         getContentPane().setLayout(new BorderLayout(2,1));
 
         //taille de la fenêtre
@@ -55,11 +60,7 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 
         // Centre l'interface
         setLocationRelativeTo(null);
-        setTitle("Controles");
-
-        //ferme la (les) fenêtres
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        setLocation(getX() + 275, getY() + 50);
 
         equipeGauche = unJeuDeFoot.getEquipeGauche();
         equipeDroite = unJeuDeFoot.getEquipeDroite();

@@ -10,7 +10,7 @@ import Model.JeuDeFoot;
 import Vue.Terrain.FenetreTerrain;
 
 /**
- * Cette classe va creer les diférentes fenêtres du jeu
+ * Cette classe va creer les diférentes fenêtres (vues) du jeu
  */
 public class Vue {
 
@@ -26,7 +26,7 @@ public class Vue {
     
     public Vue(JeuDeFoot unJeuDeFoot) {
 
-        unJeuDeFoot = unJeuDeFoot;
+        this.unJeuDeFoot = unJeuDeFoot;
 
         fenetreTerrain = new FenetreTerrain(unJeuDeFoot);
 
