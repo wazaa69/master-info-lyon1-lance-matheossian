@@ -364,11 +364,11 @@ NSInterBase    : TOK_IDENT			{ /* a */}
                ;
 
 
-BlockCode       : KW_BEGIN ListTest KW_END      {}
+BlockCode       : KW_BEGIN ListTest KW_END      
                 ;
 
 
-ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "Identificateur: "<< tableId->getElement($3) << " --> portée " << endl;}
+ListTest        :       ListTest SEP_SCOL TOK_IDENT {cout << "Identificateur: "<< tableId->getElement($3) << tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;/*    */}
                 |       TOK_IDENT  { cout << "Identificateur: "<< tableId->getElement($1) << endl; }
                 ;
 

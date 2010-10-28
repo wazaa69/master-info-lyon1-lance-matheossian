@@ -58,24 +58,35 @@ string TableDesSymboles::getPortee()
 	return portee;
 }
 
-TableDesSymboles* TableDesSymboles::getTableSymbContenantI(vector<TableDesSymboles&> &listeTDS, int identifiantSymbole)
+
+bool TableDesSymboles::getTableSymbContientI(TableDesSymboles* TS, int identifiantSymbole)
+{
+	bool contient = false;
+	
+		for (unsigned i = 0; i < TS->getTableSymb().size() ;i++)
+		{
+			if(TS-> tableSymb[i]->getID() == identifiantSymbole)
+			{
+				contient = true;
+			}
+		}
+	return contient;
+}
+
+
+
+TableDesSymboles* TableDesSymboles::getTableSymbContenantI(vector<TableDesSymboles*> listeTDS, int identifiantSymbole)
 {
 	TableDesSymboles* TDS_vide = NULL;
 	
-
 	for (unsigned i = 0; i < listeTDS.size() ; i++)
-	{
-		cout << listeTDS[i].getNumContexteTS();
-/*
-		for (unsigned j = 0; j < listeTDS[i]->getTableSymb().size(); j++)
+	{	
+		if(getTableSymbContientI(listeTDS[i], identifiantSymbole))
 		{
-			if(listeTDS[i]->getTableSymb()->getElement(j) == identifiantSymbole)
-			{
-				return listeTDS[i]->getTableSymb();
-			}
-		
+			return listeTDS[i];
 		}
-		*/
+	
+
 	}
 	
 	return TDS_vide;
