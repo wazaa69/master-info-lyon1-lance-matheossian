@@ -177,6 +177,7 @@ VarFormalArg   : KW_VAR ListIdent SEP_DOTS TOK_IDENT
 ProcDecl       : ProcHeader SEP_SCOL Block
                ;
 
+
 FuncDecl	:	FuncHeader SEP_SCOL Block
 		;
 
@@ -367,8 +368,8 @@ BlockCode       : KW_BEGIN ListTest KW_END      {}
                 ;
 
 
-ListTest        :       ListTest SEP_SCOL TOK_IDENT { /*cout << "Identificateur: "<< tableId->getElement($3) << endl;*/}
-                |       TOK_IDENT  { /*cout << "Identificateur: "<< tableId->getElement($1) << endl;*/} /* afficher la signification de l'identificateur (en fonction de la portee) */
+ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "Identificateur: "<< tableId->getElement($3) << endl;}
+                |       TOK_IDENT  { cout << "Identificateur: "<< tableId->getElement($1) << endl; }
                 ;
 
 
