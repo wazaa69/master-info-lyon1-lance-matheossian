@@ -368,7 +368,7 @@ BlockCode       : KW_BEGIN ListTest KW_END      {}
                 ;
 
 
-ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "Identificateur: "<< tableId->getElement($3) << endl;}
+ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "Identificateur: "<< tableId->getElement($3) << " --> portée " << endl;}
                 |       TOK_IDENT  { cout << "Identificateur: "<< tableId->getElement($1) << endl; }
                 ;
 

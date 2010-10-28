@@ -71,6 +71,12 @@ class TableDesSymboles {
         */
 		std::string getPortee();
 
+	/**
+        *   @brief Accesseur
+	*   Récupère la table des symboles contenant le symbole d'identifiant identifiantSymbole à partir du tableau de TDS listeTDS
+        */
+	TableDesSymboles* getTableSymbContenantI(std::vector<TableDesSymboles&> &listeTDS, int identifiantSymbole);
+
 //###################################################################################### METHODES
 	
 //	void incNumIdActuel();
