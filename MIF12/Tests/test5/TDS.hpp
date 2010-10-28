@@ -14,6 +14,7 @@ class TableDesSymboles {
 
 		std::vector<Symbole*> tableSymb; /** @param tableSymb la table des symboles */
 		int numeroContexteTS;
+		std::string portee; 
 		
 	public:
 
@@ -64,6 +65,11 @@ class TableDesSymboles {
         */
 		std::vector<Symbole*> getTableSymb();
 
+	/**
+        *   @brief Accesseur
+	*   Récupère portee
+        */
+		std::string getPortee();
 
 //###################################################################################### METHODES
 	

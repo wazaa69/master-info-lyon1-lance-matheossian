@@ -9,6 +9,8 @@ using namespace std;
 TableDesSymboles::TableDesSymboles()
 {	
 	numeroContexteTS = 0;
+	portee = string("globale");
+	
 }
 
 TableDesSymboles::~TableDesSymboles(){}
@@ -19,6 +21,8 @@ TableDesSymboles::~TableDesSymboles(){}
 TableDesSymboles::TableDesSymboles(int numContexte)
 {
 	numeroContexteTS = numContexte;
+	portee = string("locale");
+	
 }
 
 //############################################################### ACCESSEURS
@@ -37,15 +41,23 @@ int TableDesSymboles::getNumContexteTSActuel(bool incrementation)
 	return numeroContexte;
 }
 
+
+
 int TableDesSymboles::getNumContexteTS()
 {		
 	return numeroContexteTS;
 }
 
-std::vector<Symbole*> TableDesSymboles::getTableSymb()
+vector<Symbole*> TableDesSymboles::getTableSymb()
 {
 	return tableSymb;
 }
+
+string TableDesSymboles::getPortee()
+{
+	return portee;
+}
+
 
 //############################################################### MUTATEURS
 /*

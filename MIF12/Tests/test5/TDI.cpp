@@ -15,7 +15,7 @@ int TableDesIdentificateurs::ajouter(string id){
 
 	int numElem  = getPosId(&id);
 	
-	 if(numElem != -1)tableId.push_back(new string(id));  //copie
+	 if(numElem == tableId.size())tableId.push_back(new string(id));  //copie
 	
 	cout << "taille TDI " <<tableId.size() << endl;
 	
@@ -33,8 +33,12 @@ int TableDesIdentificateurs::getPosId(string* id)
 	{
 		
         	if (*tableId[i] == *id)
-            		temp = -1;
+		{
+			temp = i;
+			break;
 		}
+            		
+	}
 	return temp;
 }
 

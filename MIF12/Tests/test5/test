@@ -5,7 +5,7 @@ var v0 , v1 : integer;
     vreal,vreal2  : real;
     temp   : string;
     b1,b2 : boolean;
-
+	
     d1 : ^ integer;
     
     r1 : record
@@ -16,7 +16,6 @@ var v0 , v1 : integer;
 			
 
     i1 : 1..10; 
-    i3 : -v0..-3;
 
     r2 : record
 		r21 : string;
@@ -24,17 +23,12 @@ var v0 , v1 : integer;
 		r23 : string
 		end;
 
-    r3 : record
-		r31 : real;
-		r32 : real;
-		r33 : real
-		end;
-
-
-    t1 : array[1..2] of integer; 
 
 begin
 
+v0;
+v1;
 
-end. 
+end.
+
 
