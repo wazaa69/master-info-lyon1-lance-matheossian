@@ -7,6 +7,7 @@
     extern TableDesIdentificateurs* tableId;
 
     int column = 0;
+    int ligne = 1;
 
 %}
 
@@ -74,13 +75,13 @@ procedure		{column += yyleng; return KW_PROC;}
 {TOK_INTEGER}	{ return TOK_INTEGER;}
 {TOK_IDENT}    {column += yyleng; yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
 .			
-\n
+\n		{ligne += 1;}
 
 %%
 
 int yyerror(char* message)
 {
-    fprintf( stderr, "Erreur d'analyse : %s [%s]\n", message, yytext );
+    fprintf( stderr, "Erreur d'analyse : %s [%s] %d\n", message, yytext, ligne );
 
     return 0;
 }

@@ -143,19 +143,21 @@ ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
                | DeclFunc
                ;
 
-DeclFunc       : ProcDecl
+DeclFunc       : ProcDecl	{ cout << "DeclFunc" << endl;}
                | FuncDecl
                ;
 
-ProcDecl       : ProcHeader SEP_SCOL Block
+ProcDecl       : ProcHeader SEP_SCOL Block		{ cout << "ProcDecl" << endl;}
                ;
 
-ProcHeader     : ProcIdent
+ProcHeader     : ProcIdent	{ cout << "ProcHeader" << endl;}
                | ProcIdent FormalArgs
                ;
 
-ProcIdent      : KW_PROC TOK_IDENT
+ProcIdent      : KW_PROC TOK_IDENT { cout << "ProcIdent" << endl;}
                ;
+
+
 
 FormalArgs     : SEP_PO ListFormalArgs SEP_PF
                ;
@@ -174,11 +176,8 @@ ValFormalArg   : ListIdent SEP_DOTS TOK_IDENT
 VarFormalArg   : KW_VAR ListIdent SEP_DOTS TOK_IDENT
                ;
 
-ProcDecl       : ProcHeader SEP_SCOL Block
-               ;
 
-
-FuncDecl	:	FuncHeader SEP_SCOL Block
+FuncDecl	:	FuncHeader SEP_SCOL Block 
 		;
 
 FuncHeader     : FuncIdent FuncResult
@@ -238,11 +237,11 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 									}
                                                                         else{tableSymb->ajouter(new Symbole("variable", $3, numIdRecord)); ajoutRecord = false;}
 															
-                                                                        cout << *($3->getStringType()) <<  " ajoute à TS principale" <<  endl;
+                                                                        //cout << *($3->getStringType()) <<  " ajoute à TS principale" <<  endl;
                                                                     }
 
                                                                     tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante						     
-									cout << "On efface tmpNumId" << endl;
+									//cout << "On efface tmpNumId" << endl;
 
                                                                 }
                 ;
@@ -286,14 +285,14 @@ RecordType     : KW_RECORD RecordFields KW_END					{
 								tmpNumId.push_back(0);
 							        $$ = tmpRec; // on remonte le record
 								
-								cout <<  "TS" << tmpTds->getNumContexteTS() << " a une taile de  " << tmpTds->getTableSymb().size() << " et est envoyé dans la liste des TS \n\n"<< endl;
+								//cout <<  "TS" << tmpTds->getNumContexteTS() << " a une taile de  " << tmpTds->getTableSymb().size() << " et est envoyé dans la liste des TS \n\n"<< endl;
 								
 								nouveauRecord = true;
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 	
 								
 								tmpTds = new TableDesSymboles(tableSymb->getNumContexteTSActuel(true)); // on initialise tmpTds pour le nouveau contexte
-			cout <<  "\nCréation TS" << tmpTds->getNumContexteTS() << endl;
+		//	cout <<  "\nCréation TS" << tmpTds->getNumContexteTS() << endl;
 										}
                ;
 
@@ -323,7 +322,7 @@ RecordField    : ListIdent SEP_DOTS Type					{
 				
                          tmpTds->ajouter(new Symbole("variable", $3, tableSymb->getNumIdActuel(true)));
 				
-                         cout << "Id: " << tableSymb->getNumIdActuel(false) << "Type: " <<*($3->getStringType()) <<  " a été ajouté à TS temp" <<endl;
+                        // cout << "Id: " << tableSymb->getNumIdActuel(false) << "Type: " <<*($3->getStringType()) <<  " a été ajouté à TS temp" <<endl;
 
                    }
 
@@ -364,12 +363,12 @@ NSInterBase    : TOK_IDENT			{ /* a */}
                ;
 
 
-BlockCode       : KW_BEGIN ListTest KW_END      
+BlockCode       : KW_BEGIN ListTest KW_END      	{ cout << "BlockCode" << endl;}
                 ;
 
 
-ListTest        :       ListTest SEP_SCOL TOK_IDENT {cout << "Identificateur: "<< tableId->getElement($3) << tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;/*    */}
-                |       TOK_IDENT  { cout << "Identificateur: "<< tableId->getElement($1) << endl; }
+ListTest        :       ListTest SEP_SCOL TOK_IDENT {cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;}
+                |       TOK_IDENT  { cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl;}
                 ;
 
 
