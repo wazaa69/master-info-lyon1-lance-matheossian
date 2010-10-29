@@ -17,17 +17,6 @@ var v0 , v1 : integer;
     i1 : 1..10; 
     i3 : -v0..-3;
 
-    r2 : record
-		r21 : string;
-		r22 : string;
-		r23 : string
-		end;
-
-    r3 : record
-		r31 : real;
-		r32 : real;
-		r33 : real
-		end;
 
 
     t1 : array[1..2] of integer; 
