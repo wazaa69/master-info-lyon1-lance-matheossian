@@ -143,18 +143,18 @@ ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
                | DeclFunc
                ;
 
-DeclFunc       : ProcDecl	{ cout << "DeclFunc" << endl;}
+DeclFunc       : ProcDecl	
                | FuncDecl
                ;
 
-ProcDecl       : ProcHeader SEP_SCOL Block		{ cout << "ProcDecl" << endl;}
+ProcDecl       : ProcHeader SEP_SCOL Block		
                ;
 
-ProcHeader     : ProcIdent	{ cout << "ProcHeader" << endl;}
+ProcHeader     : ProcIdent	
                | ProcIdent FormalArgs
                ;
 
-ProcIdent      : KW_PROC TOK_IDENT { cout << "ProcIdent" << endl;}
+ProcIdent      : KW_PROC TOK_IDENT 
                ;
 
 
@@ -363,7 +363,7 @@ NSInterBase    : TOK_IDENT			{ /* a */}
                ;
 
 
-BlockCode       : KW_BEGIN ListTest KW_END      	{ cout << "BlockCode" << endl;}
+BlockCode       : KW_BEGIN ListTest KW_END      	
                 ;
 
 

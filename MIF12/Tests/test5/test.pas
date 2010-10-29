@@ -14,16 +14,16 @@ var v0 , v1 : integer;
     i1 : 1..10; 
 
 procedure remplirTab;
-var i : integer;
 begin
+   r11;
    b1
   
 end;
 
 
 begin
-
-  b2
+  r11;
+  b1
 end.
 
 
