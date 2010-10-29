@@ -1,12 +1,5 @@
 program test;
 
-procedure remplirTab ( var dest : tarray );
-var i : integer;
-begin
-	(* bla bla bla *)
-end;
-
-
 type tarray = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;
     vreal,vreal2  : real;
@@ -20,15 +13,17 @@ var v0 , v1 : integer;
 		end;
     i1 : 1..10; 
 
+procedure remplirTab;
+var i : integer;
+begin
+   b1
+  
+end;
+
+
 begin
 
-v0;
-v1;
-i1;
-temp;
-r12;
-r12;
-r13
+  b2
 end.
 
 

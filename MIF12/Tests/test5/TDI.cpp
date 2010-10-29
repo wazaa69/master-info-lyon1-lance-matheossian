@@ -11,13 +11,13 @@ TableDesIdentificateurs::~TableDesIdentificateurs(){}
 
 int TableDesIdentificateurs::ajouter(string id){
 
-	cout << "Ajout de " << id << endl;
+	//cout << "Ajout de " << id << endl;
 
 	int numElem  = getPosId(&id);
 	
 	 if(numElem == tableId.size())tableId.push_back(new string(id));  //copie
 	
-	cout << "taille TDI " <<tableId.size() << endl;
+	//cout << "taille TDI " <<tableId.size() << endl;
 	
 	
 	return numElem;
