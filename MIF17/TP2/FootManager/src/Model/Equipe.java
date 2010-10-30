@@ -2,6 +2,7 @@ package Model;
 
 import Model.Terrain.Cage;
 import Model.ElementMobile.Joueur;
+import Model.ElementMobile.JoueurGoal;
 import Model.Strategies.Strategie;
 import Model.Strategies.StrategieFactory;
 import ObservListe.Observeur;
@@ -94,6 +95,11 @@ public class Equipe implements ObservListe.Observable {
 
     public void setCage(Cage cage) {
         this.nosCage = cage;
+    }
+
+    public JoueurGoal getGoal(){
+        if(!listeJoueurs.isEmpty()) return (JoueurGoal) listeJoueurs.get(0);
+        return null;
     }
 
 

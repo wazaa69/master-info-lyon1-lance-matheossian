@@ -133,21 +133,13 @@ public class Joueur extends ElementMobile {
 
 /*******************************  DEPLACEMENT  *******************************/
 
-
-    public void deplacementVersballon(){
-
-        angle = getAngleSelonBallon();
-
-        avancer();
-    }
-
-
     /**
-     * Le joueur se déplace aléatoirement sur une distance
+     * Le joueur se déplace aléatoirement
      */
     public void deplacementAuHasard()
     {
         int rotation = (int)(Math.random() * 30);
+        int tmpAngle;
 
         if(Math.random() > 0.5)
             angle = (angle + rotation)%360;
@@ -156,42 +148,53 @@ public class Joueur extends ElementMobile {
         avancer();
     }
 
-   /**
-    * Fait avancer le joueur sur la feuille de dessin, si il atteint un bord,
-    * il fait demi-tour et s'avance.
-    */
 
-    public void avancer(){avancerAvecEssais(5);}
+    /**
+     * Rapproche le joueur du ballon
+     */
+    public void deplacementVers(ElementMobile unElementMobile){
+        setAngleSelon(unElementMobile.getXY());
+        avancer();
+    }
+    
+    /**
+     * Rapproche le joueur du ballon
+     */
+    public void deplacementVersballon(){
+        setAngleSelonBallon();
+        avancer();
+    }
 
+
+
+
+    
     /**
      * Fait avancer le joueur sur la feuille de dessin, si le prochain déplacement atteint un bord,
      * il fait demi-tour et s'avance (si possible).
-     * @param nbEssais nombre d'essaie pour se déplacer
      */
-    public void avancerAvecEssais(int nbEssais){
+    public void avancer(){
 
         //Cette ligne est là, juste pour tester l'affichage.
         //notifierObserveur(); //Ne pas activer sinon (sa sert à rien).
 
-        if(nbEssais > 0){
-        
-            Point nouveauPoint = coordApresDep(x,y,caracteristiques.getDistDep(),angle);
+        Point nouveauPoint = coordApresDep(x,y,caracteristiques.getDistDep(),angle);
 
-            boolean bonEmplacement = isEmplacementValide(nouveauPoint);
-            boolean pasDeContact = isValideDistContact(nouveauPoint);
+        boolean bonEmplacement = isEmplacementValide(nouveauPoint);
+        boolean pasDeContact = isValideDistContact(nouveauPoint);
 
-            if (bonEmplacement && pasDeContact){ //1 1
-                setXY(nouveauPoint);
-                notifierObserveur(); //demande de rafaichissement de la vue des joueurs
-            }
-
-            else if(!bonEmplacement){ //0 1 ou 0 0
-                angle = (angle + 180) % 360; //demi-tour
-                avancerAvecEssais(nbEssais-1); //teste nouveau déplacement
-            }
-
-            else avancerAvecEssais(nbEssais-1); //1 0 
+        if (bonEmplacement && pasDeContact){ //1 1
+            setXY(nouveauPoint);
+            notifierObserveur(); //demande de rafaichissement de la vue des joueurs
         }
+
+        else if(!bonEmplacement){ //0 1 ou 0 0
+            angle = (angle + 180) % 360; //demi-tour
+            avancer(); //teste nouveau déplacement
+        }
+
+        //1 0 sinon ne rien faire
+
         
     }
 
@@ -241,26 +244,18 @@ public class Joueur extends ElementMobile {
 
     
 
-/******************************  GETTER/SETTERS  ******************************/
-
-    /**
-     * Retourne l'angle pour que le joueur se dirige vers le ballon
-     * @return retourne un entier correspondant à l'angle
-     */
-    protected int getAngleSelonBallon(){
-        return getAngleSelon(ballonDuJeu.getXY());
-    }
+/*************************  GETTER/SETTERS  AVANCEES *************************/
 
     /**
      * Retourne l'angle pour se diriger vers le point
      * @param unPoint un point
      * @return retourne un entier correspondant à l'angle
      */
-    protected int getAngleSelon(Point unPoint){
+    private int getAngleSelon(Point unPoint){
 
         //calcul des différnces de coordonnées polaires
-        float diffX = ballonDuJeu.getX() - x;
-        float diffY = ballonDuJeu.getY() - y;
+        float diffX = (float) unPoint.getX() - x;
+        float diffY = (float) unPoint.getY() - y;
 
         float differentZero = (float) 0.01;
 
@@ -278,14 +273,42 @@ public class Joueur extends ElementMobile {
 
     }
 
-    public String getNom() {return nom;}
+    /**
+     * Permet de diriger le joueur vers un points
+     * @param unPoint la destination
+     */
+    public void setAngleSelon(Point unPoint){
+        angle = getAngleSelon(unPoint);
+    }
 
+    /**
+     * Retourne l'angle pour que le joueur se dirige vers le ballon
+     * @return retourne un entier correspondant à l'angle
+     */
+    public void setAngleSelonBallon(){
+        angle = getAngleSelon(ballonDuJeu.getXY());
+    }
 
-    public Caracteristiques getCaracteristiques() {return caracteristiques;}
-
-    public Ballon getBallonDuJeu() {return ballonDuJeu;}
-
-    public Equipe getMonEquipe() {return monEquipe;}
+//    /**
+//     * Cette classe permet de d'effectuer une rotation en plusieurs parties :
+//     * du point de départ jusqu'à l'arrivé, le joueur suit une courbe.
+//     * @param unElementMobile un élément mobile
+//     */
+//    public void setAnglePrAllerVers(Point pointDestination){
+//
+//        //si le point n'a pas bougé, l'angle et les étapes restent les mêmes
+//        if(destination != null && destination.equals(pointDestination) && compterEtapes <= nbEtapesJusqPoint){
+//            angle += angleAeffectuer/nbEtapesJusqPoint; //ajout d'une partie de l'angle à effectuer
+//            compterEtapes++;
+//        }
+//        else if (compterEtapes > nbEtapesJusqPoint) { //sinon, on remet tout à jour
+//            destination = pointDestination; //sauvegarde de la nouvelle destination
+//            angleAeffectuer = getAngleSelon(destination); //l'angle de rotation complet à effectuer
+//            int distance = (int) (new Point(x,y)).distance(pointDestination.getX(),pointDestination.getY());
+//            nbEtapesJusqPoint = (distance - distanceMinContact)/caracteristiques.getDistDep(); //environ
+//        }
+//
+//    }
 
 
     /**
@@ -296,8 +319,24 @@ public class Joueur extends ElementMobile {
         synchronized(this){notify();}
     }
 
+    
+/*******************************  GETTER/SETTERS ******************************/
+
+
+    public String getNom() {return nom;}
+
+    public Caracteristiques getCaracteristiques() {return caracteristiques;}
+
+    public Ballon getBallonDuJeu() {return ballonDuJeu;}
+
+    public Equipe getMonEquipe() {return monEquipe;}
+
+    public Equipe getEquipeAdverse() {return equipeAdverse;}
+
+
+
     /**
-     * Permet de terminer le thread
+     * Permet de terminer le thread ou de préparer son nouveau départ.
      */
     public void setThreadEstTermine(boolean threadEstTermine) {this.threadEstTermine = threadEstTermine;}
 
@@ -305,5 +344,5 @@ public class Joueur extends ElementMobile {
      * @return vrai si le thread est terminé, faux sinon
      */
     public boolean getThreadEstTermine() {return threadEstTermine;}
-    
+ 
 }

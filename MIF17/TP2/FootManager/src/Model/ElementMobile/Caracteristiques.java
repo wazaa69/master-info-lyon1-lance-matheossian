@@ -13,15 +13,25 @@ public class Caracteristiques {
     private int distDep;  /** c'est la distance maximal qui peut être parcourue en un deplacement */
     private int distMaxTir; /** la distance maximal d'où le joueur peut tirer */
     private int distMinPrendreBalle; /** distance minimum pour prendre la balle */
+    private double probaRecupBallon; /** probabilité de récupérer le ballon */
 
 
     /* Caractéristiques de jeu en équipe, dépendant de la stratégie */
     private boolean defenseur; /** vrai si le joueur est en défense, faux sinon */
     private boolean attaquant; /** vrai si le joueur est en attaque, faux sinon */
-    private boolean jeuSolitaire; /** vrai si le joueur joue solitaire, faux sinon */
+
+    public Caracteristiques() {
+        distDep = 0;
+        distMaxTir = 0;
+        distMinPrendreBalle = 0;
+        probaRecupBallon = Math.random();
+        defenseur = false;
+        attaquant = false;
+    }
 
 
-    public Caracteristiques() {}
+
+
 
 
 /******************************  GETTER/SETTERS  ******************************/
@@ -67,12 +77,13 @@ public class Caracteristiques {
         this.distMinPrendreBalle = distMinPrendreBalle;
     }
 
-    public boolean isJeuSolitaire() {
-        return jeuSolitaire;
+    public double getProbaRecupBallon() {
+        return probaRecupBallon;
     }
 
-    public void setJeuSolitaire(boolean jeuSolitaire) {
-        this.jeuSolitaire = jeuSolitaire;
+    public void setProbaRecupBallon(double probaRecupBallon) {
+        this.probaRecupBallon = probaRecupBallon;
     }
+  
 
 }

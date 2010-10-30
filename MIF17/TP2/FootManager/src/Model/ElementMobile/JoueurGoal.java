@@ -52,7 +52,7 @@ public class JoueurGoal extends Joueur {
 
         y = (int) monEquipe.getCage().getCoordonnees().getY() + (monEquipe.getCage().getLongueur()/2);
 
-        angle = getAngleSelonBallon();
+        setAngleSelonBallon();
         
     }
 
@@ -64,7 +64,7 @@ public class JoueurGoal extends Joueur {
         
         while(!threadEstTermine){
 
-            angle = getAngleSelonBallon();
+            setAngleSelonBallon();
 
             int tmpY = y;
 

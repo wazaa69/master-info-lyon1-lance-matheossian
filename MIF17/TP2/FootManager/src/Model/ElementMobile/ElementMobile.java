@@ -16,15 +16,36 @@ public abstract class ElementMobile extends Thread implements Observable {
     protected int y; /** Coordonnée en ordonnée */
     protected int angle; /**  Schéma :  180° --- | ---- 0°  */
 
+    
     /**  distance minimal entre deux elements mobiles, si elle n'est pas respectée, les deux éléments rentrent en collision */
     protected int distanceMinContact;
+
+
+//    //Amélioration des déplacements
+//    protected Point ancienSuivi; /** l'ancien point de destination de l'élément mobile */
+//    protected Point destination; /** point actuel de destination de l'élément mobile */
+//    protected int angleAeffectuer; /** l'angle a effectuer pour se diriger vers le point d'arriver*/
+//    protected int nbEtapesJusqPoint; /** Cet attribut permet de rendre plus fluide les rotations
+//                                      * = distance(pointDepart,pointArrivé)/vitesse de déplacement du mobile
+//                                      * quand nbEtapesJusqPoint = 0, on choisit un nouvel angle de déplacement.
+//                                      */
+//    protected int compterEtapes; /** compte le nombre d'étapes déjà effecuées */
 
 
     public ElementMobile() {
         x = 0;
         y = 0;
         angle = 0;
-        distanceMinContact = 25;
+        
+        distanceMinContact = 17;
+
+
+//        ancienSuivi = null;
+//        destination = null;
+//        angleAeffectuer = 0;
+//        nbEtapesJusqPoint = 0;
+//        compterEtapes = 0;
+
     }
   
 /**********************************  THREAD  **********************************/
@@ -116,6 +137,10 @@ public abstract class ElementMobile extends Thread implements Observable {
     public int getY() {return y;}
     
     public Point getXY() {return new Point(x,y);}
+
+
+
+    public void setAngle(int angle) {this.angle = angle;}
 
     public void setX(int x) {this.x = x;}
     public void setY(int y) {this.y = y;}
