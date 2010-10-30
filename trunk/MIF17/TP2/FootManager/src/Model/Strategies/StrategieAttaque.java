@@ -1,11 +1,6 @@
 package Model.Strategies;
 
-import Model.ElementMobile.Caracteristiques;
-import Model.ElementMobile.Ballon;
 import Model.ElementMobile.Joueur;
-import Model.Equipe;
-import Model.Terrain.Terrain;
-import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -31,50 +26,10 @@ public class StrategieAttaque extends Strategie {
         formation.add(new Integer(1)); //1 attaquant
         formation.add(new Integer(5)); //5 milieux
         formation.add(new Integer(4)); //4 défenseurs
-
     }
 
     public void utiliserStrat(Joueur unJoueur){
-
-        
-        Ballon ballonDuJeu = unJoueur.getBallonDuJeu();
-        Joueur possesseur = ballonDuJeu.getPossesseur();
-        Joueur ancienPoss= ballonDuJeu.getAncienPoss();
-        int distanceAuBallon = unJoueur.getDistance(new Point(unJoueur.getX(),unJoueur.getY()),ballonDuJeu);
-        boolean peuPossederBallon = unJoueur != ancienPoss && unJoueur != possesseur;
-
-        Caracteristiques caractUnJoueur = unJoueur.getCaracteristiques();
-
-        //le joueur essaye d'intercepter le ballon
-        if (distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle()
-                && peuPossederBallon){
-
-            //interception ?
-            if(Math.random() > unJoueur.getCaracteristiques().getProbaRecupBallon()){
-                ballonDuJeu.passerLeBallonA(unJoueur);
-            }
-        }
-
-        else if(distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle()*3
-                && peuPossederBallon){
-            unJoueur.setAngleSelonBallon();
-            unJoueur.avancer();
-        }
-
-        //le joueur possede le ballon
-        else if(possesseur == unJoueur)
-        {
-            unJoueur.setAngleSelon(unJoueur.getEquipeAdverse().getGoal().getXY());
-            unJoueur.avancer();
-            unJoueur.getBallonDuJeu().majXY();
-        }
-
-        //le joueur est trop loin du ballon
-        else unJoueur.deplacementAuHasard();
-
-         
-
-        
+    
     }
 
 

@@ -1,20 +1,24 @@
 package Model.Strategies;
 
 import Model.ElementMobile.Joueur;
-import Model.Equipe;
+import java.util.ArrayList;
 
 /**
  *
  */
 public class StrategieDefense extends Strategie{
 
-    public void utiliserStrat(Joueur unJoueur){
-
+    public StrategieDefense() {
+        formation = new ArrayList<Integer>(); //4-5-1
+        formation.add(new Integer(1)); //1 attaquant
+        formation.add(new Integer(4)); //5 milieux
+        formation.add(new Integer(5)); //4 défenseurs
     }
 
-    @Override
-    public void positionnerUneEquipe(Equipe equipeAplacer, Equipe equipeAdverse) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+
+    public void utiliserStrat(Joueur unJoueur){
+
     }
 
 }

@@ -27,6 +27,7 @@ public class JoueurGoal extends Joueur {
 
         //modification de la distance d'interception du gardien en fonction de la longueur des cages
         caracteristiques.setDistMinPrendreBalle(monEquipe.getCage().getLongueur()/5);
+        caracteristiques.setDistMaxTir(Terrain.getDimTerrain().width/3);
         caracteristiques.setDistDep(5);
 
         //Délimitation de sa zone de déplacement
@@ -64,8 +65,6 @@ public class JoueurGoal extends Joueur {
         
         while(!threadEstTermine){
 
-            setAngleSelonBallon();
-
             int tmpY = y;
 
             //nouveaux y
@@ -83,13 +82,26 @@ public class JoueurGoal extends Joueur {
             //validité
             if(isValideDistContact(new Point(x,tmpY)))
                 y = tmpY;
-            
+
+
+            if(this == ballonDuJeu.getPossesseur()) ballonDuJeu.majXY();
 
             try {
                 sleep(50);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Joueur.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            if(this == ballonDuJeu.getPossesseur()){
+
+                Joueur unJoueur  = passeAUnCoequipier();
+
+                if(unJoueur != null){
+                    ballonDuJeu.changerDePossesseur(unJoueur);
+                    ballonDuJeu.majXY();
+                }
+            }
+
         }
         
         

@@ -22,7 +22,7 @@ public class Equipe implements ObservListe.Observable {
 
 
     private ArrayList<Joueur> listeJoueurs; /**  listeJoueurs la liste des joueurs */
-    private Strategie startegie = (new StrategieFactory()).creerStrategie(0); /** la stratégie adoptée par l'équipe, attaque par défaut */
+    private Strategie startegie; /** la stratégie adoptée par l'équipe, attaque par défaut */
 
 
     private int score = 0; /** le score actuel de l'équipe, 0 par défaut */
@@ -34,23 +34,52 @@ public class Equipe implements ObservListe.Observable {
     public Equipe(String nomEquipe, Color couleur, Cage nosCage){
         this.nomEquipe = nomEquipe;
         listeJoueurs = new ArrayList<Joueur>();
-        this.couleur = couleur;
-        this.nosCage = nosCage;
-    }
-
-    public Equipe(String nomEquipe,Color couleur, ArrayList<Joueur> listeJoueurs, Cage nosCage) {
-        this.listeJoueurs = listeJoueurs;
+        startegie = (new StrategieFactory()).creerStrategie(1);
         this.couleur = couleur;
         this.nosCage = nosCage;
     }
 
 
-/******************************  GETTER/SETTERS  ******************************/
-    
+/**************************  GETTER/SETTERS évolués  **************************/
+
+
+    /**
+     * Ajoute un joueur à l'équipe
+     * @param unJoueur le joueur à ajouter
+     */
     public void ajouterUnJoueur(Joueur unJoueur){
         //System.out.println(unJoueur.getNom());
         listeJoueurs.add(unJoueur);
     }
+
+    /**
+     * Récupère le nombre de joueurs qui essayent d'intercepter le ballon
+     */
+    public int getNbIntercepteurs(){
+
+        int nbIntercepteurs = 0;
+
+        for(int i = 0; i < listeJoueurs.size(); i++){
+            if(listeJoueurs.get(i).isEnCoursInterc()) nbIntercepteurs++;
+        }
+
+        return nbIntercepteurs;
+    }
+
+
+     public void setScore(int score) {
+        this.score = score;
+        unObservateur.miseAJour();
+    }
+
+    public JoueurGoal getGoal(){
+        if(!listeJoueurs.isEmpty()) return (JoueurGoal) listeJoueurs.get(0);
+        return null;
+    }
+
+/******************************  GETTER/SETTERS  ******************************/
+    
+
 
     public ArrayList<Joueur> getListeJoueurs() {
         return listeJoueurs;
@@ -62,11 +91,6 @@ public class Equipe implements ObservListe.Observable {
 
     public int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-        unObservateur.miseAJour();
     }
 
     /**
@@ -95,11 +119,6 @@ public class Equipe implements ObservListe.Observable {
 
     public void setCage(Cage cage) {
         this.nosCage = cage;
-    }
-
-    public JoueurGoal getGoal(){
-        if(!listeJoueurs.isEmpty()) return (JoueurGoal) listeJoueurs.get(0);
-        return null;
     }
 
 
