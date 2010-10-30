@@ -47,9 +47,11 @@ public class StrategieAttaque extends Strategie {
             boolean jPeuCourirVersBallon = distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle()*1.5;
 
             //personne n'a le ballon
-            if(!jPeuPrendreBallon && possesseur == null){
+            if(jPeuCourirVersBallon && possesseur == null){
                 unJoueur.setAngleSelonBallon();
                 unJoueur.avancer();
+                if(jPeuPrendreBallon)
+                    ballonDuJeu.changerDePossesseur(unJoueur);
             }
 
             //tentative d'interception du ballon
