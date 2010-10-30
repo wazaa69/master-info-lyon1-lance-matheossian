@@ -95,7 +95,7 @@ public class Joueur extends ElementMobile {
 
     public void setCaracteristiques(){
         caracteristiques = new Caracteristiques();
-        caracteristiques.setDistMinPrendreBalle(distanceMinContact);
+        caracteristiques.setDistMinPrendreBalle(distanceMinContact*2);
         caracteristiques.setDistMaxTir(70);
         caracteristiques.setDistDep(1);
     }
@@ -308,29 +308,35 @@ public class Joueur extends ElementMobile {
             int distanceMaxtrouve = 0;
             int distanceEntreDeux = 0;
 
+            boolean estEnAvant = false;
+
             Joueur unJoueur = null;
             Joueur unJoueurPasse = null;
 
             ArrayList<Joueur> listeJoueurs = monEquipe.getListeJoueurs();
-
-            if(cageAdverse.getCoordonnees().getX() < x){//Ennemis = à gauche
 
                 for(int i = 1; i < listeJoueurs.size(); i++){
 
                     unJoueur = listeJoueurs.get(i);
                     distanceEntreDeux = (int) getXY().distance(unJoueur.getXY());
 
+                    
+                    if((cageAdverse.getCoordonnees().getX() < x  && unJoueur.getX() < x) //Ennemis = à gauche
+                            || (cageAdverse.getCoordonnees().getX() > x  && unJoueur.getX() > x)) //Ennemis = à droite
+                        estEnAvant = true;
+
                     if(this != unJoueur 
                             && distanceEntreDeux <= distanceMaxDeTir
-                            && distanceMaxtrouve < distanceEntreDeux){
+                            && distanceMaxtrouve < distanceEntreDeux
+                            && estEnAvant){
 
                         unJoueurPasse = listeJoueurs.get(i);
                         distanceMaxtrouve = distanceEntreDeux;
                         
                     }
-                }
 
-            }
+                    estEnAvant = false;
+                }
 
             return unJoueurPasse;
         }
@@ -338,7 +344,10 @@ public class Joueur extends ElementMobile {
         else return null;
     }
 
+
+
 /*************************  GETTER/SETTERS  AVANCEES *************************/
+
 
     /**
      * Retourne l'angle pour se diriger vers le point
@@ -367,6 +376,7 @@ public class Joueur extends ElementMobile {
 
     }
 
+
     /**
      * Permet de diriger le joueur vers un points
      * @param unPoint la destination
@@ -382,27 +392,6 @@ public class Joueur extends ElementMobile {
     public void setAngleSelonBallon(){
         angle = getAngleSelon(ballonDuJeu.getXY());
     }
-
-//    /**
-//     * Cette classe permet de d'effectuer une rotation en plusieurs parties :
-//     * du point de départ jusqu'à l'arrivé, le joueur suit une courbe.
-//     * @param unElementMobile un élément mobile
-//     */
-//    public void setAnglePrAllerVers(Point pointDestination){
-//
-//        //si le point n'a pas bougé, l'angle et les étapes restent les mêmes
-//        if(destination != null && destination.equals(pointDestination) && compterEtapes <= nbEtapesJusqPoint){
-//            angle += angleAeffectuer/nbEtapesJusqPoint; //ajout d'une partie de l'angle à effectuer
-//            compterEtapes++;
-//        }
-//        else if (compterEtapes > nbEtapesJusqPoint) { //sinon, on remet tout à jour
-//            destination = pointDestination; //sauvegarde de la nouvelle destination
-//            angleAeffectuer = getAngleSelon(destination); //l'angle de rotation complet à effectuer
-//            int distance = (int) (new Point(x,y)).distance(pointDestination.getX(),pointDestination.getY());
-//            nbEtapesJusqPoint = (distance - distanceMinContact)/caracteristiques.getDistDep(); //environ
-//        }
-//
-//    }
 
 
     /**

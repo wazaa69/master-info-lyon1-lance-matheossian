@@ -1,25 +1,25 @@
 package Model.Strategies;
 
+import java.util.ArrayList;
 import Model.ElementMobile.Ballon;
 import Model.ElementMobile.Caracteristiques;
 import Model.ElementMobile.Joueur;
 import Model.ElementMobile.JoueurGoal;
 import Model.Equipe;
 import java.awt.Point;
-import java.util.ArrayList;
 
 /**
- *
+ * Défense et attaque
  */
 public class StrategieNeutre extends Strategie {
 
     public StrategieNeutre() {
-        formation = new ArrayList<Integer>(); //4-5-1
-        formation.add(new Integer(1)); //1 attaquant
-        formation.add(new Integer(5)); //5 milieux
-        formation.add(new Integer(4)); //4 défenseurs
-    }
+        formation = new ArrayList<Integer>();
+        formation.add(new Integer(4)); //4 attaquant
+        formation.add(new Integer(3)); //3 milieux
+        formation.add(new Integer(3)); //3 défenseurs
 
+    }
 
     public void utiliserStrat(Joueur unJoueur) {
 
@@ -39,15 +39,21 @@ public class StrategieNeutre extends Strategie {
             boolean notreEquAPasLeballon = true;
             if(possesseur != null) notreEquAPasLeballon = unJoueur.getMonEquipe() != possesseur.getMonEquipe();
 
-            boolean aucunIntercepteur = unJoueur.getMonEquipe().getNbIntercepteurs() <= 1;
+            boolean bonNbIntercepteurs = unJoueur.getMonEquipe().getNbIntercepteurs() <= 3;
             boolean jPeuTenterIntercep = unJoueur.getTentatIntercep() > 0;
             boolean jPeuPossederBallon = unJoueur != ancienPoss;
             boolean jPeuPrendreBallon = distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle();
-            boolean jPeuCourirVersBallon = distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle()*3;
+            boolean jPeuCourirVersBallon = distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle()*1.5;
 
+            //personne n'a le ballon
+            if(!jPeuPrendreBallon && possesseur == null){
+                unJoueur.setAngleSelonBallon();
+                unJoueur.avancer();
+            }
 
             //tentative d'interception du ballon
-            if(notreEquAPasLeballon &&  jPeuTenterIntercep && jPeuPrendreBallon && aucunIntercepteur && jPeuPossederBallon)
+            //on peut ajouter && aucunIntercepteur , pour avoir un seul intercepteur
+            else if(notreEquAPasLeballon && jPeuTenterIntercep && bonNbIntercepteurs && jPeuPrendreBallon && jPeuPossederBallon)
             {
 
                 unJoueur.setEnCoursInterc(true);
@@ -80,13 +86,14 @@ public class StrategieNeutre extends Strategie {
             }
 
             //le joueur à fait demi-tour, mais il est toujours dans la zone ou il peut intercepter
-            else if(jPeuPrendreBallon && !jPeuTenterIntercep){
+            else if(notreEquAPasLeballon && jPeuPrendreBallon && !jPeuTenterIntercep){
+                unJoueur.setAngleSelon(unJoueur.getPositionFormation());
                 unJoueur.avancer(); //on le fait avancer pour le faire sortir de la zone
             }
 
             //si le joueur voit le ballon, qu'il peut tenter de l'intercepter, mais qu'il est un peu trop loin
-            else if(notreEquAPasLeballon && !jPeuPrendreBallon && jPeuPossederBallon && jPeuTenterIntercep && jPeuCourirVersBallon && aucunIntercepteur){
-
+            else if(notreEquAPasLeballon && !jPeuPrendreBallon && jPeuPossederBallon && jPeuTenterIntercep && jPeuCourirVersBallon && bonNbIntercepteurs){
+                unJoueur.setTentatIntercep(3);
                 //si il n'y a pas déjà un intercepteur de son équipe
                 unJoueur.setAngleSelonBallon(); //il fonce jusqu'au ballon
                 unJoueur.avancer();
@@ -137,6 +144,11 @@ public class StrategieNeutre extends Strategie {
                     ballonDuJeu.changerDePossesseur(goalAdverse);
                 }
                 else{
+
+                    ballonDuJeu.changerDePossesseur(null);
+                    ballonDuJeu.setXY(unPoint);
+                    ballonDuJeu.majXY();
+
                     unJoueur.getMonEquipe().setScore(unJoueur.getMonEquipe().getScore() + 1);
                     remiseEnJeu(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
                 }
@@ -146,17 +158,17 @@ public class StrategieNeutre extends Strategie {
 
             }
 
+            //si il y a un joueur mieux placé, il fait une passe
             else if(joueurPasse != null && joueurPasse != ancienPoss)
                     ballonDuJeu.changerDePossesseur(joueurPasse);
 
-
+            //sinon il avance où il y a le moins d'ennemis
             else{
-                unJoueur.setAngleSelon(coordCageAdverse);
+                unJoueur.setAngle(unJoueur.getAngleSelon(coordCageAdverse));
                 unJoueur.avancer();
             }
 
         }
 
     }
-    
 }

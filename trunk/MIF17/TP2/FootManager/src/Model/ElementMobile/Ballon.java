@@ -3,6 +3,8 @@ package Model.ElementMobile;
 import Model.Terrain.Terrain;
 import java.awt.Color;
 import java.awt.Point;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Ballon extends ElementMobile {
@@ -73,12 +75,18 @@ public class Ballon extends ElementMobile {
         
         ancienPoss = possesseur;
         possesseur = nouveauPossesseur;
-        
+
         if(nouveauPossesseur != null){
             unObservateur.miseAJour();
             majXY();
         }
- 
+
+        try {
+            sleep(500); //le temps de voir qui prend le ballon
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ballon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
  
@@ -93,9 +101,13 @@ public class Ballon extends ElementMobile {
      * Met à jour les coordonnées du ballon, de façon à le placer devant le joueur
      */
     public void majXY(){
-        Point coordonnees = coordApresDep(possesseur.getX(), possesseur.getY(), 15, possesseur.getAngle());
-        setXY(coordonnees);
-        angle = possesseur.getAngle();
+
+        if(possesseur != null){
+            Point coordonnees = coordApresDep(possesseur.getX(), possesseur.getY(), 15, possesseur.getAngle());
+            angle = possesseur.getAngle();
+            setXY(coordonnees);
+        }  
+        
     }
 
 

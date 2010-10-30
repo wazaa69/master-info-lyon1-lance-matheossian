@@ -71,8 +71,8 @@ public class JeuDeFoot extends Thread {
 
     private void initEquipes(int nbJoueurs){
         
-        equipeGauche = new Equipe("RedTeam",Color.BLUE, unTerrain.getCageGauche());
-        equipeDroite = new Equipe("BlueTeam",Color.RED, unTerrain.getCageDroite());
+        equipeGauche = new Equipe("RedTeam",Color.RED, unTerrain.getCageGauche());
+        equipeDroite = new Equipe("BlueTeam",Color.BLUE, unTerrain.getCageDroite());
 
         initJoueursEquipe(equipeGauche, equipeDroite, nbJoueurs);
         initJoueursEquipe(equipeDroite, equipeGauche, nbJoueurs);
@@ -151,8 +151,8 @@ public class JeuDeFoot extends Thread {
 
 
     private void positionnerEquipes(){
-        equipeGauche.getStartegie().positionnerUneEquipe(equipeGauche, equipeDroite);
-        equipeDroite.getStartegie().positionnerUneEquipe(equipeDroite, equipeGauche);
+        equipeGauche.getStartegie().placerOuChangFormation(equipeGauche, equipeDroite, false);
+        equipeDroite.getStartegie().placerOuChangFormation(equipeDroite, equipeGauche, false);
     }
 
 /**********************************  THREAD  **********************************/
@@ -161,6 +161,7 @@ public class JeuDeFoot extends Thread {
      * Lance le jeu
      */
     public void lancerThreadJeuDeFoot() {
+
         System.out.println("Nouveau match");
         (new Thread(this)).start();
 
@@ -183,7 +184,7 @@ public class JeuDeFoot extends Thread {
         terminerThreadsJoueurs();
 
         try {
-            sleep(3000); //le temps de voir les scores
+            sleep(2000); //le temps de voir les scores
         } catch (InterruptedException ex) {
             Logger.getLogger(JeuDeFoot.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -262,16 +263,18 @@ public class JeuDeFoot extends Thread {
      * Affiche le gagnant du match
      */
     private void afficherGagnantMatch(){
-        if(equipeGauche.getScore() > equipeDroite.getScore())
 
+        if(equipeGauche.getScore() > equipeDroite.getScore())
             System.out.println("L'équipe " + equipeGauche.getNomEquipe()
                     + " remporte le match !");
 
         else if (equipeGauche.getScore() < equipeDroite.getScore())
             System.out.println("L'équipe " + equipeDroite.getNomEquipe()
                     + " remporte le match !");
+        
         else
             System.out.println("Le match se termine en nul !!");
+        
     }
 
 

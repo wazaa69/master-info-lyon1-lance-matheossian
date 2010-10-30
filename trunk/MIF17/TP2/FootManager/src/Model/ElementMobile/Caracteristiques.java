@@ -23,7 +23,7 @@ public class Caracteristiques {
 
     public Caracteristiques() {
         distDep = 1;
-        distMaxTir = 50;
+        distMaxTir = 80;
         distMinPrendreBalle = 25;
         probaRecupBallon = Math.random();
         boost = (int) (Math.random()*5);
