@@ -120,7 +120,7 @@ public class VueTerrain extends Applet {
      */
     public void toutEffacer(){
         Color c = bufferGraphics.getColor();
-        bufferGraphics.setColor(Color.white);
+        bufferGraphics.setColor(Color.WHITE);
         //cadre blanc de fond --> fait scintiller l'affichage : redessine le tout
         bufferGraphics.fillRect(0,0,Terrain.LONGUEUR,Terrain.LARGEUR);
         dessinerTerrain();
@@ -134,13 +134,13 @@ public class VueTerrain extends Applet {
         int longueur = Terrain.LONGUEUR;
         int largeur = Terrain.LARGEUR;
 
-        bufferGraphics.setColor(Color.GRAY); //on dessine les traits en noir
+        bufferGraphics.setColor(Color.BLACK); //on dessine les traits en gris
 
         Cage uneCage = null;
 
         //Cage Gauche
         uneCage = unTerrain.getCageGauche();
-        bufferGraphics.drawRect((int) uneCage.getCoordonnees().getX(), (int)uneCage.getCoordonnees().getY(),
+        bufferGraphics.drawRect((int) uneCage.getCoordonnees().getX()-1, (int)uneCage.getCoordonnees().getY(),
                 uneCage.getLargeur(), uneCage.getLongueur());
 
         //ligne centrale

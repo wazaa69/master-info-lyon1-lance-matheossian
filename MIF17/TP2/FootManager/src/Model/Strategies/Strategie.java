@@ -1,11 +1,11 @@
 package Model.Strategies;
 
+import Model.Terrain.Terrain;
+import java.util.ArrayList;
 import Model.ElementMobile.Ballon;
 import Model.ElementMobile.Joueur;
 import Model.Equipe;
-import Model.Terrain.Terrain;
 import java.awt.Point;
-import java.util.ArrayList;
 
 /**
  * Chaque fils contiendra au moins la méthode uiliserStrat().
@@ -23,17 +23,20 @@ public abstract class Strategie {
     public abstract void utiliserStrat(Joueur unJoueur);
 
 
-     /**
-     * positionnement des joueurs sur le terrain, selon la formation choisit
+    /**
+     * Positionnement ou changement de formaion, des joueurs sur le terrain
+     * @param equipe l'équipe ou la formation de l'équipe à modifier
+     * @param equipeAdverse l'équipe adverse
+     * @param ChgFormation vrai si il faut juste changer de formation, faux sinon
      */
-    public void positionnerUneEquipe(Equipe equipeAplacer, Equipe equipeAdverse){
+    public void placerOuChangFormation(Equipe equipe, Equipe equipeAdverse, boolean ChgFormation){
 
         //recupération de l'abscisse, des angles sup gauche de chaque cage
-        int xCage = (int) equipeAplacer.getCage().getCoordonnees().getX();
+        int xCage = (int) equipe.getCage().getCoordonnees().getX();
         int xCageAdverse = (int) equipeAdverse.getCage().getCoordonnees().getX();
 
         //récupération de la liste de joueurs à placer
-        ArrayList<Joueur> listeJoueurs = equipeAplacer.getListeJoueurs();
+        ArrayList<Joueur> listeJoueurs = equipe.getListeJoueurs();
 
         /*
          * il faudrait vérifier que le nombre de joueurs par colonne est correcte,
@@ -66,10 +69,14 @@ public abstract class Strategie {
                     y = (largeurTerrain/(formation.get(j)+1)) * (k+1) + Terrain.MARGESEINTE;
 
                     //maj des coordonnées du joueur et de sa formation
-                    listeJoueurs.get(i).setPositionFormation(new Point(x,y));
-                    listeJoueurs.get(i).setX(x);
-                    listeJoueurs.get(i).setY(y);
-                    listeJoueurs.get(i).setAngleSelonBallon();
+                    if(ChgFormation)
+                        listeJoueurs.get(i).setPositionFormation(new Point(x,y));
+                    else {
+                        listeJoueurs.get(i).setPositionFormation(new Point(x,y));
+                        listeJoueurs.get(i).setX(x);
+                        listeJoueurs.get(i).setY(y);
+                        listeJoueurs.get(i).setAngleSelonBallon();
+                    }
 
                     i++; //passage au joueur suivant
 
@@ -89,10 +96,14 @@ public abstract class Strategie {
                     y = (largeurTerrain/(formation.get(j)+1)) * (k+1) + Terrain.MARGESEINTE;
 
                     //maj des coordonnées du joueur et de sa formation
-                    listeJoueurs.get(i).setPositionFormation(new Point(x,y));
-                    listeJoueurs.get(i).setX(x);
-                    listeJoueurs.get(i).setY(y);
-                    listeJoueurs.get(i).setAngleSelonBallon();
+                    if(ChgFormation)
+                        listeJoueurs.get(i).setPositionFormation(new Point(x,y));
+                    else {
+                        listeJoueurs.get(i).setPositionFormation(new Point(x,y));
+                        listeJoueurs.get(i).setX(x);
+                        listeJoueurs.get(i).setY(y);
+                        listeJoueurs.get(i).setAngleSelonBallon();
+                    }
 
                     i++;
 
@@ -103,8 +114,8 @@ public abstract class Strategie {
     }
 
         protected void remiseEnJeu(Equipe equipeA,Equipe equipeB, Ballon ballonDuJeu){
-            positionnerUneEquipe(equipeA, equipeB);
-            positionnerUneEquipe(equipeB, equipeA);
+            placerOuChangFormation(equipeA, equipeB, false);
+            placerOuChangFormation(equipeB, equipeA, false);
             ballonDuJeu.initBallon();
         }
 

@@ -21,16 +21,6 @@ public abstract class ElementMobile extends Thread implements Observable {
     protected int distanceMinContact;
 
 
-//    //Amélioration des déplacements
-//    protected Point ancienSuivi; /** l'ancien point de destination de l'élément mobile */
-//    protected Point destination; /** point actuel de destination de l'élément mobile */
-//    protected int angleAeffectuer; /** l'angle a effectuer pour se diriger vers le point d'arriver*/
-//    protected int nbEtapesJusqPoint; /** Cet attribut permet de rendre plus fluide les rotations
-//                                      * = distance(pointDepart,pointArrivé)/vitesse de déplacement du mobile
-//                                      * quand nbEtapesJusqPoint = 0, on choisit un nouvel angle de déplacement.
-//                                      */
-//    protected int compterEtapes; /** compte le nombre d'étapes déjà effecuées */
-
 
     public ElementMobile() {
         x = 0;
@@ -38,13 +28,6 @@ public abstract class ElementMobile extends Thread implements Observable {
         angle = 0;
         
         distanceMinContact = 17;
-
-
-//        ancienSuivi = null;
-//        destination = null;
-//        angleAeffectuer = 0;
-//        nbEtapesJusqPoint = 0;
-//        compterEtapes = 0;
 
     }
   
