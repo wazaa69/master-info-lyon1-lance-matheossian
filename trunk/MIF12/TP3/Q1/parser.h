@@ -54,20 +54,38 @@
      KW_RECORD = 270,
      KW_FUNC = 271,
      KW_PROC = 272,
-     SEP_SCOL = 273,
-     SEP_DOT = 274,
-     SEP_DOTS = 275,
-     SEP_COMMA = 276,
-     SEP_CO = 277,
-     SEP_CF = 278,
-     SEP_DOTDOT = 279,
-     SEP_PO = 280,
-     SEP_PF = 281,
-     OP_PTR = 282,
-     OP_SUB = 283,
-     OP_EQ = 284,
-     TOK_IDENT = 285,
-     TOK_INTEGER = 286
+     KW_CONST = 273,
+     KW_DIV = 274,
+     KW_MOD = 275,
+     KW_AND = 276,
+     KW_OR = 277,
+     KW_XOR = 278,
+     KW_NOT = 279,
+     SEP_SCOL = 280,
+     SEP_DOT = 281,
+     SEP_DOTS = 282,
+     SEP_COMMA = 283,
+     SEP_CO = 284,
+     SEP_CF = 285,
+     SEP_DOTDOT = 286,
+     SEP_PO = 287,
+     SEP_PF = 288,
+     OP_PTR = 289,
+     OP_SUB = 290,
+     OP_EQ = 291,
+     OP_NEQ = 292,
+     OP_LTE = 293,
+     OP_MUL = 294,
+     OP_GT = 295,
+     OP_GTE = 296,
+     OP_ADD = 297,
+     OP_LT = 298,
+     OP_SLASH = 299,
+     TOK_REAL = 300,
+     TOK_PTR = 301,
+     TOK_STRING = 302,
+     TOK_IDENT = 303,
+     TOK_INTEGER = 304
    };
 #endif
 
@@ -78,7 +96,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 97 "parser.y"
+#line 117 "parser.y"
 
 
     int numero;
@@ -94,7 +112,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 98 "parser.h"
+#line 116 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
