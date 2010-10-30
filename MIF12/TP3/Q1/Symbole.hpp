@@ -8,7 +8,7 @@
  */
 class Symbole {
 
-	private:
+	protected:
 
         std::string* categorie; /** variable, constante, fonction, procedure, etiquette, temporaire ... */
         Type* type; /** int, bool, char, ... */

@@ -63,6 +63,14 @@
 %token KW_RECORD
 %token KW_FUNC
 %token KW_PROC
+%token KW_CONST
+
+%token KW_DIV
+%token KW_MOD
+%token KW_AND
+%token KW_OR
+%token KW_XOR
+%token KW_NOT
 
 %token SEP_SCOL
 %token SEP_DOT
@@ -77,6 +85,18 @@
 %token OP_PTR
 %token OP_SUB
 %token OP_EQ
+%token OP_NEQ
+%token OP_LTE
+%token OP_MUL
+%token OP_GT
+%token OP_GTE
+%token OP_ADD
+%token OP_LT
+%token OP_SLASH
+
+%token TOK_REAL
+%token TOK_PTR
+%token TOK_STRING
 
 %token <numero> TOK_IDENT
 %token TOK_INTEGER
@@ -129,8 +149,20 @@ ProgramHeader   : KW_PROGRAM TOK_IDENT                          {
 
 
 
-Block         :  BlockDeclType BlockDeclType BlockDeclVar BlockDeclFunc BlockCode		{}
+Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDeclFunc BlockCode		{}
               ;
+
+
+BlockDeclConst : KW_CONST ListDeclConst
+               |
+               ;
+
+ListDeclConst  : ListDeclConst DeclConst
+               | DeclConst
+               ;
+
+DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL
+               ;
 
 
 
@@ -370,6 +402,64 @@ BlockCode       : KW_BEGIN ListTest KW_END
 ListTest        :       ListTest SEP_SCOL TOK_IDENT {cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;}
                 |       TOK_IDENT  { cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl;}
                 ;
+
+
+Expression     : MathExpr
+               | CompExpr
+               | BoolExpr
+               | AtomExpr
+               | VarExpr
+               ;
+
+MathExpr       : Expression OP_ADD Expression
+               | Expression OP_SUB Expression
+               | Expression OP_MUL Expression
+               | Expression OP_SLASH Expression
+               | Expression KW_DIV Expression
+               | Expression KW_MOD Expression
+               | OP_SUB Expression
+               | OP_ADD Expression
+               ;
+
+CompExpr       : Expression OP_EQ Expression
+               | Expression OP_NEQ Expression
+               | Expression OP_LT Expression
+               | Expression OP_LTE Expression
+               | Expression OP_GT Expression
+               | Expression OP_GTE Expression
+               ;
+
+BoolExpr       : Expression KW_AND Expression
+               | Expression KW_OR Expression
+               | Expression KW_XOR Expression
+               | KW_NOT Expression
+               ;
+
+AtomExpr       : SEP_PO Expression SEP_PF
+               | Call
+               | TOK_INTEGER
+               | TOK_REAL
+               | TOK_PTR
+               | TOK_STRING
+               ;
+
+VarExpr        : TOK_IDENT
+               | VarExpr SEP_CO Expression SEP_CF
+               | VarExpr SEP_DOT TOK_IDENT
+               | VarExpr OP_PTR
+               ;
+
+Call           : TOK_IDENT Parameters
+               ;
+
+Parameters     : SEP_PO ListParameters SEP_PF
+               ;
+
+ListParameters : ListParameters SEP_COMMA Expression
+               | Expression
+               ;
+
+
 
 
 %%
