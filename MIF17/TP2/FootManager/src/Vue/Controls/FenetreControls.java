@@ -148,8 +148,8 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 
 
         //Premier élément selectionné, et ajout d'un écouteur sur les listes
-        comboBoxEqG.setSelectedIndex(0); //Neutre par défaut
-        comboBoxEqD.setSelectedIndex(0); //Neutre par défaut
+        comboBoxEqG.setSelectedIndex(1); //Neutre par défaut
+        comboBoxEqD.setSelectedIndex(1); //Neutre par défaut
         comboBoxEqG.addActionListener(new NouvelleStrat(equipeGauche));
         comboBoxEqD.addActionListener(new NouvelleStrat(equipeDroite));
   

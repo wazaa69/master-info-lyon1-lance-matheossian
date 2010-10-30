@@ -14,6 +14,7 @@ public class Caracteristiques {
     private int distMaxTir; /** la distance maximal d'où le joueur peut tirer */
     private int distMinPrendreBalle; /** distance minimum pour prendre la balle */
     private double probaRecupBallon; /** probabilité de récupérer le ballon */
+    private int boost; /** acceleration du joueur quand il a le ballon */
 
 
     /* Caractéristiques de jeu en équipe, dépendant de la stratégie */
@@ -21,10 +22,11 @@ public class Caracteristiques {
     private boolean attaquant; /** vrai si le joueur est en attaque, faux sinon */
 
     public Caracteristiques() {
-        distDep = 0;
-        distMaxTir = 0;
-        distMinPrendreBalle = 0;
+        distDep = 1;
+        distMaxTir = 50;
+        distMinPrendreBalle = 25;
         probaRecupBallon = Math.random();
+        boost = (int) (Math.random()*5);
         defenseur = false;
         attaquant = false;
     }
@@ -84,6 +86,13 @@ public class Caracteristiques {
     public void setProbaRecupBallon(double probaRecupBallon) {
         this.probaRecupBallon = probaRecupBallon;
     }
-  
+
+    public void setActiveBoost() {
+        distDep += distDep*boost;
+    }
+
+    public void setEneleveBoost() {
+        distDep -= distDep*boost;
+    }
 
 }

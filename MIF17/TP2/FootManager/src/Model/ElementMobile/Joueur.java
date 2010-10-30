@@ -1,6 +1,7 @@
 package Model.ElementMobile;
 
 import Model.Equipe;
+import Model.Terrain.Cage;
 import Model.Terrain.Terrain;
 
 import java.awt.Dimension;
@@ -26,7 +27,12 @@ public class Joueur extends ElementMobile {
     protected boolean threadEstTermine; /** pour terminer le thread */
 
 
-  
+    protected Point positionFormation; /** position attribuée par rapport à la formation choisit */
+    protected boolean enCoursInterc; /** vrai, si le joueur est en train d'essayer d'intercepter le ballon, faux sinon */
+    protected int tentatIntercep; /** le nombre de tentative restante pour essayer d'intercepter le ballon*/
+
+
+    
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
@@ -72,13 +78,17 @@ public class Joueur extends ElementMobile {
      */
     private void initSimpleJoueur(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse){
         this.nom = nom;
+        setCaracteristiques();
         this.ballonDuJeu = ballonDuJeu;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
+        
         estEnpause = true;
         threadEstTermine = false;
 
-        setCaracteristiques();
+        positionFormation = null;
+        enCoursInterc = false;
+        tentatIntercep = 3;
 
     }
 
@@ -86,6 +96,7 @@ public class Joueur extends ElementMobile {
     public void setCaracteristiques(){
         caracteristiques = new Caracteristiques();
         caracteristiques.setDistMinPrendreBalle(distanceMinContact);
+        caracteristiques.setDistMaxTir(70);
         caracteristiques.setDistDep(1);
     }
 
@@ -136,7 +147,7 @@ public class Joueur extends ElementMobile {
     /**
      * Le joueur se déplace aléatoirement
      */
-    public void deplacementAuHasard()
+    public void avancerAuHasard()
     {
         int rotation = (int)(Math.random() * 30);
         int tmpAngle;
@@ -166,14 +177,26 @@ public class Joueur extends ElementMobile {
     }
 
 
+    /**
+     * Essayer d'avancer en faisant plusieurs essais
+     */
+    public void avancer(){
 
+        int nbEssais = 40; //Important ! nbEssais <= 180 essais <=> 180°, 1 essai par degré
+        int rotationParEssai = 180/nbEssais;
+
+        //Rotation à gauche ou à droite
+        if(Math.random() < 0.5) rotationParEssai = -rotationParEssai;
+
+        avancerAvecEssais(nbEssais, rotationParEssai);
+    }
 
     
     /**
      * Fait avancer le joueur sur la feuille de dessin, si le prochain déplacement atteint un bord,
      * il fait demi-tour et s'avance (si possible).
      */
-    public void avancer(){
+    public void avancerAvecEssais(int nbEssais, int rotationParEssai){
 
         //Cette ligne est là, juste pour tester l'affichage.
         //notifierObserveur(); //Ne pas activer sinon (sa sert à rien).
@@ -183,17 +206,28 @@ public class Joueur extends ElementMobile {
         boolean bonEmplacement = isEmplacementValide(nouveauPoint);
         boolean pasDeContact = isValideDistContact(nouveauPoint);
 
-        if (bonEmplacement && pasDeContact){ //1 1
+
+        if (nbEssais <= 0)
+        {
+            //cas d'arrêt : ne rien faire
+        }
+
+        else if (bonEmplacement && pasDeContact){ //1 1
             setXY(nouveauPoint);
+            if(this == ballonDuJeu.getPossesseur()) ballonDuJeu.majXY();
             notifierObserveur(); //demande de rafaichissement de la vue des joueurs
         }
 
         else if(!bonEmplacement){ //0 1 ou 0 0
             angle = (angle + 180) % 360; //demi-tour
-            avancer(); //teste nouveau déplacement
+            avancerAvecEssais(nbEssais - 1, rotationParEssai); //teste nouveau déplacement
         }
 
-        //1 0 sinon ne rien faire
+
+        else{ //1 0 teste vers un nouvelle angle
+            angle += rotationParEssai;
+            avancerAvecEssais(nbEssais - 1, rotationParEssai);
+        }
 
         
     }
@@ -242,7 +276,67 @@ public class Joueur extends ElementMobile {
 
     }
 
-    
+/*********************************  METHODES *********************************/
+
+    /**
+     * Calcul les coordonnées du ballon dans la cage, si le joueur tir
+     * @return reourne le point ou le ballon va se rendre
+     */
+    public Point preparerTirPrMarquer(){
+
+        Cage cageAdverse = equipeAdverse.getCage();
+
+        //choix de tir dans la cage adverse
+        int yTir = (int) (Math.random()*cageAdverse.getLargeur()) + (int) cageAdverse.getCoordonnees().getY();
+
+        return new Point((int) cageAdverse.getCoordonnees().getX(), yTir);
+    }
+
+
+    /**
+     * Si le joueur à le ballon, il va chercher le coéquipier le plus proche
+     * des cages ennemis à qui il peut faire la passe
+     * @return retourne le joueur qui peut recevoir le ballon
+     */
+    public Joueur passeAUnCoequipier(){
+
+        if(this == ballonDuJeu.getPossesseur()){
+
+            Cage cageAdverse = equipeAdverse.getCage();
+
+            int distanceMaxDeTir = caracteristiques.getDistMaxTir();
+            int distanceMaxtrouve = 0;
+            int distanceEntreDeux = 0;
+
+            Joueur unJoueur = null;
+            Joueur unJoueurPasse = null;
+
+            ArrayList<Joueur> listeJoueurs = monEquipe.getListeJoueurs();
+
+            if(cageAdverse.getCoordonnees().getX() < x){//Ennemis = à gauche
+
+                for(int i = 1; i < listeJoueurs.size(); i++){
+
+                    unJoueur = listeJoueurs.get(i);
+                    distanceEntreDeux = (int) getXY().distance(unJoueur.getXY());
+
+                    if(this != unJoueur 
+                            && distanceEntreDeux <= distanceMaxDeTir
+                            && distanceMaxtrouve < distanceEntreDeux){
+
+                        unJoueurPasse = listeJoueurs.get(i);
+                        distanceMaxtrouve = distanceEntreDeux;
+                        
+                    }
+                }
+
+            }
+
+            return unJoueurPasse;
+        }
+
+        else return null;
+    }
 
 /*************************  GETTER/SETTERS  AVANCEES *************************/
 
@@ -251,7 +345,7 @@ public class Joueur extends ElementMobile {
      * @param unPoint un point
      * @return retourne un entier correspondant à l'angle
      */
-    private int getAngleSelon(Point unPoint){
+    public int getAngleSelon(Point unPoint){
 
         //calcul des différnces de coordonnées polaires
         float diffX = (float) unPoint.getX() - x;
@@ -333,7 +427,20 @@ public class Joueur extends ElementMobile {
 
     public Equipe getEquipeAdverse() {return equipeAdverse;}
 
+    public int getTentatIntercep() {return tentatIntercep;}
 
+    public boolean isEnCoursInterc() {return enCoursInterc;}
+
+    public Point getPositionFormation() {return positionFormation;}
+
+
+
+
+    public void setPositionFormation(Point positionFormation) {this.positionFormation = positionFormation;}
+
+    public void setEnCoursInterc(boolean enCoursInterc) {this.enCoursInterc = enCoursInterc;}
+
+    public void setTentatIntercep(int tentatIntercep) {this.tentatIntercep = tentatIntercep;}
 
     /**
      * Permet de terminer le thread ou de préparer son nouveau départ.
@@ -344,5 +451,6 @@ public class Joueur extends ElementMobile {
      * @return vrai si le thread est terminé, faux sinon
      */
     public boolean getThreadEstTermine() {return threadEstTermine;}
+
  
 }

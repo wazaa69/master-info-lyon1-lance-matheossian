@@ -1,5 +1,6 @@
 package Model.ElementMobile;
 
+import Model.Terrain.Terrain;
 import java.awt.Color;
 import java.awt.Point;
 
@@ -36,6 +37,15 @@ public class Ballon extends ElementMobile {
     }
 
 
+/*********************************  METHODE  **********************************/
+    /**
+     * Place le ballon au centre du terrain
+     */
+    public void initBallon(){
+        setXY(new Point((int) Math.round(Terrain.LONGUEUR/2),(int) Math.round(Terrain.LARGEUR/2)));
+        changerDePossesseur(null);
+    }
+
 
 /******************************  GETTER/SETTERS  ******************************/
 
@@ -57,7 +67,7 @@ public class Ballon extends ElementMobile {
      * Changement de pocesseur
      * @param nouveauPossesseur le nouveau pocesseur du ballon
      */
-    public void passerLeBallonA(Joueur nouveauPossesseur) {
+    public void changerDePossesseur(Joueur nouveauPossesseur) {
 
         if(ancienPoss == null) ancienPoss = nouveauPossesseur;
         

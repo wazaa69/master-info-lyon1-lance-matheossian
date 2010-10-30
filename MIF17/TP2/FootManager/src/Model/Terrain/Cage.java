@@ -29,9 +29,12 @@ public class Cage {
         largeur = 100; //attention, on part de l'angle sup gauche, donc 2*50
     }
 
-
 /******************************  GETTER/SETTERS  ******************************/
-    
+
+    public Point getCentreCoordonnees(){
+        return new Point((int) coordonnees.getX() + (longueur/2), (int) coordonnees.getY() + (largeur/2));
+    }
+
     public Point getCoordonnees() {
         return coordonnees;
     }
