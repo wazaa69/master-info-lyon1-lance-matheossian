@@ -58,7 +58,11 @@ public class Ballon extends ElementMobile {
      * @param nouveauPossesseur le nouveau pocesseur du ballon
      */
     public void passerLeBallonA(Joueur nouveauPossesseur) {
-        this.possesseur = nouveauPossesseur;
+
+        if(ancienPoss == null) ancienPoss = nouveauPossesseur;
+        
+        ancienPoss = possesseur;
+        possesseur = nouveauPossesseur;
         
         if(nouveauPossesseur != null){
             unObservateur.miseAJour();
@@ -67,9 +71,7 @@ public class Ballon extends ElementMobile {
  
     }
 
-    public void setAncienPoss(Joueur ancienPoss) {
-        this.ancienPoss = ancienPoss;
-    }
+ 
 
     public Joueur getAncienPoss() {
         return ancienPoss;

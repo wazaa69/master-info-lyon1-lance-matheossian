@@ -5,7 +5,6 @@ import Model.Terrain.Terrain;
 import Model.ElementMobile.Joueur;
 import Model.ElementMobile.JoueurGoal;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -49,7 +48,10 @@ public class JeuDeFoot extends Thread {
 
         initEquipes(nbJoueursParEq);
 
-        initBooleans();
+        //après avoir initialisé les équipes
+        positionnerEquipes();
+
+        initBoolsJeuDeFoot();
 
     }
 
@@ -64,7 +66,7 @@ public class JeuDeFoot extends Thread {
     /**
      * Initialise les booléen : "partie en cours ?" et "pause ?"
      */
-    private void initBooleans() {
+    private void initBoolsJeuDeFoot() {
         PARTIEENCOURS = false;
         pauseRepartir = false;
     }
@@ -97,22 +99,22 @@ public class JeuDeFoot extends Thread {
         Joueur unJoueur = null;
         int tmpNbJoueurs = nbJoueurs;
 
-        //Création du goal
-        nom = courante.getNomEquipe() + " - Goal";
-        unJoueur = new JoueurGoal(nom, ballonDuJeu, courante, adverse);
-        courante.ajouterUnJoueur(unJoueur);
+        if(nbJoueurs > 0){
+            //Création du goal
+            nom = courante.getNomEquipe() + " - Goal";
+            unJoueur = new JoueurGoal(nom, ballonDuJeu, courante, adverse);
+            courante.ajouterUnJoueur(unJoueur);
+        }
 
         if (nbJoueurs > 50){tmpNbJoueurs = 50;}
 
         //création du reste de l'équipe, on commence à 1
         for(int i = 1; i < tmpNbJoueurs; i++){
 
-            while(unPoint == null) {unPoint = pointHasardDsTerrain();}
-
             nom = courante.getNomEquipe() + " - " + (i + 1);
 
             //création du joueur
-            unJoueur = new Joueur((int) unPoint.getX(), (int) unPoint.getY(), nom, ballonDuJeu, courante, adverse);
+            unJoueur = new Joueur(0, 0, nom, ballonDuJeu, courante, adverse);
 
             courante.ajouterUnJoueur(unJoueur);
             
@@ -122,37 +124,42 @@ public class JeuDeFoot extends Thread {
 
     }
 
-/***********************   Placement  ********/
+/**********************************   Placement  ******************************/
 
     /**
      * Recherche un point et une zone au hasard sur le terrain,
      * qui n'est pas déjà occupé par un autre joueur.
      * @return retourne le point libre si il est dispponible, null sinon
      */
-    private Point pointHasardDsTerrain(){
+//    private Point pointHasardDsTerrain(){
+//
+//
+//        //on concatène les deux listes
+//        ArrayList<Joueur> listeJoueurs = getJoueurs();
+//
+//        Dimension dim = Terrain.getDimTerrain();
+//        Point unPoint = new Point(
+//                    (int) Math.round(Math.random() * dim.getWidth()) + Terrain.MARGESEINTE,
+//                    (int) Math.round(Math.random() * dim.getHeight()) + Terrain.MARGESEINTE
+//                    );
+//
+//
+//        boolean pasDeContact = true;
+//
+//        for(int i = 0; i < listeJoueurs.size() && pasDeContact; i++){
+//            if(!listeJoueurs.get(i).isValideDistContact(unPoint))
+//                pasDeContact = !pasDeContact;
+//        }
+//
+//        if(pasDeContact)return unPoint;
+//        else return null;
+//    }
 
 
-        //on concatène les deux listes
-        ArrayList<Joueur> listeJoueurs = getJoueurs();
-
-        Dimension dim = Terrain.getDimTerrain();
-        Point unPoint = new Point(
-                    (int) Math.round(Math.random() * dim.getWidth()) + Terrain.MARGESEINTE,
-                    (int) Math.round(Math.random() * dim.getHeight()) + Terrain.MARGESEINTE
-                    );
-
-
-        boolean pasDeContact = true;
-
-        for(int i = 0; i < listeJoueurs.size() && pasDeContact; i++){
-            if(!listeJoueurs.get(i).isValideDistContact(unPoint))
-                pasDeContact = !pasDeContact;
-        }
-
-        if(pasDeContact)return unPoint;
-        else return null;
+    private void positionnerEquipes(){
+        equipeGauche.getStartegie().positionnerUneEquipe(equipeGauche, equipeDroite);
+        equipeDroite.getStartegie().positionnerUneEquipe(equipeDroite, equipeGauche);
     }
-
 
 /**********************************  THREAD  **********************************/
 
@@ -160,8 +167,9 @@ public class JeuDeFoot extends Thread {
      * Lance le jeu
      */
     public void lancerThreadJeuDeFoot() {
-        //System.out.println("Lancement du thread de Jeu");
+        System.out.println("Lancement du thread de Jeu");
         (new Thread(this)).start();
+
     }
 
     /**
@@ -202,7 +210,7 @@ public class JeuDeFoot extends Thread {
             etaitTermine = listeJoueurs.get(listeJoueurs.size()-1).getThreadEstTermine();
 
         //On positionne de nouveau les joueurs
-        if(etaitTermine) placerJoueurs();
+        if(etaitTermine) positionnerEquipes();
 
         for(int i = 0; i < listeJoueurs.size(); i++){
             if(etaitTermine) listeJoueurs.get(i).setThreadEstTermine(false);
@@ -244,30 +252,6 @@ public class JeuDeFoot extends Thread {
         chronometre = System.currentTimeMillis();
     }
 
-    /**
-     * Repositionne les joueurs sur le terrain
-     */
-    private void placerJoueurs(){
-
-        Point unPoint = null;
-        JoueurGoal unJoueurGoal = null;
-
-        //On termine les threads
-        ArrayList<Joueur> listeJoueurs = getJoueurs();
-        for(int i = 0; i < listeJoueurs.size(); i++){
-            if(!(listeJoueurs.get(i) instanceof JoueurGoal)){
-                while(unPoint == null) unPoint = pointHasardDsTerrain();
-                listeJoueurs.get(i).setXY(unPoint);
-                unPoint = null;
-            }
-            else {
-                unJoueurGoal =(JoueurGoal) listeJoueurs.get(i);
-                unJoueurGoal.placerJoueur();
-            }
-        }
-
-    }
-
 
 /**************************   TESTE ET FIN DE MATCH  **************************/
 
@@ -300,12 +284,9 @@ public class JeuDeFoot extends Thread {
      * Remet à zéro les variable du jeu
      */
     private void resetJeuDeFoot() {
-
         terminerThreadsJoueurs();
-
         initBallon();
-
-        initBooleans();
+        initBoolsJeuDeFoot();
     }
 
 
