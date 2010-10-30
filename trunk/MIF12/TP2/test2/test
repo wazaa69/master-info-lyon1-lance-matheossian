@@ -1,7 +1,0 @@
-program test;
-var v0 , v1 : integer;
-    vreal,vreal2  : real;
-    temp   : string;
-begin
-end.
-
