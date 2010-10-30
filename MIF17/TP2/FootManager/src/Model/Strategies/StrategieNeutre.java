@@ -46,9 +46,11 @@ public class StrategieNeutre extends Strategie {
             boolean jPeuCourirVersBallon = distanceAuBallon <= caractUnJoueur.getDistMinPrendreBalle()*1.5;
 
             //personne n'a le ballon
-            if(!jPeuPrendreBallon && possesseur == null){
+            if(jPeuCourirVersBallon && possesseur == null){
                 unJoueur.setAngleSelonBallon();
                 unJoueur.avancer();
+                if(jPeuPrendreBallon)
+                    ballonDuJeu.changerDePossesseur(unJoueur);
             }
 
             //tentative d'interception du ballon
@@ -159,7 +161,7 @@ public class StrategieNeutre extends Strategie {
             }
 
             //si il y a un joueur mieux placé, il fait une passe
-            else if(joueurPasse != null && joueurPasse != ancienPoss)
+            else if(joueurPasse != null)
                     ballonDuJeu.changerDePossesseur(joueurPasse);
 
             //sinon il avance où il y a le moins d'ennemis
