@@ -5,7 +5,7 @@ DEP_DIR         = ./
 BIN_DIR         = ./
 
 # bin name
-BIN             = ${shell basename `pwd`}
+BIN             = test5
 
 # additionnal lib and includes dir
 LIB_DIR         = ./
