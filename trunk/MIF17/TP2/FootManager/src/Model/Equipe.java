@@ -116,7 +116,7 @@ public class Equipe implements ObservListe.Observable {
 
     /**
      * Met à jour la strategie de l'équipe
-     * @param une instance d'une classe, qui implémante Strategie
+     * @param startegie une instance d'une classe, qui implémante Strategie
      */
     public void setStartegie(Strategie startegie) {
         this.startegie = startegie;
