@@ -23,7 +23,11 @@ public class Vue {
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
-    
+
+    /**
+     * Crée et initialise les différentes fenêtres du jeu
+     * @param unJeuDeFoot un jeu de foot
+     */
     public Vue(JeuDeFoot unJeuDeFoot) {
 
         this.unJeuDeFoot = unJeuDeFoot;

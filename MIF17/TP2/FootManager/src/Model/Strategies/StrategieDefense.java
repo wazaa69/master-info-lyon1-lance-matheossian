@@ -9,7 +9,7 @@ import Model.Equipe;
 import java.awt.Point;
 
 /**
- * Meilleur defense
+ * Meilleur defense : plus de défenseurs et de milieux de terrain
  */
 public class StrategieDefense extends Strategie{
 
@@ -20,8 +20,10 @@ public class StrategieDefense extends Strategie{
         formation.add(new Integer(6)); //6 défenseurs
     }
 
-
-
+    /**
+     * Méthode à faire évoluer pour une meilleur défense
+     * @param unJoueur le joueur auquel la stratégie va être appliquée
+     */
     public void utiliserStrat(Joueur unJoueur) {
 
 
@@ -153,7 +155,7 @@ public class StrategieDefense extends Strategie{
                     ballonDuJeu.majXY();
 
                     unJoueur.getMonEquipe().setScore(unJoueur.getMonEquipe().getScore() + 1);
-                    remiseEnJeu(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
+                    positionnerApresBut(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
                 }
 
 

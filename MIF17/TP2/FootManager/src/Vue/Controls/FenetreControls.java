@@ -28,7 +28,10 @@ import javax.swing.KeyStroke;
 
 
 /**
- * La vue qui permet à l'utilisateur de choisir la startégie de chaque équipe
+ * La fenêtre qui permet à l'utilisateur:
+ * - de démarrer une partie
+ * - la mettre en pause ou la relancer
+ * - de choisir la startégie de chaque équipe
  */
 public class FenetreControls extends JFrame implements ObservableBouton {
 
@@ -44,7 +47,11 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
-    
+
+    /**
+     * Crée et initialise la fenêtre des controls
+     * @param unJeuDeFoot un jeu de foot
+     */
     public FenetreControls(JeuDeFoot unJeuDeFoot){
 
         setTitle("Controles");
@@ -165,7 +172,7 @@ public class FenetreControls extends JFrame implements ObservableBouton {
 
 
     /**
-     * Cette classe va permettre d'informer l'obervateur, du choix de l'utilisateur
+     * Cette classe va permettre d'informer l'oberveur, du choix de l'utilisateur
      */
     class NouvelleStrat implements ActionListener{
 

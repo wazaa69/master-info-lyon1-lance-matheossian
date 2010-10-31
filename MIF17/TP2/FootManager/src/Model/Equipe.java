@@ -18,19 +18,25 @@ public class Equipe implements ObservListe.Observable {
     Observeur unObservateur;
 
     private String nomEquipe; /** le nom de l'équipe */
-    private Color couleur;  /** couleur la couleur qui représente l'équipe */
+    private Color couleur;  /** la couleur qui représente l'équipe */
 
 
-    private ArrayList<Joueur> listeJoueurs; /**  listeJoueurs la liste des joueurs */
-    private Strategie startegie; /** la stratégie adoptée par l'équipe, attaque par défaut */
+    private ArrayList<Joueur> listeJoueurs; /**  la liste des joueurs */
+    private Strategie startegie; /** la stratégie adoptée par l'équipe, neutre par défaut */
 
 
     private int score = 0; /** le score actuel de l'équipe, 0 par défaut */
-    private Cage nosCage; /** les cages de l'équipe*/
+    private Cage nosCage; /** la cage à défendre */
 
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
+    /**
+     * Crée une équipe
+     * @param nomEquipe le nom de l'équipe
+     * @param couleur la couleur qui représente l'équipe
+     * @param nosCage la cage à défendre
+     */
     public Equipe(String nomEquipe, Color couleur, Cage nosCage){
         this.nomEquipe = nomEquipe;
         listeJoueurs = new ArrayList<Joueur>();
@@ -67,11 +73,18 @@ public class Equipe implements ObservListe.Observable {
     }
 
 
+    /**
+     * Met à jour le score et notifie la vue pour quelle se mette à jour
+     * @param score le nouveau score
+     */
      public void setScore(int score) {
         this.score = score;
         unObservateur.miseAJour();
     }
 
+     /**
+      * @return retourne le goal de l'équipe
+      */
     public JoueurGoal getGoal(){
         if(!listeJoueurs.isEmpty()) return (JoueurGoal) listeJoueurs.get(0);
         return null;

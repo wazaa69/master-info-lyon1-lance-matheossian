@@ -1,49 +1,16 @@
 package Controleur;
 
 import Model.JeuDeFoot;
-import ObservListe.ObserveurBouton;
 import Vue.Vue;
 
-
+/**
+ * Le controleur qui va créer tous les autres controleurs
+ */
 public class Controleur {
 
-    private Vue uneVue;
-    private JeuDeFoot unJeuDeFoot;
-
-    Controleur(JeuDeFoot _unJeuDeFoot, Vue uneVue) {
-
-        this.uneVue = uneVue;
-
-        this.unJeuDeFoot = _unJeuDeFoot;
-
-
-        //Ajout d'un observateur sur la vue. Le controleur Observe la vue.
-        this.uneVue.getFenetreControls().ajouterObserveur(new ObserveurBouton() {
-
-            //L'observateur va réaliser différentes actions
-            public void miseAJour(String str){
-
-                if(str.equals("Démarrer") && !isPartieEnCours())
-                    unJeuDeFoot.lancerThreadJeuDeFoot();
-
-                else if(str.equals("Pause/Repartir")&& isPartieEnCours())
-                    unJeuDeFoot.setPauseRepartir();
-
-                
-                else if(str.equals("Quitter"))
-                    System.exit(0);
-                    
-            }
-
-        } );
-    }
-
-
-    /**
-     * @return retourne vrai si le jeu de Foot est lancé (donc qu'il existe aussi)
-     */
-    private boolean isPartieEnCours(){
-        return (unJeuDeFoot != null && unJeuDeFoot.isPartieEnCours());
+    public Controleur(JeuDeFoot unJeuDeFoot, Vue uneVue) {
+        ControleurControls controleurDesControls = new ControleurControls(unJeuDeFoot, uneVue);
+        ControleurStrategie controleurDesStrategies = new ControleurStrategie(unJeuDeFoot, uneVue.getFenetreControls());
     }
 
 }

@@ -21,15 +21,15 @@ public class Joueur extends ElementMobile {
 
     protected Ballon ballonDuJeu; /** le ballon du jeu de foot en cours */
     protected Equipe monEquipe; /**  l'équipe du joueur */
-    protected Equipe equipeAdverse; /** equipe advese */
+    protected Equipe equipeAdverse; /** l'équipe advese */
 
-    protected boolean estEnpause; /** le joueur est en pause */
-    protected boolean threadEstTermine; /** pour terminer le thread */
+    protected boolean estEnpause; /** vais si le joueur est en pause, faux sinon */
+    protected boolean threadEstTermine; /** vrai, pour terminer le thread, faux sinon */
 
 
     protected Point positionFormation; /** position attribuée par rapport à la formation choisit */
     protected boolean enCoursInterc; /** vrai, si le joueur est en train d'essayer d'intercepter le ballon, faux sinon */
-    protected int tentatIntercep; /** le nombre de tentative restante pour essayer d'intercepter le ballon*/
+    protected int tentatIntercep; /** le nombre de tentative restantes pour essayer d'intercepter le ballon*/
 
 
     
@@ -40,8 +40,8 @@ public class Joueur extends ElementMobile {
      * Initialise un joueur en lui donnant un nom, une Equipe et la connaissance de l'équipe adverse
      * @param nom le nom du joueur
      * @param ballonDuJeu le ballon du jeu en cours
-     * @param monEquipe équipe du joueur
-     * @param equipeAdverse équipe adverse
+     * @param monEquipe l'équipe du joueur
+     * @param equipeAdverse l'équipe adverse
      */
     public Joueur(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse) {
         super();
@@ -55,8 +55,8 @@ public class Joueur extends ElementMobile {
      * @param y coordonnées polaires
      * @param nom le nom du joueur
      * @param ballonDuJeu le ballon du jeu en cours
-     * @param monEquipe équipe du joueur
-     * @param equipeAdverse équipe adverse
+     * @param monEquipe l'équipe du joueur
+     * @param equipeAdverse l'équipe adverse
      */
     public Joueur(int x, int y, String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse) {
 
@@ -71,14 +71,15 @@ public class Joueur extends ElementMobile {
     
 
     /**
-     * Initialise un joueur avec un nom, son Equipe et la connaissance de l'équipe adverse
+     * Initialise un joueur avec un nom, un ballon, son Equipe et la connaissance de l'équipe adverse
      * @param nom le nom du joueur
+     * @param ballonDuJeu le ballon du jeu en cours
      * @param monEquipe l'équipe du joueur
-     * @param equipeAdverse equipe adverse
+     * @param equipeAdverse l'équipe adverse
      */
     private void initSimpleJoueur(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse){
         this.nom = nom;
-        setCaracteristiques();
+        initCaracteristiques();
         this.ballonDuJeu = ballonDuJeu;
         this.monEquipe = monEquipe;
         this.equipeAdverse = equipeAdverse;
@@ -93,7 +94,10 @@ public class Joueur extends ElementMobile {
     }
 
 
-    public void setCaracteristiques(){
+    /**
+     * Initialisation des caractéristiques
+     */
+    private void initCaracteristiques(){
         caracteristiques = new Caracteristiques();
         caracteristiques.setDistMinPrendreBalle(distanceMinContact*2);
         caracteristiques.setDistMaxTir(70);
@@ -110,7 +114,7 @@ public class Joueur extends ElementMobile {
 
 
     /**
-     * Boucle qui fait jouer le joueur
+     * Boucle qui démarre et fait jouer le joueur
      */
     public void demarrerJoueur(){
 
@@ -145,7 +149,7 @@ public class Joueur extends ElementMobile {
 /*******************************  DEPLACEMENT  *******************************/
 
     /**
-     * Le joueur se déplace aléatoirement
+     * Le joueur se déplace aléatoirement d'un angle de +/-30°
      */
     public void avancerAuHasard()
     {
@@ -159,15 +163,7 @@ public class Joueur extends ElementMobile {
         avancer();
     }
 
-
-    /**
-     * Rapproche le joueur du ballon
-     */
-    public void deplacementVers(ElementMobile unElementMobile){
-        setAngleSelon(unElementMobile.getXY());
-        avancer();
-    }
-    
+  
     /**
      * Rapproche le joueur du ballon
      */
@@ -204,7 +200,7 @@ public class Joueur extends ElementMobile {
         Point nouveauPoint = coordApresDep(x,y,caracteristiques.getDistDep(),angle);
 
         boolean bonEmplacement = isEmplacementValide(nouveauPoint);
-        boolean pasDeContact = isValideDistContact(nouveauPoint);
+        boolean pasDeContact = isValideDistCollision(nouveauPoint);
 
 
         if (nbEssais <= 0)
@@ -253,11 +249,11 @@ public class Joueur extends ElementMobile {
 
 
     /**
-     * Teste si le point n'est pas à l'intérieur du rayon de contact d'un joueur
+     * Teste si le point ne provoque pas une collision avec un joueur
      * @param unPoint coordonnée à tester
-     * @return
+     * @return retourne vrai si il ny a pas de collision, faux sinon
      */
-    public boolean isValideDistContact(Point unPoint){
+    public boolean isValideDistCollision(Point unPoint){
 
         //on récupère chaque équipe
         ArrayList<Joueur> listeJoueurEquUne = monEquipe.getListeJoueurs();
@@ -279,8 +275,8 @@ public class Joueur extends ElementMobile {
 /*********************************  METHODES *********************************/
 
     /**
-     * Calcul les coordonnées du ballon dans la cage, si le joueur tir
-     * @return reourne le point ou le ballon va se rendre
+     * Choisit au hasard une coordonnée dans la cage.
+     * @return reourne le point ù le ballon va se rendre
      */
     public Point preparerTirPrMarquer(){
 
@@ -294,8 +290,8 @@ public class Joueur extends ElementMobile {
 
 
     /**
-     * Si le joueur à le ballon, il va chercher le coéquipier le plus proche
-     * des cages ennemis à qui il peut faire la passe
+     * Si le joueur à le ballon, il cherche le coéquipier le plus éloigné mais
+     * qui reste atteignable en une passe.
      * @return retourne le joueur qui peut recevoir le ballon
      */
     public Joueur passeAUnCoequipier(){
@@ -345,7 +341,6 @@ public class Joueur extends ElementMobile {
     }
 
 
-
 /*************************  GETTER/SETTERS  AVANCEES *************************/
 
 
@@ -378,7 +373,7 @@ public class Joueur extends ElementMobile {
 
 
     /**
-     * Permet de diriger le joueur vers un points
+     * Met à jour l'angle, pour que le joueru se dirige un point
      * @param unPoint la destination
      */
     public void setAngleSelon(Point unPoint){
@@ -386,7 +381,7 @@ public class Joueur extends ElementMobile {
     }
 
     /**
-     * Retourne l'angle pour que le joueur se dirige vers le ballon
+     * Met à jour l'angle, pour que le joueur se dirige vers le ballon
      * @return retourne un entier correspondant à l'angle
      */
     public void setAngleSelonBallon(){
@@ -395,7 +390,7 @@ public class Joueur extends ElementMobile {
 
 
     /**
-     * "Active/Désactive" le joueur
+     * Fais rentrer ou sortir un joueur de sa pause
      */
     public void setEstEnpause() {
         this.estEnpause = !estEnpause;

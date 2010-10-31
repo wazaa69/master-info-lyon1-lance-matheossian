@@ -10,7 +10,7 @@ import java.awt.Point;
 
 
 /**
- * Meilleur attaque
+ * Meilleur attaque : plus d'attaquant et de milieux de terrain
  */
 public class StrategieAttaque extends Strategie {
 
@@ -22,6 +22,10 @@ public class StrategieAttaque extends Strategie {
         formation.add(new Integer(2)); //2 défenseurs
     }
 
+    /**
+     * Méthode à faire évoluer pour une meilleur attaque
+     * @param unJoueur le joueur auquel la stratégie va être appliquée
+     */
     public void utiliserStrat(Joueur unJoueur) {
 
 
@@ -153,7 +157,7 @@ public class StrategieAttaque extends Strategie {
                     ballonDuJeu.majXY();
 
                     unJoueur.getMonEquipe().setScore(unJoueur.getMonEquipe().getScore() + 1);
-                    remiseEnJeu(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
+                    positionnerApresBut(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
                 }
 
 

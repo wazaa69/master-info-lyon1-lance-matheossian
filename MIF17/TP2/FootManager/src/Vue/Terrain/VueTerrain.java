@@ -32,9 +32,9 @@ public class VueTerrain extends Applet {
 
 
     /**
-     * Initialisation des valeurs de la vue du terrain
-     * @param unTerrain leTerrain provenant du model
-     * @param listeVueElemMobiles la liste de tous les joueurs provenant du model
+     * Initialisation de la vue du terrain, à partir du terrain du model
+     * Création des vues des élémens mobiles, pour chaque élément mobile du model
+     * @param unTerrain le terrain provenant du model
      */
     public VueTerrain(JeuDeFoot unJeuDeFoot) {
 

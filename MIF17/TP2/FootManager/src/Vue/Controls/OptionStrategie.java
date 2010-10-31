@@ -2,6 +2,7 @@ package Vue.Controls;
 
 /**
  * Cette classe représente une option de la liste des stratégies
+ * Elle permet de stocker le numéro de la stratégie
  */
 public class OptionStrategie {
 

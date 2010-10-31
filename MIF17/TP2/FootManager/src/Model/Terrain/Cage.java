@@ -1,14 +1,12 @@
 package Model.Terrain;
 
-
 import java.awt.Point;
 
 /**
- * Les cage du jeu de foot
+ * Les cages du jeu de foot
  */
 public class Cage {
 
-    
     private Point coordonnees; /** coordonnées de l'angle supérieur gauche */
     private int largeur; /** la longueur de la cage */
     private int longueur; /** la largeur de la cage */
@@ -31,6 +29,9 @@ public class Cage {
 
 /******************************  GETTER/SETTERS  ******************************/
 
+    /**
+     * @return retourne le point au centre de la cage
+     */
     public Point getCentreCoordonnees(){
         return new Point((int) coordonnees.getX() + (longueur/2), (int) coordonnees.getY() + (largeur/2));
     }
