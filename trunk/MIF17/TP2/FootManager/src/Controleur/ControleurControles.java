@@ -5,7 +5,7 @@ import ObservListe.ObserveurBouton;
 import Vue.Vue;
 
 
-public class ControleurControls {
+public class ControleurControles {
 
     private Vue uneVue;
     private JeuDeFoot unJeuDeFoot;
@@ -15,7 +15,7 @@ public class ControleurControls {
      * @param jeuDeFoot le jeu de foot principal
      * @param uneVue la vue qui englobe toutes les autres vues
      */
-    public ControleurControls(JeuDeFoot jeuDeFoot, Vue uneVue) {
+    public ControleurControles(JeuDeFoot jeuDeFoot, Vue uneVue) {
 
         this.uneVue = uneVue;
 

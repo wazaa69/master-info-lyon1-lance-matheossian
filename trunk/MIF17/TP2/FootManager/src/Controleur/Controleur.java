@@ -9,7 +9,7 @@ import Vue.Vue;
 public class Controleur {
 
     public Controleur(JeuDeFoot unJeuDeFoot, Vue uneVue) {
-        ControleurControls controleurDesControls = new ControleurControls(unJeuDeFoot, uneVue);
+        ControleurControles controleurDesControls = new ControleurControles(unJeuDeFoot, uneVue);
         ControleurStrategie controleurDesStrategies = new ControleurStrategie(unJeuDeFoot, uneVue.getFenetreControls());
     }
 
