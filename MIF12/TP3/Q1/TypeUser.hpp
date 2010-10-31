@@ -1,22 +1,19 @@
 #ifndef _TYPEUSER_
 #define _TYPEUSER_
 
-#include "Type.hpp"
+#include "Symbole.hpp"
 #include <string>
 
 /**
 *	@brief Type d'un symbole.
 */
-class TypeUser : public Type {
+class TypeUser : public Symbole {
 
-	private:
-		
-		int* nomUserType; 
-	
 	public:
 
-		TypeUser(Type* _type, std::string nomUserType);
-		~TypeUser();
+	TypeUser(Type& _type, int _id);
+	~TypeUser();
+
 
 };
 

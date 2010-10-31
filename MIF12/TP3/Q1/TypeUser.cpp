@@ -4,12 +4,13 @@
 
 using namespace std;
 
-TypeUser::TypeUser(Type* _type, string nomUserType)
-{	
-	//cout<< "Le typeUser " << nomUserType << " a été ajouté au tableau des typeUser" << endl;
-	type = _type->getStringType();
-	// il faudra gérer le cas intervalle et le cas array
-	
+
+TypeUser::TypeUser(Type& _type, int _id)
+{
+	type = new Type(_type.getStringType());
+	id = _id;
+	categorie = new string("  type  ");
+
 }
 
 TypeUser::~TypeUser(){

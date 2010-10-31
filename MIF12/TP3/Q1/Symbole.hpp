@@ -16,26 +16,10 @@ class Symbole {
 
     public:
 	
-	/**
-        *   @brief Constructeur, initialise le symbole avec une catégorie
-        *   @param _categorie la catégorie du symbole
+	  /**
+        *   @brief Constructeur
         */
-        Symbole(std::string _categorie);
-
-        /**
-        *   @brief Constructeur, initialise le symbole avec une catégorie et un type
-        *   @param _categorie la catégorie du symbole
-        *   @param _type le type du symbole
-        */
-        Symbole(std::string _categorie, Type* _type);
-
-	    /**
-        *   @brief Constructeur, initialise le symbole avec une catégorie et un type
-        *   @param _categorie la catégorie du symbole
-        *   @param _type le type du symbole
-	*   @param _id identifiant du symbole
-        */
-        Symbole(std::string _categorie, Type* _type, int _id);
+        Symbole();
 
         /**
         *   @brief Destructeur

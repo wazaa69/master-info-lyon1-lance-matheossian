@@ -7,8 +7,8 @@ using namespace std;
 
 Type::Type(){}
 
-Type::Type(string _type){
-    type = new string(_type); //copie
+Type::Type(string* _type){
+    type = _type; //copie
 }
 
 

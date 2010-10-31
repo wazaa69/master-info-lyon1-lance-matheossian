@@ -1,50 +1,66 @@
 %{
-    #include <cstdio>
-    #include <iostream>
-    #include <vector>
-    #include <string>
+	#include <cstdio>
+	#include <iostream>
+	#include <vector>
+	#include <string>
 
-    using namespace std;
+//############################################### TABLES
 
-    #include "TDS.hpp"
-    #include "TDI.hpp"
-    #include "Symbole.hpp"
+	#include "TDS.hpp"
+	#include "TDI.hpp"
 
-    #include "Type.hpp"
-    #include "TypeInteger.hpp"
-    #include "TypeReal.hpp"
-    #include "TypeBoolean.hpp"
-    #include "TypeChar.hpp"
-    #include "TypeString.hpp"
-    #include "TypePointeur.hpp"
-    #include "TypeInterval.hpp"
-    #include "TypeArray.hpp"
-    #include "TypeRecord.hpp"
-    #include "TypeUser.hpp"
+//############################################### SYMBOLES
 
-    extern FILE* yyin;
-    extern char* yytext;
-    extern int yylex();
-    extern int yyerror(char* m);
+	#include "Symbole.hpp"
+	#include "Variable.hpp"
+	#include "Fonction.hpp"
+	#include "Procedure.hpp"
+	#include "Etiquette.hpp"
+	#include "Temporaire.hpp"
+	#include "Programme.hpp"
+	#include "Constante.hpp"
+	#include "TypeUser.hpp"
 
-    extern TableDesIdentificateurs* tableId;
-    extern TableDesSymboles* tableSymb; //la table principale des symboles
-    extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
+//############################################### TYPES
 
-    TableDesSymboles* tmpTds =  new TableDesSymboles(tableSymb->getNumContexteTSActuel(false)); //une table des symboles temporaires (pour les sous-contextes)
-    extern std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
+	#include "Type.hpp"
+	#include "TypeInteger.hpp"
+	#include "TypeReal.hpp"
+	#include "TypeBoolean.hpp"
+	#include "TypeChar.hpp"
+	#include "TypeString.hpp"
+	#include "TypePointeur.hpp"
+	#include "TypeInterval.hpp"
+	#include "TypeArray.hpp"
+	#include "TypeRecord.hpp"
+
+
+	using namespace std;
+
+
+	extern FILE* yyin;
+	 extern char* yytext;
+	extern int yylex();
+	extern int yyerror(char* m);
+
+	extern TableDesIdentificateurs* tableId;
+	extern TableDesSymboles* tableSymb; //la table principale des symboles
+	extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
+
+	TableDesSymboles* tmpTds =  new TableDesSymboles(tableSymb->getNumContexteTSActuel(false)); //une table des symboles temporaires (pour les sous-contextes)
+	extern std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
 
 //###############################################  USERTYPE  
   
-    extern TypeUser* typeUser;
-    extern std::vector<TypeUser*> listeTypeUser;
+	extern TypeUser* typeUser;
+	extern std::vector<TypeUser*> listeTypeUser;
 
 //###############################################  RECORDS  
 
-    bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
-    int diffRecord; // 
-    int numIdRecord; // numero Id du record à écrire dans la table des symboles
-    bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
+	bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
+	int diffRecord; // 
+	int numIdRecord; // numero Id du record à écrire dans la table des symboles
+	bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
 
 %}
 
@@ -134,8 +150,8 @@ Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
 ProgramHeader   : KW_PROGRAM TOK_IDENT                          {	
-									listeTDS.push_back(tableSymb);
-									tableSymb->ajouter(new Symbole("  prog  "));
+									listeTDS.push_back(tableSymb); // On ajoute la table des symboles principale dans listeTDS
+									tableSymb->ajouter(new Programme());
 								}
                 ;
 
@@ -240,8 +256,7 @@ ListDeclType   : ListDeclType DeclType
 
 DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			{
 									
-									typeUser = new TypeUser($3, tableId->getElement($1));
-									tableSymb->ajouter(new Symbole("  type  ",typeUser, tableSymb->getNumIdActuel(true)));
+									tableSymb->ajouter(new TypeUser(*($3), tableSymb->getNumIdActuel(true))); // On ajoute le type utilisateur dans la table des symboles actuelle
 									
 								}
 
@@ -265,15 +280,14 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 									if (!ajoutRecord){
 									
 									
-									tableSymb->ajouter(new Symbole("variable", $3, tableSymb->getNumIdActuel(true))); 
+									tableSymb->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); 
 									}
-                                                                        else{tableSymb->ajouter(new Symbole("variable", $3, numIdRecord)); ajoutRecord = false;}
+                                                                        else{tableSymb->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
 															
-                                                                        //cout << *($3->getStringType()) <<  " ajoute à TS principale" <<  endl;
                                                                     }
 
                                                                     tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante						     
-									//cout << "On efface tmpNumId" << endl;
+				
 
                                                                 }
                 ;
@@ -317,14 +331,12 @@ RecordType     : KW_RECORD RecordFields KW_END					{
 								tmpNumId.push_back(0);
 							        $$ = tmpRec; // on remonte le record
 								
-								//cout <<  "TS" << tmpTds->getNumContexteTS() << " a une taile de  " << tmpTds->getTableSymb().size() << " et est envoyé dans la liste des TS \n\n"<< endl;
-								
 								nouveauRecord = true;
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 	
 								
 								tmpTds = new TableDesSymboles(tableSymb->getNumContexteTSActuel(true)); // on initialise tmpTds pour le nouveau contexte
-		//	cout <<  "\nCréation TS" << tmpTds->getNumContexteTS() << endl;
+
 										}
                ;
 
@@ -352,9 +364,7 @@ RecordField    : ListIdent SEP_DOTS Type					{
 		
 		for(unsigned int i = 0; i < tmpNumId.size() - diffRecord ; i++){
 				
-                         tmpTds->ajouter(new Symbole("variable", $3, tableSymb->getNumIdActuel(true)));
-				
-                        // cout << "Id: " << tableSymb->getNumIdActuel(false) << "Type: " <<*($3->getStringType()) <<  " a été ajouté à TS temp" <<endl;
+                         tmpTds->ajouter(new Variable($3, tableSymb->getNumIdActuel(true)));
 
                    }
 

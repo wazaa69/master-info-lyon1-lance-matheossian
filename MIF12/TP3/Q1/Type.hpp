@@ -16,7 +16,7 @@ class Type {
 
 		Type();
 		Type(const Type &_type);
-		Type(std::string _type);
+		Type(std::string* _type);
 		~Type();
 
         /**
