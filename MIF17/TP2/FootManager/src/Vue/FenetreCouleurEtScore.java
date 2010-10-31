@@ -38,12 +38,12 @@ public class FenetreCouleurEtScore extends JFrame {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Score");
-        setSize(100,100);
+        setSize(350,100);
         setResizable(false);
 
 
         setLocationRelativeTo(null);
-        setLocation(getX() + 325, getY() - 125);
+        setLocation(getX() + 450, getY() - 125);
 
 
         //Layout type
@@ -83,7 +83,7 @@ public class FenetreCouleurEtScore extends JFrame {
         separateur.setFont(font);
         scoreDroit.setFont(font);
         JPanel conteneurScore = new JPanel(new GridLayout(1,3));
-        conteneurScore.setPreferredSize(new Dimension(100,20));
+        conteneurScore.setPreferredSize(new Dimension(175,20));
         conteneurScore.add(scoreGauche);
         conteneurScore.add(separateur);
         conteneurScore.add(scoreDroit);
@@ -92,7 +92,7 @@ public class FenetreCouleurEtScore extends JFrame {
         JPanel couleur = new JPanel();
         couleurPossesseur = couleur;
         couleur.setBackground(Color.WHITE);
-        couleur.setPreferredSize(new Dimension(100,80));
+        couleur.setPreferredSize(new Dimension(175,80));
 
 
         getContentPane().add(BorderLayout.NORTH, titre);
