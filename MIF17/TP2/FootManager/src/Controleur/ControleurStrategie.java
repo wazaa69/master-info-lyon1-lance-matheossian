@@ -4,7 +4,7 @@ import Model.Equipe;
 import Model.JeuDeFoot;
 import Model.Strategies.Strategie;
 import ObservListe.ObserveurComboBox;
-import Vue.Controls.FenetreControls;
+import Vue.Controles.FenetreControles;
 
 /**
  * Le controleur qui gère le changement de stratégie
@@ -18,7 +18,7 @@ public class ControleurStrategie{
      * @param jeuDeFoot le jeu de foot principal
      * @param uneFenetreControl la vue qui pemet de gérer les intercation avec l'utilisateur
      */
-    public ControleurStrategie(JeuDeFoot jeuDeFoot, FenetreControls uneFenetreControl) {
+    public ControleurStrategie(JeuDeFoot jeuDeFoot, FenetreControles uneFenetreControl) {
 
         this.unJeuDeFoot = jeuDeFoot;
 

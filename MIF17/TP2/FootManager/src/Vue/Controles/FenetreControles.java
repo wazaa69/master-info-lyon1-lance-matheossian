@@ -1,4 +1,4 @@
-package Vue.Controls;
+package Vue.Controles;
 
 
 import Model.Equipe;
@@ -8,6 +8,7 @@ import Model.Strategies.StrategieFactory;
 import ObservListe.ObservableBouton;
 import ObservListe.ObserveurBouton;
 import ObservListe.ObserveurComboBox;
+import Vue.Controls.OptionStrategie;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -33,7 +34,7 @@ import javax.swing.KeyStroke;
  * - la mettre en pause ou la relancer
  * - de choisir la startégie de chaque équipe
  */
-public class FenetreControls extends JFrame implements ObservableBouton {
+public class FenetreControles extends JFrame implements ObservableBouton {
 
 
     private ObserveurBouton unObservateurBouton; /** celui qui observe les actions sur les boutons */
@@ -52,7 +53,7 @@ public class FenetreControls extends JFrame implements ObservableBouton {
      * Crée et initialise la fenêtre des controls
      * @param unJeuDeFoot un jeu de foot
      */
-    public FenetreControls(JeuDeFoot unJeuDeFoot){
+    public FenetreControles(JeuDeFoot unJeuDeFoot){
 
         setTitle("Controles");
 

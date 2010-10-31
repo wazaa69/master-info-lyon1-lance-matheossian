@@ -5,7 +5,7 @@
 
 package Vue;
 
-import Vue.Controls.FenetreControls;
+import Vue.Controles.FenetreControles;
 import Model.JeuDeFoot;
 import Vue.Terrain.FenetreTerrain;
 
@@ -18,7 +18,7 @@ public class Vue {
 
     private FenetreTerrain fenetreTerrain;  /** la vue du terrain */
     private FenetreCouleurEtScore fenetreCouleurEtScore; /** la vue du score et de la couleur de l'équipe en possession de la balle */
-    private FenetreControls fenetreControls; /** la vue qui perme de choisir une stratégie par équipe */
+    private FenetreControles fenetreControls; /** la vue qui perme de choisir une stratégie par équipe */
 
 
 /*******************************  CONSTRUCTEUR  *******************************/
@@ -36,13 +36,13 @@ public class Vue {
 
         fenetreCouleurEtScore = new FenetreCouleurEtScore(unJeuDeFoot);
         
-        fenetreControls = new FenetreControls(unJeuDeFoot);
+        fenetreControls = new FenetreControles(unJeuDeFoot);
 
     }
 
 /******************************  GETTER/SETTERS  ******************************/
 
-    public FenetreControls getFenetreControls() {
+    public FenetreControles getFenetreControls() {
         return fenetreControls;
     }
 
