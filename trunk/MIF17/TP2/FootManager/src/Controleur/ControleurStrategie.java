@@ -13,10 +13,14 @@ public class ControleurStrategie{
 
     JeuDeFoot unJeuDeFoot;
 
+    /**
+     * Ce controleur gère les changements de stratégies
+     * @param jeuDeFoot le jeu de foot principal
+     * @param uneFenetreControl la vue qui pemet de gérer les intercation avec l'utilisateur
+     */
     public ControleurStrategie(JeuDeFoot jeuDeFoot, FenetreControls uneFenetreControl) {
 
         this.unJeuDeFoot = jeuDeFoot;
-
 
         uneFenetreControl.ajouterObserveur(new ObserveurComboBox() {
 

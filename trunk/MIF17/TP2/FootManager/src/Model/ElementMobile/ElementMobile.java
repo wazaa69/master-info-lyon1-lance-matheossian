@@ -33,6 +33,9 @@ public abstract class ElementMobile extends Thread implements Observable {
   
 /**********************************  THREAD  **********************************/
 
+    /**
+     * Crée et démarre le thread
+     */
     public void lancerThread() {
         (new Thread(this)).start();
     }
@@ -52,7 +55,7 @@ public abstract class ElementMobile extends Thread implements Observable {
      * @param x point de départ en abscisse
      * @param y point de départ en ordonnée
      * @param distDep une vitesse de déplacement
-     * @param angle l'angle
+     * @param angle l'angle de départ
      * @return retourne la position du nouveau point
      */
     protected  Point coordApresDep(int x, int y, int distDep, int angle){
@@ -69,22 +72,12 @@ public abstract class ElementMobile extends Thread implements Observable {
 
     /**
      * Avance l'élément sur une distance
-     * @param distance la distance à parcourir
+     * @param distDep la distance de déplacement
      */
     public void avancer(int distDep){
         x = (int) Math.round(x + distDep*Math.cos(Math.toRadians(angle)));
         y = (int) Math.round(y + distDep*Math.sin(Math.toRadians(angle)));
     }
-
-    /**
-     * Rotation à gauche
-     */
-    public void gauche(){angle = (angle + 90) % 360;}
-
-    /**
-     * Rotation à droite
-     */
-    public void droite(){angle = (angle - 90) % 360;}
 
 
 
@@ -92,9 +85,8 @@ public abstract class ElementMobile extends Thread implements Observable {
 
     /**
      * Vérifie si la distance entre deux points est respectée
-     * @param x coordonnée en abscisse
-     * @param y coordonnée en odronnée
-     * @param unElemMobile l'élément distant
+     * @param unPoint point de départ
+     * @param unElemMobile l'élément distant, point d'arrivé
      * @return retourne vrai si la distance minimal (distance >= distance Minimal) est respectée, faux sinon
      */
     public boolean isBonneDistance(Point unPoint, ElementMobile unElemMobile){
@@ -104,7 +96,8 @@ public abstract class ElementMobile extends Thread implements Observable {
 
     /**
      * Calcul de la distance entre deux points (points actuel ---- points distant)
-     * @param unElemMobile l'élément distant
+     * @param unPoint le point de départ
+     * @param unElemMobile l'élément distant, poin d'arrivé
      * @return retourne un entier qui indique la distance
      */
     public int getDistance(Point unPoint, ElementMobile unElemMobile) {
@@ -120,7 +113,6 @@ public abstract class ElementMobile extends Thread implements Observable {
     public int getY() {return y;}
     
     public Point getXY() {return new Point(x,y);}
-
 
 
     public void setAngle(int angle) {this.angle = angle;}

@@ -113,10 +113,16 @@ public abstract class Strategie {
 
     }
 
-        protected void remiseEnJeu(Equipe equipeA,Equipe equipeB, Ballon ballonDuJeu){
-            placerOuChangFormation(equipeA, equipeB, false);
-            placerOuChangFormation(equipeB, equipeA, false);
-            ballonDuJeu.initBallon();
-        }
+    /**
+     * Reporitionne les joueurs et le ballon de foot (à la suite d'un but par exemple)
+     * @param equipeA equipe à repositionner
+     * @param equipeB equipe à repositionner
+     * @param ballonDuJeu le ballon du jeu de foot
+     */
+    protected void positionnerApresBut(Equipe equipeA,Equipe equipeB, Ballon ballonDuJeu){
+        placerOuChangFormation(equipeA, equipeB, false);
+        placerOuChangFormation(equipeB, equipeA, false);
+        ballonDuJeu.initBallon();
+    }
 
 }

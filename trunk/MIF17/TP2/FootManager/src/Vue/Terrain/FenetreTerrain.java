@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 /**
- * Le conteneur du terrain
+ * La fenetre qui contient la vue du terrain
  */
 public class FenetreTerrain extends JFrame {
 

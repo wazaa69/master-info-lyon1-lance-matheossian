@@ -16,16 +16,16 @@ import java.util.logging.Logger;
 public class JeuDeFoot extends Thread {
 
 
-    private long chronometre; /**  horloge pour gérer le temps de jeu */
+    private long chronometre; /**  chronometre pour gérer le temps de jeu */
     private int dureeDuMatch = 60; /** le temps que dure un match */
 
-    private Equipe equipeGauche; /**   équipe à gauche sur le terrain */
-    private Equipe equipeDroite; /**   équipe à droite sur le terrain */
+    private Equipe equipeGauche; /**  équipe à gauche sur le terrain */
+    private Equipe equipeDroite; /**  équipe à droite sur le terrain */
 
     private Terrain unTerrain; /**  le terrain de jeu */
 
     private Ballon ballonDuJeu; /**  le ballon de foot */
-    private int limiteDeButs = 3; /** nombre de but(s) maximal que peut marquer une équipe, le jeu s'arrête */
+    private int limiteDeButs = 3; /** nombre de but(s) maximal que peut marquer une équipe, ensuite, le jeu s'arrête */
 
     private static boolean PARTIEENCOURS; /**   vrai si la partie est en cours, faux sinon */
     private boolean pauseRepartir; /**   vrai si le jeu de Foot est en pause, faux sinon */
@@ -36,9 +36,9 @@ public class JeuDeFoot extends Thread {
 
     /**
      * Constructeur, initialise les deux équipes, les joueurs, le terrain et la balle
-     * @param longueurTerrain
-     * @param largeurTerrain
-     * @param nbJoueursParEq le nombre de joueur par équipe
+     * @param longueurTerrain longueur du terrain avec les marges
+     * @param largeurTerrain largeur du terrain avec les marges
+     * @param nbJoueursParEq le nombre de joueurs par équipe
      */
     public JeuDeFoot(int longueurTerrain, int largeurTerrain, int nbJoueursParEq) {
 
@@ -69,6 +69,10 @@ public class JeuDeFoot extends Thread {
 /***********************   Initialisation des Equipes  ************************/
 
 
+    /**
+     * Crée deux équipes et initialise leurs joueurs
+     * @param nbJoueurs le nombre de joueurs par équipe
+     */
     private void initEquipes(int nbJoueurs){
         
         equipeGauche = new Equipe("RedTeam",Color.RED, unTerrain.getCageGauche());
@@ -81,10 +85,10 @@ public class JeuDeFoot extends Thread {
 
     /**
      * Créé un certain nombre de Joueurs et les ajoutes dans une équipe.
-     * Chaque joueur est placé aléatoirement sur le terrain.
+     * Chaque joueur est placé en (0;0) sur le terrain.
      * @param courante l'équipe qui doit acqueuillir de nouveaux joueurs
      * @param adverse l'équipe adverse
-     * @param nbJoueurs le nombre de joueur dans l'équipe
+     * @param nbJoueurs le nombre de joueurs par équipe
      */
     private void initJoueursEquipe(Equipe courante, Equipe adverse, int nbJoueurs){
         
@@ -150,6 +154,9 @@ public class JeuDeFoot extends Thread {
 //    }
 
 
+    /**
+     * Positionne les deux équipes selon la formation adopté par l'équipe
+     */
     private void positionnerEquipes(){
         equipeGauche.getStartegie().placerOuChangFormation(equipeGauche, equipeDroite, false);
         equipeDroite.getStartegie().placerOuChangFormation(equipeDroite, equipeGauche, false);
@@ -158,7 +165,7 @@ public class JeuDeFoot extends Thread {
 /**********************************  THREAD  **********************************/
 
     /**
-     * Lance le jeu
+     * Lance le thread du jeu
      */
     public void lancerThreadJeuDeFoot() {
 
@@ -254,6 +261,9 @@ public class JeuDeFoot extends Thread {
 /**************************   TESTE ET FIN DE MATCH  **************************/
 
 
+    /**
+     * @return retourne vrai si le nombre de but maximum est atteint, faux sinon
+     */
     private boolean isNbButMaxAtteint(){
         return equipeGauche.getScore() >= limiteDeButs || equipeDroite.getScore() >= limiteDeButs;
     }
@@ -278,6 +288,9 @@ public class JeuDeFoot extends Thread {
     }
 
 
+    /**
+     * Termine les thread des joueurs de chaque équipe
+     */
     private void terminerThreadsJoueurs(){
         //On termine les threads
         ArrayList<Joueur> listeJoueurs = getJoueurs();
@@ -285,13 +298,16 @@ public class JeuDeFoot extends Thread {
             listeJoueurs.get(i).setThreadEstTermine(true);
     }
 
+    /**
+     * Remet à zéro les scores des deux équipes
+     */
     private void resetScores(){
         equipeGauche.setScore(0);
         equipeDroite.setScore(0);
     }
 
     /**
-     * Remet à zéro les variable du jeu
+     * Remet à zéro les variables du jeu
      */
     private void resetJeuDeFoot() {
         resetScores();
@@ -300,7 +316,7 @@ public class JeuDeFoot extends Thread {
     }
 
 
-/******************************  GETTER/SETTERS  ******************************/
+/**************************  GETTER/SETTERS AVANCES ***************************/
 
 
     /**
@@ -317,6 +333,17 @@ public class JeuDeFoot extends Thread {
 
     }
 
+    /**
+     * Retourne le temps écoulé depuis le début du match
+     * @return retourne un long qui correspond au temps de match
+     */
+    public long getTempsEcoule(){
+        return  (System.currentTimeMillis() - chronometre)/1000;
+    }
+
+/******************************  GETTER/SETTERS  ******************************/
+
+
     public Equipe getEquipeGauche() {return equipeGauche;}
     public Equipe getEquipeDroite() {return equipeDroite;}
 
@@ -326,12 +353,4 @@ public class JeuDeFoot extends Thread {
     public void setPartieTerminee(boolean partieEncours) {PARTIEENCOURS = partieEncours;}
     public static boolean isPartieEnCours() {return PARTIEENCOURS;}
 
-    /**
-     * Retourne le temps écoulé depuis le début du match
-     * @return retourne un long qui correspond au temps de match
-     */
-    public long getTempsEcoule(){
-        return  (System.currentTimeMillis() - chronometre)/1000;
-    }
-  
 }

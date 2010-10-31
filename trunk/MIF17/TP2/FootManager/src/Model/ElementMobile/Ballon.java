@@ -9,12 +9,19 @@ import java.util.logging.Logger;
 
 public class Ballon extends ElementMobile {
 
-    private int rayon;
-    private Color couleur;
-    private Joueur possesseur;
+    private int rayon; /** rayon pour la création du ballon */
+    private Color couleur; /** la couleur du ballon, pour le différencier sur el terrain */
+    private Joueur possesseur; /** le possesseur actuel */
     private Joueur ancienPoss; /** l'ancien pocesseur */
 
 
+    /**
+     * Création et  initialisation du ballon
+     * @param x coordonnée en abscisse
+     * @param y coordonnée en ordonné
+     * @param rayon le rayon du ballon
+     * @param couleur sa couleur
+     */
     public Ballon(int x, int y, int rayon, Color couleur) {
 
         this.rayon = rayon;
@@ -48,31 +55,17 @@ public class Ballon extends ElementMobile {
         changerDePossesseur(null);
     }
 
-
-/******************************  GETTER/SETTERS  ******************************/
-
-    public Color getCouleur() {
-        return couleur;
-    }
-
-    public int getRayon() {
-        return rayon;
-    }
-
-
-    public Joueur getPossesseur() {
-        return possesseur;
-    }
+/***************************  GETTER/SETTERS AVANCES **************************/
 
 
     /**
-     * Changement de pocesseur
+     * Changement de possesseur, demande une mise à jour de l'affichage
      * @param nouveauPossesseur le nouveau pocesseur du ballon
      */
     public void changerDePossesseur(Joueur nouveauPossesseur) {
 
         if(ancienPoss == null) ancienPoss = nouveauPossesseur;
-        
+
         ancienPoss = possesseur;
         possesseur = nouveauPossesseur;
 
@@ -86,16 +79,8 @@ public class Ballon extends ElementMobile {
         } catch (InterruptedException ex) {
             Logger.getLogger(Ballon.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-
- 
-
-    public Joueur getAncienPoss() {
-        return ancienPoss;
-    }
-
-
 
     /**
      * Met à jour les coordonnées du ballon, de façon à le placer devant le joueur
@@ -106,9 +91,21 @@ public class Ballon extends ElementMobile {
             Point coordonnees = coordApresDep(possesseur.getX(), possesseur.getY(), 15, possesseur.getAngle());
             angle = possesseur.getAngle();
             setXY(coordonnees);
-        }  
-        
+        }
+
     }
+
+
+/******************************  GETTER/SETTERS  ******************************/
+
+    public Color getCouleur() {return couleur;}
+
+    public int getRayon() {return rayon;}
+
+    public Joueur getPossesseur() {return possesseur;}
+
+    public Joueur getAncienPoss() {return ancienPoss;}
+
 
 
 }

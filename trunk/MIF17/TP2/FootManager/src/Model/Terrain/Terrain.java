@@ -21,6 +21,12 @@ public class Terrain {
 /*******************************  CONSTRUCTEUR  *******************************/
 
 
+    /**
+     * Crée et initialise le terrain
+     * @param longueur la longueur avec les marges
+     * @param largeur la largeur avec les marges
+     * @param couleur sa couleur
+     */
     public Terrain(int longueur, int largeur, Color couleur){
 
         //Mise à jour de dimenssions

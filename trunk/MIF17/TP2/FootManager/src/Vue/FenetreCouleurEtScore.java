@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Affichage des scores
+ * La fenêtre pour afficher les scores
  */
 public class FenetreCouleurEtScore extends JFrame {
     
@@ -30,6 +30,10 @@ public class FenetreCouleurEtScore extends JFrame {
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
+    /**
+     * Crée et ouvre une fenêtre
+     * @param unJeuDeFoot le jeu de foot
+     */
     public FenetreCouleurEtScore(JeuDeFoot unJeuDeFoot) {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,17 +56,17 @@ public class FenetreCouleurEtScore extends JFrame {
         equipeDroite = unJeuDeFoot.getEquipeDroite();
 
         equipeGauche.ajouterObserveur(new Observeur() {
-            public void miseAJour() {majScores();}
+            public void miseAJour() {majScoresEtCouleur();}
         });
 
         equipeDroite.ajouterObserveur(new Observeur() {
-            public void miseAJour() {majScores();} 
+            public void miseAJour() {majScoresEtCouleur();}
         });
 
 
         unBallon = unJeuDeFoot.getUnBallon();
         unBallon.ajouterObserveur(new Observeur() {
-            public void miseAJour() {majScores();}
+            public void miseAJour() {majScoresEtCouleur();}
         });
         
 
@@ -105,7 +109,10 @@ public class FenetreCouleurEtScore extends JFrame {
 
 /*********************************  Méthode  **********************************/
 
-    public void majScores() {
+    /**
+     * Met à jour le score et la couleur du possesseur actuel du ballon
+     */
+    public void majScoresEtCouleur() {
         scoreGauche.setText((new Integer(equipeGauche.getScore()).toString()));
         scoreDroit.setText((new Integer(equipeDroite.getScore()).toString()));
 

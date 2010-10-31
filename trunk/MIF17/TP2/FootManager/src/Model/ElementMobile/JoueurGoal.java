@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Le joueur représentant le goal, il pourra se déplacer uniquement sur un axe.
+ * Le joueur représentant le goal, il pourra se déplacer uniquement sur l'axe des ordonnés.
  */
 public class JoueurGoal extends Joueur {
 
@@ -18,6 +18,13 @@ public class JoueurGoal extends Joueur {
     
 /*******************************  CONSTRUCTEUR  *******************************/
 
+    /**
+     * Initialise et placeme le Goal selon son équipe
+     * @param nom son nom
+     * @param ballonDuJeu le ballon du jeu de foot
+     * @param monEquipe son équipe
+     * @param equipeAdverse l'équipe adverse
+     */
     public JoueurGoal(String nom, Ballon ballonDuJeu, Equipe monEquipe, Equipe equipeAdverse) {
 
         //appel du constructeur parent, notamment pour ajouter les équipes
@@ -39,6 +46,9 @@ public class JoueurGoal extends Joueur {
 
 /*******************************  CONSTRUCTEUR  *******************************/
 
+    /**
+     * Place le goal dans la cage de gauche ou de droite
+     */
     public void placerJoueur(){
 
         //positionnement du goal au milieu de ses cages
@@ -59,6 +69,9 @@ public class JoueurGoal extends Joueur {
 
 /****************************** BOUCLE DE THREAD ******************************/
 
+    /**
+     * Boucle principal du goal
+     */
     @Override
     public void demarrerJoueur() {
 
@@ -80,7 +93,7 @@ public class JoueurGoal extends Joueur {
                 tmpY = yMin;
 
             //validité
-            if(isValideDistContact(new Point(x,tmpY)))
+            if(isValideDistCollision(new Point(x,tmpY)))
                 y = tmpY;
 
 

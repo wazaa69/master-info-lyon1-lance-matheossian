@@ -9,7 +9,7 @@ import Model.Equipe;
 import java.awt.Point;
 
 /**
- * Défense et attaque
+ * Défense et attaque : équilibre entre chaque position
  */
 public class StrategieNeutre extends Strategie {
 
@@ -21,6 +21,10 @@ public class StrategieNeutre extends Strategie {
 
     }
 
+    /**
+     * Méthode à faire évoluer pour un meilleur équilibrage
+     * @param unJoueur le joueur auquel la stratégie va être appliquée
+     */
     public void utiliserStrat(Joueur unJoueur) {
 
 
@@ -152,7 +156,7 @@ public class StrategieNeutre extends Strategie {
                     ballonDuJeu.majXY();
 
                     unJoueur.getMonEquipe().setScore(unJoueur.getMonEquipe().getScore() + 1);
-                    remiseEnJeu(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
+                    positionnerApresBut(unJoueur.getMonEquipe(), unJoueur.getEquipeAdverse(), ballonDuJeu);
                 }
 
 
