@@ -53,9 +53,9 @@ public class StrategieAttaque extends Strategie {
             //personne n'a le ballon
             if(jPeuCourirVersBallon && possesseur == null){
                 unJoueur.setAngleSelonBallon();
-                unJoueur.avancer();
                 if(jPeuPrendreBallon)
                     ballonDuJeu.changerDePossesseur(unJoueur);
+                unJoueur.avancer();
             }
 
             //tentative d'interception du ballon

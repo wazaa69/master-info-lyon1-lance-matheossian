@@ -382,7 +382,6 @@ public class Joueur extends ElementMobile {
 
     /**
      * Met à jour l'angle, pour que le joueur se dirige vers le ballon
-     * @return retourne un entier correspondant à l'angle
      */
     public void setAngleSelonBallon(){
         angle = getAngleSelon(ballonDuJeu.getXY());

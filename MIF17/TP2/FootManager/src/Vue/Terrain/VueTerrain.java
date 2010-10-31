@@ -34,7 +34,7 @@ public class VueTerrain extends Applet {
     /**
      * Initialisation de la vue du terrain, à partir du terrain du model
      * Création des vues des élémens mobiles, pour chaque élément mobile du model
-     * @param unTerrain le terrain provenant du model
+     * @param unJeuDeFoot le jeu de foot
      */
     public VueTerrain(JeuDeFoot unJeuDeFoot) {
 
@@ -159,7 +159,6 @@ public class VueTerrain extends Applet {
 
     /**
      * Dessine les joueurs
-     * @param g contexte graphique
      */
     public void dessinerElemMobiles() {
 

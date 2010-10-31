@@ -52,9 +52,9 @@ public class StrategieNeutre extends Strategie {
             //personne n'a le ballon
             if(jPeuCourirVersBallon && possesseur == null){
                 unJoueur.setAngleSelonBallon();
-                unJoueur.avancer();
                 if(jPeuPrendreBallon)
                     ballonDuJeu.changerDePossesseur(unJoueur);
+                unJoueur.avancer();
             }
 
             //tentative d'interception du ballon
@@ -97,7 +97,7 @@ public class StrategieNeutre extends Strategie {
                 unJoueur.avancer(); //on le fait avancer pour le faire sortir de la zone
             }
 
-            //si le joueur voit le ballon, qu'il peut tenter de l'intercepter, mais qu'il est un peu trop loin
+            //si le joueur voit le ballon, il peut tenter de l'intercepter, mais qu'il est un peu trop loin
             else if(notreEquAPasLeballon && !jPeuPrendreBallon && jPeuPossederBallon && jPeuTenterIntercep && jPeuCourirVersBallon && bonNbIntercepteurs){
                 unJoueur.setTentatIntercep(3);
                 //si il n'y a pas déjà un intercepteur de son équipe
@@ -108,9 +108,6 @@ public class StrategieNeutre extends Strategie {
 
             //sinon, le joueur est bien trop loin du ballon, il reste en formation
             else{
-
-                unJoueur.setTentatIntercep(3);
-
                 //le joueur doit rester dans un rayon de 10m de sa position de formation
                 if(unJoueur.getDistance(unJoueur.getPositionFormation(), unJoueur) > 30){
                     unJoueur.setAngleSelon(unJoueur.getPositionFormation()); //retour à la position de la formation
