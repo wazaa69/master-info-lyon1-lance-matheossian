@@ -48,6 +48,9 @@ class TableDesIdentificateurs {
         *   \brief Affiche le contenu de la table
         */
 	void afficherTable();
+
+
+	int ajouterInteger(std::string integer);
 };
 
 #endif

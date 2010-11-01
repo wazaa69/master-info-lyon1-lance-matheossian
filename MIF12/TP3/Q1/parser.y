@@ -3,6 +3,7 @@
 	#include <iostream>
 	#include <vector>
 	#include <string>
+	#include <sstream>
 
 //############################################### TABLES
 
@@ -47,6 +48,8 @@
 	extern int yyerror(char* m);
 
 	extern TableDesIdentificateurs* tableId;
+	extern TableDesIdentificateurs* tableInteger;
+
 	extern TableDesSymboles* tableSymb; //la table principale des symboles
 	extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
 
@@ -119,7 +122,7 @@
 
 
 
-%token <numero> TOK_INTEGER
+%token <numero2> TOK_INTEGER
 %token <reel> TOK_REAL
 %token <text> TOK_STRING
 %token <numero> TOK_IDENT
@@ -148,6 +151,7 @@
 %union{
 
 	int numero;
+	int numero2;
 	float reel;
 	char* text;
 
@@ -492,7 +496,7 @@ BoolExpr       : Expression KW_AND Expression		{ if(($1->memeType($1->getType(),
                ;
 
 AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
-               | TOK_INTEGER				{cout << "tok_integer" << $1 << endl;$$ = new Expression(new TypeInteger(), $1); }
+               | TOK_INTEGER				{cout << "tok_integer" << tableInteger->getElement($1) << endl;  istringstream iss(tableInteger->getElement($1)); int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
                | TOK_REAL				{cout << "tok_real" << $1 << endl;$$ = new Expression(new TypeReal(), $1);
 	       /*| Call
                | TOK_PTR				{$$ = new Expression(new TypePointeur($1), $1);} */}
