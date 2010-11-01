@@ -32,6 +32,12 @@ class Expression {
 		
 		bool getValBool();
 	
+		bool getValInteger();
+
+		bool getValFloat();
+
+		bool getValString();
+
 		Type* getType();
 		
 		bool memeType(Type* _type1, Type* _type2);

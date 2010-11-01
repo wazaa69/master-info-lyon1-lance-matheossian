@@ -5,7 +5,7 @@
 /**
  * Gestion d'une constante.
  */
-class Constante  {
+class Constante : public Symbole{
 
 	private:
 	
@@ -18,7 +18,7 @@ class Constante  {
         *   @brief Constructeur, initialise la constante 
 	*   @param _id identifiant du symbole
         */
-        Constante(int _id);
+        Constante(Type* _type, int _id);
 
         /**
         *   @brief Destructeur

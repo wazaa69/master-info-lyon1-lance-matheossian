@@ -2,8 +2,10 @@
 
 using namespace std;
 
-Constante::Constante(int _id){
-
+ Constante::Constante(Type* _type, int _id){
+	categorie = new string("constante");
+    	type = _type;
+	id = _id;
 }
 
 Constante::~Constante(){}

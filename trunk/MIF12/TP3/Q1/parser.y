@@ -150,6 +150,9 @@
 %type <expression> AtomExpr
 %type <expression> VarExpr
 
+%type <expression> ListDeclConst
+%type <expression> DeclConst
+
 /* Les types */
 
 %union{
@@ -160,9 +163,6 @@
 	int numeroString;
 	int numeroPtr;
 	
-
-
-
 	Type* type;
 	TypeInterval* typeInterval;
 	int interBase;
@@ -203,23 +203,35 @@ Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDe
 
 
 BlockDeclConst : KW_CONST ListDeclConst		{
-								
-                                                                    for(unsigned int i = 0; i < tmpNumId.size() ; i++){
+								tableSymb->ajouter(new Constante($2->getType(), tableSymb->getNumIdActuel(true))); 
+                                                                   /* for(unsigned int i = 0; i < tmpNumId.size() ; i++){
 									
-									cout << "const " << i << endl;
-															
-                                                                    }
+									cout << "const: " << i << "type: " << $2->getType()->getStringType() <<endl;
+									
+									
+									
+																					
+                                                                    }*/
 
                                                                     tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
 						}
                |
                ;
 
-ListDeclConst  : ListDeclConst DeclConst
-               | DeclConst
+ListDeclConst  : ListDeclConst DeclConst				{ $$ = $2;}
+               | DeclConst						{}
                ;
 
-DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ tmpNumId.push_back($1); cout << "tok_ident" << tableId->getElement($1) << endl;}
+DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ 	
+										cout << "TypeExpression: " << *($3->getType()->getStringType()) << endl;
+										cout << "valBool: " << ($3->getValBool()) <<endl;
+										cout << "valString: " << ($3->getValString()) <<endl;
+										cout << "valInteger: " << ($3->getValInteger()) <<endl;
+										cout << "valFloat: " << ($3->getValFloat()) <<endl;						
+									   	tmpNumId.push_back($1); cout << "tok_ident" << tableId->getElement($1) << endl;
+										$$ = $3;
+										
+									}
                ;
 
 
@@ -457,7 +469,9 @@ ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "\nIdentificateur:
 
 
 Expression     : VarExpr				{}
-               | CompExpr				{}
+               | CompExpr				{/*cout << "TypeExpression: " << *($1->getType()->getStringType()) << endl;
+							cout << "TypeExpression: " << *($1->getType()->getStringType()) << endl; $$ = $1;*/
+							}
                | AtomExpr				{}
                | BoolExpr				{/*}
                | MathExpr				{}
@@ -476,8 +490,14 @@ MathExpr       : Expression OP_ADD Expression		{ $$ = $1->opADD($1,$3); 	}
                ;
 					
 CompExpr       : Expression OP_EQ Expression		{  // il faudra gérer les comparaisons qui ne peuvent pas exister entre certains types ( text < text2 par ex)
-							if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
-							else{cout<< "Erreur Type Comparaison EQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+							cout << "test" << endl;
+							if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} 
+													else{$$ = new Expression(new TypeBoolean(), false);} } 
+													else{cout<< "Erreur Type Comparaison EQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  
+							cout << "TypeExpression: " << *($1->getType()->getStringType()) << endl;
+							cout << "TypeExpression: " << *($3->getType()->getStringType()) << endl;
+							
+							}
                | Expression OP_NEQ Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 != $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} }
 							else{cout<< "Erreur Type Comparaison NEQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
                | Expression OP_LT Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 < $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
@@ -505,13 +525,13 @@ BoolExpr       : Expression KW_AND Expression		{ if(($1->memeType($1->getType(),
                ;
 
 AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
-               | TOK_INTEGER				{cout << "tok_integer" << tableInteger->getElement($1) << endl;  istringstream iss(tableInteger->getElement($1)); int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
-               | TOK_REAL				{cout << "tok_real" << tableReal->getElement($1) << endl;  istringstream iss(tableReal->getElement($1)) ; float reel; $$ = new Expression(new TypeReal(), iss >> reel);
+               | TOK_INTEGER				{ istringstream iss(tableInteger->getElement($1)); int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
+               | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; float reel; $$ = new Expression(new TypeReal(), iss >> reel);
 	       
 	       /*| Callfefefe
 		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Expression(new TypePointeur($1), iss >> pointeur); 
                | TOK_PTR				{$$ = new Expression(new TypePointeur($1), $1);} */}
-               | TOK_STRING				{cout << "tok_string" << tableString->getElement($1) << endl; $$ = new Expression(new TypeString(), new string(tableString->getElement($1))); }
+               | TOK_STRING				{ $$ = new Expression(new TypeString(), new string(tableString->getElement($1))); }
                ;
 
 VarExpr        : TOK_IDENT				{cout << "tok_ident" << $1 << endl;$$ = new Expression(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);/*

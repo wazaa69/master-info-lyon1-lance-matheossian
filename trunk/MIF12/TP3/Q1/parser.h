@@ -96,7 +96,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 155 "parser.y"
+#line 158 "parser.y"
 
 
 	int numeroIdent;
@@ -105,9 +105,6 @@ typedef union YYSTYPE
 	int numeroString;
 	int numeroPtr;
 	
-
-
-
 	Type* type;
 	TypeInterval* typeInterval;
 	int interBase;
@@ -122,7 +119,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 126 "parser.h"
+#line 123 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
