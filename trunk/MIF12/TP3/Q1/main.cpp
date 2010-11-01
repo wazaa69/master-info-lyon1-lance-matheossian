@@ -15,6 +15,8 @@ extern int yyparse();
 
 /* Déclaration gloable pour pouvoir les utiliser dans flex ou bison */
 TableDesIdentificateurs* tableId = new TableDesIdentificateurs();
+TableDesIdentificateurs* tableInteger = new TableDesIdentificateurs();
+
 TableDesSymboles* tableSymb = new TableDesSymboles();
 TypeUser* typeUser;
 

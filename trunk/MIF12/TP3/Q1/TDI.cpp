@@ -24,6 +24,14 @@ int TableDesIdentificateurs::ajouter(string id){
 }
 
 
+int TableDesIdentificateurs::ajouterInteger(string integer)
+{
+	unsigned int numElem = tableId.size();
+	tableId.push_back(new string(integer));
+
+	return numElem;
+}
+
 int TableDesIdentificateurs::getPosId(string* id)
 {
 	int temp = tableId.size();

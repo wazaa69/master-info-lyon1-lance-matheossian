@@ -1,13 +1,14 @@
 %{
 
-    #include "lexer.hpp"
+	#include "lexer.hpp"
  
 	
-    #include "TDI.hpp"
-    extern TableDesIdentificateurs* tableId;
+	#include "TDI.hpp"
+	extern TableDesIdentificateurs* tableId;
+	extern TableDesIdentificateurs* tableInteger;
 
-    int column = 0;
-    int ligne = 1;
+	int column = 0;
+	int ligne = 1;
 
 %}
 
@@ -101,7 +102,7 @@ not			{column += yyleng; return KW_NOT;}
 {OP_SUB}		{column += yyleng; return OP_SUB;}
 
 
-{TOK_INTEGER}		{column += yyleng; return TOK_INTEGER;}
+{TOK_INTEGER}		{column += yyleng; printf("contenu %s", yytext); yylval.numero2 = tableInteger->ajouterInteger(yytext) ; return TOK_INTEGER;}
 {TOK_REAL}		{column += yyleng; return TOK_REAL;}
 {TOK_STRING}		{column += yyleng; return TOK_STRING;}
 {TOK_PTR}		{column += yyleng; return TOK_PTR;}
