@@ -144,10 +144,11 @@ public class StrategieNeutre extends Strategie {
                 boolean interception = unPoint.distance(goalAdverse.getXY()) <= distMinPrPrendreBalle;
 
                 if(interception){
+                    System.out.println("Le ballon est intercepté par " + goalAdverse.getNom() + ".");
                     ballonDuJeu.changerDePossesseur(goalAdverse);
                 }
                 else{
-
+                    System.out.println("L'équipe " + unJoueur.getMonEquipe().getNomEquipe() + " marque un but ! ");
                     ballonDuJeu.changerDePossesseur(null);
                     ballonDuJeu.setXY(unPoint);
                     ballonDuJeu.majXY();
