@@ -13,7 +13,7 @@ int TableDesIdentificateurs::ajouter(string id){
 
 	//cout << "Ajout de " << id << endl;
 
-	int numElem  = getPosId(&id);
+	unsigned int numElem  = getPosId(&id);
 	
 	 if(numElem == tableId.size())tableId.push_back(new string(id));  //copie
 	

@@ -6,6 +6,11 @@
  * Gestion d'une constante.
  */
 class Constante  {
+
+	private:
+	
+	
+
        
 	public:
 
