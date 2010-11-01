@@ -11,19 +11,19 @@ class TableDesIdentificateurs {
 
 	private :
 
-		std::vector<std::string*> tableId; /** @param tableId la table des identifiants */
+	std::vector<std::string*> tableId; /** @param tableId la table des identifiants */
 
 	public:
 
         /**
         *   @brief Constructeur
         */
-		TableDesIdentificateurs();
+	TableDesIdentificateurs();
 
 		/**
         *   @brief Destructeur
         */
-		~TableDesIdentificateurs();
+	~TableDesIdentificateurs();
 
 
         /**
@@ -31,23 +31,23 @@ class TableDesIdentificateurs {
         *   @param id un identifiant
         *   @return Retourne la position de l'identifiant ajouté
         */
-		int ajouter(std::string id);
+	int ajouter(std::string id);
 
 		/**
 		*   @brief Recherche si un identifiant existe dans la TDI
 		*   @param id un identifiant
 		*   @return Retourne la position de l'identifiant si il existe dans la table, -1 sinon
 		*/
-		int getPosId(std::string* id);
+	int getPosId(std::string* id);
 
 
-		std::string getElement(int posId);
+	std::string getElement(int posId);
 
 
         /**
         *   \brief Affiche le contenu de la table
         */
-		void afficherTable();
+	void afficherTable();
 };
 
 #endif

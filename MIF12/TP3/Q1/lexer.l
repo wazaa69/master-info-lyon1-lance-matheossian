@@ -15,11 +15,14 @@ chiffre				[0-9]
 chiffres			[0-9]+
 exposant			[["(E("["+"]|["-"]")"]?{chiffres}")"]?	
 
-TOK_REAL			{chiffres}"."{chiffres}{exposant}
 TOK_INTEGER			{chiffres}
+TOK_REAL			{chiffres}"."{chiffres}{exposant}
 
 TOK_PTR				nil
-TOK_STRING			'([^']|'')+'
+NQUOTE				[^']
+
+TOK_STRING			'({NQUOTE}|'')+'
+
 TOK_IDENT			[a-zA-Z][a-zA-Z0-9]*
 
 SEP_DOT				"."
@@ -98,15 +101,14 @@ not			{column += yyleng; return KW_NOT;}
 {OP_SUB}		{column += yyleng; return OP_SUB;}
 
 
-{TOK_REAL}		{column += yyleng; return TOK_REAL;}
-{TOK_PTR}		{column += yyleng; return TOK_PTR;}
-{TOK_STRING}		{column += yyleng; return TOK_STRING;}
-
 {TOK_INTEGER}		{column += yyleng; return TOK_INTEGER;}
+{TOK_REAL}		{column += yyleng; return TOK_REAL;}
+{TOK_STRING}		{column += yyleng; return TOK_STRING;}
+{TOK_PTR}		{column += yyleng; return TOK_PTR;}
 {TOK_IDENT}    		{column += yyleng; yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
 \n			{ligne += 1;}
 .			
-
+	
 
 %%
 

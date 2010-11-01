@@ -34,6 +34,9 @@
 	#include "TypeArray.hpp"
 	#include "TypeRecord.hpp"
 
+//############################################### AUTRES
+
+	#include "Expression.hpp"
 
 	using namespace std;
 
@@ -61,6 +64,10 @@
 	int diffRecord; // 
 	int numIdRecord; // numero Id du record à écrire dans la table des symboles
 	bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
+
+//############################################### CONST
+
+
 
 %}
 
@@ -110,12 +117,14 @@
 %token OP_LT
 %token OP_SLASH
 
-%token TOK_REAL
-%token TOK_PTR
-%token TOK_STRING
 
+
+%token <numero> TOK_INTEGER
+%token <reel> TOK_REAL
+%token <text> TOK_STRING
 %token <numero> TOK_IDENT
-%token TOK_INTEGER
+
+%token TOK_PTR
 
 %start Program
 
@@ -128,18 +137,29 @@
 %type <typePointeur> PointerType
 %type <typeRecord> RecordType
 
+%type <boolE> CompExpr
+%type <boolE> BoolExpr
+%type <expression> Expression
+%type <expression> AtomExpr
+%type <expression> VarExpr
+
 /* Les types */
 
 %union{
 
-    int numero;
+	int numero;
+	float reel;
+	char* text;
+
     Type* type;
     TypeInterval* typeInterval;
     int interBase;
     TypeArray* typeArray;
     TypePointeur* typePointeur;
     TypeRecord* typeRecord;
-
+    
+	bool boolE;
+	Expression* expression;
 
 }
 
@@ -150,6 +170,7 @@ Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
 ProgramHeader   : KW_PROGRAM TOK_IDENT                          {	
+									
 									listeTDS.push_back(tableSymb); // On ajoute la table des symboles principale dans listeTDS
 									tableSymb->ajouter(new Programme());
 								}
@@ -169,7 +190,16 @@ Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDe
               ;
 
 
-BlockDeclConst : KW_CONST ListDeclConst
+BlockDeclConst : KW_CONST ListDeclConst		{
+								
+                                                                    for(unsigned int i = 0; i < tmpNumId.size() ; i++){
+									
+									cout << "const " << i << endl;
+															
+                                                                    }
+
+                                                                    tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
+						}
                |
                ;
 
@@ -177,7 +207,7 @@ ListDeclConst  : ListDeclConst DeclConst
                | DeclConst
                ;
 
-DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL
+DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ tmpNumId.push_back($1); cout << "tok_ident" << tableId->getElement($1) << endl;}
                ;
 
 
@@ -202,7 +232,7 @@ ProcHeader     : ProcIdent
                | ProcIdent FormalArgs
                ;
 
-ProcIdent      : KW_PROC TOK_IDENT 
+ProcIdent      : KW_PROC TOK_IDENT
                ;
 
 
@@ -409,16 +439,18 @@ BlockCode       : KW_BEGIN ListTest KW_END
                 ;
 
 
-ListTest        :       ListTest SEP_SCOL TOK_IDENT {cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;}
+ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;}
                 |       TOK_IDENT  { cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl;}
                 ;
 
 
-Expression     : MathExpr
-               | CompExpr
-               | BoolExpr
-               | AtomExpr
-               | VarExpr
+Expression     : VarExpr				{}
+               | CompExpr				{}
+               | AtomExpr				{}
+               | BoolExpr				{/*}
+               | MathExpr				{}
+
+
                ;
 
 MathExpr       : Expression OP_ADD Expression
@@ -428,35 +460,49 @@ MathExpr       : Expression OP_ADD Expression
                | Expression KW_DIV Expression
                | Expression KW_MOD Expression
                | OP_SUB Expression
-               | OP_ADD Expression
+               | OP_ADD Expression			{*/}
+               ;
+					
+CompExpr       : Expression OP_EQ Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
+							else{cout<< "Erreur Type Comparaison EQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | Expression OP_NEQ Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 != $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} }
+							else{cout<< "Erreur Type Comparaison NEQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | Expression OP_LT Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 < $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
+							else{cout<< "Erreur Type Comparaison LT Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | Expression OP_LTE Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 <= $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
+							else{cout<< "Erreur Type Comparaison LTE Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | Expression OP_GT Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 > $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
+							else{cout<< "Erreur Type Comparaison GT Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | Expression OP_GTE Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 >= $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
+							else{cout<< "Erreur Type Comparaison GTE Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
                ;
 
-CompExpr       : Expression OP_EQ Expression
-               | Expression OP_NEQ Expression
-               | Expression OP_LT Expression
-               | Expression OP_LTE Expression
-               | Expression OP_GT Expression
-               | Expression OP_GTE Expression
+BoolExpr       : Expression KW_AND Expression		{ if(($1->memeType($1->getType(), $3->getType()))&& ($1->memeType($1->getType(), new string("Boolean")))) {if($1 == $3){$$ = new Expression(new TypeBoolean(), $1->getValBool());} 
+																else{$$ = new Expression(new TypeBoolean(), false);} } 
+							else{cout<< "Erreur Type bool AND Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}}
+               | Expression KW_OR Expression		{ if(($1->memeType($1->getType(), $3->getType()))&& ($1->memeType($1->getType(), new string("Boolean")))) {if($1->getValBool() == true){$$ = new Expression(new TypeBoolean(), true);}
+																 else{$$ = new Expression(new TypeBoolean(), $1->getValBool());} }
+							else{cout<< "Erreur Type bool OR Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | Expression KW_XOR Expression		{ if(($1->memeType($1->getType(), $3->getType()))&& ($1->memeType($1->getType(), new string("Boolean")))) {if($1 == $3){$$ = new Expression(new TypeBoolean(), false);} 
+																else{$$ = new Expression(new TypeBoolean(), true); } }
+							else{cout<< "Erreur Type bool XOR Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+               | KW_NOT Expression			{ if($2->memeType($2->getType(), new string("Boolean")))	 {if($2->getValBool() == true){$$ = new Expression(new TypeBoolean(), false);} 
+															  else{$$ = new Expression(new TypeBoolean(), true);} }
+							else{cout<< "Erreur Type bool NOT Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
                ;
 
-BoolExpr       : Expression KW_AND Expression
-               | Expression KW_OR Expression
-               | Expression KW_XOR Expression
-               | KW_NOT Expression
+AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
+               | TOK_INTEGER				{cout << "tok_integer" << $1 << endl;$$ = new Expression(new TypeInteger(), $1); }
+               | TOK_REAL				{cout << "tok_real" << $1 << endl;$$ = new Expression(new TypeReal(), $1);
+	       /*| Call
+               | TOK_PTR				{$$ = new Expression(new TypePointeur($1), $1);} */}
+               | TOK_STRING				{cout << "tok_string" << $1 << endl;$$ = new Expression(new TypeString(), $1); }
                ;
 
-AtomExpr       : SEP_PO Expression SEP_PF
-               | Call
-               | TOK_INTEGER
-               | TOK_REAL
-               | TOK_PTR
-               | TOK_STRING
-               ;
-
-VarExpr        : TOK_IDENT
-               | VarExpr SEP_CO Expression SEP_CF
+VarExpr        : TOK_IDENT				{cout << "tok_ident" << $1 << endl;$$ = new Expression(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);/*
+               | VarExpr SEP_CO Expression SEP_CF	
                | VarExpr SEP_DOT TOK_IDENT
-               | VarExpr OP_PTR
+               | VarExpr OP_PTR 
                ;
 
 Call           : TOK_IDENT Parameters
@@ -466,7 +512,7 @@ Parameters     : SEP_PO ListParameters SEP_PF
                ;
 
 ListParameters : ListParameters SEP_COMMA Expression
-               | Expression
+               | Expression		*/}
                ;
 
 

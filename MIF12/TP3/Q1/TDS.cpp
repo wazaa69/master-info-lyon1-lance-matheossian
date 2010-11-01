@@ -59,7 +59,7 @@ string TableDesSymboles::getPortee()
 }
 
 
-bool TableDesSymboles::getTableSymbContientI(TableDesSymboles* TS, int identifiantSymbole)
+bool TableDesSymboles::TableSymbContientI(TableDesSymboles* TS, int identifiantSymbole)
 {
 	bool contient = false;
 	
@@ -81,7 +81,7 @@ TableDesSymboles* TableDesSymboles::getTableSymbContenantI(vector<TableDesSymbol
 	
 	for (unsigned i = 0; i < listeTDS.size() ; i++)
 	{	
-		if(getTableSymbContientI(listeTDS[i], identifiantSymbole))
+		if(TableSymbContientI(listeTDS[i], identifiantSymbole))
 		{
 			return listeTDS[i];
 		}
@@ -91,6 +91,21 @@ TableDesSymboles* TableDesSymboles::getTableSymbContenantI(vector<TableDesSymbol
 	
 	return TDS_vide;
 } 
+
+Symbole* TableDesSymboles::getSymboleI(int identifiantSymbole)
+{
+	Symbole* symb_vide = NULL;	
+
+	for (unsigned i = 0; i < tableSymb.size() ;i++)
+		{
+			if(tableSymb[i]->getID() == identifiantSymbole)
+			{
+				return tableSymb[i];
+			}
+		}
+
+	return symb_vide;
+}
 
 
 //############################################################### MUTATEURS

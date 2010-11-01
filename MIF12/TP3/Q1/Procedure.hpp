@@ -2,11 +2,15 @@
 #define _PROCEDURE_
 
 #include "Symbole.hpp"
+#include "TDS.hpp"
 /**
  * Gestion d'une constante.
  */
 class Procedure  {
-       
+        private:
+
+	TableDesSymboles* TDSLocale;
+
 	public:
 
 	/**
