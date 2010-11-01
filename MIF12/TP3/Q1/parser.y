@@ -48,7 +48,7 @@
 	extern int yyerror(char* m);
 
 	extern TableDesIdentificateurs* tableId;
-	extern TableDesIdentificateurs* tableInteger;
+	
 
 	extern TableDesSymboles* tableSymb; //la table principale des symboles
 	extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
@@ -68,7 +68,13 @@
 	int numIdRecord; // numero Id du record à écrire dans la table des symboles
 	bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
 
-//############################################### CONST
+//############################################### EXPRESSIONS
+
+
+	extern TableDesIdentificateurs* tableInteger;
+	extern TableDesIdentificateurs* tableReal;
+	extern TableDesIdentificateurs* tableString;
+	extern TableDesIdentificateurs* tablePtr;
 
 
 
@@ -121,13 +127,11 @@
 %token OP_SLASH
 
 
-
-%token <numero2> TOK_INTEGER
-%token <reel> TOK_REAL
-%token <text> TOK_STRING
-%token <numero> TOK_IDENT
-
-%token TOK_PTR
+%token <numeroIdent> TOK_IDENT
+%token <numeroInteger> TOK_INTEGER
+%token <numeroReal> TOK_REAL
+%token <numeroString> TOK_STRING
+%token <numeroPtr> TOK_PTR
 
 %start Program
 
@@ -150,17 +154,21 @@
 
 %union{
 
-	int numero;
-	int numero2;
-	float reel;
-	char* text;
+	int numeroIdent;
+	int numeroInteger;
+	int numeroReal;
+	int numeroString;
+	int numeroPtr;
+	
 
-    Type* type;
-    TypeInterval* typeInterval;
-    int interBase;
-    TypeArray* typeArray;
-    TypePointeur* typePointeur;
-    TypeRecord* typeRecord;
+
+
+	Type* type;
+	TypeInterval* typeInterval;
+	int interBase;
+	TypeArray* typeArray;
+	TypePointeur* typePointeur;
+	TypeRecord* typeRecord;
     
 	bool boolE;
 	Expression* expression;
@@ -457,17 +465,18 @@ Expression     : VarExpr				{}
 
                ;
 
-MathExpr       : Expression OP_ADD Expression
-               | Expression OP_SUB Expression
-               | Expression OP_MUL Expression
-               | Expression OP_SLASH Expression
-               | Expression KW_DIV Expression
-               | Expression KW_MOD Expression
-               | OP_SUB Expression
-               | OP_ADD Expression			{*/}
+MathExpr       : Expression OP_ADD Expression		{ $$ = $1->opADD($1,$3); 	}
+               | Expression OP_SUB Expression		{ $$ = $1->opSUB($1,$3); 	}
+               | Expression OP_MUL Expression		{ $$ = $1->opMUL($1,$3); 	}
+               | Expression OP_SLASH Expression		{ $$ = $1->opSLASH($1,$3);      }
+               | Expression KW_DIV Expression		{ $$ = $1->opDIV($1,$3); 	}
+               | Expression KW_MOD Expression		{ $$ = $1->opMOD($1,$3); 	}
+               | OP_SUB Expression			{ $$ = $1->opSUB($1); 		}
+               | OP_ADD Expression			{ $$ = $1->opADD($1);         */}
                ;
 					
-CompExpr       : Expression OP_EQ Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
+CompExpr       : Expression OP_EQ Expression		{  // il faudra gérer les comparaisons qui ne peuvent pas exister entre certains types ( text < text2 par ex)
+							if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
 							else{cout<< "Erreur Type Comparaison EQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
                | Expression OP_NEQ Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 != $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} }
 							else{cout<< "Erreur Type Comparaison NEQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
@@ -497,10 +506,12 @@ BoolExpr       : Expression KW_AND Expression		{ if(($1->memeType($1->getType(),
 
 AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
                | TOK_INTEGER				{cout << "tok_integer" << tableInteger->getElement($1) << endl;  istringstream iss(tableInteger->getElement($1)); int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
-               | TOK_REAL				{cout << "tok_real" << $1 << endl;$$ = new Expression(new TypeReal(), $1);
-	       /*| Call
+               | TOK_REAL				{cout << "tok_real" << tableReal->getElement($1) << endl;  istringstream iss(tableReal->getElement($1)) ; float reel; $$ = new Expression(new TypeReal(), iss >> reel);
+	       
+	       /*| Callfefefe
+		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Expression(new TypePointeur($1), iss >> pointeur); 
                | TOK_PTR				{$$ = new Expression(new TypePointeur($1), $1);} */}
-               | TOK_STRING				{cout << "tok_string" << $1 << endl;$$ = new Expression(new TypeString(), $1); }
+               | TOK_STRING				{cout << "tok_string" << tableString->getElement($1) << endl; $$ = new Expression(new TypeString(), new string(tableString->getElement($1))); }
                ;
 
 VarExpr        : TOK_IDENT				{cout << "tok_ident" << $1 << endl;$$ = new Expression(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);/*

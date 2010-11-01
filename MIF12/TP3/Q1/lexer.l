@@ -4,8 +4,12 @@
  
 	
 	#include "TDI.hpp"
+
 	extern TableDesIdentificateurs* tableId;
 	extern TableDesIdentificateurs* tableInteger;
+	extern TableDesIdentificateurs* tableReal;
+	extern TableDesIdentificateurs* tableString;
+	extern TableDesIdentificateurs* tablePtr;
 
 	int column = 0;
 	int ligne = 1;
@@ -14,17 +18,8 @@
 
 chiffre				[0-9]
 chiffres			[0-9]+
-exposant			[["(E("["+"]|["-"]")"]?{chiffres}")"]?	
-
-TOK_INTEGER			{chiffres}
-TOK_REAL			{chiffres}"."{chiffres}{exposant}
-
-TOK_PTR				nil
 NQUOTE				[^']
 
-TOK_STRING			'({NQUOTE}|'')+'
-
-TOK_IDENT			[a-zA-Z][a-zA-Z0-9]*
 
 SEP_DOT				"."
 SEP_DOTS			":"
@@ -102,11 +97,11 @@ not			{column += yyleng; return KW_NOT;}
 {OP_SUB}		{column += yyleng; return OP_SUB;}
 
 
-{TOK_INTEGER}		{column += yyleng; printf("contenu %s", yytext); yylval.numero2 = tableInteger->ajouterInteger(yytext) ; return TOK_INTEGER;}
-{TOK_REAL}		{column += yyleng; return TOK_REAL;}
-{TOK_STRING}		{column += yyleng; return TOK_STRING;}
-{TOK_PTR}		{column += yyleng; return TOK_PTR;}
-{TOK_IDENT}    		{column += yyleng; yylval.numero = tableId->ajouter(yytext);  return TOK_IDENT;}
+{chiffres} 		{column += yyleng; yylval.numeroInteger = tableInteger->ajouterAutre(yytext) ;	 return TOK_INTEGER;}
+{chiffres}"."{chiffres} {column += yyleng; yylval.numeroReal = tableReal->ajouterAutre(yytext) ;	 return TOK_REAL;}
+'([^']|'')+'		{column += yyleng; yylval.numeroString = tableString->ajouterAutre(yytext) ;	 return TOK_STRING;}
+nil			{column += yyleng; yylval.numeroPtr = tablePtr->ajouterAutre(yytext) ;		 return TOK_PTR;}
+[a-zA-Z][a-zA-Z0-9]*   	{column += yyleng; yylval.numeroIdent = tableId->ajouterIdent(yytext);  	 return TOK_IDENT;}
 \n			{ligne += 1;}
 .			
 	

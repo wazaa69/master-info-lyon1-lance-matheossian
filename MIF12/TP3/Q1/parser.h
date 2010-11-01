@@ -81,10 +81,10 @@
      OP_ADD = 297,
      OP_LT = 298,
      OP_SLASH = 299,
-     TOK_INTEGER = 300,
-     TOK_REAL = 301,
-     TOK_STRING = 302,
-     TOK_IDENT = 303,
+     TOK_IDENT = 300,
+     TOK_INTEGER = 301,
+     TOK_REAL = 302,
+     TOK_STRING = 303,
      TOK_PTR = 304
    };
 #endif
@@ -96,20 +96,24 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 151 "parser.y"
+#line 155 "parser.y"
 
 
-	int numero;
-	int numero2;
-	float reel;
-	char* text;
+	int numeroIdent;
+	int numeroInteger;
+	int numeroReal;
+	int numeroString;
+	int numeroPtr;
+	
 
-    Type* type;
-    TypeInterval* typeInterval;
-    int interBase;
-    TypeArray* typeArray;
-    TypePointeur* typePointeur;
-    TypeRecord* typeRecord;
+
+
+	Type* type;
+	TypeInterval* typeInterval;
+	int interBase;
+	TypeArray* typeArray;
+	TypePointeur* typePointeur;
+	TypeRecord* typeRecord;
     
 	bool boolE;
 	Expression* expression;
@@ -118,7 +122,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 122 "parser.h"
+#line 126 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

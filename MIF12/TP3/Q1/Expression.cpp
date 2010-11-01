@@ -11,7 +11,7 @@ Expression::Expression(Type* _type, int _valInt){
 
 	valInt = _valInt;
 	type = _type;
-	//cout << "essai " << valInt << endl;
+	
 }
 
 Expression::Expression(Type* _type, float _valFloat){
@@ -24,7 +24,7 @@ Expression::Expression(Type* _type, string* _valString){
 	
 	valString = _valString;
 	type = _type;
-	cout << "essai " << valString << endl;
+	
 }
 
 Expression::Expression(Type* _type, bool _valBool){
