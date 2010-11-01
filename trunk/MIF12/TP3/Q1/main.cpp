@@ -14,15 +14,20 @@ extern int yyparse();
 
 
 /* Déclaration gloable pour pouvoir les utiliser dans flex ou bison */
-TableDesIdentificateurs* tableId = new TableDesIdentificateurs();
-TableDesIdentificateurs* tableInteger = new TableDesIdentificateurs();
 
-TableDesSymboles* tableSymb = new TableDesSymboles();
-TypeUser* typeUser;
+	TableDesIdentificateurs* tableId = new TableDesIdentificateurs(); // pour récupérer les TOK_IDENT du lexer
+	TableDesIdentificateurs* tableInteger = new TableDesIdentificateurs(); // pour récupérer les TOK_INTEGER du lexer
+	TableDesIdentificateurs* tableReal = new TableDesIdentificateurs(); // pour récupérer les TOK_REAL du lexer
+	TableDesIdentificateurs* tableString = new TableDesIdentificateurs(); // pour récupérer les TOK_STRING du lexer
+	TableDesIdentificateurs* tablePtr = new TableDesIdentificateurs(); // pour récupérer les TOK_PTR du lexer
 
-std::vector<TableDesSymboles*> listeTDS;
-std::vector<int> tmpNumId;
-std::vector<TypeUser*> listeTypeUser;
+
+	TableDesSymboles* tableSymb = new TableDesSymboles();
+	TypeUser* typeUser;
+
+	std::vector<TableDesSymboles*> listeTDS;
+	std::vector<int> tmpNumId;
+	std::vector<TypeUser*> listeTypeUser;
 
 
 int main(int argc, char** argv)

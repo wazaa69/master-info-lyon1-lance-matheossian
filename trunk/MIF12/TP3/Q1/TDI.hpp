@@ -31,7 +31,7 @@ class TableDesIdentificateurs {
         *   @param id un identifiant
         *   @return Retourne la position de l'identifiant ajouté
         */
-	int ajouter(std::string id);
+	int ajouterIdent(std::string id);
 
 		/**
 		*   @brief Recherche si un identifiant existe dans la TDI
@@ -50,7 +50,8 @@ class TableDesIdentificateurs {
 	void afficherTable();
 
 
-	int ajouterInteger(std::string integer);
+	
+	int ajouterAutre(std::string id);
 };
 
 #endif

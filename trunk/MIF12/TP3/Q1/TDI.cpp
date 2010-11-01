@@ -9,7 +9,7 @@ TableDesIdentificateurs::TableDesIdentificateurs(){}
 TableDesIdentificateurs::~TableDesIdentificateurs(){}
 
 
-int TableDesIdentificateurs::ajouter(string id){
+int TableDesIdentificateurs::ajouterIdent(string id){
 
 	//cout << "Ajout de " << id << endl;
 
@@ -24,13 +24,15 @@ int TableDesIdentificateurs::ajouter(string id){
 }
 
 
-int TableDesIdentificateurs::ajouterInteger(string integer)
+int TableDesIdentificateurs::ajouterAutre(string id)
 {
 	unsigned int numElem = tableId.size();
-	tableId.push_back(new string(integer));
+	tableId.push_back(new string(id));
 
 	return numElem;
 }
+
+
 
 int TableDesIdentificateurs::getPosId(string* id)
 {

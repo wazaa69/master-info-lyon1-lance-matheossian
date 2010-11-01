@@ -1,7 +1,10 @@
 program test;
 
-const comp = 5 < 10;
-comp3 = 5 < 10;
+const 
+
+comp2 = 'gron' = 'gron';
+
+
 
 type tarray = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;
