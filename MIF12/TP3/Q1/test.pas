@@ -2,7 +2,7 @@ program test;
 
 const 
 
-comp2 = 'gron' = 'gron';
+comp2 = 15 = 10;
 
 
 

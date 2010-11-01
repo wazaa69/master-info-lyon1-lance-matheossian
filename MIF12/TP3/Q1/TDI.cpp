@@ -2,11 +2,14 @@
 
 #include "TDI.hpp"
 
+
 using namespace std;
 
 
 TableDesIdentificateurs::TableDesIdentificateurs(){}
 TableDesIdentificateurs::~TableDesIdentificateurs(){}
+
+
 
 
 int TableDesIdentificateurs::ajouterIdent(string id){

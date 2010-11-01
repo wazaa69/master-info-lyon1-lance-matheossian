@@ -10,6 +10,10 @@ using namespace std;
 Expression::Expression(Type* _type, int _valInt){
 
 	valInt = _valInt;
+
+	valFloat = 0;
+	valBool = false;
+	valString = new string("_");
 	type = _type;
 	
 }
@@ -17,12 +21,22 @@ Expression::Expression(Type* _type, int _valInt){
 Expression::Expression(Type* _type, float _valFloat){
 	
 	valFloat = _valFloat;
+
+	valInt = 0;
+	valBool = false;
+	valString = new string("_");
+	
 	type = _type;
 }
 
 Expression::Expression(Type* _type, string* _valString){
 	
 	valString = _valString;
+	
+	valInt = 0;
+	valBool = false;
+	valFloat = 0;
+
 	type = _type;
 	
 }
@@ -30,6 +44,11 @@ Expression::Expression(Type* _type, string* _valString){
 Expression::Expression(Type* _type, bool _valBool){
 	
 	valBool = _valBool;
+
+	valInt = 0;
+	valString = new string("_");
+	valFloat = 0;
+
 	type = _type;
 }
 
@@ -40,6 +59,12 @@ Expression::Expression(Type* _type, bool _valBool){
 Type* Expression::getType(){return type;}
 
 bool Expression::getValBool(){return valBool;}
+
+bool Expression::getValInteger(){return valInt;}
+
+bool Expression::getValFloat(){return valFloat;}
+
+bool Expression::getValString(){return valString;}
 
 bool Expression::memeType(Type* _type1, Type* _type2)
 {
