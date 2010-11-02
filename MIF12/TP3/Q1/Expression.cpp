@@ -60,11 +60,19 @@ Type* Expression::getType(){return type;}
 
 bool Expression::getValBool(){return valBool;}
 
-bool Expression::getValInteger(){return valInt;}
+int Expression::getValInteger(){return valInt;}
 
-bool Expression::getValFloat(){return valFloat;}
+float Expression::getValFloat(){return valFloat;}
 
-bool Expression::getValString(){return valString;}
+string* Expression::getValString(){return valString;}
+
+
+void Expression::setValBool(bool _valBool){valBool = _valBool;}
+
+
+
+
+
 
 bool Expression::memeType(Type* _type1, Type* _type2)
 {
@@ -81,6 +89,44 @@ bool Expression::memeType(Type* _type1, string* _type2)
 
 	return (*a1 == *a2);
 }
+
+Expression* Expression::operationEQ(Expression* ex1, Expression* ex2)
+{
+	switch(ex1->getType()->getStringType())
+	{
+		case "Boolean":
+		
+		break;
+		case "Integer":
+
+		break;
+		case "Real":
+
+		break;
+		case "String":
+
+		break;
+		case "Pointeur":
+
+		break;
+		default:
+		break;
+	}
+
+	Expression* exRetour = new Expression(new TypeBoolean(), false);
+	return exRetour;
+}
+
+/*
+	if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} 
+	else{$$ = new Expression(new TypeBoolean(), false);} } 
+	else{cout<< "Erreur Type Comparaison EQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  
+
+cout << "TypeExpression: " << *($$->getType()->getStringType()) << endl;
+cout << "ValeurExpression: " << ($$->getValBool()) << endl;
+
+*/
+
 
 //####################################### DESTRUCTEUR
 
