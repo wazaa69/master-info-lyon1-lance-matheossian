@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Type.hpp"
+#include "TypeBoolean.hpp"
 
 /**
 *	@brief Expression
@@ -32,17 +33,21 @@ class Expression {
 		
 		bool getValBool();
 	
-		bool getValInteger();
+		int getValInteger();
 
-		bool getValFloat();
+		float getValFloat();
 
-		bool getValString();
+		std::string* getValString();
 
 		Type* getType();
+
+		void setValBool(bool _valBool);
 		
 		bool memeType(Type* _type1, Type* _type2);
 
 		bool memeType(Type* _type1, std::string* _type2);
+
+		Expression* operationEQ(Expression* ex1, Expression* ex2);
 };
 
 #endif

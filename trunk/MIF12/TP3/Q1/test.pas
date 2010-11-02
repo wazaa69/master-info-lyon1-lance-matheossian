@@ -2,7 +2,7 @@ program test;
 
 const 
 
-comp2 = 15 = 10;
+comp2 = 20 = 20;
 
 
 
