@@ -47,7 +47,7 @@ class Expression {
 
 		bool memeType(Type* _type1, std::string* _type2);
 
-		Expression* operationEQ(Expression* ex1, Expression* ex2);
+		Expression* comparaison(Expression* ex1, Expression* ex2, string* operation);
 };
 
 #endif
