@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author p0604720
+ * Servlet : validation du formulaire pour se logger (POST)
  */
 public class init extends HttpServlet {
    
@@ -31,23 +30,9 @@ public class init extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try {
-//
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet init</title>");
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet init at " + request.getContextPath () + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-           
-        } finally { 
-            out.close();
-        }
+        out.close();
     } 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -58,6 +43,7 @@ public class init extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        //redirection vers la page index.html
         response.sendRedirect("index.html");
     } 
 
@@ -71,19 +57,22 @@ public class init extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-   
-        String login = request.getParameter("login");
-        if (login.isEmpty())
+
+        //récupération du login
+        String nom = request.getParameter("nom");
+
+        if (nom.isEmpty())
         {
-            // Erreur, nom vide
+            // Erreur, le nom est vide, on redirige vers la page index.html
             response.sendRedirect("index.html");
         }
         else
         {
-            // mise en session du username
+            //On sauvegarde le login dans la session
             HttpSession session = request.getSession(true);
-            session.setAttribute("login", login);
+            session.setAttribute("nom", nom);
 
+            //redirection vers la page en frames
             response.sendRedirect("frames.html");
         }
     }
@@ -94,7 +83,7 @@ public class init extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "";
+    }
 
 }
