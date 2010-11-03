@@ -90,12 +90,22 @@ bool Expression::memeType(Type* _type1, string* _type2)
 	return (*a1 == *a2);
 }
 
-Expression* Expression::operationEQ(Expression* ex1, Expression* ex2)
+Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* operation)
 {
 	switch(ex1->getType()->getStringType())
 	{
 		case "Boolean":
-		
+			switch(operation)
+			{
+			case "<":
+			break;
+			case ">":
+			break;
+			case: "<="
+			break;
+			case: ">="
+			break;
+			case
 		break;
 		case "Integer":
 
