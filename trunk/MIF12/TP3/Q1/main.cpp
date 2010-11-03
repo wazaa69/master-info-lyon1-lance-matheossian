@@ -27,6 +27,7 @@ extern int yyparse();
 
 	std::vector<TableDesSymboles*> listeTDS;
 	std::vector<int> tmpNumId;
+	std::vector<Type*> tmpTypeConst;
 	std::vector<TypeUser*> listeTypeUser;
 
 

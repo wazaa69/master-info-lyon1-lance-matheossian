@@ -1,16 +1,15 @@
 program test;
 
-const   cons1 = 10 < 10;
-	cons2 = 15 > 25;
-	cons3 = 20.5773 > 21.575;
-	cons4 = 'coucou' = 'coucou';
-	cons5 = 'coucou' <> 'coucou';
+const   cons1 = 10 - (1 * 10)+ 4;
+	cons2 = 'test' <> 'test';
+	cons3 = 'test' = 'test';
+	cons4 = false or false;
+	cons5 = 153 - 454;
 	cons6 = false xor TRUE;
 	cons7 = 12 and FALSE;
-cons8 = true and FALSE;
-cons9 = true and 56;
-
-
+	cons8 = true and FALSE;
+	cons9 = true;
+	cons10 = false;
 
 type tarray = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;

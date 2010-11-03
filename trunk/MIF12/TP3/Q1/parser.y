@@ -5,6 +5,7 @@
 	#include <string>
 	#include <sstream>
 
+
 //############################################### TABLES
 
 	#include "TDS.hpp"
@@ -55,6 +56,7 @@
 
 	TableDesSymboles* tmpTds =  new TableDesSymboles(tableSymb->getNumContexteTSActuel(false)); //une table des symboles temporaires (pour les sous-contextes)
 	extern std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
+	extern std::vector<Type*> tmpTypeConst;
 
 //###############################################  USERTYPE  
   
@@ -150,7 +152,7 @@
 %type <expression> Expression
 %type <expression> AtomExpr
 %type <expression> VarExpr
-//%type <expression> MathExpr
+%type <expression> MathExpr
 
 %type <expression> ListDeclConst
 %type <expression> DeclConst
@@ -207,16 +209,16 @@ Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDe
 
 BlockDeclConst : KW_CONST ListDeclConst		{
 								
-                                                                    for(unsigned int i = 0; i < tmpNumId.size() ; i++){
+                                                                    for(unsigned int i = 0; i < tmpTypeConst.size() ; i++){
 									
-									cout << "const: " << i << "type: " << $2->getType()->getStringType() <<endl;
+									//cout << "const: " << i << " type: " << *tmpTypeConst[i]->getStringType() <<endl;
 									
-									tableSymb->ajouter(new Constante($2->getType(), tableSymb->getNumIdActuel(true))); 
+									tableSymb->ajouter(new Constante(tmpTypeConst[i], tableSymb->getNumIdActuel(true))); 
 									
 																					
                                                                     }
 
-                                                                    tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante
+                                                                    tmpTypeConst.clear(); //on supprime le contenu pour la liste de déclaration suivante
 						}
                |
                ;
@@ -226,10 +228,12 @@ ListDeclConst  : ListDeclConst DeclConst				{ $$ = $2;}
                ;
 
 DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ 	
-										cout << "TypeExpression: " << *($3->getType()->getStringType()) << endl;
-										cout << "valBool: " << ($3->getValBool()) << endl;
+										cout  << tableId->getElement($1)<< "TypeExpression: " << *($3->getType()->getStringType()) << endl;
+										cout << "valBool: " << ($3->getValBool()) << " valInt: " << ($3->getValInteger()) << " valString: " << (*$3->getValString()) ;
+										cout << "valFloat: " << ($3->getValFloat())  << endl<<endl;
+								
 						
-									   	tmpNumId.push_back($1); cout << "tok_ident" << tableId->getElement($1)<< "\n " << endl;
+									   	tmpTypeConst.push_back($3->getType());
 										$$ = $3;
 										
 									}
@@ -472,7 +476,7 @@ ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "\nIdentificateur:
 Expression     : VarExpr				{}
                | CompExpr				{}
                | AtomExpr				{}
-               | BoolExpr				{/*}
+               | BoolExpr				{}
                | MathExpr				{}
 
 
@@ -484,8 +488,8 @@ MathExpr       : Expression OP_ADD Expression		{ $$ = $1->operation($1,$3,new st
                | Expression OP_SLASH Expression		{ $$ = $1->operation($1,$3,new string("/"));    }
                | Expression KW_DIV Expression		{ $$ = $1->operation($1,$3,new string("div")); 	}
                | Expression KW_MOD Expression		{ $$ = $1->operation($1,$3,new string("mod")); 	}
-               | OP_SUB Expression			{ $$ = $2->operation($2,NULL,new string("-a"));  }
-               | OP_ADD Expression			{ $$ = $2->operation($2,NULL,new string("+a"));*/}
+               | OP_SUB Expression			{ $$ = $2->operation($2,NULL,new string("-a")); }
+               | OP_ADD Expression			{ $$ = $2->operation($2,NULL,new string("+a")); }
                ;
 					
 CompExpr       : Expression OP_EQ Expression		{ $$ = $1->comparaison($1,$3, new string("="));  }
@@ -504,9 +508,13 @@ BoolExpr       : Expression KW_AND Expression		{ $$ = $1->comparaisonBool($1,$3,
 
 AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
                | TOK_INTEGER				{ istringstream iss(tableInteger->getElement($1)); 
-							  int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
-	       | TOK_BOOLEAN				{ istringstream iss(tableBoolean->getElement($1)); 
-							  bool booleen; $$ = new Expression(new TypeBoolean(), iss >> booleen);}
+							  int nombre;  iss >> nombre; $$ = new Expression(new TypeInteger(),nombre); }
+	       | TOK_BOOLEAN				{
+							  string booleen = tableBoolean->getElement($1);
+							 if((booleen.substr(0,1) == "t" )|| (booleen.substr(0,1) == "T" )){ $$ = new Expression(new TypeBoolean(), true);}
+							  else{ $$ = new Expression(new TypeBoolean(), false); }
+						
+							 }
                | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; 
 							  float reel; $$ = new Expression(new TypeReal(), iss >> reel);
 	       
