@@ -52,6 +52,8 @@ class TableDesIdentificateurs {
 
 	
 	int ajouterAutre(std::string id);
+
+
 };
 
 #endif

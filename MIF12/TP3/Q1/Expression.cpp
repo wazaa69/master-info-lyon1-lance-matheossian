@@ -8,6 +8,7 @@ using namespace std;
 //####################################### CONSTRUCTEURS
 
 Expression::Expression(Type* _type, int _valInt){
+	
 
 	valInt = _valInt;
 
@@ -98,7 +99,7 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 	Expression* exRetour;
 
 	string typeEx1 = *(ex1->getType()->getStringType());
-	string typeEx2 = *(ex1->getType()->getStringType());
+	string typeEx2 = *(ex2->getType()->getStringType());
 	
 	if     (typeEx1 == "Integer")	 type = 1;
 	else if(typeEx1 == "Real") 	 type = 2;
@@ -235,7 +236,7 @@ Expression* Expression::comparaisonBool(Expression* ex1, Expression* ex2, string
 	Expression* exRetour;
 	
 	bool valEx1 = ex1-> getValBool();
-	bool valEx2 = ex1-> getValBool();
+	bool valEx2 = ex2-> getValBool();
 	string typeEx1 = *(ex1->getType()->getStringType());
 	string typeEx2 = *(ex1->getType()->getStringType());
 
@@ -283,7 +284,7 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 	Expression* exRetour;
 
 	string typeEx1 = *(ex1->getType()->getStringType());
-	string typeEx2 = *(ex1->getType()->getStringType());
+	string typeEx2 = *(ex2->getType()->getStringType());
 	
 	if     (typeEx1 == "Boolean")	 type = 1;
 	else if(typeEx1 == "Integer") 	 type = 2;
