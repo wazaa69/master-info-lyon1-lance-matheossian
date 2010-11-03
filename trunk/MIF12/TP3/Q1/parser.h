@@ -85,7 +85,8 @@
      TOK_INTEGER = 301,
      TOK_REAL = 302,
      TOK_STRING = 303,
-     TOK_PTR = 304
+     TOK_PTR = 304,
+     TOK_BOOLEAN = 305
    };
 #endif
 /* Tokens.  */
@@ -136,13 +137,14 @@
 #define TOK_REAL 302
 #define TOK_STRING 303
 #define TOK_PTR 304
+#define TOK_BOOLEAN 305
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 158 "parser.y"
+#line 160 "parser.y"
 {
 
 	int numeroIdent;
@@ -150,6 +152,7 @@ typedef union YYSTYPE
 	int numeroReal;
 	int numeroString;
 	int numeroPtr;
+	int numeroBoolean;
 	
 	Type* type;
 	TypeInterval* typeInterval;
@@ -163,7 +166,7 @@ typedef union YYSTYPE
 
 }
 /* Line 1489 of yacc.c.  */
-#line 167 "parser.h"
+#line 170 "parser.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

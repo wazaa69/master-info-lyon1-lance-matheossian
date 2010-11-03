@@ -1,8 +1,14 @@
 program test;
 
-const 
-
-comp2 = 20 = 20;
+const   cons1 = 10 < 10;
+	cons2 = 15 > 25;
+	cons3 = 20.5773 > 21.575;
+	cons4 = 'coucou' = 'coucou';
+	cons5 = 'coucou' <> 'coucou';
+	cons6 = false xor TRUE;
+	cons7 = 12 and FALSE;
+cons8 = true and FALSE;
+cons9 = true and 56;
 
 
 
