@@ -1,11 +1,13 @@
-package Servlet;
+package Gestion;
 
 public class Message {
 
     private String utilisateur;
     private String contenu;
 
-    public Message() {
+    public Message(String utilisateur, String contenu) {
+        this.utilisateur = utilisateur;
+        this.contenu = contenu;
     }
 
     public String getContenu() {
