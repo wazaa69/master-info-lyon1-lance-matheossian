@@ -75,8 +75,7 @@
 	extern TableDesIdentificateurs* tableReal;
 	extern TableDesIdentificateurs* tableString;
 	extern TableDesIdentificateurs* tablePtr;
-
-
+	extern TableDesIdentificateurs* tableBoolean;
 
 %}
 
@@ -114,6 +113,7 @@
 %token SEP_PO
 %token SEP_PF
 
+
 %token OP_PTR
 %token OP_SUB
 %token OP_EQ
@@ -132,6 +132,7 @@
 %token <numeroReal> TOK_REAL
 %token <numeroString> TOK_STRING
 %token <numeroPtr> TOK_PTR
+%token <numeroBoolean> TOK_BOOLEAN
 
 %start Program
 
@@ -149,6 +150,7 @@
 %type <expression> Expression
 %type <expression> AtomExpr
 %type <expression> VarExpr
+//%type <expression> MathExpr
 
 %type <expression> ListDeclConst
 %type <expression> DeclConst
@@ -162,6 +164,7 @@
 	int numeroReal;
 	int numeroString;
 	int numeroPtr;
+	int numeroBoolean;
 	
 	Type* type;
 	TypeInterval* typeInterval;
@@ -224,11 +227,9 @@ ListDeclConst  : ListDeclConst DeclConst				{ $$ = $2;}
 
 DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ 	
 										cout << "TypeExpression: " << *($3->getType()->getStringType()) << endl;
-										cout << "valBool: " << ($3->getValBool()) <<endl;
-										cout << "valString: " << *($3->getValString()) <<endl;
-										cout << "valInteger: " << ($3->getValInteger()) <<endl;
-										cout << "valFloat: " << ($3->getValFloat()) <<endl;						
-									   	tmpNumId.push_back($1); cout << "tok_ident" << tableId->getElement($1) << endl;
+										cout << "valBool: " << ($3->getValBool()) << endl;
+						
+									   	tmpNumId.push_back($1); cout << "tok_ident" << tableId->getElement($1)<< "\n " << endl;
 										$$ = $3;
 										
 									}
@@ -477,56 +478,39 @@ Expression     : VarExpr				{}
 
                ;
 
-MathExpr       : Expression OP_ADD Expression		{ $$ = $1->opADD($1,$3); 	}
-               | Expression OP_SUB Expression		{ $$ = $1->opSUB($1,$3); 	}
-               | Expression OP_MUL Expression		{ $$ = $1->opMUL($1,$3); 	}
-               | Expression OP_SLASH Expression		{ $$ = $1->opSLASH($1,$3);      }
-               | Expression KW_DIV Expression		{ $$ = $1->opDIV($1,$3); 	}
-               | Expression KW_MOD Expression		{ $$ = $1->opMOD($1,$3); 	}
-               | OP_SUB Expression			{ $$ = $1->opSUB($1); 		}
-               | OP_ADD Expression			{ $$ = $1->opADD($1);         */}
+MathExpr       : Expression OP_ADD Expression		{ $$ = $1->operation($1,$3,new string("+")); 	}
+               | Expression OP_SUB Expression		{ $$ = $1->operation($1,$3,new string("-")); 	}
+               | Expression OP_MUL Expression		{ $$ = $1->operation($1,$3,new string("*")); 	}
+               | Expression OP_SLASH Expression		{ $$ = $1->operation($1,$3,new string("/"));    }
+               | Expression KW_DIV Expression		{ $$ = $1->operation($1,$3,new string("div")); 	}
+               | Expression KW_MOD Expression		{ $$ = $1->operation($1,$3,new string("mod")); 	}
+               | OP_SUB Expression			{ $$ = $2->operation($2,NULL,new string("-a"));  }
+               | OP_ADD Expression			{ $$ = $2->operation($2,NULL,new string("+a"));*/}
                ;
 					
-CompExpr       : Expression OP_EQ Expression		{  	
-							if($1->memeType($1->getType(), $3->getType()))	{if($1 == $3){$$ = new Expression(new TypeBoolean(), true);} 
-													else{$$ = new Expression(new TypeBoolean(), false);} } 
-													else{cout<< "Erreur Type Comparaison EQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  
-
-							cout << "TypeExpression: " << *($$->getType()->getStringType()) << endl;
-							cout << "ValeurExpression: " << ($$->getValBool()) << endl;
-							
-							}
-               | Expression OP_NEQ Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 != $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} }
-							else{cout<< "Erreur Type Comparaison NEQ Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
-               | Expression OP_LT Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 < $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
-							else{cout<< "Erreur Type Comparaison LT Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
-               | Expression OP_LTE Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 <= $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
-							else{cout<< "Erreur Type Comparaison LTE Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
-               | Expression OP_GT Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 > $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
-							else{cout<< "Erreur Type Comparaison GT Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
-               | Expression OP_GTE Expression		{ if($1->memeType($1->getType(), $3->getType()))	{if($1 >= $3){$$ = new Expression(new TypeBoolean(), true);} else{$$ = new Expression(new TypeBoolean(), false);} } 
-							else{cout<< "Erreur Type Comparaison GTE Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+CompExpr       : Expression OP_EQ Expression		{ $$ = $1->comparaison($1,$3, new string("="));  }
+               | Expression OP_NEQ Expression		{ $$ = $1->comparaison($1,$3, new string("<>")); }
+               | Expression OP_LT Expression		{ $$ = $1->comparaison($1,$3, new string("<"));  }
+               | Expression OP_LTE Expression		{ $$ = $1->comparaison($1,$3, new string("<=")); }
+               | Expression OP_GT Expression		{ $$ = $1->comparaison($1,$3, new string(">"));  }
+               | Expression OP_GTE Expression		{ $$ = $1->comparaison($1,$3, new string(">=")); }
                ;
 
-BoolExpr       : Expression KW_AND Expression		{ if(($1->memeType($1->getType(), $3->getType()))&& ($1->memeType($1->getType(), new string("Boolean")))) {if($1 == $3){$$ = new Expression(new TypeBoolean(), $1->getValBool());} 
-																else{$$ = new Expression(new TypeBoolean(), false);} } 
-							else{cout<< "Erreur Type bool AND Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}}
-               | Expression KW_OR Expression		{ if(($1->memeType($1->getType(), $3->getType()))&& ($1->memeType($1->getType(), new string("Boolean")))) {if($1->getValBool() == true){$$ = new Expression(new TypeBoolean(), true);}
-																 else{$$ = new Expression(new TypeBoolean(), $1->getValBool());} }
-							else{cout<< "Erreur Type bool OR Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
-               | Expression KW_XOR Expression		{ if(($1->memeType($1->getType(), $3->getType()))&& ($1->memeType($1->getType(), new string("Boolean")))) {if($1 == $3){$$ = new Expression(new TypeBoolean(), false);} 
-																else{$$ = new Expression(new TypeBoolean(), true); } }
-							else{cout<< "Erreur Type bool XOR Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
-               | KW_NOT Expression			{ if($2->memeType($2->getType(), new string("Boolean")))	 {if($2->getValBool() == true){$$ = new Expression(new TypeBoolean(), false);} 
-															  else{$$ = new Expression(new TypeBoolean(), true);} }
-							else{cout<< "Erreur Type bool NOT Dans Decl Const" << endl; $$ = new Expression(new TypeBoolean(), false);}  }
+BoolExpr       : Expression KW_AND Expression		{ $$ = $1->comparaisonBool($1,$3, new string("and"));   }
+               | Expression KW_OR Expression		{ $$ = $1->comparaisonBool($1,$3, new string("or"));    }
+               | Expression KW_XOR Expression		{ $$ = $1->comparaisonBool($1,$3, new string("xor"));   }
+               | KW_NOT Expression			{ $$ = $2->comparaisonBool($2,NULL, new string("not")); }
                ;
 
 AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
-               | TOK_INTEGER				{ istringstream iss(tableInteger->getElement($1)); int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
-               | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; float reel; $$ = new Expression(new TypeReal(), iss >> reel);
+               | TOK_INTEGER				{ istringstream iss(tableInteger->getElement($1)); 
+							  int nombre; $$ = new Expression(new TypeInteger(), iss >> nombre); }
+	       | TOK_BOOLEAN				{ istringstream iss(tableBoolean->getElement($1)); 
+							  bool booleen; $$ = new Expression(new TypeBoolean(), iss >> booleen);}
+               | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; 
+							  float reel; $$ = new Expression(new TypeReal(), iss >> reel);
 	       
-	       /*| Callfefefe
+	       /*| Call
 		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Expression(new TypePointeur($1), iss >> pointeur); 
                | TOK_PTR				{$$ = new Expression(new TypePointeur($1), $1);} */}
                | TOK_STRING				{ $$ = new Expression(new TypeString(), new string(tableString->getElement($1))); }

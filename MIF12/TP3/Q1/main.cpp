@@ -20,7 +20,7 @@ extern int yyparse();
 	TableDesIdentificateurs* tableReal = new TableDesIdentificateurs(); // pour récupérer les TOK_REAL du lexer
 	TableDesIdentificateurs* tableString = new TableDesIdentificateurs(); // pour récupérer les TOK_STRING du lexer
 	TableDesIdentificateurs* tablePtr = new TableDesIdentificateurs(); // pour récupérer les TOK_PTR du lexer
-
+	TableDesIdentificateurs* tableBoolean = new TableDesIdentificateurs(); // pour récupérer les TOK_BOOLEAN du lexer
 
 	TableDesSymboles* tableSymb = new TableDesSymboles();
 	TypeUser* typeUser;

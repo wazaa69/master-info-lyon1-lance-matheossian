@@ -4,6 +4,10 @@
 #include <string>
 #include "Type.hpp"
 #include "TypeBoolean.hpp"
+#include "TypeInteger.hpp"
+#include "TypeString.hpp"
+#include "TypePointeur.hpp"
+#include "TypeReal.hpp"
 
 /**
 *	@brief Expression
@@ -46,8 +50,27 @@ class Expression {
 		bool memeType(Type* _type1, Type* _type2);
 
 		bool memeType(Type* _type1, std::string* _type2);
+		
+		/**
+		*   @brief Va evaluer le résultat de l'opération "operation" entre les expressions ex1 et ex2
+		*   @param ex1 une Expression, ex2 une Expression, operation un string
+		*   @return Retourne une expression intialisée avec le  bon type et la bonne valeur
+		*/
+		Expression* operation(Expression* ex1, Expression* ex2, std::string* _operation);
 
-		Expression* comparaison(Expression* ex1, Expression* ex2, string* operation);
+		/**
+		*   @brief Va evaluer le résultat de la comparaison booleenne "operation" entre les expressions ex1 et ex2
+		*   @param ex1 une Expression, ex2 une Expression, operation un string
+		*   @return Retourne une expression intialisée avec un typeBoolean et la bonne valeur
+		*/
+		Expression* comparaisonBool(Expression* ex1, Expression* ex2, std::string* _operation);
+
+		/**
+		*   @brief Va evaluer le résultat de la comparaison "operation" entre les expressions ex1 et ex2
+		*   @param ex1 une Expression, ex2 une Expression, operation un string
+		*   @return Retourne une expression intialisée avec un typeBoolean et la bonne valeur
+		*/
+		Expression* comparaison(Expression* ex1, Expression* ex2, std::string* operation);
 };
 
 #endif

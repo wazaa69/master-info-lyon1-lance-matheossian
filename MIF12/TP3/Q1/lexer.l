@@ -6,6 +6,7 @@
 	#include "TDI.hpp"
 
 	extern TableDesIdentificateurs* tableId;
+	extern TableDesIdentificateurs* tableBoolean;
 	extern TableDesIdentificateurs* tableInteger;
 	extern TableDesIdentificateurs* tableReal;
 	extern TableDesIdentificateurs* tableString;
@@ -43,6 +44,16 @@ OP_ADD				"+"
 OP_LT				"<"
 OP_SLASH 			"/"
 OP_SUB				"-"
+
+T				[tT]
+R				[rR]
+U				[uU]
+E				[eE]
+F				[fF]
+A				[aA]
+L				[lL]
+S				[sS]
+
 
 %%
 
@@ -97,7 +108,9 @@ not			{column += yyleng; return KW_NOT;}
 {OP_SUB}		{column += yyleng; return OP_SUB;}
 
 
-{chiffres} 		{column += yyleng; yylval.numeroInteger = tableInteger->ajouterAutre(yytext) ;	 return TOK_INTEGER;}
+{T}{R}{U}{E}		{column += yyleng; yylval.numeroBoolean = tableBoolean->ajouterAutre(yytext);    return TOK_BOOLEAN;}
+{F}{A}{L}{S}{E}		{column += yyleng; yylval.numeroBoolean = tableBoolean->ajouterAutre(yytext);    return TOK_BOOLEAN;}
+{chiffres} 		{column += yyleng; yylval.numeroInteger = tableInteger->ajouterAutre(yytext);	 return TOK_INTEGER;}
 {chiffres}"."{chiffres} {column += yyleng; yylval.numeroReal = tableReal->ajouterAutre(yytext) ;	 return TOK_REAL;}
 '([^']|'')+'		{column += yyleng; yylval.numeroString = tableString->ajouterAutre(yytext) ;	 return TOK_STRING;}
 nil			{column += yyleng; yylval.numeroPtr = tablePtr->ajouterAutre(yytext) ;		 return TOK_PTR;}
