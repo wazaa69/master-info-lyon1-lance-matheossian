@@ -11,6 +11,8 @@ fonction
 			arguments possibles (int a = TOK_IDENT -> on revoie l'évaluation de tok_ident=)
 			
 
+renvoie une expression (pour l'instant entier/reel/string/bool , les structures s'annonceraient autrement plus tendu)
+
 
 
 il faut pouvoir retenir  2 numeros de TS  différents
