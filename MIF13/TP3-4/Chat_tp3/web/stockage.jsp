@@ -7,6 +7,12 @@
 <%
     String messageRecu = request.getParameter("message");
 
-    if(messageRecu != null)
+    if(messageRecu != null && !messageRecu.isEmpty()){
         bean.ajouterMessage(new Message((String) session.getAttribute("nom"),messageRecu));
+
+        //Maj de la dernière modification sur le serveur
+        bean.setLastModified();
+
+    }
+    
 %>

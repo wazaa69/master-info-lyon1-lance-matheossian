@@ -8,9 +8,11 @@ import java.util.ArrayList;
 public class GestionMessages {
 
     private ArrayList<Message> listeMessages; /** stockage de la liste des messages */
+    private int lastModified; /** dernière modification */
 
     public GestionMessages() {
         listeMessages = new ArrayList<Message>();
+        lastModified = 0;
     }
 
     public void ajouterMessage(Message message){
@@ -50,8 +52,17 @@ public class GestionMessages {
  
     }
 
+    public void setLastModified() {
+        this.lastModified++;
+    }
 
+    public int getLastModified() {
+        return lastModified;
+    }
+    
+    public String getStringLastModified() {
+        return ""+lastModified;
+    }
 
-
-
+    
 }
