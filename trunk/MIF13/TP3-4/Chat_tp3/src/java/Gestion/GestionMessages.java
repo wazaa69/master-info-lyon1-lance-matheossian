@@ -8,11 +8,9 @@ import java.util.ArrayList;
 public class GestionMessages {
 
     private ArrayList<Message> listeMessages; /** stockage de la liste des messages */
-    private int lastModified; /** dernière modification */
 
     public GestionMessages() {
         listeMessages = new ArrayList<Message>();
-        lastModified = 0;
     }
 
     public void ajouterMessage(Message message){
@@ -20,10 +18,17 @@ public class GestionMessages {
     }
 
     /**
-     * @return retourne le nombre de messages stockées
+     * @return retourne un entier, représentant le nombre de messages stockées
      */
-    public int size(){
+    public int intSize(){
             return listeMessages.size();
+    }
+
+    /**
+     * @return retourne un string, représentant le nombre de messages stockées
+     */
+    public String stringSize(){
+            return "" + listeMessages.size();
     }
 
     /**
@@ -37,7 +42,7 @@ public class GestionMessages {
      * @return retourne le dernier message inséré
      */
     public Message getLastMessage(){
-        return getMessage(size());
+        return getMessage(intSize());
     }
 
     /**
@@ -52,17 +57,5 @@ public class GestionMessages {
  
     }
 
-    public void setLastModified() {
-        this.lastModified++;
-    }
 
-    public int getLastModified() {
-        return lastModified;
-    }
-    
-    public String getStringLastModified() {
-        return ""+lastModified;
-    }
-
-    
 }
