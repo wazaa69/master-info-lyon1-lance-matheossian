@@ -56,7 +56,8 @@
 
 	TableDesSymboles* tmpTds =  new TableDesSymboles(tableSymb->getNumContexteTSActuel(false)); //une table des symboles temporaires (pour les sous-contextes)
 	extern std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
-	extern std::vector<Type*> tmpTypeConst;
+	extern std::vector<Type*> tmpType;
+	
 
 //###############################################  USERTYPE  
   
@@ -78,6 +79,10 @@
 	extern TableDesIdentificateurs* tableString;
 	extern TableDesIdentificateurs* tablePtr;
 	extern TableDesIdentificateurs* tableBoolean;
+
+//############################################### FONCTIONS/PROCEDURES/RECORDS
+
+	int TDS_Actuelle = 0;
 
 %}
 
@@ -197,28 +202,18 @@ ProgramHeader   : KW_PROGRAM TOK_IDENT                          {
 
 
 
-
-
-
-
-
-
 Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDeclFunc BlockCode		{}
               ;
 
 
 BlockDeclConst : KW_CONST ListDeclConst		{
 								
-                                                                    for(unsigned int i = 0; i < tmpTypeConst.size() ; i++){
+                                                                    for(unsigned int i = 0; i < tmpType.size() ; i++){
 									
-									//cout << "const: " << i << " type: " << *tmpTypeConst[i]->getStringType() <<endl;
-									
-									tableSymb->ajouter(new Constante(tmpTypeConst[i], tableSymb->getNumIdActuel(true))); 
-									
+									tableSymb->ajouter(new Constante(tmpType[i], tableSymb->getNumIdActuel(true))); 
 																					
                                                                     }
-
-                                                                    tmpTypeConst.clear(); //on supprime le contenu pour la liste de déclaration suivante
+                                                                    tmpType.clear(); //on supprime le contenu pour la liste de déclaration suivante
 						}
                |
                ;
@@ -233,7 +228,7 @@ DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{
 										cout << "valFloat: " << ($3->getValFloat())  << endl<<endl;
 								
 						
-									   	tmpTypeConst.push_back($3->getType());
+									   	tmpType.push_back($3->getType());
 										$$ = $3;
 										
 									}
@@ -242,11 +237,24 @@ DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{
 
 
 
-BlockDeclFunc : ListDeclFunc SEP_SCOL
+BlockDeclFunc : ListDeclFunc SEP_SCOL			{
+																
+								/*
+								for(unsigned int i = 0 ; i < tmpType.size(=) ; i ++)
+								{
+									//if (tmpType[i]->getStringType() == "
+	
+
+								}
+								*/
+								// on déclarera ici la nouvelle TDS et on modifiera le numero de TS actuelle
+								// on ne remettra le bon numero qu'en sortie du block fonction
+			
+							}
                |
                ;
 
-ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
+ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc				
                | DeclFunc
                ;
 
@@ -261,7 +269,7 @@ ProcHeader     : ProcIdent
                | ProcIdent FormalArgs
                ;
 
-ProcIdent      : KW_PROC TOK_IDENT
+ProcIdent      : KW_PROC TOK_IDENT				  	
                ;
 
 
