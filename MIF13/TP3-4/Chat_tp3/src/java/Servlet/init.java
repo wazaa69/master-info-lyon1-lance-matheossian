@@ -44,7 +44,7 @@ public class init extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //redirection vers la page index.html
-        response.sendRedirect("index.html");
+        response.sendRedirect("connexion.html");
     } 
 
     /** 
@@ -64,7 +64,7 @@ public class init extends HttpServlet {
         if (nom.isEmpty())
         {
             // Erreur, le nom est vide, on redirige vers la page index.html
-            response.sendRedirect("index.html");
+            response.sendRedirect("connexion.html");
         }
         else
         {
