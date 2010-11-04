@@ -196,7 +196,7 @@ Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
 ProgramHeader   : KW_PROGRAM TOK_IDENT                          {	
-									//tabTDSPere.push_back(0);
+									tabTDSPere.push_back(0);
 									listeTDS.push_back(tableSymb); // On ajoute la table des symboles principale dans listeTDS
 									tableSymb->ajouter(new Programme());
 								}
@@ -211,11 +211,13 @@ Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDe
 
 
 BlockDeclConst : KW_CONST ListDeclConst		{
+								int tempNumTds;
+								if (TDS_Actuelle == 0){ tempNumTds = 0;} else { tempNumTds = TDS_Actuelle-1;}
 								
                                                                     for(unsigned int i = 0; i < tmpType.size() ; i++){
-									
-									tableSymb->ajouter(new Constante(tmpType[i], tableSymb->getNumIdActuel(true))); 
-																					
+									 
+									 listeTDS[tempNumTds]->ajouter(new Constante(tmpType[i], tableSymb->getNumIdActuel(true))); 
+																
                                                                     }
                                                                     tmpType.clear(); //on supprime le contenu pour la liste de déclaration suivante
 						}
@@ -227,9 +229,9 @@ ListDeclConst  : ListDeclConst DeclConst				{ $$ = $2;}
                ;
 
 DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ 	
-										cout  << tableId->getElement($1)<< "TypeExpression: " << *($3->getType()->getStringType()) << endl;
-										cout << "valBool: " << ($3->getValBool()) << " valInt: " << ($3->getValInteger()) << " valString: " << (*$3->getValString()) ;
-										cout << "valFloat: " << ($3->getValFloat())  << endl<<endl;
+										//cout  << tableId->getElement($1)<< "TypeExpression: " << *($3->getType()->getStringType()) << endl;
+										//cout << "valBool: " << ($3->getValBool()) << " valInt: " << ($3->getValInteger()) << " valString: " << (*$3->getValString()) ;
+										//cout << "valFloat: " << ($3->getValFloat())  << endl<<endl;
 								
 						
 									   	tmpType.push_back($3->getType());
@@ -263,8 +265,8 @@ ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
                | DeclFunc
                ;
 
-DeclFunc       : ProcDecl					{  niveauTDS--;	}
-               | FuncDecl					{  niveauTDS--;	}
+DeclFunc       : ProcDecl					{ niveauTDS--;	}
+               | FuncDecl					{ niveauTDS--; 	}
                ;
 
 ProcDecl       : ProcHeader SEP_SCOL Block		
@@ -277,8 +279,6 @@ ProcHeader     : ProcIdent
 ProcIdent      : KW_PROC TOK_IDENT				 {
 						
 								unsigned int numTDS = TDS_Actuelle;
-								cout << "Niveau TDS: " << niveauTDS << endl;
-								cout << "tabTDSpere.size: " << tabTDSPere.size() << endl;
 
 								if (niveauTDS == tabTDSPere.size()) 
 									{ tabTDSPere.push_back(numTDS);}
@@ -290,14 +290,10 @@ ProcIdent      : KW_PROC TOK_IDENT				 {
 
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
-								
+
 								TDS_Actuelle = numTDS;
-								cout << "TDS Actuelle: "<< TDS_Actuelle << endl;
-								
-								cout << "atbTDSpere.size: " << tabTDSPere.size() << endl;
+
 								niveauTDS++;
-								cout << "TDS pere: " << tabTDSPere[niveauTDS] << endl;
-								cout << "Niveau TDS: " << niveauTDS << endl;
 
 
 								   }	
@@ -333,8 +329,7 @@ FuncHeader     : FuncIdent FuncResult
 FuncIdent      : KW_FUNC TOK_IDENT			 {
 						
 								unsigned int numTDS = TDS_Actuelle;
-								cout << "Niveau TDS: " << niveauTDS << endl;
-								cout << "tabTDSpere.size: " << tabTDSPere.size() << endl;
+
 
 								if (niveauTDS == tabTDSPere.size()) 
 									{ tabTDSPere.push_back(numTDS);}
@@ -348,13 +343,9 @@ FuncIdent      : KW_FUNC TOK_IDENT			 {
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
 								
 								TDS_Actuelle = numTDS;
-								cout << "TDS Actuelle: "<< TDS_Actuelle << endl;
-								
-								cout << "atbTDSpere.size: " << tabTDSPere.size() << endl;
+	
 								niveauTDS++;
-								cout << "TDS pere: " << tabTDSPere[niveauTDS] << endl;
-								cout << "Niveau TDS: " << niveauTDS << endl;
-
+		
 
 							   }	
                ;
@@ -379,8 +370,9 @@ ListDeclType   : ListDeclType DeclType
                ;
 
 DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			{
-									
-									tableSymb->ajouter(new TypeUser(*($3), tableSymb->getNumIdActuel(true))); // On ajoute le type utilisateur dans la table des symboles actuelle
+									int tempNumTds;
+									if (TDS_Actuelle == 0){ tempNumTds = 0;} else { tempNumTds = TDS_Actuelle-1;}
+									listeTDS[tempNumTds]->ajouter(new TypeUser(*($3), tableSymb->getNumIdActuel(true))); // On ajoute le type utilisateur dans la table des symboles actuelle
 									
 								}
 
@@ -398,13 +390,16 @@ ListDeclVar     : ListDeclVar DeclVar                           {}
 
 DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
                                                                 {
+									int tempNumTds;
+									if (TDS_Actuelle == 0){ tempNumTds = 0;} else { tempNumTds = TDS_Actuelle-1;}
+
 
                                                                     for(unsigned int i = 0; i < tmpNumId.size() ; i++){
 									
 									if (!ajoutRecord){
 									
 									
-									tableSymb->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); 
+									listeTDS[tempNumTds]->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); 
 									}
                                                                         else{tableSymb->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
 															
@@ -533,8 +528,8 @@ BlockCode       : KW_BEGIN ListTest KW_END
                 ;
 
 
-ListTest        :       ListTest SEP_SCOL TOK_IDENT { cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl;}
-                |       TOK_IDENT  { cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl;}
+ListTest        :       ListTest SEP_SCOL TOK_IDENT { /* cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl; */}
+                |       TOK_IDENT  {/* cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl; */}
                 ;
 
 
