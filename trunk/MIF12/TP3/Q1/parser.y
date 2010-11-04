@@ -246,23 +246,22 @@ DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{
 BlockDeclFunc : ListDeclFunc SEP_SCOL			{
 													
 								/*
-								for(unsigned int i = 0 ; i < tmpType.size(=) ; i ++)
+								for(unsigned int i = 0 ; i < tmpNumId.size(=) ; i ++)
 								{
-									//if (tmpType[i]->getStringType() == "
-	
-
+									 je pense qu'on doit remonter qq chose qui indique si c'est une fonction ou une procédure 
+									//listeTDS[0]->ajouter(new Procedure($3, tableSymb->getNumIdActuel(true))); 
 								}
 								*/
 
 								
 
-	
+								//tmpNumId.clear();
 							}
                |
                ;
 
-ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc				
-               | DeclFunc
+ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc			
+               | DeclFunc					
                ;
 
 DeclFunc       : ProcDecl					{ niveauTDS--;	}
