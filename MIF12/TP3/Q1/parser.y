@@ -80,9 +80,13 @@
 	extern TableDesIdentificateurs* tablePtr;
 	extern TableDesIdentificateurs* tableBoolean;
 
-//############################################### FONCTIONS/PROCEDURES/RECORDS
+//############################################### FONCTIONS/PROCEDURES
 
-	int TDS_Actuelle = 0;
+	unsigned int TDS_Actuelle = 0; // contient le numéro de la TS actuelle
+	unsigned int niveauTDS = 0; // contient le niveau actuel de la TS (0 pour la TS principale, 1 pour celles déclarées dans cette TS, puis 2 etc)
+	extern std::vector<int> tabTDSPere; // contient les numeros des TDS en fonction du niveauTDS
+	
+	
 
 %}
 
@@ -192,7 +196,7 @@ Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
 ProgramHeader   : KW_PROGRAM TOK_IDENT                          {	
-									
+									//tabTDSPere.push_back(0);
 									listeTDS.push_back(tableSymb); // On ajoute la table des symboles principale dans listeTDS
 									tableSymb->ajouter(new Programme());
 								}
@@ -238,7 +242,7 @@ DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{
 
 
 BlockDeclFunc : ListDeclFunc SEP_SCOL			{
-																
+													
 								/*
 								for(unsigned int i = 0 ; i < tmpType.size(=) ; i ++)
 								{
@@ -247,9 +251,10 @@ BlockDeclFunc : ListDeclFunc SEP_SCOL			{
 
 								}
 								*/
-								// on déclarera ici la nouvelle TDS et on modifiera le numero de TS actuelle
-								// on ne remettra le bon numero qu'en sortie du block fonction
-			
+
+								
+
+	
 							}
                |
                ;
@@ -258,8 +263,8 @@ ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
                | DeclFunc
                ;
 
-DeclFunc       : ProcDecl	
-               | FuncDecl
+DeclFunc       : ProcDecl					{  niveauTDS--;	}
+               | FuncDecl					{  niveauTDS--;	}
                ;
 
 ProcDecl       : ProcHeader SEP_SCOL Block		
@@ -269,7 +274,33 @@ ProcHeader     : ProcIdent
                | ProcIdent FormalArgs
                ;
 
-ProcIdent      : KW_PROC TOK_IDENT				  	
+ProcIdent      : KW_PROC TOK_IDENT				 {
+						
+								unsigned int numTDS = TDS_Actuelle;
+								cout << "Niveau TDS: " << niveauTDS << endl;
+								cout << "tabTDSpere.size: " << tabTDSPere.size() << endl;
+
+								if (niveauTDS == tabTDSPere.size()) 
+									{ tabTDSPere.push_back(numTDS);}
+								else { tabTDSPere[niveauTDS] = numTDS;}
+								
+
+								
+								numTDS = tableSymb->getNumContexteTSActuel(true);
+
+								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
+								
+								TDS_Actuelle = numTDS;
+								cout << "TDS Actuelle: "<< TDS_Actuelle << endl;
+								
+								cout << "atbTDSpere.size: " << tabTDSPere.size() << endl;
+								niveauTDS++;
+								cout << "TDS pere: " << tabTDSPere[niveauTDS] << endl;
+								cout << "Niveau TDS: " << niveauTDS << endl;
+
+
+								   }	
                ;
 
 
@@ -299,7 +330,33 @@ FuncHeader     : FuncIdent FuncResult
                | FuncIdent FormalArgs FuncResult
                ;
 
-FuncIdent      : KW_FUNC TOK_IDENT
+FuncIdent      : KW_FUNC TOK_IDENT			 {
+						
+								unsigned int numTDS = TDS_Actuelle;
+								cout << "Niveau TDS: " << niveauTDS << endl;
+								cout << "tabTDSpere.size: " << tabTDSPere.size() << endl;
+
+								if (niveauTDS == tabTDSPere.size()) 
+									{ tabTDSPere.push_back(numTDS);}
+								else { tabTDSPere[niveauTDS] = numTDS;}
+								
+
+								
+								numTDS = tableSymb->getNumContexteTSActuel(true);
+
+								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
+								
+								TDS_Actuelle = numTDS;
+								cout << "TDS Actuelle: "<< TDS_Actuelle << endl;
+								
+								cout << "atbTDSpere.size: " << tabTDSPere.size() << endl;
+								niveauTDS++;
+								cout << "TDS pere: " << tabTDSPere[niveauTDS] << endl;
+								cout << "Niveau TDS: " << niveauTDS << endl;
+
+
+							   }	
                ;
 
 FuncResult     : SEP_DOTS TOK_IDENT

@@ -30,6 +30,8 @@ extern int yyparse();
 	std::vector<Type*> tmpType;
 	std::vector<TypeUser*> listeTypeUser;
 
+	std::vector<int> tabTDSPere;
+
 
 int main(int argc, char** argv)
 {   
