@@ -1,0 +1,73 @@
+
+
+fonction
+	->tds locale
+
+		-solution attribuer les nouvlles variables/types a la tds actuelle grace au tableau de tds
+			-> necessite d'intégrer un entier conenant le numéro de la tds actuelle
+
+
+	-> argument ( declaration dans la tds locale des arguments en paramères)
+			arguments possibles (int a = TOK_IDENT -> on revoie l'évaluation de tok_ident=)
+			
+
+
+
+il faut pouvoir retenir  2 numeros de TS  différents
+
+tabTSPere[0,1,
+dimension = 0
+
+	TS 1
+	  	
+		
+
+		if dimension > 0
+			tabTSPere[dimension] = numTS
+		}
+
+		numTS = numTS1
+		dimension++
+
+			TS2 
+				
+				if dimension > 0
+					tabTSPere[dimension] = numTS
+				}
+				
+				numTS =  numTS2
+				dimension++
+				
+	
+				dimension--
+			TS3
+				if dimension > 0
+					tabTSPere[dimension] = numTS
+				}
+				
+				numTS =  numTS3
+				dimension++
+					TS4	
+						if dimension > 0
+							tabTSPere[dimension] = numTS
+						}
+						numTS = numTS4
+						dimension++
+										
+						
+						dimension--
+
+				dimension--
+
+			TS5
+				
+				if dimension > 0
+					tabTSPere[dimension] = numTS
+				}
+				
+				numTS =  numTS5
+				dimension++
+				dimension--
+
+		dimension--
+		
