@@ -12,41 +12,46 @@
 
 <html>
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Chat-Room ___ooo(O.O)ooo___</title>
+
+        <title>Chat-Room</title>
+
+        <link rel="stylesheet" type="text/css" href="css/template.css"  />
 
         <script type="text/javascript" src="js/ajax.js"></script>
         <script type="text/javascript" src="js/actions.js"></script>
 
     </head>
 
-    <body onload="recupererMessages()">
+    <body onLoad="recupererMessages()">
 
-        <div id="listeMessages">   
+        <div >
+            <h2 class="titre">___ooo(O.O)ooo___</h2>
         </div>
-        <a name="EnBas" />
 
-        <fieldset>
-
-            <legend>Message à envoyer</legend>
-
-            <form  action="" onsubmit="stockerMessage()">
-              <div>
-                  <!-- <textarea cols="50" rows="5" class="saisie" name="message"></textarea> -->
-                  <input type="text" id="saisie"/>
-                  <input type="submit" />
-              </div>
-            </form>
-
-        </fieldset>
-
-        
-        <form  method="GET" action="Logout">
+        <form  id="deconnexion" method="GET" action="Logout">
             <div>
-                <br/>
                 <input type="submit" name="deconnexion" value="Déconnexion" />
             </div>
         </form>
+
+        <div id="listeMessages">
+            <div id="messages">
+            </div>
+            <a name="dernierMessage" />
+        </div>
+
+
+        <div id="saisie">
+            <fieldset>
+                <legend>Message à envoyer</legend>
+                <form action="" onsubmit="stockerMessage('texte')">
+                      <input type="text" id="texte"/>
+                      <input type="submit" />
+                </form>
+            </fieldset>
+        </div>
 
     </body>
 </html>

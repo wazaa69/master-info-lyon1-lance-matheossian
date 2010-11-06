@@ -12,15 +12,15 @@
 
     <script type="text/javascript">
 
-        function nextTime() {
+        function getTime() {
             loadXMLAsynchroneously('POST','heureXML.jsp',null ,'heure');
-            setTimeout("nextTime()",5000);
+            setTimeout("getTime()",5000);
         }
         
     </script>
     
 
-    <body onload="nextTime();">
+    <body onload="getTime();">
         Heure magique : <div id="heure" ></div>
     </body>
 </html>

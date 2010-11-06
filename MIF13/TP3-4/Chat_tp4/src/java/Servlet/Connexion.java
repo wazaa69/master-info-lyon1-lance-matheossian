@@ -9,6 +9,7 @@ package Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet : validation du formulaire pour se logger (POST)
  */
-public class Login extends HttpServlet {
+public class Connexion extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -43,6 +44,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+
         //redirection vers la page index.html
         response.sendRedirect("connexion.html");
     } 
@@ -73,7 +75,7 @@ public class Login extends HttpServlet {
             session.setAttribute("nom", nom);
 
             //redirection vers la page en frames
-            response.sendRedirect("frames.html");
+            response.sendRedirect("chatRoom.jsp");
         }
     }
 
