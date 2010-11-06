@@ -9,7 +9,7 @@ TypeUser::TypeUser(Type& _type, int _id)
 {
 	type = new Type(_type.getStringType());
 	id = _id;
-	categorie = new string("  type  ");
+	categorie = new string("  type   ");
 
 }
 

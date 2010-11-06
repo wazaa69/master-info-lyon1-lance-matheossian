@@ -3,7 +3,7 @@
 using namespace std;
 
 Programme::Programme(){
-    categorie = new string("  prog  ");
+    categorie = new string("  prog   ");
     id = 0;
     type = NULL; 
 }

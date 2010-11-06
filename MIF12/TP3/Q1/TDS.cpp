@@ -1,6 +1,9 @@
 #include <iostream>
 
 #include "TDS.hpp"
+#include "Fonction.hpp"
+#include "Procedure.hpp"
+
 
 using namespace std;
 
@@ -133,10 +136,30 @@ void TableDesSymboles::ajouter(Symbole* symb){tableSymb.push_back(symb);}
 void TableDesSymboles::afficherTablePrincipale()
 {	cout << 0 << " | " <<(*tableSymb[0]->getCategorie()) << " | "<< endl;
 
-	for (unsigned int i = 1; i < tableSymb.size(); i++)
-		cout << tableSymb[i]->getID() << " | " <<(*tableSymb[i]->getCategorie()) << " | " << *(tableSymb[i]->getType()->getStringType()) << endl;
+	for (unsigned int i = 1; i < tableSymb.size(); i++){
+		if ((*tableSymb[i]->getCategorie() != "procedure") && (*tableSymb[i]->getCategorie() != "fonction"))
+			cout << tableSymb[i]->getID() << " | " <<(*tableSymb[i]->getCategorie()) << " | " << *(tableSymb[i]->getType()->getStringType()) << endl; 
+		else if (*tableSymb[i]->getCategorie() == "procedure")
+			{
+				Procedure* p = static_cast<Procedure*>(tableSymb[i]);
+				cout << tableSymb[i]->getID() << " | " <<(*tableSymb[i]->getCategorie())<< " | " <<  p->getArite()  << " | TS" << p->getNomTDS() <<endl;
+			}
+			
+		else if (*tableSymb[i]->getCategorie() == "fonction")
+			{	
+				Fonction* f = static_cast<Fonction*>(tableSymb[i]);
+				cout << f->getID() << " | " << *f->getCategorie() << "  | " <<  f->getArite()  << " | TS" << f->getNomTDS()  <<"  | " <<*f->getType()->getStringType()<<endl; // pour la fonction getType donne le type de retour
+			}
+	}
 }
 
+/*
+class A {};
+class B : public A {};                 
+
+B *b = new B;
+A *a = static_cast<A*>( b );
+*/
 
 void TableDesSymboles::afficherTable()
 {	
@@ -151,7 +174,7 @@ void TableDesSymboles::afficherTables(std::vector<TableDesSymboles*> listeTDS)
 {
 	for (unsigned int i = 0; i < listeTDS.size(); i++)
 	{
-		cout << "Table Des Symboles " << listeTDS[i]->numeroContexteTS << endl;
+		cout << "Table Des Symboles TS" << listeTDS[i]->numeroContexteTS << endl;
 		
 		if(listeTDS[i]->numeroContexteTS == 0) { listeTDS[i]-> afficherTablePrincipale();}
 		else{listeTDS[i]->afficherTable();}

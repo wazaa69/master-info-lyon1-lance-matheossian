@@ -85,7 +85,8 @@
 	unsigned int TDS_Actuelle = 0; // contient le numéro de la TS actuelle
 	unsigned int niveauTDS = 0; // contient le niveau actuel de la TS (0 pour la TS principale, 1 pour celles déclarées dans cette TS, puis 2 etc)
 	extern std::vector<int> tabTDSPere; // contient les numeros des TDS en fonction du niveauTDS
-	
+
+	int ariteArgFoncProc = 0;
 	
 
 %}
@@ -155,6 +156,7 @@
 %type <typeArray> ArrayType
 %type <typePointeur> PointerType
 %type <typeRecord> RecordType
+%type <type> FuncResult
 
 %type <expression> CompExpr
 %type <expression> BoolExpr
@@ -229,10 +231,8 @@ ListDeclConst  : ListDeclConst DeclConst				{ $$ = $2;}
                ;
 
 DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ 	
-										//cout  << tableId->getElement($1)<< "TypeExpression: " << *($3->getType()->getStringType()) << endl;
-										//cout << "valBool: " << ($3->getValBool()) << " valInt: " << ($3->getValInteger()) << " valString: " << (*$3->getValString()) ;
-										//cout << "valFloat: " << ($3->getValFloat())  << endl<<endl;
-								
+
+										// ici on pourrait créer une instruction 3@ pour récupérer le code
 						
 									   	tmpType.push_back($3->getType());
 										$$ = $3;
@@ -243,20 +243,7 @@ DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{
 
 
 
-BlockDeclFunc : ListDeclFunc SEP_SCOL			{
-													
-								/*
-								for(unsigned int i = 0 ; i < tmpNumId.size(=) ; i ++)
-								{
-									 je pense qu'on doit remonter qq chose qui indique si c'est une fonction ou une procédure 
-									//listeTDS[0]->ajouter(new Procedure($3, tableSymb->getNumIdActuel(true))); 
-								}
-								*/
-
-								
-
-								//tmpNumId.clear();
-							}
+BlockDeclFunc : ListDeclFunc SEP_SCOL			{}
                |
                ;
 
@@ -264,19 +251,20 @@ ListDeclFunc   : ListDeclFunc SEP_SCOL DeclFunc
                | DeclFunc					
                ;
 
-DeclFunc       : ProcDecl					{ niveauTDS--;	}
-               | FuncDecl					{ niveauTDS--; 	}
+DeclFunc       : ProcDecl					{ niveauTDS--;  }	
+								
+               | FuncDecl					{ niveauTDS--;  }
+								
                ;
 
-ProcDecl       : ProcHeader SEP_SCOL Block		
+ProcDecl       : ProcHeader SEP_SCOL Block			
                ;
 
-ProcHeader     : ProcIdent	
-               | ProcIdent FormalArgs
-               ;
+ProcHeader     : ProcIdent					{
 
-ProcIdent      : KW_PROC TOK_IDENT				 {
-						
+								//#################### 
+
+
 								unsigned int numTDS = TDS_Actuelle;
 
 								if (niveauTDS == tabTDSPere.size()) 
@@ -287,6 +275,9 @@ ProcIdent      : KW_PROC TOK_IDENT				 {
 								
 								numTDS = tableSymb->getNumContexteTSActuel(true);
 
+								listeTDS[0]->ajouter(new Procedure(tableSymb->getNumIdActuel(true), ariteArgFoncProc, numTDS));/* rajouter l'arité et le nom de la TDS */
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
 
@@ -295,7 +286,36 @@ ProcIdent      : KW_PROC TOK_IDENT				 {
 								niveauTDS++;
 
 
-								   }	
+								}
+               | ProcIdent FormalArgs				{
+
+								//#################### 
+								
+
+								unsigned int numTDS = TDS_Actuelle;
+
+								if (niveauTDS == tabTDSPere.size()) 
+									{ tabTDSPere.push_back(numTDS);}
+								else { tabTDSPere[niveauTDS] = numTDS;}
+								
+
+								numTDS = tableSymb->getNumContexteTSActuel(true);
+
+								listeTDS[0]->ajouter(new Procedure(tableSymb->getNumIdActuel(true),ariteArgFoncProc, numTDS));/* rajouter l'arité et le nom de la TDS */
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+
+								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
+
+								TDS_Actuelle = numTDS;
+
+								niveauTDS++;
+
+
+								 }
+               ;
+
+ProcIdent      : KW_PROC TOK_IDENT				 	
                ;
 
 
@@ -311,22 +331,45 @@ FormalArg      : ValFormalArg
                | VarFormalArg
                ;
 
-ValFormalArg   : ListIdent SEP_DOTS TOK_IDENT
+ValFormalArg   : ListIdent SEP_DOTS Type		{ ariteArgFoncProc++; }
                ;
 
-VarFormalArg   : KW_VAR ListIdent SEP_DOTS TOK_IDENT
+VarFormalArg   : KW_VAR ListIdent SEP_DOTS Type    { ariteArgFoncProc++; }
                ;
 
 
 FuncDecl	:	FuncHeader SEP_SCOL Block 
 		;
 
-FuncHeader     : FuncIdent FuncResult
-               | FuncIdent FormalArgs FuncResult
-               ;
+FuncHeader     : FuncIdent FuncResult			 {
+							   
+								//####################
+								
+								
+								unsigned int numTDS = TDS_Actuelle;
 
-FuncIdent      : KW_FUNC TOK_IDENT			 {
-						
+								if (niveauTDS == tabTDSPere.size()) 
+									{ tabTDSPere.push_back(numTDS);}
+								else { tabTDSPere[niveauTDS] = numTDS;}
+								
+								numTDS = tableSymb->getNumContexteTSActuel(true);
+
+								listeTDS[0]->ajouter(new Fonction(tableSymb->getNumIdActuel(true),$2,ariteArgFoncProc,numTDS)); 
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+
+								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
+								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
+								
+								TDS_Actuelle = numTDS;
+	
+								niveauTDS++;
+		
+
+							  }
+               | FuncIdent FormalArgs FuncResult	 { 
+							       //#################### 
+								
+								
 								unsigned int numTDS = TDS_Actuelle;
 
 
@@ -337,6 +380,8 @@ FuncIdent      : KW_FUNC TOK_IDENT			 {
 
 								
 								numTDS = tableSymb->getNumContexteTSActuel(true);
+								listeTDS[0]->ajouter(new Fonction(tableSymb->getNumIdActuel(true),$3,ariteArgFoncProc,numTDS)); 
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
@@ -344,12 +389,15 @@ FuncIdent      : KW_FUNC TOK_IDENT			 {
 								TDS_Actuelle = numTDS;
 	
 								niveauTDS++;
-		
+							}
 
-							   }	
+							   
                ;
 
-FuncResult     : SEP_DOTS TOK_IDENT
+FuncIdent      : KW_FUNC TOK_IDENT			 {}	
+               ;
+
+FuncResult     : SEP_DOTS Type				{ $$ = $2; /* on remonte le type de retour de la fonction */}
                ;
 
 
