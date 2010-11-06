@@ -66,9 +66,9 @@
 	extern std::vector<TypeUser*> listeTypeUser;
 
 	TypeUser* symbTypeUserRemonte;
-	int remonteeTypeUser = false;
+	bool remonteeTypeUser = false;
 
-	int numTDS_TypeRemonte;
+	unsigned int numTDS_TypeRemonte;
 //###############################################  RECORDS  
 
 	bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
@@ -91,7 +91,7 @@
 	unsigned int niveauTDS = 0; // contient le niveau actuel de la TS (0 pour la TS principale, 1 pour celles déclarées dans cette TS, puis 2 etc)
 	extern std::vector<int> tabTDSPere; // contient les numeros des TDS en fonction du niveauTDS
 
-	int ariteArgFoncProc = 0;
+	unsigned int ariteArgFoncProc = 0;
 
 //############################################### ARGUMENTS
 
@@ -362,7 +362,7 @@ ValFormalArg   : ListIdent SEP_DOTS Type		{ ariteArgFoncProc++;
 								else 
 								{
 									// on vérifie que le typeUser de l'argument est bien défini dans la TS principale
-									if ((numTDS_TypeRemonte == 0) || (numTDS_TypeRemonte == TDS_Actuelle)){
+									if (numTDS_TypeRemonte == 0){
 									tabArguments.push_back(new Argument(symbTypeUserRemonte, tableSymb->getNumIdActuel(true)+1));
 									}
 									else { std::cerr << "Erreur : Le type de l'argument de la fonc/proc n'est pas défini dans la TS principale \n"; erreur = true; return 0;}
@@ -379,7 +379,8 @@ VarFormalArg   : KW_VAR ListIdent SEP_DOTS Type         { ariteArgFoncProc++;
 							for (unsigned i = 0; i < tmpNumId.size() ; i++)
 							{	
 								if (remonteeTypeUser == false)
-								{		
+								{	
+									
 									tabArguments.push_back(new Argument($4, tableSymb->getNumIdActuel(true)+1));
 									
 								}
@@ -506,21 +507,39 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 									if (TDS_Actuelle == 0){ tempNumTds = 0;} else { tempNumTds = TDS_Actuelle-1;}
 
 
-                                                                    for(unsigned int i = 0; i < tmpNumId.size() ; i++){
-									
-									if (!ajoutRecord){
-									
-									
-									listeTDS[tempNumTds]->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); 
+									for(unsigned int i = 0; i < tmpNumId.size() ; i++){
+										if (remonteeTypeUser == false)
+										{		
+											if (!ajoutRecord){ listeTDS[tempNumTds]->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); }
+												
+												
+						                                        else{tableSymb->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
+										}
+										else
+										{
+											
+											
+											// on vérifie que le typeUser de l'argument est bien défini dans la TS principale
+											if ((numTDS_TypeRemonte == 0) || (numTDS_TypeRemonte == TDS_Actuelle-1)){
+												listeTDS[tempNumTds]->ajouter(new Variable(symbTypeUserRemonte, tableSymb->getNumIdActuel(true)));
+											}
+											else { std::cerr << "Erreur : Le type de la variable définie dans la fonc/proc n'est pas défini dans la TS principale \n"; erreur = true; return 0;}
+										}
+														
 									}
-                                                                        else{tableSymb->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
-															
-                                                                    }
-
-                                                                    tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante						     
+									remonteeTypeUser = false;
+									tmpNumId.clear(); //on supprime le contenu pour la liste de déclaration suivante						     
 				
 
                                                                 }
+		| KW_LABEL TOK_IDENT SEP_SCOL			{	int tempNumTds;
+									if (TDS_Actuelle == 0){ tempNumTds = 0;} else { tempNumTds = TDS_Actuelle-1;}
+
+									listeTDS[tempNumTds]->ajouter(new Etiquette(tableSymb->getNumIdActuel(true)));
+									
+
+								
+								}
                 ;
 
 
