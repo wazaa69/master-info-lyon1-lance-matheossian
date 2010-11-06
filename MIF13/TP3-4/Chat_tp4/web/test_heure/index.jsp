@@ -20,8 +20,7 @@
     </script>
     
 
-
     <body onload="nextTime();">
-        Heure magique : <div id="heure" ></div>
+        Heure magique : <xml id="heure" ></xml>
     </body>
 </html>
