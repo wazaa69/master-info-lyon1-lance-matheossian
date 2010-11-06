@@ -1,12 +1,16 @@
+<%
+    //Pour éviter que l'on se connecte, sans même avoir de session (php like)
+    String sessionNom = (String) request.getSession(false).getAttribute("nom");
+    if (sessionNom == null) response.sendRedirect("connexion.html");
+
+%>
+
 <%@page import="Gestion.Message"%>
-<%@page import="javax.servlet.http.Cookie" %>
+
 <jsp:useBean id="gestion" scope="application" class="Gestion.GestionMessages"/>
 <jsp:useBean id="outils" scope="application" class="Gestion.Outils"/>
 
 <%
-
-    //gestion.ajouterMessage(new Message("bob", "teste"));
-
     String methode = request.getMethod();
 
     String nomCookie = "lastModified";
@@ -31,7 +35,7 @@
         }
 
         else {
-  
+ 
             //nb messages côté client
             nbMessClient = Integer.parseInt(tmpCookie.getValue());
             //nb messages côté serveur
@@ -62,6 +66,7 @@
 <Messages>
 <%for(int i = nbMessClient; i < gestion.intSize(); i++){%>
     <Message>
+
         <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>
         <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
     </Message>
