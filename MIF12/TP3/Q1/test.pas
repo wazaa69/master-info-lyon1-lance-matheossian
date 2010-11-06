@@ -1,7 +1,7 @@
 program test;
 
-const   con2 = true;
-type tarray = array [ 1.. 10 ] of integer;
+const   cons1 = true;
+type type1 = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;
     vreal,vreal2  : real;
     temp   : string;
@@ -9,32 +9,34 @@ var v0 , v1 : integer;
     d1 : ^ integer;
     r1 : record
 		r11 : integer;
-		r12 : integer;
-		r13 : integer
+		r12 : real;
+		r13 : string
 		end;
     i1 : 1..10; 
 
 
-procedure proc1 (para1 : real ; para2 :integer);
-const   con3 = true;
-type tarray2 = array [ 1.. 10 ] of integer;
-var i2 : integer;
+procedure proc1 ( param1 : integer);
+const   cons2 = true;
+type type2 = array [ 1.. 10 ] of integer;
+var var2 : integer;
 begin
   r11;
   b1
 end;
 
 
-function getMinimum (para3 : real ; para4 :integer)  : string;
-var z, indice : integer;
+function fonc1 ( param2,param3 : real): string;
+const   cons3 = true;
+type type3 = array [ 1.. 10 ] of integer;
+var var3 : integer;
 begin
-z
+var3
 end;
 
-procedure proc3;
-const   con5 = true;
-type tarray4 = array [ 1.. 10 ] of integer;
-var i4 : integer;
+procedure proc3 ( param4 : string; param5 : real);
+const cons4 = true;
+type type4 = array [ 1.. 10 ] of integer;
+var var4 : integer;
 begin
   r11;
   b1

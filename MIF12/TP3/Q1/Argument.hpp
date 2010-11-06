@@ -2,18 +2,21 @@
 #define _ARGUMENT_
 
 #include "Symbole.hpp"
+
 /**
- * Gestion d'une constante.
+ * Gestion d'un argument.
  */
-class Argument  {
+class Argument : public Symbole {
        
 	public:
-
-	/**
-        *   @brief Constructeur, initialise l' Argument
+	
+	    /**
+        *   @brief Constructeur, initialise l'argument avec une catégorie et un type
+        *   @param _type le type du symbole
 	*   @param _id identifiant du symbole
         */
-        Argument(int _id);
+        Argument(Type* _type, int _id);
+
 
         /**
         *   @brief Destructeur

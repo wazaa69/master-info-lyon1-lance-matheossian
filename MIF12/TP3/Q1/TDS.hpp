@@ -85,8 +85,7 @@ class TableDesSymboles {
 
 //###################################################################################### METHODES
 	
-//	void incNumIdActuel();
-//	void incNumContexteActuel();
+	void incNumIdActuel();
 
         /**
         *   @brief Ajoute le symble dans la liste des symboles

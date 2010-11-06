@@ -30,6 +30,8 @@ TableDesSymboles::TableDesSymboles(int numContexte)
 
 //############################################################### ACCESSEURS
 
+
+
 int TableDesSymboles::getNumIdActuel(bool incrementation)
 {	
 	static int numeroId = 0;
@@ -127,6 +129,14 @@ void TableDesSymboles::incNumContexteActuel()
 	numeroContexte++;
 }
 */
+
+void TableDesSymboles::incNumIdActuel()
+{	
+	static int numeroId = 0;
+	numeroId++;
+	
+}
+
 //############################################################### METHODES
 
 
@@ -153,13 +163,6 @@ void TableDesSymboles::afficherTablePrincipale()
 	}
 }
 
-/*
-class A {};
-class B : public A {};                 
-
-B *b = new B;
-A *a = static_cast<A*>( b );
-*/
 
 void TableDesSymboles::afficherTable()
 {	
