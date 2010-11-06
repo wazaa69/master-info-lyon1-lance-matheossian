@@ -1,37 +1,61 @@
+<%-- Test la méthode utilisée :
+        - GET : test de l'existance du cookie, et comparaison de sa valeur
+                au nombre total de messages mémorisés :
+                   * maj des messages
+                   * Ou renvoie du code status 304 si pas de maj à faire
+        - POST : ajout d'un messages + réaffichage de tous les messages
+--%>
+
 <%@page import="java.math.BigDecimal"%>
 <jsp:useBean id="gestion" scope="application" class="Gestion.GestionMessages"/>
 <jsp:useBean id="outils" scope="application" class="Gestion.Outils"/>
-
+<%@page import="java.util.*,Gestion.Message,javax.servlet.ServletException,javax.servlet.http.HttpServlet,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,javax.servlet.http.HttpSession"%>
 <%
+    String methode = request.getMethod();
 
-    Cookie tmpCookie = null;
     String nomCookie = "lastModified";
-    boolean afficher = false;
+    Cookie tmpCookie = outils.getCookie(request.getCookies(), nomCookie);
 
-    if(request.getMethod().equalsIgnoreCase("GET")){
+    boolean afficherMessages = false;
+    boolean ajouterMessage = true;
 
-        //teste de l'existance du cookie
-        if(request.getCookies() == null){
-            
-            tmpCookie = new Cookie(nomCookie, gestion.stringSize());
+    int nbMessClient = 0;
+    int nbMessServeur = 0;
+    
+    //teste la méthode utilisée
+    if(methode.equals("GET")){
 
-            //ajout du cookie à la réponse
-            response.addCookie(tmpCookie);
-
+        //teste de l'existence du cookie, création si nécessaire
+        if(tmpCookie == null){
+            Cookie creation = new Cookie(nomCookie, ""+0);
+            creation.setMaxAge(500);
+            response.addCookie(creation);
         }
+
         else {
-            
-            //recherche du bon cookie
-            tmpCookie = outils.getCookie(request.getCookies(), nomCookie);
+  
+            //nb messages côté client
+            nbMessClient = Integer.parseInt(tmpCookie.getValue());
+            //nb messages côté serveur
+            nbMessServeur = gestion.intSize();
 
-            String messagesServer = gestion.stringSize(); //nb messages côté serveur
-            String messagesClient = tmpCookie.getValue(); //nb messages côté client
-
-            //comparaison du nombre de messages client/serveur
-            if(!messagesClient.equalsIgnoreCase(messagesServer)) afficher = true;
+            /*
+            * Comparaison du nombre de messages, client/serveur.
+            * Si < est vrai, alors on affiche les messages,
+            * sinon on dit au client que tout va bien (304)
+            */
+            if(nbMessClient < nbMessServeur)
+                afficherMessages = true;
+            else response.setStatus(304); //ok, pas de maj
         }
-
     }
+    //Un message va être ajouté et on va tous les réafficher
+    else if(methode.equals("POST")){
+        afficherMessages = true;
+        ajouterMessage = true;
+    }
+    else{}
+
 %>
 
 
@@ -44,20 +68,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="refresh" content="2" />
-        <title>Chat-Room</title>
+        <title>Chat-Room ___ooo(O.O)ooo___</title>
     </head>
 
     <body onload="document.location='#EnBas'">
 
-        <h2>Chat - Room ___ooo(O.O)ooo___</h2>
-
-        <% if(request.getMethod().equalsIgnoreCase("POST")){ %>
-                <jsp:include page="stockage.jsp"/>
+        <% if(ajouterMessage){ %>
+                <jsp:include page="stockage.jsp" />
         <% } %>
 
-        <% if(afficher){ %>
-            <jsp:include page="affichage.jsp"/>
-        <% }%>
+
+        <% if(afficherMessages){
+            //le cookie ne se met pas à jour dans l'affichage, donc ce if est tout le temps appelé
+            //out.print(gestion.compteurAffichage + " / " + nbMessClient + " / " + nbMessServeur + "<br/>");
+            //out.print(nbMessClient + " / " + nbMessServeur);
+        %>
+            <jsp:include page="affichage.jsp" />
+        <% } %>
+
+        <a name="EnBas" />
 
     </body>
 </html>
