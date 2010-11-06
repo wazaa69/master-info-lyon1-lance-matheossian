@@ -1,0 +1,4 @@
+<!ELEMENT date (heure,min,sec)>
+<!ELEMENT heure (#PCDATA)>
+<!ELEMENT min (#PCDATA)>
+<!ELEMENT sec (#PCDATA)>
