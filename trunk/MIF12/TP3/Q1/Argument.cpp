@@ -1,5 +1,7 @@
 #include "Argument.hpp"
 
+
+
 using namespace std;
 
 
@@ -9,6 +11,13 @@ using namespace std;
     	type = _type;
 	id = _id;
 }
+
+  Argument::Argument(TypeUser* _typeUser, int _id){
+	categorie = new string("argument "); 
+    	type = _typeUser->getType();
+	id = _id;
+}
+
 
 
 

@@ -2,6 +2,7 @@
 #define _ARGUMENT_
 
 #include "Symbole.hpp"
+#include "TypeUser.hpp"
 
 /**
  * Gestion d'un argument.
@@ -17,6 +18,7 @@ class Argument : public Symbole {
         */
         Argument(Type* _type, int _id);
 
+	  Argument(TypeUser* _typeUser, int _id);
 
         /**
         *   @brief Destructeur

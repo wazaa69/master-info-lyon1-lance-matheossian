@@ -15,6 +15,7 @@ class TypeUser : public Symbole {
 	~TypeUser();
 
 
+	Type* getType();
 };
 
 #endif

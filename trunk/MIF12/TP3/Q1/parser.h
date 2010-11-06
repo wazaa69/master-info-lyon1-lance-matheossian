@@ -55,38 +55,39 @@
      KW_FUNC = 271,
      KW_PROC = 272,
      KW_CONST = 273,
-     KW_DIV = 274,
-     KW_MOD = 275,
-     KW_AND = 276,
-     KW_OR = 277,
-     KW_XOR = 278,
-     KW_NOT = 279,
-     SEP_SCOL = 280,
-     SEP_DOT = 281,
-     SEP_DOTS = 282,
-     SEP_COMMA = 283,
-     SEP_CO = 284,
-     SEP_CF = 285,
-     SEP_DOTDOT = 286,
-     SEP_PO = 287,
-     SEP_PF = 288,
-     OP_PTR = 289,
-     OP_SUB = 290,
-     OP_EQ = 291,
-     OP_NEQ = 292,
-     OP_LTE = 293,
-     OP_MUL = 294,
-     OP_GT = 295,
-     OP_GTE = 296,
-     OP_ADD = 297,
-     OP_LT = 298,
-     OP_SLASH = 299,
-     TOK_IDENT = 300,
-     TOK_INTEGER = 301,
-     TOK_REAL = 302,
-     TOK_STRING = 303,
-     TOK_PTR = 304,
-     TOK_BOOLEAN = 305
+     KW_LABEL = 274,
+     KW_DIV = 275,
+     KW_MOD = 276,
+     KW_AND = 277,
+     KW_OR = 278,
+     KW_XOR = 279,
+     KW_NOT = 280,
+     SEP_SCOL = 281,
+     SEP_DOT = 282,
+     SEP_DOTS = 283,
+     SEP_COMMA = 284,
+     SEP_CO = 285,
+     SEP_CF = 286,
+     SEP_DOTDOT = 287,
+     SEP_PO = 288,
+     SEP_PF = 289,
+     OP_PTR = 290,
+     OP_SUB = 291,
+     OP_EQ = 292,
+     OP_NEQ = 293,
+     OP_LTE = 294,
+     OP_MUL = 295,
+     OP_GT = 296,
+     OP_GTE = 297,
+     OP_ADD = 298,
+     OP_LT = 299,
+     OP_SLASH = 300,
+     TOK_IDENT = 301,
+     TOK_INTEGER = 302,
+     TOK_REAL = 303,
+     TOK_STRING = 304,
+     TOK_PTR = 305,
+     TOK_BOOLEAN = 306
    };
 #endif
 
@@ -97,7 +98,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 178 "parser.y"
+#line 183 "parser.y"
 
 
 	int numeroIdent;
@@ -121,7 +122,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 125 "parser.h"
+#line 126 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
