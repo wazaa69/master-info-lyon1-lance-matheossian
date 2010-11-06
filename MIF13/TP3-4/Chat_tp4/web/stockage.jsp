@@ -3,7 +3,7 @@
 <%@page import="Gestion.Message"%>
 <%@page import="javax.servlet.http.Cookie" %>
 <jsp:useBean id="gestion" scope="application" class="Gestion.GestionMessages"/>
-<jsp:useBean id="outils" scope="application" class="Gestion.Outils"/>
+
 <%
     String messageRecu = request.getParameter("message");
 

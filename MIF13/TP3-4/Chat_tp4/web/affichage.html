@@ -7,21 +7,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title></title>
 
-        <script type="text/javascript" src="js/ajax.js"></script>
+        <script type="text/javascript" src="ajax.js"></script>
 
         <script type="text/javascript">
 
-            function nextTime() {
-                loadXMLAsynchroneously('GET','messages.jsp',null ,'listeMessages');
+            function recupererMessages() {
+                loadXMLAsynchroneously('GET', 'messages.jsp', null, 'listeMessages');
                 document.location = '#EnBas';
-                setTimeout("nextTime()",5000);
+                setTimeout("recupererMessages()",5000);
             }
 
         </script>
 
     </head>
 
-    <body onload="nextTime()">
+    <body onload="recupererMessages()">
 
         <div id="listeMessages">
 
