@@ -1,7 +1,12 @@
+<%@page import="Gestion.Message"%>
 <%@page import="javax.servlet.http.Cookie" %>
 <jsp:useBean id="gestion" scope="application" class="Gestion.GestionMessages"/>
 <jsp:useBean id="outils" scope="application" class="Gestion.Outils"/>
+
 <%
+
+    //gestion.ajouterMessage(new Message("bob", "teste"));
+
     String methode = request.getMethod();
 
     String nomCookie = "lastModified";
@@ -12,14 +17,16 @@
 
     int nbMessClient = 0;
     int nbMessServeur = 0;
+
+    //gestion.ajouterMessage(new Message("Bob", "test")); //test
     
     //teste la méthode utilisée
-    if(methode.equals("GET")){
+    if(methode.equalsIgnoreCase("GET")){
 
         //teste de l'existence du cookie, création si nécessaire
         if(tmpCookie == null){
-            Cookie creation = new Cookie(nomCookie, "" + 0);
-            creation.setMaxAge(500);
+            Cookie creation = new Cookie(nomCookie, gestion.stringSize());
+            creation.setMaxAge(-1);
             response.addCookie(creation);
         }
 
@@ -37,31 +44,27 @@
             */
             if(nbMessClient < nbMessServeur){
                 afficherMessages = true;
-                Cookie c = new Cookie(nomCookie, gestion.stringSize());
-                response.addCookie(c);
+                response.addCookie(new Cookie(nomCookie, gestion.stringSize()));
             }
-            else response.setStatus(204); //Envoie de "No Content" => aucun nouveau message récupéré
+            else //Envoie de "204 No Content" => aucun nouveau message à récupérer (par défaut : 200 OK)
+                response.setStatus(204);
         }
     }
     //Un message va être ajouté
-    else if(methode.equals("POST")){
+    else if(methode.equalsIgnoreCase("POST"))
         ajouterMessage = true;
-        afficherMessages = true;
-    }
 
 %>
 
-<% if(ajouterMessage){ %> <jsp:include page="stockage.jsp" flush="true"/> <% } %>
+<% if(ajouterMessage){ %> <jsp:include page="stockage.jsp" /> <% } %>
 
+<% if(afficherMessages){%>
 <Messages>
-    <% if(afficherMessages){
-  
-        for(int i = nbMessClient; i < gestion.intSize(); i++){%>
-            <Message>
-                <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>"
-                <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
-            </Message>
-        <%}
-
-    } %>
+<%for(int i = nbMessClient; i < gestion.intSize(); i++){%>
+    <Message>
+        <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>
+        <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
+    </Message>
+<%}%>
 </Messages>
+<% } %>
