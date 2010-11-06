@@ -66,7 +66,7 @@
 <Messages>
 <%for(int i = nbMessClient; i < gestion.intSize(); i++){%>
     <Message>
-
+        <jsp:include page="date/heureXML.jsp" />
         <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>
         <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
     </Message>

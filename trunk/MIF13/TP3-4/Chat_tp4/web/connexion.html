@@ -1,17 +1,24 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
   <head>
-    <title>Login</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Connexion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/template.css"  />
   </head>
   <body>
-      <form method="POST" action="Login" >
-          <h1>Bienvenue dans mon appli de chat</h1>
-          <br/>
-          Entrez votre pseudo pour vous connecter
+      <div id="etape">
+          <h1>Chat Room</h1>
+          <img src="images/dialoguer.png" alt="dialoguer"/>
           <br/><br/>
-          <input id="nom" name="nom" type="text" />
-          <input type="submit" value="Connexion" />
-      </form>
+          Entrez votre pseudo pour vous connecter.
+          <br/><br/>
+          <form method="POST" action="Login" >
+              <div> 
+                  <input id="nom" name="nom" type="text" />
+                  <input type="submit" value="Connexion" />
+              </div>
+          </form>
+      </div>
   </body>
 </html>

@@ -1,0 +1,38 @@
+body{
+    background:black;
+    color: white;
+    font-family: arial;
+}
+
+
+/* Connexion/Déconnexion */
+
+#etape{text-align: center;}
+
+#etape h1{font-size:48px;}
+
+
+
+/* Le chat */
+
+#listeMessages{
+    height:690px;
+    overflow:auto;
+    margin-bottom:15px;
+}
+
+#saisie fieldset{
+    height:60px;
+    width:90%;
+}
+
+#saisie #texte{
+    height:25px;
+    width:90%;
+}
+
+#deconnexion{
+    position:absolute;
+    right:0px;
+    margin-top: -65px;
+}
