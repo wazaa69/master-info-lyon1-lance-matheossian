@@ -1,4 +1,11 @@
-<%-- Réception et mémorisation des messages envoyés par POST--%>
+<%
+    //Pour éviter que l'on se connecte, sans même avoir de session (php like)
+    String sessionNom = (String) request.getSession(false).getAttribute("nom");
+    if (sessionNom == null) response.sendRedirect("connexion.html");
+
+%>
+
+<%-- Réception et mémorisation des messages envoyés par POST --%>
 
 <%@page import="Gestion.Message"%>
 <%@page import="javax.servlet.http.Cookie" %>
