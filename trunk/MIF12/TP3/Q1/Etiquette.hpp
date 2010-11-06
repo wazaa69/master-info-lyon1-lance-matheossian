@@ -5,7 +5,7 @@
 /**
  * Gestion d'une constante.
  */
-class Etiquette  {
+class Etiquette : public Symbole {
        
 	public:
 

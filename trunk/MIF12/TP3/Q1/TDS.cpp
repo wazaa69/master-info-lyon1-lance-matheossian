@@ -3,6 +3,8 @@
 #include "TDS.hpp"
 #include "Fonction.hpp"
 #include "Procedure.hpp"
+#include "Etiquette.hpp"
+#include "Programme.hpp"
 
 
 using namespace std;
@@ -143,11 +145,12 @@ void TableDesSymboles::incNumIdActuel()
 void TableDesSymboles::ajouter(Symbole* symb){tableSymb.push_back(symb);}
 
 
-void TableDesSymboles::afficherTablePrincipale()
-{	cout << 0 << " | " <<(*tableSymb[0]->getCategorie()) << " | "<< endl;
-
-	for (unsigned int i = 1; i < tableSymb.size(); i++){
-		if ((*tableSymb[i]->getCategorie() != "procedure") && (*tableSymb[i]->getCategorie() != "fonction"))
+void TableDesSymboles::afficherTable()
+{	
+	
+	for (unsigned int i = 0; i < tableSymb.size(); i++){
+		
+		if ((*tableSymb[i]->getCategorie() != "procedure") && (*tableSymb[i]->getCategorie() != "fonction") && (*tableSymb[i]->getCategorie() != "etiquette") && (*tableSymb[i]->getCategorie() != "  prog   "))
 			cout << tableSymb[i]->getID() << " | " <<(*tableSymb[i]->getCategorie()) << " | " << *(tableSymb[i]->getType()->getStringType()) << endl; 
 		else if (*tableSymb[i]->getCategorie() == "procedure")
 			{
@@ -160,16 +163,18 @@ void TableDesSymboles::afficherTablePrincipale()
 				Fonction* f = static_cast<Fonction*>(tableSymb[i]);
 				cout << f->getID() << " | " << *f->getCategorie() << "  | " <<  f->getArite()  << " | TS" << f->getNomTDS()  <<"  | " <<*f->getType()->getStringType()<<endl; // pour la fonction getType donne le type de retour
 			}
+		else if (*tableSymb[i]->getCategorie() == "etiquette")
+			{
+				Etiquette* e = static_cast<Etiquette*>(tableSymb[i]);
+				cout << e->getID() << " | " << *e->getCategorie() << " | " << endl; 
+			}
+		else if (*tableSymb[i]->getCategorie() == "  prog   ")
+			{	
+				Programme* p = static_cast<Programme*>(tableSymb[i]);
+				cout << p->getID() << " | " << *p->getCategorie() << " | "<< endl;
+			}
+		
 	}
-}
-
-
-void TableDesSymboles::afficherTable()
-{	
-	
-
-	for (unsigned int i = 0; i < tableSymb.size(); i++)
-		cout << tableSymb[i]->getID() << " | " <<(*tableSymb[i]->getCategorie()) << " | " << *(tableSymb[i]->getType()->getStringType()) << endl;
 }
 
 
@@ -178,9 +183,7 @@ void TableDesSymboles::afficherTables(std::vector<TableDesSymboles*> listeTDS)
 	for (unsigned int i = 0; i < listeTDS.size(); i++)
 	{
 		cout << "Table Des Symboles TS" << listeTDS[i]->numeroContexteTS << endl;
-		
-		if(listeTDS[i]->numeroContexteTS == 0) { listeTDS[i]-> afficherTablePrincipale();}
-		else{listeTDS[i]->afficherTable();}
+		listeTDS[i]-> afficherTablePrincipale();
 		cout << endl;
 	}
 

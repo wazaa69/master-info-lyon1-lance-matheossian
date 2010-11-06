@@ -10,6 +10,13 @@ using namespace std;
 	id = _id;
 }
 
+  Variable::Variable(TypeUser* _typeUser, int _id){
+	categorie = new string("variable "); 
+    	type = _typeUser->getType();
+	id = _id;
+}
+
+
 
 
 Variable::~Variable(){}

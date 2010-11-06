@@ -2,6 +2,7 @@
 #define _VARIABLE_
 
 #include "Symbole.hpp"
+#include "TypeUser.hpp"
 
 /**
  * Gestion d'une variable.
@@ -17,7 +18,7 @@ class Variable : public Symbole {
         */
         Variable(Type* _type, int _id);
 
-
+	Variable(TypeUser* _typeUser, int _id);
         /**
         *   @brief Destructeur
         */

@@ -97,10 +97,12 @@ class TableDesSymboles {
         /**
         *   @brief Affiche le contenu de la table
         */
-	void afficherTablePrincipale();
-	
 	void afficherTable();
-
+	
+	 /**
+        *   @brief Affiche le contenu de toutes les tables contenues dans le tableau de TS en paramètre
+        *   @param listeTDS vector de TDS 
+        */
 	void afficherTables(std::vector<TableDesSymboles*> listeTDS);
 };
 

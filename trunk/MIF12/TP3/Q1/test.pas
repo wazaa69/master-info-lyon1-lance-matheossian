@@ -3,7 +3,8 @@ program test;
 const   cons1 = true;
 type type1 = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;
-    d1 : ^ integer;
+    d1 : ^ integer; 
+    label lab1;
     r1 : record
 		r11 : boolean;
 		r12 : real;
@@ -16,6 +17,7 @@ procedure proc1 ( param1 : integer);
 const   cons2 = true;
 type type2 = array [ 1.. 10 ] of integer;
 var var2 : integer;
+    label lab2;
 begin
   v0
 end;
@@ -24,7 +26,8 @@ end;
 function fonc1 ( param2,param3 : type1): string;
 const   cons3 = true;
 type type3 = array [ 1.. 10 ] of integer;
-var var3 : integer;
+var var3 : type1;
+    label lab3;
 begin
 v0
 end;
@@ -33,6 +36,7 @@ procedure proc3 ( param4 : string; param5 : type1);
 const cons4 = true;
 type type4 = array [ 1.. 10 ] of integer;
 var var4 : integer;
+    label lab4;
 begin
 v0
 end;
