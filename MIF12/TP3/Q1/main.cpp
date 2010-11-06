@@ -34,7 +34,7 @@ extern int yyparse();
 	std::vector<int> tabTDSPere;
 	std::vector<Argument*> tabArguments;
 
-
+	bool erreur = false;
 
 int main(int argc, char** argv)
 {   
@@ -50,24 +50,39 @@ int main(int argc, char** argv)
     yyparse();
 
     //affichage les tables
+
+    if(!erreur){
+
     std::cout << "\nTable des identifiants: \n"<<std::endl;
     tableId->afficherTable();
 
- 
      std::cout << std::endl;
      tableSymb->afficherTables(listeTDS);
 	
+   }
+
     if(yyin != NULL)
         fclose(yyin);
 
     //supression des instances
 
-    delete tableId;
-    delete tableSymb;
-    listeTDS.clear();
-    tmpNumId.clear();
-    listeTypeUser.clear();
-    tabArguments.clear();
+	delete tableSymb;
+	delete tableId;
+	delete tableInteger;
+	delete tableReal;
+	delete tableString;
+	delete tablePtr;
+	delete tableBoolean;
+
+	listeTDS.clear();
+	tmpNumId.clear();
+	tmpType.clear();
+	listeTypeUser.clear();
+	tabTDSPere.clear();
+	tabArguments.clear();
+
+ 	
+
 
     return 0;
 }

@@ -74,6 +74,7 @@ record			{column += yyleng; return KW_RECORD;}
 function 		{column += yyleng; return KW_FUNC;}
 procedure		{column += yyleng; return KW_PROC;}
 const			{column += yyleng; return KW_CONST;}
+label			{column += yyleng; return KW_LABEL;}
 
 div			{column += yyleng; return KW_DIV;}
 mod			{column += yyleng; return KW_MOD;}

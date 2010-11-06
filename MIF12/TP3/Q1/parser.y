@@ -43,7 +43,7 @@
 
 	using namespace std;
 
-
+	extern bool erreur;
 	extern FILE* yyin;
 	 extern char* yytext;
 	extern int yylex();
@@ -65,6 +65,10 @@
 	extern TypeUser* typeUser;
 	extern std::vector<TypeUser*> listeTypeUser;
 
+	TypeUser* symbTypeUserRemonte;
+	int remonteeTypeUser = false;
+
+	int numTDS_TypeRemonte;
 //###############################################  RECORDS  
 
 	bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
@@ -112,6 +116,7 @@
 %token KW_FUNC
 %token KW_PROC
 %token KW_CONST
+%token KW_LABEL
 
 %token KW_DIV
 %token KW_MOD
@@ -347,10 +352,24 @@ ValFormalArg   : ListIdent SEP_DOTS Type		{ ariteArgFoncProc++;
 							tableSymb->incNumIdActuel();
 							for (unsigned int i = 0; i < tmpNumId.size() ; i++)
 							{								
-								tabArguments.push_back(new Argument($3, tableSymb->getNumIdActuel(true)+1));
+								
+								if (remonteeTypeUser == false)
+								{		
+									tabArguments.push_back(new Argument($3, tableSymb->getNumIdActuel(true)+1));
+									
+								}
+				
+								else 
+								{
+									// on vérifie que le typeUser de l'argument est bien défini dans la TS principale
+									if ((numTDS_TypeRemonte == 0) || (numTDS_TypeRemonte == TDS_Actuelle)){
+									tabArguments.push_back(new Argument(symbTypeUserRemonte, tableSymb->getNumIdActuel(true)+1));
+									}
+									else { std::cerr << "Erreur : Le type de l'argument de la fonc/proc n'est pas défini dans la TS principale \n"; erreur = true; return 0;}
+								}
 							}
 						
-						
+							remonteeTypeUser = false;
 							tmpNumId.clear();}
                ;
 
@@ -358,11 +377,23 @@ VarFormalArg   : KW_VAR ListIdent SEP_DOTS Type         { ariteArgFoncProc++;
 							
 							tableSymb->incNumIdActuel();
 							for (unsigned i = 0; i < tmpNumId.size() ; i++)
-							{								
-								tabArguments.push_back(new Argument($4, tableSymb->getNumIdActuel(true)+1));
+							{	
+								if (remonteeTypeUser == false)
+								{		
+									tabArguments.push_back(new Argument($4, tableSymb->getNumIdActuel(true)+1));
+									
+								}
+				
+								else 
+								{	// on vérifie que le typeUser de l'argument est bien défini dans la TS principale
+									if (numTDS_TypeRemonte == 0){
+									tabArguments.push_back(new Argument(symbTypeUserRemonte, tableSymb->getNumIdActuel(true)+1));
+									}
+									else { std::cerr << "Erreur : Le type de l'argument de la fonc/proc n'est pas défini dans la TS principale \n"; erreur = true; return 0;}
+								}
 							}
 						
-						
+							remonteeTypeUser = false;
 							tmpNumId.clear();}
                ;
 
@@ -505,7 +536,13 @@ ListIdent        :    ListIdent SEP_COMMA TOK_IDENT             {tmpNumId.push_b
 //############################################################################################################################### TYPE
 
 
-Type            :    TOK_IDENT							{}	                
+Type            :    TOK_IDENT							{ 	
+											remonteeTypeUser = true;
+											
+											symbTypeUserRemonte = static_cast<TypeUser*>(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1));
+											numTDS_TypeRemonte = tableSymb->getTableSymbContenantI(listeTDS,$1)->getNumContexteTS();
+								
+										/* il faut analyser le tokident pour savoir s'il correspond a un type défini et le remonter  */}	                
 		|    UserType							{}
 		|    BaseType							{}
                 ;
@@ -681,8 +718,6 @@ Parameters     : SEP_PO ListParameters SEP_PF
 ListParameters : ListParameters SEP_COMMA Expression
                | Expression		*/}
                ;
-
-
 
 
 %%

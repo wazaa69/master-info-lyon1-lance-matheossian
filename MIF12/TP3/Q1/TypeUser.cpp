@@ -13,6 +13,9 @@ TypeUser::TypeUser(Type& _type, int _id)
 
 }
 
+Type* TypeUser::getType(){ return type;}
+
+
 TypeUser::~TypeUser(){
 
 }
