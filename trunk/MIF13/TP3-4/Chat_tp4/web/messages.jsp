@@ -1,15 +1,6 @@
-<%-- Test la mÃ©thode utilisÃ©e :
-        - GET : test de l'existance du cookie, et comparaison de sa valeur
-                au nombre total de messages mÃ©morisÃ©s :
-                   * maj des messages
-                   * Ou renvoie du code status 304 si pas de maj Ã  faire
-        - POST : ajout d'un messages + rÃ©affichage de tous les messages
---%>
-
-<%@page import="java.math.BigDecimal"%>
+<%@page import="javax.servlet.http.Cookie" %>
 <jsp:useBean id="gestion" scope="application" class="Gestion.GestionMessages"/>
 <jsp:useBean id="outils" scope="application" class="Gestion.Outils"/>
-<%@page import="java.util.*,Gestion.Message,javax.servlet.ServletException,javax.servlet.http.HttpServlet,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,javax.servlet.http.HttpSession"%>
 <%
     String methode = request.getMethod();
 
@@ -17,76 +8,60 @@
     Cookie tmpCookie = outils.getCookie(request.getCookies(), nomCookie);
 
     boolean afficherMessages = false;
-    boolean ajouterMessage = true;
+    boolean ajouterMessage = false;
 
     int nbMessClient = 0;
     int nbMessServeur = 0;
     
-    //teste la mÃ©thode utilisÃ©e
+    //teste la méthode utilisée
     if(methode.equals("GET")){
 
-        //teste de l'existence du cookie, crÃ©ation si nÃ©cessaire
+        //teste de l'existence du cookie, création si nécessaire
         if(tmpCookie == null){
-            Cookie creation = new Cookie(nomCookie, ""+0);
+            Cookie creation = new Cookie(nomCookie, "" + 0);
             creation.setMaxAge(500);
             response.addCookie(creation);
         }
 
         else {
   
-            //nb messages cÃ´tÃ© client
+            //nb messages côté client
             nbMessClient = Integer.parseInt(tmpCookie.getValue());
-            //nb messages cÃ´tÃ© serveur
+            //nb messages côté serveur
             nbMessServeur = gestion.intSize();
 
             /*
             * Comparaison du nombre de messages, client/serveur.
-            * Si < est vrai, alors on affiche les messages,
-            * sinon on dit au client que tout va bien (304)
+            * Si < est vrai, alors on va chercher les nouveaux messages,
+            * sinon on dit au client qu'il n'y a pas de nouveau contenu à récupérer (204)
             */
-            if(nbMessClient < nbMessServeur)
+            if(nbMessClient < nbMessServeur){
                 afficherMessages = true;
-            else response.setStatus(304); //ok, pas de maj
+                Cookie c = new Cookie(nomCookie, gestion.stringSize());
+                response.addCookie(c);
+            }
+            else response.setStatus(204); //Envoie de "No Content" => aucun nouveau message récupéré
         }
     }
-    //Un message va Ãªtre ajoutÃ© et on va tous les rÃ©afficher
+    //Un message va être ajouté
     else if(methode.equals("POST")){
-        afficherMessages = true;
         ajouterMessage = true;
+        afficherMessages = true;
     }
-    else{}
 
 %>
 
+<% if(ajouterMessage){ %> <jsp:include page="stockage.jsp" flush="true"/> <% } %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<Messages>
+    <% if(afficherMessages){
+  
+        for(int i = nbMessClient; i < gestion.intSize(); i++){%>
+            <Message>
+                <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>"
+                <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
+            </Message>
+        <%}
 
-
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta http-equiv="refresh" content="2" />
-        <title>Chat-Room ___ooo(O.O)ooo___</title>
-    </head>
-
-    <body onload="document.location='#EnBas'">
-
-        <% if(ajouterMessage){ %>
-                <jsp:include page="stockage.jsp" />
-        <% } %>
-
-
-        <% if(afficherMessages){
-            //le cookie ne se met pas Ã  jour dans l'affichage, donc ce if est tout le temps appelÃ©
-            //out.print(gestion.compteurAffichage + " / " + nbMessClient + " / " + nbMessServeur + "<br/>");
-            //out.print(nbMessClient + " / " + nbMessServeur);
-        %>
-            <jsp:include page="affichage.jsp" />
-        <% } %>
-
-        <a name="EnBas" />
-
-    </body>
-</html>
+    } %>
+</Messages>

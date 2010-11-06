@@ -14,7 +14,7 @@
 
         function nextTime() {
             loadXMLAsynchroneously('POST','heureXML.jsp',null ,'heure');
-            setTimeout("nextTime()",1000);
+            setTimeout("nextTime()",5000);
         }
         
     </script>
