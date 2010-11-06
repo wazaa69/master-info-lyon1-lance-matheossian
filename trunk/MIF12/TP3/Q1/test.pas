@@ -15,32 +15,32 @@ var v0 , v1 : integer;
     i1 : 1..10; 
 
 
-procedure proc1 ( var dest : tarray );
+procedure proc1 (para1 : real ; para2 :integer);
 const   con3 = true;
 type tarray2 = array [ 1.. 10 ] of integer;
-var i1 : integer;
-begin
-  r11;
-  b1
-end;
-
-procedure proc2 ( var dest : tarray );
-const   con4 = true;
-type tarray3 = array [ 1.. 10 ] of integer;
 var i2 : integer;
 begin
   r11;
   b1
 end;
 
-procedure proc3 ( var dest : tarray );
+
+function getMinimum (para3 : real ; para4 :integer)  : string;
+var z, indice : integer;
+begin
+z
+end;
+
+procedure proc3;
 const   con5 = true;
 type tarray4 = array [ 1.. 10 ] of integer;
-var i3 : integer;
+var i4 : integer;
 begin
   r11;
   b1
 end;
+
+
 
 begin
   b1

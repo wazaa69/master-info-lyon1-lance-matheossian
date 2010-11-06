@@ -4,7 +4,7 @@
 #include "Symbole.hpp"
 
 /**
- * Gestion d'une constante.
+ * Gestion d'une variable.
  */
 class Variable : public Symbole {
        

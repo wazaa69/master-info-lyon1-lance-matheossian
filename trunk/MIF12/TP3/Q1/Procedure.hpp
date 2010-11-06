@@ -1,28 +1,37 @@
+
 #ifndef _PROCEDURE_
 #define _PROCEDURE_
 
 #include "Symbole.hpp"
-#include "TDS.hpp"
 /**
- * Gestion d'une constante.
+ * Gestion d'une procédure
  */
-class Procedure  {
-        private:
+class Procedure : public Symbole {
+       
+	
+	private:
 
-	TableDesSymboles* TDSLocale;
+	int nomTDS;
+	int arite;
 
 	public:
-
-	/**
-        *   @brief Constructeur, initialise la Fonction 
+	
+	    /**
+        *   @brief Constructeur, initialise le symbole avec un identifiant
 	*   @param _id identifiant du symbole
         */
-        Procedure(int _id);
+        Procedure(int _id, int _arite, int _nomTDS);
+
+	int getNomTDS();
+
+	int getArite();
+
 
         /**
         *   @brief Destructeur
         */
         ~Procedure();	
+	
 	
 };
 

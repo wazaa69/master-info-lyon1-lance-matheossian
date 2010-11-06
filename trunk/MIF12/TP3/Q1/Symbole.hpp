@@ -3,6 +3,7 @@
 
 #include "Type.hpp"
 
+
 /**
  * Gestion d'un symbole.
  */
