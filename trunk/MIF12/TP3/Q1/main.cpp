@@ -4,6 +4,7 @@
 #include "TDI.hpp"
 #include "TDS.hpp"
 #include "TypeUser.hpp"
+#include "Argument.hpp"
 
 
 extern FILE* yyin;
@@ -31,6 +32,7 @@ extern int yyparse();
 	std::vector<TypeUser*> listeTypeUser;
 
 	std::vector<int> tabTDSPere;
+	std::vector<Argument*> tabArguments;
 
 
 
@@ -65,6 +67,7 @@ int main(int argc, char** argv)
     listeTDS.clear();
     tmpNumId.clear();
     listeTypeUser.clear();
+    tabArguments.clear();
 
     return 0;
 }

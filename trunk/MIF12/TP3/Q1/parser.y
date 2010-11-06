@@ -22,6 +22,7 @@
 	#include "Programme.hpp"
 	#include "Constante.hpp"
 	#include "TypeUser.hpp"
+	#include "Argument.hpp"
 
 //############################################### TYPES
 
@@ -87,7 +88,11 @@
 	extern std::vector<int> tabTDSPere; // contient les numeros des TDS en fonction du niveauTDS
 
 	int ariteArgFoncProc = 0;
-	
+
+//############################################### ARGUMENTS
+
+	extern std::vector<Argument*> tabArguments;
+
 
 %}
 
@@ -194,6 +199,8 @@
 
 %%
 
+//############################################################################################################################### PROG
+
 Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
@@ -211,6 +218,7 @@ ProgramHeader   : KW_PROGRAM TOK_IDENT                          {
 Block         :  BlockDeclConst BlockDeclType BlockDeclType BlockDeclVar BlockDeclFunc BlockCode		{}
               ;
 
+//############################################################################################################################### BLOCK CONST
 
 BlockDeclConst : KW_CONST ListDeclConst		{
 								int tempNumTds;
@@ -241,7 +249,7 @@ DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{
                ;
 
 
-
+//############################################################################################################################### BLOCK FUNC
 
 BlockDeclFunc : ListDeclFunc SEP_SCOL			{}
                |
@@ -262,9 +270,6 @@ ProcDecl       : ProcHeader SEP_SCOL Block
 
 ProcHeader     : ProcIdent					{
 
-								//#################### 
-
-
 								unsigned int numTDS = TDS_Actuelle;
 
 								if (niveauTDS == tabTDSPere.size()) 
@@ -275,23 +280,20 @@ ProcHeader     : ProcIdent					{
 								
 								numTDS = tableSymb->getNumContexteTSActuel(true);
 
-								listeTDS[0]->ajouter(new Procedure(tableSymb->getNumIdActuel(true), ariteArgFoncProc, numTDS));/* rajouter l'arité et le nom de la TDS */
-								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+								listeTDS[0]->ajouter(new Procedure(tableSymb->getNumIdActuel(true)-ariteArgFoncProc, ariteArgFoncProc, numTDS-1));/* rajouter l'arité et le nom de la TDS */
+								
 
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
 
 								TDS_Actuelle = numTDS;
-
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 
 
 								}
                | ProcIdent FormalArgs				{
 
-								//#################### 
-								
-
 								unsigned int numTDS = TDS_Actuelle;
 
 								if (niveauTDS == tabTDSPere.size()) 
@@ -301,14 +303,23 @@ ProcHeader     : ProcIdent					{
 
 								numTDS = tableSymb->getNumContexteTSActuel(true);
 
-								listeTDS[0]->ajouter(new Procedure(tableSymb->getNumIdActuel(true),ariteArgFoncProc, numTDS));/* rajouter l'arité et le nom de la TDS */
-								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+								listeTDS[0]->ajouter(new Procedure(tableSymb->getNumIdActuel(true)-ariteArgFoncProc,ariteArgFoncProc, numTDS-1));/* rajouter l'arité et le nom de la TDS */
+								
 
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
 
 								TDS_Actuelle = numTDS;
-
+								
+								for (unsigned int i = 0; i < tabArguments.size(); i++)
+								{
+								 	listeTDS[TDS_Actuelle-1]->ajouter(tabArguments[i]);
+									
+								}
+								
+								
+								tabArguments.clear();
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 
 
@@ -331,21 +342,37 @@ FormalArg      : ValFormalArg
                | VarFormalArg
                ;
 
-ValFormalArg   : ListIdent SEP_DOTS Type		{ ariteArgFoncProc++; }
+ValFormalArg   : ListIdent SEP_DOTS Type		{ ariteArgFoncProc++; 
+							
+							tableSymb->incNumIdActuel();
+							for (unsigned int i = 0; i < tmpNumId.size() ; i++)
+							{								
+								tabArguments.push_back(new Argument($3, tableSymb->getNumIdActuel(true)+1));
+							}
+						
+						
+							tmpNumId.clear();}
                ;
 
-VarFormalArg   : KW_VAR ListIdent SEP_DOTS Type    { ariteArgFoncProc++; }
+VarFormalArg   : KW_VAR ListIdent SEP_DOTS Type         { ariteArgFoncProc++; 
+							
+							tableSymb->incNumIdActuel();
+							for (unsigned i = 0; i < tmpNumId.size() ; i++)
+							{								
+								tabArguments.push_back(new Argument($4, tableSymb->getNumIdActuel(true)+1));
+							}
+						
+						
+							tmpNumId.clear();}
                ;
 
 
-FuncDecl	:	FuncHeader SEP_SCOL Block 
-		;
+FuncDecl       : FuncHeader SEP_SCOL Block 
+	       ;
+
 
 FuncHeader     : FuncIdent FuncResult			 {
 							   
-								//####################
-								
-								
 								unsigned int numTDS = TDS_Actuelle;
 
 								if (niveauTDS == tabTDSPere.size()) 
@@ -354,21 +381,20 @@ FuncHeader     : FuncIdent FuncResult			 {
 								
 								numTDS = tableSymb->getNumContexteTSActuel(true);
 
-								listeTDS[0]->ajouter(new Fonction(tableSymb->getNumIdActuel(true),$2,ariteArgFoncProc,numTDS)); 
-								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+								listeTDS[0]->ajouter(new Fonction(tableSymb->getNumIdActuel(true)-ariteArgFoncProc,$2,ariteArgFoncProc,numTDS-1)); 
+								
 
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
 								
 								TDS_Actuelle = numTDS;
-	
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 		
 
 							  }
                | FuncIdent FormalArgs FuncResult	 { 
-							       //#################### 
-								
+
 								
 								unsigned int numTDS = TDS_Actuelle;
 
@@ -380,14 +406,22 @@ FuncHeader     : FuncIdent FuncResult			 {
 
 								
 								numTDS = tableSymb->getNumContexteTSActuel(true);
-								listeTDS[0]->ajouter(new Fonction(tableSymb->getNumIdActuel(true),$3,ariteArgFoncProc,numTDS)); 
-								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
+								listeTDS[0]->ajouter(new Fonction(tableSymb->getNumIdActuel(true)-ariteArgFoncProc,$3,ariteArgFoncProc,numTDS-1));					
 
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 								tmpTds = new TableDesSymboles(numTDS); // on initialise tmpTds pour le nouveau contexte
-								
+
 								TDS_Actuelle = numTDS;
-	
+								
+								for (unsigned int i = 0; i < tabArguments.size(); i++)
+								{
+								 	listeTDS[TDS_Actuelle-1]->ajouter(tabArguments[i]);
+									
+								}
+								
+								
+								tabArguments.clear();
+								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 							}
 
@@ -405,7 +439,7 @@ FuncResult     : SEP_DOTS Type				{ $$ = $2; /* on remonte le type de retour de 
 
 
 
-
+//############################################################################################################################### BLOCK TYPE
 
 
 BlockDeclType  : KW_TYPE ListDeclType				
@@ -424,7 +458,7 @@ DeclType       : TOK_IDENT OP_EQ Type SEP_SCOL			{
 								}
 
 
-
+//############################################################################################################################### BLOCK VAR
 
 
 BlockDeclVar    : KW_VAR ListDeclVar                            {}
@@ -468,7 +502,7 @@ ListIdent        :    ListIdent SEP_COMMA TOK_IDENT             {tmpNumId.push_b
 
 
 
-
+//############################################################################################################################### TYPE
 
 
 Type            :    TOK_IDENT							{}	                
@@ -579,6 +613,7 @@ ListTest        :       ListTest SEP_SCOL TOK_IDENT { /* cout << "\nIdentificate
                 |       TOK_IDENT  {/* cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl; */}
                 ;
 
+//############################################################################################################################### EXPRESSION
 
 Expression     : VarExpr				{}
                | CompExpr				{}
