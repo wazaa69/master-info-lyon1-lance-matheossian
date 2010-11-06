@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+  <head>
+    <title>Message</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="template.css" />
+  </head>
+  <body>
+
+    <fieldset>
+
+        <legend>Message à envoyer</legend>
+
+        <form method="POST" action="messages.jsp" target="affichage" >
+          <div>
+              <!-- <textarea cols="50" rows="5" class="saisie" name="message"></textarea> -->
+              <input type="text" name="message" />
+              <input type="submit" value="Envoyer"/>
+          </div>
+        </form>
+
+    </fieldset>
+
+
+    <form  method="GET" action="init" target="_parent">
+        <div>
+            <br/>
+            <input type="submit" name="deconnexion" value="Déconnexion" />
+        </div>
+    </form>
+          
+  </body>
+</html>
