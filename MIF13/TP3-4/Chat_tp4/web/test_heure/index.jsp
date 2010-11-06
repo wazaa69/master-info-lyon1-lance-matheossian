@@ -6,7 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="ajax/ajax.js" type="text/javascript"></script>
+        <script src="ajax.js" type="text/javascript"></script>
     </head>
 
 
@@ -21,6 +21,6 @@
     
 
     <body onload="nextTime();">
-        Heure magique : <xml id="heure" ></xml>
+        Heure magique : <div id="heure" ></div>
     </body>
 </html>
