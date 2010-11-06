@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet : validation du formulaire pour se logger (POST)
  */
-public class init extends HttpServlet {
+public class Login extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

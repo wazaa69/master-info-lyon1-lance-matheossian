@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title></title>
+
+        <script type="text/javascript" src="js/ajax.js"></script>
+
+        <script type="text/javascript">
+
+            function nextTime() {
+                loadXMLAsynchroneously('GET','messages.jsp',null ,'listeMessages');
+                document.location = '#EnBas';
+                setTimeout("nextTime()",5000);
+            }
+
+        </script>
+
+    </head>
+
+    <body onload="nextTime()">
+
+        <div id="listeMessages">
+
+            <a name="EnBas" />
+        </div>
+        
+    </body>
+</html>

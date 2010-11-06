@@ -9,11 +9,11 @@ public class GestionMessages {
 
     private ArrayList<Message> listeMessages; /** stockage de la liste des messages */
 
-    public int compteurAffichage; // pour les teste : vérifier que l'affichage ne se fait pas plusieurs fois
+    //public int compteurAffichage; // pour les teste : vérifier que l'affichage ne se fait pas plusieurs fois
 
     public GestionMessages() {
         listeMessages = new ArrayList<Message>();
-        compteurAffichage = 0;
+        //compteurAffichage = 0;
     }
 
     public void ajouterMessage(Message message){
