@@ -173,7 +173,10 @@
 %type <interBase> InterBase
 %type <typeArray> ArrayType
 %type <typePointeur> PointerType
+%type <type> UserType
+
 %type <typeRecord> RecordType
+
 %type <type> FuncResult
 
 %type <expression> CompExpr
@@ -504,7 +507,7 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 											if (!ajoutRecord){ listeTDS[TDS_Actuelle]->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); }
 												
 												
-						                                        else{tableSymb->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
+						                                        else{listeTDS[TDS_Actuelle]->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
 										}
 										else
 										{
@@ -549,8 +552,8 @@ Type            :    TOK_IDENT							{
 											numTDS_TypeRemonte = tableSymb->getTableSymbContenantI(listeTDS,$1)->getNumContexteTS();
 								
 										/* il faut analyser le tokident pour savoir s'il correspond a un type défini et le remonter  */}	                
-		|    UserType							{}
-		|    BaseType							{}
+		|    UserType							{$$ = $1;}
+		|    BaseType							{$$ = $1;}
                 ;
 
 BaseType	:    KW_INTEGER 				                {$$ = new TypeInteger();}
@@ -560,10 +563,10 @@ BaseType	:    KW_INTEGER 				                {$$ = new TypeInteger();}
                 |    KW_STRING 							{$$ = new TypeString();}
                
 
-UserType       :    ArrayType							{}
-	       |    InterType							{}
-	       |    PointerType							{}
-	       |    RecordType							{ niveauTDS--; TDS_Actuelle = tabTDSPere[niveauTDS]; cout << "TDS C " << TDS_Actuelle << endl;}
+UserType       :    ArrayType							{$$ = $1;}
+	       |    InterType							{$$ = $1;}
+	       |    PointerType							{$$ = $1;}
+	       |    RecordType							{ niveauTDS--; TDS_Actuelle = tabTDSPere[niveauTDS];  $$ = $1;}
 	       ;		
 
 RecordType     : KW_RECORD RecordFields KW_END					{
@@ -575,7 +578,7 @@ RecordType     : KW_RECORD RecordFields KW_END					{
 
 								if(tabTDSPere.size() == 1) TDS_Actuelle++;
 
-								TypeRecord* tmpRec = new TypeRecord(tmpTds);
+								TypeRecord* tmpRec = new TypeRecord(tmpRecord);
 							
 								
 																
