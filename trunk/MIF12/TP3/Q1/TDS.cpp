@@ -43,7 +43,7 @@ int TableDesSymboles::getNumIdActuel(bool incrementation)
 
 int TableDesSymboles::getNumContexteTSActuel(bool incrementation)
 {	
-	static int numeroContexte = 1;
+	static int numeroContexte = 0;
 	if(incrementation)numeroContexte++;
 	return numeroContexte;
 }
@@ -116,27 +116,17 @@ Symbole* TableDesSymboles::getSymboleI(int identifiantSymbole)
 
 
 //############################################################### MUTATEURS
-/*
-void TableDesSymboles::incNumIdActuel()
-{
-	static int numeroId = 0;	
-	numeroId++;
-	//numIdActuel = numeroId;
-}
-
-void TableDesSymboles::incNumContexteActuel()
-{
-	static int numeroContexte = 0;	
-	//int temp = numeroContexte;
-	numeroContexte++;
-}
-*/
 
 void TableDesSymboles::incNumIdActuel()
 {	
 	static int numeroId = 0;
 	numeroId++;
 	
+}
+
+void TableDesSymboles::setContexteTS(int _contexte)
+{
+	numeroContexteTS = _contexte;
 }
 
 //############################################################### METHODES
@@ -183,7 +173,7 @@ void TableDesSymboles::afficherTables(std::vector<TableDesSymboles*> listeTDS)
 	for (unsigned int i = 0; i < listeTDS.size(); i++)
 	{
 		cout << "Table Des Symboles TS" << listeTDS[i]->numeroContexteTS << endl;
-		listeTDS[i]-> afficherTablePrincipale();
+		listeTDS[i]-> afficherTable();
 		cout << endl;
 	}
 

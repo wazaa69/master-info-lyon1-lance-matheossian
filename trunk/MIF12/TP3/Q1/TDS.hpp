@@ -85,6 +85,8 @@ class TableDesSymboles {
 
 //###################################################################################### METHODES
 	
+	void setContexteTS(int _contexte);
+
 	void incNumIdActuel();
 
         /**

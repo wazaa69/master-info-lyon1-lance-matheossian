@@ -98,7 +98,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 183 "parser.y"
+#line 191 "parser.y"
 
 
 	int numeroIdent;
