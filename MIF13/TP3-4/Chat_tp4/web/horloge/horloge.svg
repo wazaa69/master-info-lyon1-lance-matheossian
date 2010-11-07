@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<svg version="1.1" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 3">
+
+    <!--
+        Référence pour faire ce svg :  http://www.phiji.fr/dotclear/images/horloge.svg
+
+        J'ai supprimé tous les reflets et les choses dans le genre.
+
+        Tuto SVG :
+        Version 1.1 (En) : http://www.w3.org/TR/SVG/struct.html
+        Version 1.0 (Fr) : http://www.yoyodesign.org/doc/w3c/svg1/struct.html
+    -->
+
+
+    <!--
+        L'élément 'style' permet l'incorporation des feuilles de styles directement dans un contenu SVG.
+        L'élément 'style' de SVG a le même attribut que celui de l'élément correspondant en HTML.
+
+        Attributs :
+        stroke : trait
+        stroke-width : largeur du trait
+        stroke-linecap : extrémité du trait
+    -->
+    <defs>
+        <style type="text/css">
+
+            path {
+                stroke: yellow;
+                stroke-width: 0.02;
+                fill: none;
+            }
+
+            line {
+                stroke-linecap: round;
+            }
+
+            #heures {
+                stroke: blue;
+                stroke-width: 0.03;
+            }
+
+            #minutes {
+                stroke:green;
+                stroke-width: 0.03;
+            }
+
+            #secondes {
+                stroke: red;
+                stroke-width: 0.02;
+            }
+
+        </style>
+    </defs>
+
+    <!--
+        L'élément 'g' est un élément conteneur pour le regroupement d'éléments graphiques reliés.
+        Utile pour les animations.
+    -->
+    <g transform="rotate(-90) translate(-1.25,1.5)">
+
+
+        <!-- 11 graduations Majeurs : 00h/12h 1h 2h 3h ...
+            d = "données de tracé"
+            Le M  : indique une commande moveto
+            Les L : des commandes lineto
+            Le z une commande closepath (ligne tracée entre le premier et dernier point)
+
+            Ex tracé d'un triangle :
+            <rect x="1" y="1" width="398" height="398" fill="none" stroke="blue" />
+            <path d="M 100 100 L 300 100 L 200 300 z" fill="red" stroke="blue" stroke-width="3" />
+        -->
+        <path d="
+                M  1.000  0.000 L  0.900  0.000
+                M  0.866  0.500 L  0.779  0.450
+                M  0.500  0.866 L  0.450  0.779
+                M  0.000  1.000 L  0.000  0.900
+                M -0.500  0.866 L -0.450  0.779
+                M -0.866  0.500 L -0.779  0.450
+                M -1.000  0.000 L -0.900  0.000
+                M -0.866 -0.500 L -0.779 -0.450
+                M -0.500 -0.866 L -0.450 -0.779
+                M  0.000 -1.000 L  0.000 -0.900
+                M  0.500 -0.866 L  0.450 -0.779
+                M  0.866 -0.500 L  0.779 -0.450
+        "  />
+
+        <!--
+            Les 3 aiguilles de l'horloge à leur position initiale, x2 = taille de base.
+            Elles sont de centre x1 = 0 et y1 = 0, seul x2 et y2 sont modifiés.
+        -->
+        <line id="heures"  x1="0" y1="0" x2="0.50" y2="0"/>
+        <line id="minutes" x1="0" y1="0" x2="0.90" y2="0"/>
+        <line id="secondes" x1="0" y1="0" x2="0.90" y2="0"/>
+   
+    </g>
+
+
+
+
+
+    <!--
+        Ajout de fonctions qui permettent de modifier l'horloge, selon l'heure actuelle.
+        Impossible d'ajouter une feuille js, donc inclusion directe dans le SVG.
+    -->
+    <script type="text/javascript">
+        
+        demanderMajHorloge();
+
+        function demanderMajHorloge(){
+            loadXMLAsynchroneously('../date/heureXML.jsp');
+            setTimeout('demanderMajHorloge()', 1000);
+        }
+
+        function loadXMLAsynchroneously(request){
+
+            var xhr = initRequete();
+
+            var XMLDoc = null;
+
+            xhr.onreadystatechange = function(){getXMLDocument(xhr, XMLDoc);};
+
+            xhr.open("POST", request, true);
+            xhr.send(null);
+        }
+
+
+        function initRequete(){
+
+            var xhr = null;
+
+            if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
+            else if (window.ActiveXObject) xhr = new ActiveXObject("Microsoft.XMLHTTP");
+
+            return xhr;
+        }
+
+
+        function getXMLDocument(xhr, XMLDoc){
+
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+
+                    //récupération du document en version XML
+                    if (xhr.responseXML != null)
+                        XMLDoc = xhr.responseXML;
+
+                    //alert((new XMLSerializer()).serializeToString(XMLDoc));
+
+                    //traitement selon notre choix
+                    recupEtModifHeure(XMLDoc);
+                }
+                else alert("Un problème est survenu avec la requêt");
+            }
+        }
+
+
+        function recupEtModifHeure(XMLDoc){
+            var heures = XMLDoc.getElementsByTagName('heures')[0].firstChild.data;
+            var minutes = XMLDoc.getElementsByTagName('minutes')[0].firstChild.data;
+            var secondes = XMLDoc.getElementsByTagName('secondes')[0].firstChild.data;
+            majHorloge(heures,minutes,secondes);
+        }
+
+
+        //Modification  du document
+        function majHorloge(h,m,s) {
+
+            //alert(h+':'+m+':'+h);
+            //Correction des calculs de base !
+            h = h * Math.PI/6;
+            m = m * Math.PI/30;
+            s = s * Math.PI/30;
+
+            var heures = document.getElementById("heures");
+            var minutes = document.getElementById("minutes");
+            var secondes = document.getElementById("secondes");
+
+            //c'est ici que ce joue la mise à jour des attributs
+            heures.setAttribute("x2", 0.40 * Math.cos(h));
+            heures.setAttribute("y2", 0.40 * Math.sin(h));
+            minutes.setAttribute("x2", 0.65 * Math.cos(m));
+            minutes.setAttribute("y2", 0.65 * Math.sin(m));
+            secondes.setAttribute("x2", 0.90 * Math.cos(s));
+            secondes.setAttribute("y2", 0.90 * Math.sin(s));
+        }
+
+    </script>
+
+</svg>

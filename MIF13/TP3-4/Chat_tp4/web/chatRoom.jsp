@@ -18,9 +18,6 @@
 
         <link rel="stylesheet" type="text/css" href="css/template.css"  />
 
-        <script type="text/javascript" src="js/ajax.js"></script>
-        <script type="text/javascript" src="js/actions.js"></script>
-
     </head>
 
     <body onload="recupererMessages()">
@@ -50,6 +47,7 @@
 
 
         <div id="main">
+
             <table>
                 <thead>
                     <tr align="left">
@@ -62,14 +60,14 @@
                     <tr><td></td></tr>
                 </tbody>
             </table>
-
-            <a name="dernierMessage" />
+            <a name="dernierMessage" > </a>
         </div>
 
 
         <div id="saisie">
             <fieldset>
                 <legend>Message à envoyer</legend>
+                <!-- Bien pensser à faire "return fonction()" et faire retourner false dans cette fonction !!-->
                 <form action="" onsubmit="return stockerMessage('texte')">
                     <div>
                       <input type="text" id="texte"/>
@@ -78,6 +76,10 @@
                 </form>
             </fieldset>
         </div>
+
+        <!-- chargé à la fin -->
+        <script type="text/javascript" src="js/ajax.js"></script>
+        <script type="text/javascript" src="js/actions.js"></script>
 
     </body>
 </html>
