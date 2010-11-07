@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>
+		Ce schema presente la structure de votre fichier Zip de rendu de TP MIF13.
+		L'element racine est "Manifest".
+		</xs:documentation>
+	</xs:annotation>
+	<!-- Definition des elements -->
+	<xs:element name="Manifest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Binome" type="typebinome"/>
+				<xs:element name="Rapport" minOccurs="0">
+					<!-- Fichier contenant soit un rapport, soit des commentaires eventuels -->
+					<xs:complexType>
+						<xs:attribute name="nom" type="typenomfichier" use="required" fixed="Rapport.pdf"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Rendu" type="typedossier"/>
+				<!-- Dossier contenant le travail a rendre -->
+				<!-- L'attribut "nom" contient le nom du dossier racine de votre arborescence zippee (voir TP) -->
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Dossier" type="typedossier"/>
+	<xs:element name="Fichier">
+		<xs:complexType>
+			<xs:attribute name="nom" type="typenomfichier" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- Definition des types de contenus -->
+	<xs:complexType name="typebinome">
+		<xs:sequence>
+			<xs:element name="Etudiant" maxOccurs="3">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Numero" type="xs:string"/>
+						<xs:element name="Nom" type="xs:string"/>
+						<xs:element name="Prenom" type="xs:string"/>
+						<xs:element name="Groupe" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="typedossier">
+		<xs:sequence>
+			<xs:element ref="Dossier" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Nom de chaque sous-dossier -->
+			<xs:element ref="Fichier" minOccurs="0" maxOccurs="unbounded">
+				<!-- Nom de chaque fichier texte rendu -->
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="nom" type="typenomdossier" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="typenomdossier">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="typenomfichier">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9\-_ \t]*.[a-zA-Z0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
