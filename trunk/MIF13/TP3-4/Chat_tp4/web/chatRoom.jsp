@@ -70,10 +70,10 @@
         <div id="saisie">
             <fieldset>
                 <legend>Message à envoyer</legend>
-                <form action="" onsubmit="stockerMessage('texte')">
+                <form action="" onsubmit="return stockerMessage('texte')">
                     <div>
                       <input type="text" id="texte"/>
-                      <input type="submit" />
+                      <button>Envoyer</button>
                     </div>
                 </form>
             </fieldset>
