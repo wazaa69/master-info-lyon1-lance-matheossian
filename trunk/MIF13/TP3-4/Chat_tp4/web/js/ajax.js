@@ -78,6 +78,11 @@ function traiteXML(xmlDoc, id){
 
     var contenu = (new XMLSerializer()).serializeToString(xmlDoc);
 
+        alert("XML Root Tag Name: " + xmlDoc.getElementsByTagName('Message').length);
+        alert("XML Root Tag Name: " + xmlDoc.getElementsByTagName('Auteur')[0].firstChild.data);
+        alert("XML Root Tag Name: " + xmlDoc.getElementsByTagName('Texte')[0].firstChild.data);
+
+
     //on ajoute le(s) message(s) au contenu déjà présent
     document.getElementById(id).innerHTML += contenu + "<br/>";
 }
