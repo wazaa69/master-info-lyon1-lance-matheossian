@@ -13,7 +13,7 @@
 <%
     String methode = request.getMethod();
 
-    String nomCookie = "lastModified";
+    String nomCookie = "lastModifiedChatRoom";
     Cookie tmpCookie = outils.getCookie(request.getCookies(), nomCookie);
 
     boolean afficherMessages = false;

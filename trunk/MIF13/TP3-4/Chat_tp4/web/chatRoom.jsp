@@ -22,9 +22,8 @@
 
     <body onload="recupererMessages()">
 
-        
-       <h2 class="titre">___ooo(O.O)ooo___</h2>
 
+       <h2 class="titre">___ooo(O.O)ooo___</h2>
 
         <form  id="deconnexion" method="get" action="Logout">
             <div>
@@ -77,9 +76,14 @@
             </fieldset>
         </div>
 
-        <!-- chargé à la fin -->
-        <script type="text/javascript" src="js/ajax.js"></script>
-        <script type="text/javascript" src="js/actions.js"></script>
+
+        <!-- chargés à la fin pour un affichage plus rapide du contenu "utile" -->
+
+        <!-- Pour le chat -->
+        <script type="text/javascript" src="js/messages/ajax.js"></script>
+        <script type="text/javascript" src="js/messages/actions.js"></script>
+
+        <!-- Autres scripts -->
 
     </body>
 </html>
