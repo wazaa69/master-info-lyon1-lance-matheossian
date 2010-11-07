@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="rendu.xsd">
+
+	<Binome>
+	
+		<Etudiant>
+			<Numero>10604720</Numero>
+			<Nom>LANCE</Nom>
+			<Prenom>Florian</Prenom>
+			<Groupe>Groupe 2</Groupe>
+		</Etudiant>
+		
+		<Etudiant>
+			<Numero>10604950</Numero>
+			<Nom>MATHEOSSIAN</Nom>
+			<Prenom>Dimitri</Prenom>
+			<Groupe>Groupe 2</Groupe>
+		</Etudiant>
+		
+	</Binome>
+	
+	<Rendu nom="TP4">
+	
+		<Dossier nom="ChatRoom">
+		
+			<Dossier nom="web">
+			
+				<Dossier nom="js">
+					<Dossier nom="messages"></Dossier>	
+						<Fichier nom="ajax.js"/>
+						<Fichier nom="actions.js"/>					
+				</Dossier>
+				
+				<Dossier nom="images">
+					<Fichier nom="dialoguer.png"/>	
+				</Dossier>
+				
+				<Dossier nom="horloge">
+					<Fichier nom="horloge.svg"/>	
+					<Fichier nom="horloge.jsp"/>	
+				</Dossier>
+				
+				<Dossier nom="date">
+					<Fichier nom="index.jsp"/>	
+					<Fichier nom="heureXML.jsp"/>	
+				</Dossier>
+				
+				<Dossier nom="css">
+					<Fichier nom="template.css"/>	
+				</Dossier>
+				
+				<Fichier nom="stockage.jsp"/>
+				<Fichier nom="messages.jsp"/>
+				<Fichier nom="connexion.html"/>
+				<Fichier nom="chatRoom.jsp"/>
+				
+			</Dossier>
+			
+			<Dossier nom="test"></Dossier>
+			
+			<Dossier nom="src">
+			
+				<Dossier nom="java">
+				
+					<Dossier nom="Servlet">
+						<Fichier nom="Deconnexion.java"/>
+						<Fichier nom="Connexion.java"/>
+					</Dossier>
+					
+					<Dossier nom="Gestion">
+						<Fichier nom="Outils.java"/>
+						<Fichier nom="Message.java"/>
+						<Fichier nom="GestionMessages.java"/>
+					</Dossier>
+					
+				</Dossier>
+				
+			</Dossier>
+			
+			<Dossier nom="nbproject"></Dossier>
+			
+			<Fichier nom="build.xml"/>
+			
+		</Dossier>
+		
+		<Fichier nom="Rendu.xsd"/>
+		<Fichier nom="contenu.xml"/>
+		
+	</Rendu>
+	
+</Manifest>
