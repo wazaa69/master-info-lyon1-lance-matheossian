@@ -1,33 +1,38 @@
-<%-- Cr�e le code xml de l'heure, qui sera ins�r� dans une page xml--%>
+<%-- Crée le code xml de l'heure, qui sera inséré dans une page xml--%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%
 
-    //Cr�ation d'un calenrier G�orgien pour la France
+    /*
+    * Création d'un calenrier Géorgien pour la France.
+    * Les méthodes getHours/Minutes/Seconds de Date sont dépréciées.
+    * On préferera la classe Calendar.
+    */
     Calendar calendar = new GregorianCalendar(new Locale("Fr"));
     calendar.setTime(new Date());
 
     int aff = 10;
     
-    int nbhours = Calendar.HOUR_OF_DAY;
+    int nbheures = Calendar.HOUR_OF_DAY;
     int nbMin = Calendar.MINUTE;
     int nbSec = Calendar.SECOND;
 
     //Arrangement de l'affichage, ne fonctionne pas :p
-    String hours = "" + calendar.get(nbhours);
-    if(hours.length() == 1) hours = "0" + hours;
+    String heures = "" + calendar.get(nbheures);
+    if(heures.length() == 1) heures = "0" + heures;
 
-    String min = "" + calendar.get(nbMin);
-    if(min.length() == 1) min = "0" + min;
+    String minutes = "" + calendar.get(nbMin);
+    if(minutes.length() == 1) minutes = "0" + minutes;
 
-    String sec = "" + calendar.get(nbSec);
-    if(sec.length() == 1) sec = "0" + sec;
+    String secondes = "" + calendar.get(nbSec);
+    if(secondes.length() == 1) secondes = "0" + secondes;
 
 %>
+<%@page contentType="text/xml" pageEncoding="UTF-8" %>
 <date>
-    <heures><%=hours%>:</heures>
-    <minutes><%=min%>:</minutes>
-    <secondes><%=sec%></secondes>
+    <heures><%=heures%></heures>
+    <minutes><%=minutes%></minutes>
+    <secondes><%=secondes%></secondes>
 </date>

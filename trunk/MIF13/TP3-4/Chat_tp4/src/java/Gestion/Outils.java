@@ -1,5 +1,6 @@
 package Gestion;
 
+import java.util.Calendar;
 import javax.servlet.http.Cookie;
 
 /**
@@ -22,9 +23,7 @@ public class Outils {
                 if (cookies[i].getName().equals(cookieCherche))
                     return cookies[i];
             }
-
         }
-
         return null;
     }
 

@@ -71,7 +71,7 @@
     <Messages>
         <%for(int i = nbMessClient; i < nbMessServeur; i++){%>
         <Message>
-            <jsp:include page="date/heureXML.jsp" />
+            <hms><%= gestion.getMessage(i).getStringHMS() %></hms>
             <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>
             <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
         </Message>
