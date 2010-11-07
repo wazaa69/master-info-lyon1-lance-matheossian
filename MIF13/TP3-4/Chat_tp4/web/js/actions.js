@@ -8,4 +8,5 @@ function stockerMessage(nomChamps) {
     var message = document.getElementById(nomChamps);
     sendRequestAsynchroneously('post', 'messages.jsp', 'message=' + message.value);
     message.value = "";
+    return false;
 }
