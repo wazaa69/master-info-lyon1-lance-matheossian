@@ -1,75 +1,73 @@
+question 2 : Implémenter la classe statique Factory qui proposera les méthodes suivantes
+ajouterTemporaire : nom X type → position dans TI
+ajouterEtiquette : nom → position dans TI
+
+question 3 : Implémenter la classe Operande, définissant une opérande dans une instruction 3-adresses. Cette opérande pourra être :
+une valeur constante (entier, réel, …)
+un identificateur (de variable, constante, type, étiquette, …)
+
+question 4 : Implémenter la classe Instruction qui défini ce qu'est une instruction 3-adresses
+un code définiera l'opération (voir ci-dessous pour les différentes instructions disponibles)
+trois opérandes
+une étiquette (référence à la table des identificateurs, potentiellement vide)
 
 
-fonction
-	->tds locale
-
-		-solution attribuer les nouvlles variables/types a la tds actuelle grace au tableau de tds
-			-> necessite d'intégrer un entier conenant le numéro de la tds actuelle
-
-
-	-> argument ( declaration dans la tds locale des arguments en paramères)
-			arguments possibles (int a = TOK_IDENT -> on revoie l'évaluation de tok_ident=)
-			
-
-renvoie une expression (pour l'instant entier/reel/string/bool , les structures s'annonceraient autrement plus tendu)
+question 5 : Implémenter la classe ConteneurCode qui permet de stocker une suite d'instructions 3-adresses. Cette classe devra permettre (au moins)
+d'ajouter une instruction 3-adresses à la fin du bloc courant
+d'ajouter les instructions 3-adresses d'un bloc à la fin du bloc courant
+Le code 3-adresses
 
 
 
-il faut pouvoir retenir  2 numeros de TS  différents
+---------------------------------------------------------------------------------
+je pense qu'il vaut mieux un tableau de symbole temporaire a part et ne pas le melanger avec les autres, j'aurai aucune idée de comment inclure les temporaires dans la TDI sinon
 
-tabTSPere[0,1,
-dimension = 0
+temporaire
+	type
+	valInt
+	valBool
+	valString
+	...
 
-	TS 1
-	  	
-		
+essayer de bricoler un truc avec expression
+---------------------------------------------------------------------------------
 
-		if dimension > 0
-			tabTSPere[dimension] = numTS
-		}
+instruction  ( operande, operande, null , null)   a := 5;
+instruction  ( operande, operande, operation, operande)  a := 8 + 2;
 
-		numTS = numTS1
-		dimension++
+classe ConteneurCode:
 
-			TS2 
-				
-				if dimension > 0
-					tabTSPere[dimension] = numTS
-				}
-				
-				numTS =  numTS2
-				dimension++
-				
+int blocCourant;
+std::vector<BlocCode*> tabBlocs;
+
+ajouterInstructionFinBlocCourant(instruction)
+ajouterInstructionsFinblocCourant( std::vector<Instruction*> tabInstructions) OU
+ajouterInstructionsFinblocCourant( blocCode) après avoir défini son bloc avec la liste d'instructions
+
+
+classe BlocCode
+
+std::vector<Instruction*> tabInstruction;
 	
-				dimension--
-			TS3
-				if dimension > 0
-					tabTSPere[dimension] = numTS
-				}
-				
-				numTS =  numTS3
-				dimension++
-					TS4	
-						if dimension > 0
-							tabTSPere[dimension] = numTS
-						}
-						numTS = numTS4
-						dimension++
-										
-						
-						dimension--
+classe Instruction
+	operande1
+	operande2
+	operande3
+	instruction
 
-				dimension--
+classe Operande
+	tok_ident
+	tok_integer
+	tok_string
+	tok_bool
+	...
 
-			TS5
-				
-				if dimension > 0
-					tabTSPere[dimension] = numTS
-				}
-				
-				numTS =  numTS5
-				dimension++
-				dimension--
 
-		dimension--
+
+
+	
+
+méthode:
+	ajouter instructionFinBloc
+		
 		

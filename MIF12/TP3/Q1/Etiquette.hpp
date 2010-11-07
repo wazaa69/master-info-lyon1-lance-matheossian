@@ -7,6 +7,11 @@
  */
 class Etiquette : public Symbole {
        
+	private: 
+	
+	int numeroInstruction;
+	int numeroBloc;
+
 	public:
 
 	/**

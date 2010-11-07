@@ -5,6 +5,7 @@
 #include "TDS.hpp"
 #include "TypeUser.hpp"
 #include "Argument.hpp"
+#include "Temporaire.hpp"
 
 
 extern FILE* yyin;
@@ -31,8 +32,20 @@ extern int yyparse();
 	std::vector<Type*> tmpType;
 	std::vector<TypeUser*> listeTypeUser;
 
+
+//############################################### FONCTIONS/PROCEDURES
+
 	std::vector<int> tabTDSPere;
+
+//############################################### ARGUMENTS
+
 	std::vector<Argument*> tabArguments;
+
+//############################################### TEMPORAIRES
+
+	std::vector<Temporaire*> tabTemporaires;
+
+//############################################### ERREURS
 
 	bool erreur = false;
 

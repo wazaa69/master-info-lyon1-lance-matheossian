@@ -8,5 +8,8 @@ Etiquette::Etiquette(int _id){
 	id = _id;
 }
 
+//void Etiquette::setNumInstruction()
+
+
 Etiquette::~Etiquette(){}
 
