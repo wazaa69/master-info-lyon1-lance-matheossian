@@ -1,5 +1,5 @@
 <%
-    //Pour éviter que l'on se connecte, sans même avoir de session (php like)
+    //Pour Ã©viter que l'on se connecte, sans mÃªme avoir de session (php like)
     String sessionNom = (String) request.getSession(false).getAttribute("nom");
     if (sessionNom == null) response.sendRedirect("connexion.html");
 
@@ -24,37 +24,37 @@
 
     //gestion.ajouterMessage(new Message("Bob", "test")); //test
     
-    //teste la méthode utilisée
+    //teste la mÃ©thode utilisÃ©e
     if(methode.equalsIgnoreCase("GET")){
 
-        //teste de l'existence du cookie, création si nécessaire
+        //teste de l'existence du cookie, crÃ©ation si nÃ©cessaire
         if(tmpCookie == null){
             Cookie creation = new Cookie(nomCookie, gestion.stringSize());
             creation.setMaxAge(-1);
             response.addCookie(creation);
+            response.setStatus(204);
         }
-
         else {
  
-            //nb messages côté client
+            //nb messages cÃ´tÃ© client
             nbMessClient = Integer.parseInt(tmpCookie.getValue());
-            //nb messages côté serveur
+            //nb messages cÃ´tÃ© serveur
             nbMessServeur = gestion.intSize();
 
             /*
             * Comparaison du nombre de messages, client/serveur.
             * Si < est vrai, alors on va chercher les nouveaux messages,
-            * sinon on dit au client qu'il n'y a pas de nouveau contenu à récupérer (204)
+            * sinon on dit au client qu'il n'y a pas de nouveau contenu Ã  rÃ©cupÃ©rer (204)
             */
             if(nbMessClient < nbMessServeur){
                 afficherMessages = true;
                 response.addCookie(new Cookie(nomCookie, gestion.stringSize()));
             }
-            else //Envoie de "204 No Content" => aucun nouveau message à récupérer (par défaut : 200 OK)
+            else //Envoie de "204 No Content" => aucun nouveau message Ã  rÃ©cupÃ©rer (par dÃ©faut : 200 OK)
                 response.setStatus(204);
         }
     }
-    //Un message va être ajouté
+    //Un message va Ãªtre ajoutÃ©
     else if(methode.equalsIgnoreCase("POST"))
         ajouterMessage = true;
 
@@ -63,6 +63,7 @@
 <% if(ajouterMessage){ %> <jsp:include page="stockage.jsp" /> <% } %>
 
 <% if(afficherMessages){%>
+<%@page contentType="text/xml" pageEncoding="UTF-8" %>
 <Messages>
 <%for(int i = nbMessClient; i < gestion.intSize(); i++){%>
     <Message>
