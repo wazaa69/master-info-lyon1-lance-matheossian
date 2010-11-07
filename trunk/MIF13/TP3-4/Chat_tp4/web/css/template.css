@@ -15,11 +15,25 @@ body{
 
 /* Le chat */
 
-#listeMessages{
-    height:690px;
+/* couleurs */
+.bleu{color:#66D1FF;}
+.violet{color:#E0BCE0;}
+
+#main{
+    height:660px;
     overflow:auto;
     margin-bottom:15px;
 }
+
+    /* La table qui stock les messages */
+    #tabMessagesContenu,
+    #tabMessagesEnTete{
+        border-collapse:collapse;
+    }
+
+    .date{width:100px;}
+    .auteur{width:100px;}
+    .message{width:80%;}
 
 #saisie fieldset{
     height:60px;

@@ -23,54 +23,59 @@
     int nbMessServeur = 0;
 
     //gestion.ajouterMessage(new Message("Bob", "test")); //test
-    
+
+    //teste de l'existence du cookie, création si nécessaire
+    if(tmpCookie == null){
+        Cookie creation = new Cookie(nomCookie, gestion.stringSize());
+        response.addCookie(creation);
+        response.setStatus(204);
+        tmpCookie = creation;
+    }
+
     //teste la méthode utilisée
-    if(methode.equalsIgnoreCase("GET")){
+    if(methode.equalsIgnoreCase("get")){
+        
+        //nb messages côté client
+        nbMessClient = Integer.parseInt(tmpCookie.getValue());
+        //nb messages côté serveur
+        nbMessServeur = gestion.intSize();
 
-        //teste de l'existence du cookie, création si nécessaire
-        if(tmpCookie == null){
-            Cookie creation = new Cookie(nomCookie, gestion.stringSize());
-            creation.setMaxAge(-1);
-            response.addCookie(creation);
+        /*
+        * Comparaison du nombre de messages, client/serveur.
+        * Si < est vrai, alors on va chercher les nouveaux messages,
+        * sinon on dit au client qu'il n'y a pas de nouveau contenu à récupérer (204)
+        */
+        if(nbMessClient < nbMessServeur){
+            afficherMessages = true;
+            //tmpCookie.setValue(gestion.stringSize()); //-> ne fonctionne pas
+            response.addCookie(new Cookie(nomCookie, gestion.stringSize()));
+        }
+        else //Envoie de "204 No Content" => aucun nouveau message à récupérer (par défaut : 200 OK)
             response.setStatus(204);
-        }
-        else {
- 
-            //nb messages côté client
-            nbMessClient = Integer.parseInt(tmpCookie.getValue());
-            //nb messages côté serveur
-            nbMessServeur = gestion.intSize();
-
-            /*
-            * Comparaison du nombre de messages, client/serveur.
-            * Si < est vrai, alors on va chercher les nouveaux messages,
-            * sinon on dit au client qu'il n'y a pas de nouveau contenu à récupérer (204)
-            */
-            if(nbMessClient < nbMessServeur){
-                afficherMessages = true;
-                response.addCookie(new Cookie(nomCookie, gestion.stringSize()));
-            }
-            else //Envoie de "204 No Content" => aucun nouveau message à récupérer (par défaut : 200 OK)
-                response.setStatus(204);
-        }
+        
     }
     //Un message va être ajouté
-    else if(methode.equalsIgnoreCase("POST"))
+    else if(methode.equalsIgnoreCase("post")){
         ajouterMessage = true;
+        response.setStatus(204);
+    }
 
 %>
 
 <% if(ajouterMessage){ %> <jsp:include page="stockage.jsp" /> <% } %>
 
 <% if(afficherMessages){%>
-<%@page contentType="text/xml" pageEncoding="UTF-8" %>
-<Messages>
-<%for(int i = nbMessClient; i < gestion.intSize(); i++){%>
-    <Message>
-        <jsp:include page="date/heureXML.jsp" />
-        <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>
-        <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
-    </Message>
+
+    <%@page contentType="text/xml" pageEncoding="UTF-8" %>
+
+    <Messages>
+        <%for(int i = nbMessClient; i < nbMessServeur; i++){%>
+        <Message>
+            <jsp:include page="date/heureXML.jsp" />
+            <Auteur><%= gestion.getMessage(i).getUtilisateur() %></Auteur>
+            <Texte><%= gestion.getMessage(i).getContenu() %></Texte>
+        </Message>
+        <%}%>
+    </Messages>
+    
 <%}%>
-</Messages>
-<% } %>

@@ -9,7 +9,6 @@
 <%@page import="java.math.BigDecimal"%>
 <jsp:useBean id="gestion" scope="application" class="Gestion.GestionMessages"/>
 <jsp:useBean id="outils" scope="application" class="Gestion.Outils"/>
-<%@page import="java.util.*,Gestion.Message,javax.servlet.ServletException,javax.servlet.http.HttpServlet,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,javax.servlet.http.HttpSession"%>
 <%
     String methode = request.getMethod();
 
@@ -17,7 +16,7 @@
     Cookie tmpCookie = outils.getCookie(request.getCookies(), nomCookie);
 
     boolean afficherMessages = false;
-    boolean ajouterMessage = true;
+    boolean ajouterMessage = false;
 
     int nbMessClient = 0;
     int nbMessServeur = 0;
@@ -46,7 +45,7 @@
             */
             if(nbMessClient < nbMessServeur)
                 afficherMessages = true;
-            else response.setStatus(304); //ok, pas de maj
+            else response.setStatus(304); //Envoie de "Not Modified" => on laisse affiché les messages précédants
         }
     }
     //Un message va être ajouté et on va tous les réafficher
@@ -58,6 +57,9 @@
 
 %>
 
+<% if(ajouterMessage){ %>
+        <jsp:include page="stockage.jsp" />
+<% } %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -73,13 +75,8 @@
 
     <body onload="document.location='#EnBas'">
 
-        <% if(ajouterMessage){ %>
-                <jsp:include page="stockage.jsp" />
-        <% } %>
-
-
         <% if(afficherMessages){
-            //le cookie ne se met pas à jour dans l'affichage, donc ce if est tout le temps appelé
+            //Bug : le cookie ne se met pas à jour dans l'affichage (sa devrait fonctionner, normalement), donc ce if est tout le temps appelé
             //out.print(gestion.compteurAffichage + " / " + nbMessClient + " / " + nbMessServeur + "<br/>");
             //out.print(nbMessClient + " / " + nbMessServeur);
         %>

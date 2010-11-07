@@ -5,12 +5,11 @@
     if (sessionNom == null) response.sendRedirect("connexion.html");
 
 %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -24,21 +23,46 @@
 
     </head>
 
-    <body onLoad="recupererMessages()">
+    <body onload="recupererMessages()">
 
-        <div >
-            <h2 class="titre">___ooo(O.O)ooo___</h2>
-        </div>
+        
+       <h2 class="titre">___ooo(O.O)ooo___</h2>
 
-        <form  id="deconnexion" method="GET" action="Logout">
+
+        <form  id="deconnexion" method="get" action="Logout">
             <div>
                 <input type="submit" name="deconnexion" value="Déconnexion" />
             </div>
         </form>
 
-        <div id="listeMessages">
-            <div id="messages">
-            </div>
+        <table id="tabMessagesEnTete">
+            <thead>
+                <tr align="left">
+                    <th class="date bleu">Heure</th>
+                    <th class="auteur violet">Auteur</th>
+                    <th class="message">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td></td></tr>
+            </tbody>
+        </table>
+
+
+        <div id="main">
+            <table>
+                <thead>
+                    <tr align="left">
+                        <th class="date"></th>
+                        <th class="auteur"></th>
+                        <th class="message"></th>
+                    </tr>
+                </thead>
+                <tbody id="tabMessagesContenu">
+                    <tr><td></td></tr>
+                </tbody>
+            </table>
+
             <a name="dernierMessage" />
         </div>
 
@@ -47,8 +71,10 @@
             <fieldset>
                 <legend>Message à envoyer</legend>
                 <form action="" onsubmit="stockerMessage('texte')">
+                    <div>
                       <input type="text" id="texte"/>
                       <input type="submit" />
+                    </div>
                 </form>
             </fieldset>
         </div>
