@@ -10,36 +10,32 @@ function loadXMLAsynchroneously(method, request, parameters, id)
     var xhr = initRequete ();
 
     //sp�cification de la fonction de traitement � appeler au retour serveur (car chargement asynchrone)
-    var XMLDoc = null;
-
+	var XMLDoc = null;
     xhr.onreadystatechange = function() {getXMLDocument(xhr, XMLDoc, id);};
     
     //envoi de la requ�te de chargement du fichier XML au serveur
-    //le dernier param�tre est true ; le chargement du fichier se fera en asynchrone
+	//le dernier param�tre est true ; le chargement du fichier se fera en asynchrone
     xhr.open(method, request, true);
-
     //encodage des param�tres dans la requ�te, si la m�thode est post
-    if(parameters && (method == "post" || method == "POST"))
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    
+	if(parameters && (method == "post" || method == "POST"))
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     xhr.send(parameters);
 }
 
 //autre fonction principale, plus simple, qui envoie la requ�te au serveur de fa�on asynchrone et ne se pr�occupe pas de la r�ponse
+//remarque : l'utilisation de cette fonction n'est pas n�cessaire pour r�aliser le devoir.
 function sendRequestAsynchroneously(method, request, parameters)
 {
     //initialisation de l'objet XMLXhttpRequest
     var xhr = initRequete ();
 
     //envoi de la requ�te de chargement du fichier XML au serveur
-    //le dernier param�tre est true ; le chargement du fichier se fera en asynchrone
+	//le dernier param�tre est true ; le chargement du fichier se fera en asynchrone
     xhr.open(method, request, true);
-
     //encodage des param�tres dans la requ�te, si la m�thode est post
-    if(parameters && (method == "post" || method == "POST"))
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-
-    xhr.send(parameters);
+	if(parameters && (method == "post" || method == "POST"))
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xhr.send(parameters);
 }
 
 //--------------------------fonctions secondaires---------------------------
@@ -54,10 +50,10 @@ function getXMLDocument(xhr, XMLDoc, id)
 			// teste si la réponse est arrivée en XML ou en texte (peut arriver pour certaines configurations d'Apache)
                         // => création d'une réponse en XML ou texte
                         if (xhr.responseXML != null) {
-				XMLDoc = xhr.responseXML;
+				XMLDoc= xhr.responseXML;
 			} else if (xhr.responseText != null) {
 				//si la réponse est en texte, transformation en XML (voir fonction fa�ade plus bas)
-				XMLDoc = parseFromString(xhr.responseText);
+				XMLDoc= parseFromString(xhr.responseText);
 			}
 			//D�commentez la ligne suivante pour voir le contenu XML obtenu (ne marche qu'avec FF)
 			//alert((new XMLSerializer()).serializeToString(XMLDoc));
@@ -68,37 +64,14 @@ function getXMLDocument(xhr, XMLDoc, id)
 		//teste si le code de statut est autre que le code renvoy� en cas d'absence de nouveaux messages.
 		//Remarque : le code 1223 provient d'un bug avec IE : http://trac.dojotoolkit.org/ticket/2418
 		} else if (xhr.status != 204 && xhr.status != 1223) {
-                    alert("Un problème est survenu avec la requête : ");
-                }
+		   alert("Un probl�me est survenu avec la requ�te : ");
+        }
 	}
 }
 
 
 function traiteXML(XMLDoc, id){
-
-    //var contenu = (new XMLSerializer()).serializeToString(XMLdate);
-    var date, heures, minutes, secondes;
-    var contenu = "";
-    var nbMessages = XMLDoc.getElementsByTagName('Message').length;
-
-    if(nbMessages > 0){
-        for(var i = 0; i < nbMessages; i++){
-
-            heures = XMLDoc.getElementsByTagName('heures')[i].firstChild.data;
-            minutes = XMLDoc.getElementsByTagName('minutes')[i].firstChild.data;
-            secondes = XMLDoc.getElementsByTagName('secondes')[i].firstChild.data;
-            date = heures + minutes + secondes;
-
-            contenu += '<tr id="message">'
-            contenu += '<td class="bleu">' + date + '</td>'
-            contenu += '<td class="violet">' + XMLDoc.getElementsByTagName('Auteur')[i].firstChild.data + '</td>';
-            contenu += '<td>' + XMLDoc.getElementsByTagName('Texte')[i].firstChild.data + '</td>';
-            contenu += '</tr>';
-        }
-
-        //on ajoute le(s) message(s) au contenu déjà présent
-        document.getElementById(id).innerHTML = document.getElementById(id).innerHTML + contenu;
-    }
+    document.getElementById(id).innerHTML = (new XMLSerializer()).serializeToString(XMLDoc);
 }
 
 //----------------------Fonctions fa�ades----------------------------
@@ -106,15 +79,17 @@ function traiteXML(XMLDoc, id){
 //remarque : ces fonctions ont uniquement �t� test�es avec FF et IE7
 
 //fonction fa�ade qui teste le type de navigateur et renvoie un objet capable de se charger de l'envoi de la requ�te.
-function initRequete(){
+function initRequete()
+{
     var xhr = null;
-    if (window.XMLHttpRequest)
+    if (window.XMLHttpRequest) { 
         xhr = new XMLHttpRequest();
-    
-    else if (window.ActiveXObject)
+    }
+    else if (window.ActiveXObject) 
+    {
         xhr = new ActiveXObject("Microsoft.XMLHTTP");
-
-    return xhr;
+    }
+	return xhr;
 }
 
 //fonction fa�ade qui re�oit une cha�ne de caract�res et la parse en XML pour renvoyer un objet DOM.
@@ -123,7 +98,7 @@ function parseFromString (docTXT) {
 	// code for IE
 	if (window.ActiveXObject)
   	{
-		var XMLDoc = new ActiveXObject("Microsoft.XMLDOM");
+		var XMLDoc=new ActiveXObject("Microsoft.XMLDOM");
 		XMLDoc.async="false";
 		XMLDoc.loadXML(docTXT);
 	}
@@ -139,11 +114,11 @@ function parseFromString (docTXT) {
 //fonction fa�ade qui renvoie le texte contenu dans un �l�ment XML
 function getXMLTextContent(source)
 {
-    if (source.textContent != null) {
-            //Gecko
-            return source.textContent;
-    } else {
-            //IE
-            return source.text;
-    }
+	if (source.textContent != null) {
+		//Gecko
+		return source.textContent;
+	} else {
+		//IE
+		return source.text;
+	}
 }

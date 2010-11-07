@@ -27,7 +27,7 @@
 
 %>
 <date>
-    <heure><%=hours%>:</heure>
-    <min><%=min%>:</min>
-    <sec><%=sec%></sec>
+    <heures><%=hours%>:</heures>
+    <minutes><%=min%>:</minutes>
+    <secondes><%=sec%></secondes>
 </date>

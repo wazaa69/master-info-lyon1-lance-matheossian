@@ -1,11 +1,11 @@
 function recupererMessages() {
-    loadXMLAsynchroneously('GET', 'messages.jsp', null, 'messages');
+    loadXMLAsynchroneously('get', 'messages.jsp', null, 'tabMessagesContenu');
     document.location = '#dernierMessage';
     setTimeout("recupererMessages()",5000);
 }
 
 function stockerMessage(nomChamps) {
     var message = document.getElementById(nomChamps);
-    sendRequestAsynchroneously('POST', 'messages.jsp', 'message=' + message.value);
+    sendRequestAsynchroneously('post', 'messages.jsp', 'message=' + message.value);
     message.value = "";
 }

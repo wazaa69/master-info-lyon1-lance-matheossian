@@ -74,31 +74,12 @@ function getXMLDocument(xhr, XMLDoc, id)
 }
 
 
-function traiteXML(XMLDoc, id){
+function traiteXML(xmlDoc, id){
 
-    //var contenu = (new XMLSerializer()).serializeToString(XMLdate);
-    var date, heures, minutes, secondes;
-    var contenu = "";
-    var nbMessages = XMLDoc.getElementsByTagName('Message').length;
+    var contenu = (new XMLSerializer()).serializeToString(xmlDoc);
 
-    if(nbMessages > 0){
-        for(var i = 0; i < nbMessages; i++){
-
-            heures = XMLDoc.getElementsByTagName('heures')[i].firstChild.data;
-            minutes = XMLDoc.getElementsByTagName('minutes')[i].firstChild.data;
-            secondes = XMLDoc.getElementsByTagName('secondes')[i].firstChild.data;
-            date = heures + minutes + secondes;
-
-            contenu += '<tr id="message">'
-            contenu += '<td class="bleu">' + date + '</td>'
-            contenu += '<td class="violet">' + XMLDoc.getElementsByTagName('Auteur')[i].firstChild.data + '</td>';
-            contenu += '<td>' + XMLDoc.getElementsByTagName('Texte')[i].firstChild.data + '</td>';
-            contenu += '</tr>';
-        }
-
-        //on ajoute le(s) message(s) au contenu déjà présent
-        document.getElementById(id).innerHTML = document.getElementById(id).innerHTML + contenu;
-    }
+    //on ajoute le(s) message(s) au contenu déjà présent
+    document.getElementById(id).innerHTML += contenu + "<br/>";
 }
 
 //----------------------Fonctions fa�ades----------------------------

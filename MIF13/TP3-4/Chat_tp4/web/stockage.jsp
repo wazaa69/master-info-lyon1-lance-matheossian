@@ -15,6 +15,6 @@
     String messageRecu = request.getParameter("message");
 
     if(messageRecu != null && !messageRecu.isEmpty())
-        gestion.ajouterMessage(new Message((String) session.getAttribute("nom"),messageRecu));
-   
+        gestion.ajouterMessage(new Message((String) session.getAttribute("nom"), messageRecu));
+
 %>
