@@ -2,7 +2,7 @@
 #define _TEMPORAIRE_
 
 #include "Symbole.hpp"
-#include "Expression.hpp"
+#include "Operande.hpp"
 
 #include <string>
 #include "Type.hpp"
@@ -15,7 +15,7 @@ class Temporaire : public Symbole  {
 	private:
 		
 	std::string* nomTemporaire;
-	Expression* ex;
+	Operande* ex;
 
 	public:
 
@@ -23,11 +23,11 @@ class Temporaire : public Symbole  {
         *   @brief Constructeur, initialise le Temporaire
 	*   @param _id identifiant du symbole
         */
-        Temporaire(int _id, Expression* _ex);
+        Temporaire(int _id, Operande* _ex);
 
 	Temporaire(int _id, std::string _nomTemporaire, Type* _type);
 
-	Expression* getExpression();
+	Operande* getOperande();
 
         /**
         *   @brief Destructeur
