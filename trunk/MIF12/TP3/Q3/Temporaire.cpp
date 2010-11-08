@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Temporaire::Temporaire(int _id, Expression* _ex)
+Temporaire::Temporaire(int _id, Operande* _ex)
 {
 	categorie = new string("temporaire"); 
 	id = _id;
@@ -20,7 +20,7 @@ Temporaire::Temporaire(int _id, string _nomTemporaire, Type* _type)
 
 }
 
-Expression* Temporaire::getExpression(){ return ex;}
+Operande* Temporaire::getOperande(){ return ex;}
 
 Temporaire::~Temporaire(){}
 

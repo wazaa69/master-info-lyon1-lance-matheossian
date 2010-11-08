@@ -116,7 +116,7 @@ typedef union YYSTYPE
 	TypeRecord* typeRecord;
     
 	bool boolE;
-	Expression* expression;
+	Operande* operande;
 
 
 

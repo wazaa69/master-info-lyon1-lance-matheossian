@@ -40,7 +40,7 @@
 //############################################### AUTRES
 
 	#include "Factory.hpp"
-	#include "Expression.hpp"
+	#include "Operande.hpp"
 
 	using namespace std;
 
@@ -80,7 +80,7 @@
 	int numIdRecord; // numero Id du record à écrire dans la table des symboles
 	bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
 
-//############################################### EXPRESSIONS
+//############################################### OperandeS
 
 
 	extern TableDesIdentificateurs* tableInteger;
@@ -181,15 +181,15 @@
 
 %type <type> FuncResult
 
-%type <expression> CompExpr
-%type <expression> BoolExpr
-%type <expression> Expression
-%type <expression> AtomExpr
-%type <expression> VarExpr
-%type <expression> MathExpr
+%type <operande> CompExpr
+%type <operande> BoolExpr
+%type <operande> Operande
+%type <operande> AtomExpr
+%type <operande> VarExpr
+%type <operande> MathExpr
 
-%type <expression> ListDeclConst
-%type <expression> DeclConst
+%type <operande> ListDeclConst
+%type <operande> DeclConst
 
 /* Les types */
 
@@ -210,7 +210,7 @@
 	TypeRecord* typeRecord;
     
 	bool boolE;
-	Expression* expression;
+	Operande* operande;
 
 }
 
@@ -257,7 +257,7 @@ ListDeclConst  : ListDeclConst DeclConst				{ $$ = $2;}
                | DeclConst						{}
                ;
 
-DeclConst      : TOK_IDENT OP_EQ Expression SEP_SCOL			{ 	
+DeclConst      : TOK_IDENT OP_EQ Operande SEP_SCOL			{ 	
 
 										// ici on pourrait créer une instruction 3@ pour récupérer le code
 						
@@ -705,7 +705,7 @@ ListTest        :       ListTest SEP_SCOL TOK_IDENT { /* cout << "\nIdentificate
 		|
                 ;
 
-Expression     : VarExpr				{}
+Operande     : VarExpr				{}
                | CompExpr				{}
                | AtomExpr				{}
                | BoolExpr				{}
@@ -714,50 +714,50 @@ Expression     : VarExpr				{}
 
                ;
 
-MathExpr       : Expression OP_ADD Expression		{ $$ = $1->operation($1,$3,new string("+")); 	}
-               | Expression OP_SUB Expression		{ $$ = $1->operation($1,$3,new string("-")); 	}
-               | Expression OP_MUL Expression		{ $$ = $1->operation($1,$3,new string("*")); 	}
-               | Expression OP_SLASH Expression		{ $$ = $1->operation($1,$3,new string("/"));    }
-               | Expression KW_DIV Expression		{ $$ = $1->operation($1,$3,new string("div")); 	}
-               | Expression KW_MOD Expression		{ $$ = $1->operation($1,$3,new string("mod")); 	}
-               | OP_SUB Expression			{ $$ = $2->operation($2,NULL,new string("-a")); }
-               | OP_ADD Expression			{ $$ = $2->operation($2,NULL,new string("+a")); }
+MathExpr       : Operande OP_ADD Operande		{ $$ = $1->operation($1,$3,new string("+")); 	}
+               | Operande OP_SUB Operande		{ $$ = $1->operation($1,$3,new string("-")); 	}
+               | Operande OP_MUL Operande		{ $$ = $1->operation($1,$3,new string("*")); 	}
+               | Operande OP_SLASH Operande		{ $$ = $1->operation($1,$3,new string("/"));    }
+               | Operande KW_DIV Operande		{ $$ = $1->operation($1,$3,new string("div")); 	}
+               | Operande KW_MOD Operande		{ $$ = $1->operation($1,$3,new string("mod")); 	}
+               | OP_SUB Operande			{ $$ = $2->operation($2,NULL,new string("-a")); }
+               | OP_ADD Operande			{ $$ = $2->operation($2,NULL,new string("+a")); }
                ;
 					
-CompExpr       : Expression OP_EQ Expression		{ $$ = $1->comparaison($1,$3, new string("="));  }
-               | Expression OP_NEQ Expression		{ $$ = $1->comparaison($1,$3, new string("<>")); }
-               | Expression OP_LT Expression		{ $$ = $1->comparaison($1,$3, new string("<"));  }
-               | Expression OP_LTE Expression		{ $$ = $1->comparaison($1,$3, new string("<=")); }
-               | Expression OP_GT Expression		{ $$ = $1->comparaison($1,$3, new string(">"));  }
-               | Expression OP_GTE Expression		{ $$ = $1->comparaison($1,$3, new string(">=")); }
+CompExpr       : Operande OP_EQ Operande		{ $$ = $1->comparaison($1,$3, new string("="));  }
+               | Operande OP_NEQ Operande		{ $$ = $1->comparaison($1,$3, new string("<>")); }
+               | Operande OP_LT Operande		{ $$ = $1->comparaison($1,$3, new string("<"));  }
+               | Operande OP_LTE Operande		{ $$ = $1->comparaison($1,$3, new string("<=")); }
+               | Operande OP_GT Operande		{ $$ = $1->comparaison($1,$3, new string(">"));  }
+               | Operande OP_GTE Operande		{ $$ = $1->comparaison($1,$3, new string(">=")); }
                ;
 
-BoolExpr       : Expression KW_AND Expression		{ $$ = $1->comparaisonBool($1,$3, new string("and"));   }
-               | Expression KW_OR Expression		{ $$ = $1->comparaisonBool($1,$3, new string("or"));    }
-               | Expression KW_XOR Expression		{ $$ = $1->comparaisonBool($1,$3, new string("xor"));   }
-               | KW_NOT Expression			{ $$ = $2->comparaisonBool($2,NULL, new string("not")); }
+BoolExpr       : Operande KW_AND Operande		{ $$ = $1->comparaisonBool($1,$3, new string("and"));   }
+               | Operande KW_OR Operande		{ $$ = $1->comparaisonBool($1,$3, new string("or"));    }
+               | Operande KW_XOR Operande		{ $$ = $1->comparaisonBool($1,$3, new string("xor"));   }
+               | KW_NOT Operande			{ $$ = $2->comparaisonBool($2,NULL, new string("not")); }
                ;
 
-AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
+AtomExpr       : SEP_PO Operande SEP_PF		{$$ = $2;}
                | TOK_INTEGER				{ istringstream iss(tableInteger->getElement($1)); 
-							  int nombre;  iss >> nombre; $$ = new Expression(new TypeInteger(),nombre); }
+							  int nombre;  iss >> nombre; $$ = new Operande(new TypeInteger(),nombre); }
 	       | TOK_BOOLEAN				{
 							  string booleen = tableBoolean->getElement($1);
-							 if((booleen.substr(0,1) == "t" )|| (booleen.substr(0,1) == "T" )){ $$ = new Expression(new TypeBoolean(), true);}
-							  else{ $$ = new Expression(new TypeBoolean(), false); }
+							 if((booleen.substr(0,1) == "t" )|| (booleen.substr(0,1) == "T" )){ $$ = new Operande(new TypeBoolean(), true);}
+							  else{ $$ = new Operande(new TypeBoolean(), false); }
 						
 							 }
                | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; 
-							  float reel; iss >> reel; $$ = new Expression(new TypeReal(), reel);
+							  float reel; iss >> reel; $$ = new Operande(new TypeReal(), reel);
 	       
 	       /*| Call
-		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Expression(new TypePointeur($1), iss >> pointeur); 
-               | TOK_PTR				{$$ = new Expression(new TypePointeur($1), $1);} */}
-               | TOK_STRING				{ $$ = new Expression(new TypeString(), new string(tableString->getElement($1))); }
+		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Operande(new TypePointeur($1), iss >> pointeur); 
+               | TOK_PTR				{$$ = new Operande(new TypePointeur($1), $1);} */}
+               | TOK_STRING				{ $$ = new Operande(new TypeString(), new string(tableString->getElement($1))); }
                ;
 
-VarExpr        : TOK_IDENT				{cout << "tok_ident" << $1 << endl;$$ = new Expression(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);/*
-               | VarExpr SEP_CO Expression SEP_CF	
+VarExpr        : TOK_IDENT				{cout << "tok_ident" << $1 << endl;$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);/*
+               | VarExpr SEP_CO Operande SEP_CF	
                | VarExpr SEP_DOT TOK_IDENT
                | VarExpr OP_PTR 
                ;
@@ -768,8 +768,8 @@ Call           : TOK_IDENT Parameters
 Parameters     : SEP_PO ListParameters SEP_PF
                ;
 
-ListParameters : ListParameters SEP_COMMA Expression
-               | Expression		*/}
+ListParameters : ListParameters SEP_COMMA Operande
+               | Operande		*/}
                ;
 
 
