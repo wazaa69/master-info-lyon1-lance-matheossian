@@ -4,6 +4,9 @@
 #include "Symbole.hpp"
 #include "Expression.hpp"
 
+#include <string>
+#include "Type.hpp"
+
 /**
  * Gestion d'une constante.
  */
@@ -11,6 +14,9 @@ class Temporaire : public Symbole  {
        
 	private:
 		
+	std::string* nomTemporaire;
+	Type* type;
+
 	Expression* ex;
 
 	public:
@@ -20,6 +26,8 @@ class Temporaire : public Symbole  {
 	*   @param _id identifiant du symbole
         */
         Temporaire(int _id, Expression* _ex);
+
+	Temporaire(int _id, std::string _nomTemporaire, Type* _type);
 
 	Expression* getExpression();
 

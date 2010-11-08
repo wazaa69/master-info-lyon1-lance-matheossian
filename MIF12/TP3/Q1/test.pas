@@ -15,7 +15,7 @@ function fonc1 ( param4,param5 : type1): string;
 	var var5 : type1;
 	    label lab3;
 	begin
-	v0
+	
 	end;
 
 
@@ -37,13 +37,13 @@ procedure proc1 ( param1,param6 : integer);
 				type type4 = array [ 1.. 10 ] of integer;
 				var var4 : integer;
 				begin
-				v0
+				
 				end;
 			begin
-			  v0
+			  
 			end;
 	begin
-	v0
+	
 	end;
 
 

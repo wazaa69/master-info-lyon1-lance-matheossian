@@ -1,5 +1,5 @@
-#ifndef _TableDesSymboles_
-#define _TableDesSymboles_
+#ifndef _TABLEDESSYMBOLES_
+#define _TABLEDESSYMBOLES_
 
 #include <vector>
 
@@ -12,7 +12,7 @@ class TableDesSymboles {
 
 	private:
 
-		std::vector<Symbole*> tableSymb; /** @param tableSymb la table des symboles */
+		std::vector<Symbole*> tableSymb; /** @var tableSymb la table des symboles */
 		int numeroContexteTS;
 		std::string portee; 
 		

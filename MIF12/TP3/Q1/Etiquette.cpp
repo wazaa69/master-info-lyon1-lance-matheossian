@@ -11,5 +11,7 @@ Etiquette::Etiquette(int _id){
 //void Etiquette::setNumInstruction()
 
 
+
 Etiquette::~Etiquette(){}
+
 
