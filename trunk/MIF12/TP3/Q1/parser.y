@@ -45,7 +45,7 @@
 
 	extern bool erreur;
 	extern FILE* yyin;
-	 extern char* yytext;
+	extern char* yytext;
 	extern int yylex();
 	extern int yyerror(char* m);
 
@@ -300,7 +300,13 @@ ProcHeader     : ProcIdent					{
 
 								tmpTds = new TableDesSymboles(TDS_Actuelle); // on initialise tmpTds pour le nouveau contexte
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
-	
+									for(unsigned int i = 0; i < tabArguments.size() ; i++)
+								{
+									listeTDS[TDS_Actuelle]->ajouter(tabArguments[i]);	
+								}
+
+								tabArguments.clear();
+
 								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 
@@ -323,9 +329,12 @@ ProcHeader     : ProcIdent					{
 								tmpTds = new TableDesSymboles(TDS_Actuelle); // on initialise tmpTds pour le nouveau contexte
 								listeTDS.push_back(tmpTds); // on rajoute le nouveau contexte dans la liste des TS
 				
-				
+								for(unsigned int i = 0; i < tabArguments.size() ; i++)
+								{
+									listeTDS[TDS_Actuelle]->ajouter(tabArguments[i]);	
+								}
 
-
+								tabArguments.clear();
 								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 
@@ -423,7 +432,12 @@ FuncHeader     : FuncIdent FuncResult			 {
 	
 								
 								
+								for(unsigned int i = 0; i < tabArguments.size() ; i++)
+								{
+									listeTDS[TDS_Actuelle]->ajouter(tabArguments[i]);	
+								}
 
+								tabArguments.clear();
 								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 
@@ -448,7 +462,12 @@ FuncHeader     : FuncIdent FuncResult			 {
 			
 							
 
+								for(unsigned int i = 0; i < tabArguments.size() ; i++)
+								{
+									listeTDS[TDS_Actuelle]->ajouter(tabArguments[i]);	
+								}
 
+								tabArguments.clear();							
 								ariteArgFoncProc = 0; // on remet l'arité à 0 pour la prochaine déclaration de fonc/proc
 								niveauTDS++;
 
@@ -677,6 +696,7 @@ BlockCode       : KW_BEGIN ListTest KW_END
 
 ListTest        :       ListTest SEP_SCOL TOK_IDENT { /* cout << "\nIdentificateur: "<< tableId->getElement($3) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$3)->getPortee() << endl; */}
                 |       TOK_IDENT  {/* cout << "\nIdentificateur: "<< tableId->getElement($1) << " | Portée: "<< tableSymb->getTableSymbContenantI(listeTDS,$1)->getPortee() << endl; */}
+		|
                 ;
 
 //############################################################################################################################### EXPRESSION
@@ -724,7 +744,7 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
 						
 							 }
                | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; 
-							  float reel; $$ = new Expression(new TypeReal(), iss >> reel);
+							  float reel; iss >> reel; $$ = new Expression(new TypeReal(), reel);
 	       
 	       /*| Call
 		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Expression(new TypePointeur($1), iss >> pointeur); 

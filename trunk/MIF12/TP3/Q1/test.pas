@@ -1,6 +1,6 @@
 program test;
 
-const   cons1 = true;
+const   cons1 = 'bonjour';
 type type1 = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;
 
@@ -21,7 +21,7 @@ function fonc1 ( param4,param5 : type1): string;
 
 
 
-procedure proc1 ( param1 : integer);
+procedure proc1 ( param1,param6 : integer);
 	const   cons2 = true;
 	type type2 = array [ 1.. 10 ] of integer;
 	var var2 : integer;
