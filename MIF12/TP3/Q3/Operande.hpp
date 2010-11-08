@@ -1,5 +1,7 @@
-#ifndef _EXPRESSION_
-#define _EXPRESSION_
+#ifndef _Operande_
+#define _Operande_
+
+#include "Symbole.hpp"
 
 #include <string>
 #include "Type.hpp"
@@ -10,30 +12,37 @@
 #include "TypeReal.hpp"
 
 /**
-*	@brief Expression
+*	@brief Operande
 */
-class Expression {
+class Operande {
 
 	private:
+
+
+		bool operandeIdentifiant;
 
 		Type* type;
 		
 		int valInt;
 		float valFloat;
 		bool valBool;
-		std::string* valString; 
+		std::string* valString;
+	
+		Symbole* identifiant; 
 
 	public:
 
-		Expression(Type* _type, int _valInt);
+		Operande(Symbole* _identifiant);
 
-		Expression(Type* _type, float _valFloat);
+		Operande(Type* _type, int _valInt);
+
+		Operande(Type* _type, float _valFloat);
 	
-		Expression(Type* _type, std::string* _valString);
+		Operande(Type* _type, std::string* _valString);
 
-		Expression(Type* _type, bool _valBool);
+		Operande(Type* _type, bool _valBool);
 		
-		~Expression();
+		~Operande();
 		
 		bool getValBool();
 	
@@ -52,25 +61,25 @@ class Expression {
 		bool memeType(Type* _type1, std::string* _type2);
 		
 		/**
-		*   @brief Va evaluer le résultat de l'opération "operation" entre les expressions ex1 et ex2
-		*   @param ex1 une Expression, ex2 une Expression, operation un string
-		*   @return Retourne une expression intialisée avec le  bon type et la bonne valeur
+		*   @brief Va evaluer le résultat de l'opération "operation" entre les Operandes ex1 et ex2
+		*   @param ex1 une Operande, ex2 une Operande, operation un string
+		*   @return Retourne une Operande intialisée avec le  bon type et la bonne valeur
 		*/
-		Expression* operation(Expression* ex1, Expression* ex2, std::string* _operation);
+		Operande* operation(Operande* ex1, Operande* ex2, std::string* _operation);
 
 		/**
-		*   @brief Va evaluer le résultat de la comparaison booleenne "operation" entre les expressions ex1 et ex2
-		*   @param ex1 une Expression, ex2 une Expression, operation un string
-		*   @return Retourne une expression intialisée avec un typeBoolean et la bonne valeur
+		*   @brief Va evaluer le résultat de la comparaison booleenne "operation" entre les Operandes ex1 et ex2
+		*   @param ex1 une Operande, ex2 une Operande, operation un string
+		*   @return Retourne une Operande intialisée avec un typeBoolean et la bonne valeur
 		*/
-		Expression* comparaisonBool(Expression* ex1, Expression* ex2, std::string* _operation);
+		Operande* comparaisonBool(Operande* ex1, Operande* ex2, std::string* _operation);
 
 		/**
-		*   @brief Va evaluer le résultat de la comparaison "operation" entre les expressions ex1 et ex2
-		*   @param ex1 une Expression, ex2 une Expression, operation un string
-		*   @return Retourne une expression intialisée avec un typeBoolean et la bonne valeur
+		*   @brief Va evaluer le résultat de la comparaison "operation" entre les Operandes ex1 et ex2
+		*   @param ex1 une Operande, ex2 une Operande, operation un string
+		*   @return Retourne une Operande intialisée avec un typeBoolean et la bonne valeur
 		*/
-		Expression* comparaison(Expression* ex1, Expression* ex2, std::string* operation);
+		Operande* comparaison(Operande* ex1, Operande* ex2, std::string* operation);
 };
 
 #endif

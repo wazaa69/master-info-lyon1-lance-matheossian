@@ -1,14 +1,28 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "Expression.hpp"
+#include "Operande.hpp"
 
 using namespace std;
 
 //####################################### CONSTRUCTEURS
 
-Expression::Expression(Type* _type, int _valInt){
+Operande::Operande(Symbole* _identifiant)
+{
+	operandeIdentifiant = true;
+
+	identifiant = _identifiant;
+	type = NULL;
+
+	valInt = 0;
+	valFloat = 0;
+	valBool = false;
+	valString = new string("_");
+}
+
+Operande::Operande(Type* _type, int _valInt){
 	
+	operandeIdentifiant = false;
 
 	valInt = _valInt;
 
@@ -19,8 +33,10 @@ Expression::Expression(Type* _type, int _valInt){
 	
 }
 
-Expression::Expression(Type* _type, float _valFloat){
+Operande::Operande(Type* _type, float _valFloat){
 	
+	operandeIdentifiant = false;
+
 	valFloat = _valFloat;
 
 	valInt = 0;
@@ -30,8 +46,10 @@ Expression::Expression(Type* _type, float _valFloat){
 	type = _type;
 }
 
-Expression::Expression(Type* _type, string* _valString){
-	
+Operande::Operande(Type* _type, string* _valString){
+		
+	operandeIdentifiant = false;
+
 	valString = _valString;
 	
 	valInt = 0;
@@ -42,8 +60,10 @@ Expression::Expression(Type* _type, string* _valString){
 	
 }
 
-Expression::Expression(Type* _type, bool _valBool){
-	
+Operande::Operande(Type* _type, bool _valBool){
+		
+	operandeIdentifiant = false;
+
 	valBool = _valBool;
 
 	valInt = 0;
@@ -57,25 +77,25 @@ Expression::Expression(Type* _type, bool _valBool){
 //####################################### ACCESSEURS
 
 
-Type* Expression::getType(){return type;}
+Type* Operande::getType(){return type;}
 
-bool Expression::getValBool(){return valBool;}
+bool Operande::getValBool(){return valBool;}
 
-int Expression::getValInteger(){return valInt;}
+int Operande::getValInteger(){return valInt;}
 
-float Expression::getValFloat(){return valFloat;}
+float Operande::getValFloat(){return valFloat;}
 
-string* Expression::getValString(){return valString;}
-
-
-void Expression::setValBool(bool _valBool){valBool = _valBool;}
+string* Operande::getValString(){return valString;}
 
 
+void Operande::setValBool(bool _valBool){valBool = _valBool;}
 
 
 
 
-bool Expression::memeType(Type* _type1, Type* _type2)
+
+
+bool Operande::memeType(Type* _type1, Type* _type2)
 {
 	string* a1 =  _type1->getStringType();
 	string* a2 =  _type2->getStringType();	
@@ -83,7 +103,7 @@ bool Expression::memeType(Type* _type1, Type* _type2)
 	return (*a1 == *a2);
 }
 
-bool Expression::memeType(Type* _type1, string* _type2)
+bool Operande::memeType(Type* _type1, string* _type2)
 {
 	string* a1 =  _type1->getStringType();
 	string* a2 =  _type2;	
@@ -92,11 +112,11 @@ bool Expression::memeType(Type* _type1, string* _type2)
 }
 
 
-Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _operation)
+Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
 {	
 	int type = 0;
 	int operation = 0;
-	Expression* exRetour;
+	Operande* exRetour;
 
 	string typeEx1 = *(ex1->getType()->getStringType());
 	string typeEx2 = *(ex2->getType()->getStringType());
@@ -125,32 +145,32 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 				switch(operation)
 				{		
 					case 1: // +
-						exRetour = new Expression(new TypeInteger(), ex1->getValInteger() + ex2->getValInteger());
+						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() + ex2->getValInteger());
 					break;
 					case 2: // -
-						exRetour = new Expression(new TypeInteger(), ex1->getValInteger() - ex2->getValInteger());
+						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() - ex2->getValInteger());
 					break;
 					case 3: // *
-						exRetour = new Expression(new TypeInteger(), ex1->getValInteger() * ex2->getValInteger());
+						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() * ex2->getValInteger());
 					break;
 					case 4: // /
-						exRetour = new Expression(new TypeInteger(), ex1->getValInteger() / ex2->getValInteger());
+						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() / ex2->getValInteger());
 					break;
 					case 5: // div
-						exRetour = new Expression(new TypeInteger(), ex1->getValInteger() / ex2->getValInteger());
+						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() / ex2->getValInteger());
 					break;
 					case 6: // mod
-						exRetour = new Expression(new TypeInteger(), ex1->getValInteger() % ex2->getValInteger());
+						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() % ex2->getValInteger());
 					break;
 					case 7: // -a
-						exRetour = new Expression(new TypeInteger(), -ex1->getValInteger() );
+						exRetour = new Operande(new TypeInteger(), -ex1->getValInteger() );
 					break;
 					case 8: // +a
-						exRetour = new Expression(new TypeInteger(), +ex1->getValInteger());
+						exRetour = new Operande(new TypeInteger(), +ex1->getValInteger());
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée pour les entiers." << endl;
-						exRetour = new Expression(new TypeInteger(), 0);
+						exRetour = new Operande(new TypeInteger(), 0);
 					break;
 				}
 			
@@ -159,29 +179,29 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 				switch(operation)
 				{		
 					case 1: // +
-						exRetour = new Expression(new TypeReal(), ex1->getValFloat() + ex2->getValFloat());
+						exRetour = new Operande(new TypeReal(), ex1->getValFloat() + ex2->getValFloat());
 					break;
 					case 2: // -
-						exRetour = new Expression(new TypeReal(), ex1->getValFloat() - ex2->getValFloat());
+						exRetour = new Operande(new TypeReal(), ex1->getValFloat() - ex2->getValFloat());
 					break;
 					case 3: // *
-						exRetour = new Expression(new TypeReal(), ex1->getValFloat() * ex2->getValFloat());
+						exRetour = new Operande(new TypeReal(), ex1->getValFloat() * ex2->getValFloat());
 					break;
 					case 4: // /
-						exRetour = new Expression(new TypeReal(), ex1->getValFloat() / ex2->getValFloat());
+						exRetour = new Operande(new TypeReal(), ex1->getValFloat() / ex2->getValFloat());
 					break;
 					case 5: // div
-						exRetour = new Expression(new TypeReal(), ex1->getValFloat() / ex2->getValFloat());
+						exRetour = new Operande(new TypeReal(), ex1->getValFloat() / ex2->getValFloat());
 					break;
 					case 7: // -a
-						exRetour = new Expression(new TypeReal(), -ex1->getValFloat() );
+						exRetour = new Operande(new TypeReal(), -ex1->getValFloat() );
 					break;
 					case 8: // +a
-						exRetour = new Expression(new TypeReal(), +ex1->getValFloat());
+						exRetour = new Operande(new TypeReal(), +ex1->getValFloat());
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée pour les reels." << endl;
-						exRetour = new Expression(new TypeReal(), 0);
+						exRetour = new Operande(new TypeReal(), 0);
 					break;
 				}
 			break;
@@ -189,12 +209,12 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 				switch(operation)
 				{		
 					case 1: // +
-						//exRetour = new Expression(new TypeString(), new *string(ex1->getValString() + ex2->getValString()));
+						//exRetour = new Operande(new TypeString(), new *string(ex1->getValString() + ex2->getValString()));
 					break;
 
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée pour les string." << endl;
-						exRetour = new Expression(new TypeString(), 0);
+						exRetour = new Operande(new TypeString(), 0);
 					break;
 				}
 			break;
@@ -205,7 +225,7 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée pour les pointeurs." << endl;
-						exRetour = new Expression(new TypeString(), 0);
+						exRetour = new Operande(new TypeString(), 0);
 					break;
 					
 					
@@ -214,14 +234,14 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 	
 			default:
 					cout << "Erreur: Ce type n'est pas gérée." << endl;
-					exRetour = new Expression(new TypeInteger(), 0);
+					exRetour = new Operande(new TypeInteger(), 0);
 			break;
 		}
 	}
 	else
 	{	
 		cout << "Erreur: opérations entre 2 types différents non gérées. " << endl;
-		exRetour = new Expression(new TypeInteger(), 0);
+		exRetour = new Operande(new TypeInteger(), 0);
 	}
 
 	return exRetour;	
@@ -229,11 +249,11 @@ Expression* Expression::operation(Expression* ex1, Expression* ex2, string* _ope
 
 
 
-Expression* Expression::comparaisonBool(Expression* ex1, Expression* ex2, string* _operation)
+Operande* Operande::comparaisonBool(Operande* ex1, Operande* ex2, string* _operation)
 {
 	int operation = 0;
 	bool resultat = false;
-	Expression* exRetour;
+	Operande* exRetour;
 	
 	bool valEx1 = ex1-> getValBool();
 	bool valEx2 = ex2-> getValBool();
@@ -251,37 +271,37 @@ Expression* Expression::comparaisonBool(Expression* ex1, Expression* ex2, string
 		switch(operation)
 		{
 			case 1: resultat = valEx1 && valEx2;
-				exRetour = new Expression(new TypeBoolean(), resultat);
+				exRetour = new Operande(new TypeBoolean(), resultat);
 			break;
 			case 2: resultat = valEx1 || valEx2;
-				exRetour = new Expression(new TypeBoolean(), resultat);
+				exRetour = new Operande(new TypeBoolean(), resultat);
 			break;
 			case 3: resultat = valEx1 && valEx2;
-				exRetour = new Expression(new TypeBoolean(), resultat);
+				exRetour = new Operande(new TypeBoolean(), resultat);
 			break;
 			case 4: resultat = !(valEx1 == valEx2);
-				exRetour = new Expression(new TypeBoolean(), resultat);
+				exRetour = new Operande(new TypeBoolean(), resultat);
 			break;
 			default:
 				cout << "Erreur: comparaisonBool avec une opération non gérée." << endl;
-				exRetour = new Expression(new TypeBoolean(), false);
+				exRetour = new Operande(new TypeBoolean(), false);
 			break;
 
 	}
 	else
 	{
 		cout << "Erreur: comparaisonBool entre 2 types non booléens." << endl;
-		exRetour = new Expression(new TypeBoolean(), false);
+		exRetour = new Operande(new TypeBoolean(), false);
 	}
 	
 	return exRetour;
 }
 
-Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _operation)
+Operande* Operande::comparaison(Operande* ex1, Operande* ex2, string* _operation)
 {
 	int type = 0;
 	int operation = 0;
-	Expression* exRetour;
+	Operande* exRetour;
 
 	string typeEx1 = *(ex1->getType()->getStringType());
 	string typeEx2 = *(ex2->getType()->getStringType());
@@ -309,32 +329,32 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 				switch(operation)
 				{		
 					case 1: // =
-						if (ex1->getValBool() == ex2->getValBool()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValBool() == ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 2: // <
-						if (ex1->getValBool() < ex2->getValBool()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValBool() < ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 3: // >
-						if (ex1->getValBool() > ex2->getValBool()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValBool() > ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 4: // <=
-						if (ex1->getValBool() <= ex2->getValBool()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValBool() <= ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 5: // >=
-						if (ex1->getValBool() >= ex2->getValBool()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValBool() >= ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 6: // <>
-						if (ex1->getValBool() != ex2->getValBool()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValBool() != ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée." << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 				}
 			
@@ -343,32 +363,32 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 				switch(operation)
 				{		
 					case 1: // =
-						if (ex1->getValInteger() == ex2->getValInteger()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);					
+						if (ex1->getValInteger() == ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);					
 					break;
 					case 2: // <
-						if (ex1->getValInteger() < ex2->getValInteger()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValInteger() < ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 3: // >
-						if (ex1->getValInteger() > ex2->getValInteger()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValInteger() > ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 4: // <=
-						if (ex1->getValInteger() <= ex2->getValInteger()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValInteger() <= ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 5: // >=
-						if (ex1->getValInteger() >= ex2->getValInteger()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValInteger() >= ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 6: // <>
-						if (ex1->getValInteger() != ex2->getValInteger()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValInteger() != ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée." << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 				}
 			break;
@@ -376,32 +396,32 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 				switch(operation)
 				{		
 					case 1: // =
-						if (ex1->getValFloat() == ex2->getValFloat()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValFloat() == ex2->getValFloat()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 2: // <
-						if (ex1->getValFloat() < ex2->getValFloat()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValFloat() < ex2->getValFloat()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 3: // >
-						if (ex1->getValFloat() > ex2->getValFloat()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValFloat() > ex2->getValFloat()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 4: // <=
-						if (ex1->getValFloat() <= ex2->getValFloat()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValFloat() <= ex2->getValFloat()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 5: // >=
-						if (ex1->getValFloat() >= ex2->getValFloat()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValFloat() >= ex2->getValFloat()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 6: // <>
-						if (ex1->getValFloat() != ex2->getValFloat()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValFloat() != ex2->getValFloat()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée." << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 				}
 			break;
@@ -409,32 +429,32 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 				switch(operation)
 				{		
 					case 1: // =
-						if (ex1->getValString() == ex2->getValString()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValString() == ex2->getValString()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 2: // <
-						if (ex1->getValString() < ex2->getValString()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValString() < ex2->getValString()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 3: // >
-						if (ex1->getValString() > ex2->getValString()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);	
+						if (ex1->getValString() > ex2->getValString()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 4: // <=
 						cout << "Erreur: Cette opération n'est pas gérée pour les string." << endl;
-						exRetour = new Expression(new TypeBoolean(), false);	;	
+						exRetour = new Operande(new TypeBoolean(), false);	;	
 					break;
 					case 5: // >=
 						cout << "Erreur: Cette opération n'est pas gérée pour les string." << endl;
-						exRetour = new Expression(new TypeBoolean(), false);	
+						exRetour = new Operande(new TypeBoolean(), false);	
 					break;
 					case 6: // <>
-						if (ex1->getValString() != ex2->getValString()) exRetour = new Expression(new TypeBoolean(), true);
-						else 	exRetour = new Expression(new TypeBoolean(), false);
+						if (ex1->getValString() != ex2->getValString()) exRetour = new Operande(new TypeBoolean(), true);
+						else 	exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée." << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 				}
 			break;
@@ -443,44 +463,44 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 				{		
 					case 1: // =
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 2: // <
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 3: // >
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 4: // <=
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 					case 5: // >=
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);;
+						exRetour = new Operande(new TypeBoolean(), false);;
 					break;
 					case 6: // <>
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);;;
+						exRetour = new Operande(new TypeBoolean(), false);;;
 					break;
 					default:
 						cout << "Erreur: comparaisons entre 2 pointeurs non gérées. " << endl;
-						exRetour = new Expression(new TypeBoolean(), false);
+						exRetour = new Operande(new TypeBoolean(), false);
 					break;
 				}
 			break;
 			default:
 					cout << "Erreur: Ce type n'est pas gérée." << endl;
-					exRetour = new Expression(new TypeBoolean(), false);
+					exRetour = new Operande(new TypeBoolean(), false);
 			break;
 		}
 	}
 	else
 	{	
 		cout << "Erreur: comparaisons entre 2 types différents non gérées. " << endl;
-		exRetour = new Expression(new TypeBoolean(), false);
+		exRetour = new Operande(new TypeBoolean(), false);
 	}
 
 	
@@ -490,7 +510,7 @@ Expression* Expression::comparaison(Expression* ex1, Expression* ex2, string* _o
 
 //####################################### DESTRUCTEUR
 
-Expression::~Expression(){}
+Operande::~Operande(){}
 
 
 

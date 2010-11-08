@@ -8,7 +8,7 @@
 	#include "TypePointeur.hpp"
 	#include "TypeRecord.hpp"
 	#include "TypeUser.hpp"
-	#include "Expression.hpp"
+	#include "Operande.hpp"
 
 	#include "parser.h"
 	
