@@ -10,14 +10,18 @@ class TypeInterval : public Type {
 
 	private:
 
-		 std::string debut;
-		 std::string fin;
+		 int debut;
+		 int fin;
 
 	public:
 		TypeInterval();
 		~TypeInterval();
 		
 		TypeInterval(int _debut, int _fin);
+
+		int getDebut();
+
+		int getFin();
 
 };
 

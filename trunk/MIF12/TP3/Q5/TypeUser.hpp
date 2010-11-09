@@ -3,6 +3,7 @@
 
 #include "Symbole.hpp"
 #include <string>
+#include "TypeArray.hpp"
 
 /**
 *	@brief Type d'un symbole.

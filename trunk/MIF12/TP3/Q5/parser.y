@@ -172,9 +172,13 @@
 
 %type <type> Type
 %type <type> BaseType
+
 %type <typeInterval> InterType
+%type <typeInterval> ArrayIndex
+
 %type <interBase> InterBase
 %type <typeArray> ArrayType
+
 %type <typePointeur> PointerType
 %type <type> UserType
 
@@ -204,8 +208,10 @@
 	int numeroBoolean;
 	
 	Type* type;
+
 	TypeInterval* typeInterval;
 	int interBase;
+
 	TypeArray* typeArray;
 	TypePointeur* typePointeur;
 	TypeRecord* typeRecord;
@@ -666,14 +672,14 @@ RecordField    : ListIdent SEP_DOTS Type					{
 
 
 ArrayType      : KW_ARRAY SEP_CO ArrayIndex SEP_CF KW_OF Type    { /*   array[ 6 .. 10 ] of integer  ou array[ a .. b ] of real */ 
-								   $$ = new TypeArray();
-               ;						}
+								   $$ = new TypeArray($3,$6);
+               ;						 }
 
-ArrayIndex     : TOK_IDENT					{/*  a ou  6 .. 10 */}
-               | InterType					{/* on pourrait ramener un intervalle pour les 2 cas à rajouter dans arraytype */}
+ArrayIndex     : TOK_IDENT					{}
+               | InterType					{}
 
 
-InterType      : InterBase SEP_DOTDOT InterBase             {/* 6 .. 10  ou a .. 15 ou -7 .. b   */
+InterType      : InterBase SEP_DOTDOT InterBase             {
 								
 								 $$ = new TypeInterval($1,$3);
 							     }
@@ -684,12 +690,12 @@ PointerType    : OP_PTR Type			{$$ = new TypePointeur(*$2);}
 
 
 
-InterBase      : NSInterBase			{ /* a ou 6 */}
-               | OP_SUB NSInterBase		{ /* - a ou -6 */}
+InterBase      : NSInterBase			{}
+               | OP_SUB NSInterBase		{}
                ;
 
-NSInterBase    : TOK_IDENT			{ /* a */}
-               | TOK_INTEGER			{ /* integer */ }
+NSInterBase    : TOK_IDENT			{}
+               | TOK_INTEGER			{}
                ;
 
 

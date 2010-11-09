@@ -9,7 +9,7 @@
 
 	private:	
 	
-	int nombreInstruction;
+	int nombreInstructions;
 
 	std::vector<Instruction*> tabInstruction;
 
@@ -19,6 +19,8 @@
 	~ConteneurCode();
 
 	void ajouterInstFinBlocCourant(Instruction* _instruction);
+
+	void ajouterLesInstrFinBlocCourant(std::vector <Instruction*> _tabInstructions);
 
 };
 

@@ -3,6 +3,7 @@ program test;
 const   cons1 = 'bonjour';
 type type1 = array [ 1.. 10 ] of integer;
 var v0 , v1 : integer;
+	array1 : array [1 .. 15 ] of integer;
 
 studentinfo : record
 	name : string;
@@ -23,7 +24,7 @@ function fonc1 ( param4,param5 : type1): string;
 
 procedure proc1 ( param1,param6 : integer);
 	const   cons2 = true;
-	type type2 = array [ 1.. 10 ] of integer;
+	type type2 = array [ 1 .. 10 ] of integer;
 	var var2 : integer;
 	    label lab2;
 
@@ -49,6 +50,7 @@ procedure proc1 ( param1,param6 : integer);
 
 
 begin
+
 
 end.
 
