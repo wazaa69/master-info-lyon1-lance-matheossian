@@ -17,13 +17,21 @@ d'ajouter une instruction 3-adresses à la fin du bloc courant
 d'ajouter les instructions 3-adresses d'un bloc à la fin du bloc courant
 Le code 3-adresses
 
+x = y + z
+on cree un temporaire qui va stocker le résultat de l'addition
+on cree l'instruction 3@ qu'on ajoute au conteneurCode
+
+
+
+ CODE OP_AFFECT =  1
+
  OPCODE_NONE = 0, /*        nop (ne rien faire) */
-  OPCODE_ADD ,     /*        x := y + z          */
-  OPCODE_SUB ,     /*        x := y - z          */
-  OPCODE_MUL ,     /*        x := y * z          */
-  OPCODE_DIV ,     /*        x := y / z          */
-  OPCODE_NEG ,     /*        x := - y            */
-  OPCODE_AND ,     /*        x := y & z          */
+  OPCODE_ADD ,     /*        x := y + z          */	2
+  OPCODE_SUB ,     /*        x := y - z          */	3
+  OPCODE_MUL ,     /*        x := y * z          */	4
+  OPCODE_DIV ,     /*        x := y / z          */	6
+  OPCODE_NEG ,     /*        x := - y            */	8
+  OPCODE_AND ,     /*        x := y & z          */	
   OPCODE_OR  ,     /*        x := y | z          */
   OPCODE_NOT ,     /*        x := ! y            */
   OPCODE_CPY ,     /*        x := y              */
