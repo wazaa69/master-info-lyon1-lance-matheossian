@@ -16,7 +16,7 @@ function fonc1 ( param4,param5 : type1): string;
 	var var5 : type1;
 	    label lab3;
 	begin
-	v0
+	
 	end;
 
 
@@ -51,6 +51,9 @@ procedure proc1 ( param1,param6 : integer);
 
 begin
 
+v0 := 5 + 8;
+v1 := 10 - 9;
+v1 := v0 * 2;
 
 end.
 

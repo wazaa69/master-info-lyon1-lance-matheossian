@@ -5,7 +5,7 @@ DEP_DIR         = ./dep/
 BIN_DIR         = ./
 
 # bin name
-BIN             = question5
+BIN             = test3
 
 # additionnal lib and includes dir
 LIB_DIR         = ./
