@@ -98,7 +98,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 197 "parser.y"
+#line 201 "parser.y"
 
 
 	int numeroIdent;
@@ -109,8 +109,10 @@ typedef union YYSTYPE
 	int numeroBoolean;
 	
 	Type* type;
+
 	TypeInterval* typeInterval;
 	int interBase;
+
 	TypeArray* typeArray;
 	TypePointeur* typePointeur;
 	TypeRecord* typeRecord;
@@ -122,7 +124,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 126 "parser.h"
+#line 128 "parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

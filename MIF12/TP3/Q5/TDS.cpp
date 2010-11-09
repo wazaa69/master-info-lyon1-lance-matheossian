@@ -12,6 +12,8 @@
 #include "Argument.hpp"
 #include "TypeUser.hpp"
 
+#include "TypeArray.hpp"
+
 
 using namespace std;
 
@@ -149,7 +151,16 @@ void TableDesSymboles::afficherTable()
 		 if (*tableSymb[i]->getCategorie() == "variable ")
 			{
 				Variable* v = static_cast<Variable*>(tableSymb[i]);
-				cout << v->getID() << " | " << *v->getCategorie() << " | " << *v->getType()->getStringType() << endl; 
+	
+					if(*v->getType()->getStringType() != "Array")
+					{
+						cout << v->getID() << " | " << *v->getCategorie() << " | " << *v->getType()->getStringType() << endl; 
+					}
+					else
+					{
+						TypeArray* ta = static_cast<TypeArray*>(v->getType());
+						cout << v->getID() << " | " << *v->getCategorie() << " | " << *ta->getStringType()<< " | ["<< ta->getInterval()->getDebut() << "," << ta->getInterval()->getFin() << "] | "<< *ta->getTypeTab()->getStringType() <<  endl; 
+					}
 			}
 		else if (*tableSymb[i]->getCategorie() == "argument ")
 			{

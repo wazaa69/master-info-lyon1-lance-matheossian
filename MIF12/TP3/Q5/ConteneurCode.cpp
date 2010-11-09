@@ -4,7 +4,7 @@ using namespace std;
 
 ConteneurCode::ConteneurCode(){
 
-	nombreInstruction = 0;
+	nombreInstructions = 0;
 }
 
 ConteneurCode::~ConteneurCode(){}
@@ -13,17 +13,17 @@ void ConteneurCode::ajouterInstFinBlocCourant(Instruction* _instruction)
 {
 	if(_instruction != NULL){
 	tabInstruction.push_back(_instruction);
-	nombreInstruction++;
+	nombreInstructions++;
 	}
 }
 
-/*
-int blocCourant;
-std::vector<BlocCode*> tabBlocs;
+void ConteneurCode::ajouterLesInstrFinBlocCourant(vector <Instruction*> _tabInstructions)
+{
+	for (unsigned int i = 0; i < _tabInstructions.size() ; i++)
+	{
+		tabInstruction.push_back(_tabInstructions[i]);
+		nombreInstructions++;
+	}
+}
 
-ajouterInstructionFinBlocCourant(instruction)
-ajouterInstructionsFinblocCourant( std::vector<Instruction*> tabInstructions) OU
-ajouterInstructionsFinblocCourant( blocCode) après avoir défini son bloc avec la liste d'instructions
 
-std::vector<Instruction*> tabInstruction;
-*/

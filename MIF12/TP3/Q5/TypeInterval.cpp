@@ -13,12 +13,15 @@ TypeInterval::~TypeInterval(){
 
 }
 
+int TypeInterval::getDebut(){ return debut;}
+
+int TypeInterval::getFin(){ return fin;}
 
 TypeInterval::TypeInterval(int _debut, int _fin)
 {
 	
-	//debut = _debut;
-	//fin = _fin;
+	debut = _debut;
+	fin = _fin;
 	type = new string("Interval");
 
 }
