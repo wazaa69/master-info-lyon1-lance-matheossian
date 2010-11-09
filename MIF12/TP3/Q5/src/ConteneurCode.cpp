@@ -41,8 +41,9 @@ void ConteneurCode::affichageCode3AD()
 
 	for (unsigned int i = 0 ; i < tabInstruction.size(); i++)
 	{
-		//if ( tabInstruction[i]->getOperande1()->getValInteger()
-		cout << tabInstruction[i]->getOperande(1)->getValInteger() << " "<< *tabInstruction[i]->getOperation() << endl;
+		if ( (tabInstruction[i]->getOperande(1) != NULL) && (tabInstruction[i]->getOperande(2) != NULL) && (tabInstruction[i]->getOperande(3) != NULL) ){
+		cout << tabInstruction[i]->getOperande(1)->getValInteger() << " := "<< tabInstruction[i]->getOperande(2)->getValInteger() << " " << *tabInstruction[i]->getOperation()  << " " << tabInstruction[i]->getOperande(3)->getValInteger()  << endl;
+		}
 	}
 
 }
