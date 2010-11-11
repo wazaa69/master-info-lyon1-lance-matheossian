@@ -1,94 +1,107 @@
 #include <iostream>
-#include <string>
-#include <string.h>
+
 #include "Operande.hpp"
 
 using namespace std;
 
 //####################################### CONSTRUCTEURS
+/*
+Variable* v = static_cast<Variable*>(tableSymb[i]);
+	
+					if(*v->getType()->getStringType() != "Array")
+					{
+						cout << v->getID() << " | " << *v->getCategorie() << " | " << *v->getType()->getStringType() << endl; 
+					}
+					else
+					{
+						TypeArray* ta = static_cast<TypeArray*>(v->getType());
+						cout << v->getID() << " | " << *v->getCategorie() << " | " << *ta->getStringType()<< " | ["<< ta->getInterval()->getDebut() << "," << ta->getInterval()->getFin() << "] | "<< *ta->getTypeTab()->getStringType() <<  endl; 
+					}
 
-Operande::Operande(Symbole* _identifiant)
-{
+*/
+Operande::Operande(Symbole* _identifiant, Valeur* _valeur)
+{	
+	// on indique que l'opérande est un identifiant et non pas une valeur
 	operandeIdentifiant = true;
 
-	identifiant = _identifiant;
-	type = NULL;
+	
+	
+	if (_identifiant->getType() != NULL){ setType(_identifiant->getType());}	else {setType(NULL);}
 
-	valInt = 0;
-	valFloat = 0;
-	valBool = false;
-	valString = new string("_");
+	if(*_identifiant->getCategorie() == "variable ")
+	{
+		//Variable* v = static_cast<Variable*>(_identifiant);
+		identifiant = _identifiant;
+		valeur = _valeur;
+	}
+	else if (*_identifiant->getCategorie() == "temporaire")
+	{
+		//Temporaire* t = static_cast<Temporaire*>(_identifiant);
+		identifiant = _identifiant;
+		valeur = _valeur;
+		
+	}
+	else { identifiant = _identifiant; valeur = NULL;}
+
 }
+
+Operande::Operande(Valeur* _valeur)
+{	
+	// on indique que l'opérande est une valeur et non pas un identifiant
+	operandeIdentifiant = false;
+
+	valeur = _valeur;
+}
+
+
+
+Valeur* Operande::getValeur(){ return valeur;}
+
 
 Operande::Operande(Type* _type, int _valInt){
 	
 	operandeIdentifiant = false;
-
-	valInt = _valInt;
-
-	valFloat = 0;
-	valBool = false;
-	valString = new string("_");
-	type = _type;
+	valeur = new Valeur(_type, _valInt);
 	
 }
 
 Operande::Operande(Type* _type, float _valFloat){
 	
 	operandeIdentifiant = false;
-
-	valFloat = _valFloat;
-
-	valInt = 0;
-	valBool = false;
-	valString = new string("_");
-	
-	type = _type;
+	valeur = new Valeur(_type, _valFloat);
 }
 
 Operande::Operande(Type* _type, string* _valString){
 		
 	operandeIdentifiant = false;
-
-	valString = _valString;
-	
-	valInt = 0;
-	valBool = false;
-	valFloat = 0;
-
-	type = _type;
+	valeur = new Valeur(_type, _valString);
 	
 }
 
 Operande::Operande(Type* _type, bool _valBool){
 		
 	operandeIdentifiant = false;
+	valeur = new Valeur(_type, _valBool);
 
-	valBool = _valBool;
-
-	valInt = 0;
-	valString = new string("_");
-	valFloat = 0;
-
-	type = _type;
 }
 
 
 //####################################### ACCESSEURS
 
 
-Type* Operande::getType(){return type;}
+Type* Operande::getType(){return getValeur()->getType();}
 
-bool Operande::getValBool(){return valBool;}
+bool Operande::getValBool(){return getValeur()->getValBool();}
 
-int Operande::getValInteger(){return valInt;}
+int Operande::getValInteger(){return getValeur()->getValInteger();}
 
-float Operande::getValFloat(){return valFloat;}
+float Operande::getValFloat(){return getValeur()->getValFloat();}
 
-string* Operande::getValString(){return valString;}
+string* Operande::getValString(){return getValeur()->getValString();}
 
+void Operande::setType(Type* _type){ getValeur()->setType(_type);}
 
-void Operande::setValBool(bool _valBool){valBool = _valBool;}
+//void Operande::setValBool(bool _valBool){valBool = _valBool;}
 
 
 

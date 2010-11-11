@@ -4,12 +4,18 @@
 #include "Symbole.hpp"
 
 #include <string>
+#include <string.h>
 #include "Type.hpp"
 #include "TypeBoolean.hpp"
 #include "TypeInteger.hpp"
 #include "TypeString.hpp"
 #include "TypePointeur.hpp"
 #include "TypeReal.hpp"
+
+//#include "Variable.hpp"
+//#include "Temporaire.hpp"
+
+#include "Valeur.hpp"
 
 /**
 *	@brief Operande
@@ -21,18 +27,21 @@ class Operande {
 
 		bool operandeIdentifiant;
 
-		Type* type;
+		/*Type* type;
 		
 		int valInt;
 		float valFloat;
 		bool valBool;
 		std::string* valString;
-	
+	*/
 		Symbole* identifiant; 
+		Valeur* valeur;
 
 	public:
 
-		Operande(Symbole* _identifiant);
+		Operande(Valeur* _valeur);
+
+		Operande(Symbole* _identifiant, Valeur* _valeur);
 
 		Operande(Type* _type, int _valInt);
 
@@ -54,7 +63,11 @@ class Operande {
 
 		Type* getType();
 
-		void setValBool(bool _valBool);
+		void setType(Type* _type);
+		
+		//void setValBool(bool _valBool);
+
+		Valeur* getValeur();
 		
 		bool memeType(Type* _type1, Type* _type2);
 

@@ -21,7 +21,26 @@ x = y + z
 on cree un temporaire qui va stocker le résultat de l'addition
 on cree l'instruction 3@ qu'on ajoute au conteneurCode
 
+/////////////////////
+on a un conteneurCode qui contient la liste des instructions
 
+
+	a = 3 + 3;
+
+	operande(tok_ident) = somme (operande(int) ,operande(int))
+	a  = b + c 	
+	operande(tok_idenet) = somme ( evaluation(operande(tok_ident)), evaluation(operande(tok_ident)))
+	une instruction c'est donc toujours un tok_ident ou un temporaire à gauche
+
+	creer cette operande tok_ident  
+
+
+
+	seuls variable et temporaire ont une valeur différente de NULL
+
+$$ = $1->operation($1,$3,new string("+")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 2, new Etiquette(tableSymb->getNumContexteTSActuel(true), "")));
+
+////////////////////:
 
  CODE OP_AFFECT =  1
 

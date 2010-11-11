@@ -8,6 +8,7 @@ using namespace std;
 	id = _id;
 	nomTDS = _nomTDS;
 	arite = _arite;
+	type = NULL;
 }
 
 
