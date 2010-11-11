@@ -9,6 +9,7 @@ Temporaire::Temporaire(int _id, Operande* _ex)
 	categorie = new string("temporaire"); 
 	id = _id;
 	ex = _ex;
+	nomSymbole = new string("");
 }
 
 Temporaire::Temporaire(int _id, string _nomTemporaire, Type* _type)

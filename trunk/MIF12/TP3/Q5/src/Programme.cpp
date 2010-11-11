@@ -5,7 +5,8 @@ using namespace std;
 Programme::Programme(){
     categorie = new string("  prog   ");
     id = 0;
-    type = NULL; 
+    type = NULL;
+    nomSymbole = new string(""); 
 }
 
 Programme::~Programme(){}

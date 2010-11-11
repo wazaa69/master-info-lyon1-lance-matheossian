@@ -33,6 +33,7 @@ class Valeur {
 
 		Valeur(Type* _type, bool _valBool);
 
+
 	void setType(Type* _type);
 
 

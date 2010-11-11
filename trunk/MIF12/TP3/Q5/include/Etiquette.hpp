@@ -12,7 +12,7 @@ class Etiquette : public Symbole {
 	
 	int numeroInstruction;
 
-	std::string* nomEtiquette;
+	//std::string* nomEtiquette;
 
 	public:
 

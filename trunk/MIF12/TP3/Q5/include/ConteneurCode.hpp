@@ -24,6 +24,7 @@
 
 	void affichageCode3AD();
 
+	std::string operation(int _operation);
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define _SYMBOLE_
 
 #include "Type.hpp"
+#include <string>
 
 
 /**
@@ -14,6 +15,8 @@ class Symbole {
         std::string* categorie; /** variable, constante, fonction, procedure, etiquette, temporaire ... */
         Type* type; /** int, bool, char, ... */
 	int id;
+
+	std::string* nomSymbole;
 
     public:
 	
@@ -42,6 +45,8 @@ class Symbole {
         *   @return Retourne l'identifiant du symbole
         */
         int getID();
+
+	std::string* getNomSymbole();
 
 };
 

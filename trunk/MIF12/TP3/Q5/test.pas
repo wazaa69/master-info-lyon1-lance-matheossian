@@ -2,7 +2,9 @@ program test;
 
 const   cons1 = 'bonjour';
 type type1 = array [ 1.. 10 ] of integer;
-var v0 , v1 : integer;
+var vInt0 , vInt1 ,vInt2,vInt3: integer;
+    vReal0 , vReal1 ,vReal2,vReal3: real;
+    
 	array1 : array [1 .. 15 ] of integer;
 
 studentinfo : record
@@ -51,9 +53,13 @@ procedure proc1 ( param1,param6 : integer);
 
 begin
 
-v0 := 5 + 8;
-v1 := 10 - 9;
-v1 := v0 * 2;
+vInt0 := 5;
+vInt1 := 6;
+vInt2 := 7;
+vInt3 := 8;
+
+vReal1 := 15.4254;
+vReal2 := 4545.4; 
 
 end.
 

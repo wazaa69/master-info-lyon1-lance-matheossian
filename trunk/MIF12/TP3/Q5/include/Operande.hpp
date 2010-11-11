@@ -1,10 +1,14 @@
 #ifndef _Operande_
 #define _Operande_
 
+
+
 #include "Symbole.hpp"
 
 #include <string>
 #include <string.h>
+#include <sstream>
+
 #include "Type.hpp"
 #include "TypeBoolean.hpp"
 #include "TypeInteger.hpp"
@@ -39,6 +43,8 @@ class Operande {
 
 	public:
 
+//################################################################################## CONSTRUCTEURS
+
 		Operande(Valeur* _valeur);
 
 		Operande(Symbole* _identifiant, Valeur* _valeur);
@@ -52,6 +58,8 @@ class Operande {
 		Operande(Type* _type, bool _valBool);
 		
 		~Operande();
+
+//################################################################################## ACCESSEURS
 		
 		bool getValBool();
 	
@@ -61,14 +69,29 @@ class Operande {
 
 		std::string* getValString();
 
+		std::string getValConvString();
+
 		Type* getType();
+
+
+
+		Valeur* getValeur();
+
+		Symbole* getSymbole();
+
+
+//################################################################################## MUTATEURS
 
 		void setType(Type* _type);
 		
 		//void setValBool(bool _valBool);
 
-		Valeur* getValeur();
-		
+
+//################################################################################## METHODES
+
+		bool isIdentifiant();
+
+
 		bool memeType(Type* _type1, Type* _type2);
 
 		bool memeType(Type* _type1, std::string* _type2);
