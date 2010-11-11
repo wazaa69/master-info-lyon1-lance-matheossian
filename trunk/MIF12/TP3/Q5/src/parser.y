@@ -13,6 +13,7 @@
 
 //############################################### SYMBOLES
 
+	#include "Valeur.hpp"
 	#include "Symbole.hpp"
 	#include "Variable.hpp"
 	#include "Fonction.hpp"

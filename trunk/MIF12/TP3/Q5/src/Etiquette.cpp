@@ -6,6 +6,7 @@ Etiquette::Etiquette(int _id){
 
 	categorie = new string("etiquette"); 
 	id = _id;
+	type = NULL;
 
 	static int _numeroInstruction = 0;
 	numeroInstruction = _numeroInstruction;
