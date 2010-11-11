@@ -1,0 +1,34 @@
+Pour ce projet, il faut avoir Netbeans 6.9 (bug avec 6.9.1 de mon côté)
+
+Pour savoir si le plugin GWT4NB est installé sur Netbeans :
+ * Ouvrir NetBeans
+ * Aller dans Tools -> Plugins
+ * Onglet "Installed"
+ * Recherchez dans la colonne Name : "GWT4NB"
+
+
+Si le plugin GWT4NB n'a pas encore été installé sur Netbeans :
+ * Restez dans Tools -> Plugins
+ * Cliquez sur l'onglet "Available Plugins"
+ * Cliquer sur "Reload Catalog"
+ * Recherchez dans la colonne Name : "GWT4NB"
+ * Cochez le plugin, et faites "Install"
+ * Accepté les conditions etc ..
+ * Le plugin est installé, à moins d'avoir un message indiquant le contrair
+
+Vous pouvez maintenant créer une Web Aplication, avec GWT comme Framework
+
+Dans netbeans, la librairie gwt est demandées à la création du projet. Il faut
+remplir le champs "GWT Installation Folder:".
+
+Même si le projet existe déjà, vous devrez l'installer.
+
+Installation (si le projet existe déjà) :
+ * Dézipez la librairie gwt-2.1.0 dans un dossier
+ * Ouvrez le projet avec Netbeans (voir plus haut si le plugin GWT4NB  est installé)
+ * Cliquez droit sur le nom du projet
+ * Dans l'arbre, cliquez sur Frameworks
+ * Dans le champs "GWT Installation Folder:", allez chercher le dossier gwt-2.1.0 installé précédement.
+ De façon à avoir quelquechose comme : GWT Installation Folder: TP\TP6\gwt-2.1.0
+
+Tout est ok, vous pouvez compiler.
