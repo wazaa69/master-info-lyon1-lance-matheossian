@@ -1,26 +1,38 @@
 /* Conteneurs */
 body{font-family:Arial;}
-#entete{}
-#menu{}
-#article{background-color:#F2F5F9;}
-#piedpage{}
 
-/* Titres */
-.pageTitre{}
-
+.conteneurMenu,
+.conteneurArticle{float:left;}
 
 /* Menu */
-.menuTitre{
-    font-size:28px;
-    font-weight:bold;
+.conteneurMenu{
+    margin-left: 50px;
+    width:15%;
 }
-
+.conteneurMenu h1{margin-bottom:0;}
+#menu{margin-right:60px;}
 .menuItem{
     display:block;
     font-weight:bold;
 }
 
-/* Couleur */
+
+/* Article */
+.conteneurArticle{width:80%;}
+
+#article{
+    padding:10px;
+    background-color:#F2F5F9;
+}
+
+#article table{width:100%;}
+#article input{margin:10px 0 10px 10px;}
+#article button{
+    margin-left:60%;
+    margin-top:-30px;
+    position:absolute;
+}
+/* Couleurs */
 .bleuLien{color:#4A6BC4}
 .bleu{color:#174A7C;}
 .rouge{color:#B00000;}
