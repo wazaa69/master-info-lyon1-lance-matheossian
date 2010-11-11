@@ -2,15 +2,12 @@
 #define _CONSTANTE_
 
 #include "Symbole.hpp"
+#include <string>
+
 /**
  * Gestion d'une constante.
  */
 class Constante : public Symbole{
-
-	private:
-	
-	
-
        
 	public:
 
@@ -19,6 +16,8 @@ class Constante : public Symbole{
 	*   @param _id identifiant du symbole
         */
         Constante(Type* _type, int _id);
+
+	Constante(Type* _type, int _id, std::string nomConstante);
 
         /**
         *   @brief Destructeur

@@ -8,6 +8,7 @@ using namespace std;
 	type = _typeResult; // on utilise type pour stocker le type de retour
 	nomTDS = _nomTDS;
 	arite = _arite;
+	nomSymbole = new string("");
 }
 
  int Fonction::getNomTDS(){ return nomTDS;}

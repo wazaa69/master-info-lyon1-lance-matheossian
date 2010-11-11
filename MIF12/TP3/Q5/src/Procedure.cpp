@@ -9,6 +9,8 @@ using namespace std;
 	nomTDS = _nomTDS;
 	arite = _arite;
 	type = NULL;
+
+	nomSymbole = new string("");
 }
 
 

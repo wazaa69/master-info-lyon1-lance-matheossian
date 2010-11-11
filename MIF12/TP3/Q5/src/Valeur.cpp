@@ -64,4 +64,5 @@ float Valeur::getValFloat(){return valFloat;}
 string* Valeur::getValString(){return valString;}
 
 
+
 void Valeur::setType(Type* _type){ _type = type;}

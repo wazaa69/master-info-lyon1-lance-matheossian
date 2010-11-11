@@ -539,10 +539,10 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 									for(unsigned int i = 0; i < tmpNumId.size() ; i++){
 										if (remonteeTypeUser == false)
 										{		
-											if (!ajoutRecord){ listeTDS[TDS_Actuelle]->ajouter(new Variable($3, tableSymb->getNumIdActuel(true))); }
+											if (!ajoutRecord){ listeTDS[TDS_Actuelle]->ajouter(new Variable($3, tableSymb->getNumIdActuel(true),tableId->getElement(tableSymb->getNumIdActuel(false)))); }
 												
 												
-						                                        else{listeTDS[TDS_Actuelle]->ajouter(new Variable($3, numIdRecord)); ajoutRecord = false;}
+						                                        else{listeTDS[TDS_Actuelle]->ajouter(new Variable($3, numIdRecord,tableId->getElement(tableSymb->getNumIdActuel(false)))); ajoutRecord = false;}
 										}
 										else
 										{
@@ -550,7 +550,7 @@ DeclVar         : ListIdent SEP_DOTS Type SEP_SCOL
 											
 											// on vérifie que le typeUser de l'argument est bien défini dans la TS principale
 											if ((numTDS_TypeRemonte == 0) || (numTDS_TypeRemonte == TDS_Actuelle)){
-												listeTDS[TDS_Actuelle]->ajouter(new Variable(symbTypeUserRemonte, tableSymb->getNumIdActuel(true)));
+												listeTDS[TDS_Actuelle]->ajouter(new Variable(symbTypeUserRemonte, tableSymb->getNumIdActuel(true),tableId->getElement(tableSymb->getNumIdActuel(false))));
 											}
 											else { std::cerr << "Erreur : Le type de la variable définie dans la fonc/proc n'est pas défini dans la TS principale \n"; erreur = true; return 0;}
 										}
@@ -649,6 +649,7 @@ RecordFields   : RecordFields SEP_SCOL RecordField				{}
 
 RecordField    : ListIdent SEP_DOTS Type					{
 
+		
 		// on doit enlever 1 à la taille de tmpTds car il compte le TOKIDENT du record pendant la déclaration
 		if(nouveauRecord){
 			diffRecord = 1;
@@ -664,8 +665,9 @@ RecordField    : ListIdent SEP_DOTS Type					{
 		
 		
 		for(unsigned int i = 0; i < tmpNumId.size() - diffRecord ; i++){
-				
-                         tmpRecord->ajouter(new Variable($3, tableSymb->getNumIdActuel(true)));
+			 
+			 
+                         tmpRecord->ajouter(new Variable($3, tableSymb->getNumIdActuel(true) , tableId->getElement(tableSymb->getNumIdActuel(false))));
 
                    }
 
@@ -721,7 +723,7 @@ Instr          : //KW_WHILE Expression KW_DO Instr
                | //KW_FOR TOK_IDENT OP_AFFECT Expression ForDirection Expression KW_DO Instruction
                | //KW_IF Expression KW_THEN Instruction
                | //KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
-               | VarExpr OP_AFFECT Expression	  { $1 = $1->operation($1,$3, new string(":=")); CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+               | VarExpr OP_AFFECT Expression	  {cout << *$1->getSymbole()->getNomSymbole() << endl; $1 = $1->operation($1,$3, new string(":=")); CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | //Call
                | BlockCode
                ;
@@ -797,7 +799,12 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
                | TOK_STRING				{ $$ = new Operande(new TypeString(), new string(tableString->getElement($1))); }
                ;
 
-VarExpr        : TOK_IDENT				{cout << "tok_ident" << $1 << endl;$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1); /*
+VarExpr        : TOK_IDENT				{ //$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
+							Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
+							cout << *tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getNomSymbole() << endl;
+							$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
+							
+/*
                | VarExpr SEP_CO Expression SEP_CF	
                | VarExpr SEP_DOT TOK_IDENT
                | VarExpr OP_PTR 

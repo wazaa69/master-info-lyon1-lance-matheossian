@@ -4,125 +4,133 @@
 
 using namespace std;
 
-//####################################### CONSTRUCTEURS
-/*
-Variable* v = static_cast<Variable*>(tableSymb[i]);
-	
-					if(*v->getType()->getStringType() != "Array")
-					{
-						cout << v->getID() << " | " << *v->getCategorie() << " | " << *v->getType()->getStringType() << endl; 
-					}
-					else
-					{
-						TypeArray* ta = static_cast<TypeArray*>(v->getType());
-						cout << v->getID() << " | " << *v->getCategorie() << " | " << *ta->getStringType()<< " | ["<< ta->getInterval()->getDebut() << "," << ta->getInterval()->getFin() << "] | "<< *ta->getTypeTab()->getStringType() <<  endl; 
-					}
+//############################################################################## CONSTRUCTEURS
 
-*/
-Operande::Operande(Symbole* _identifiant, Valeur* _valeur)
-{	
-	// on indique que l'opérande est un identifiant et non pas une valeur
-	operandeIdentifiant = true;
+
+	Operande::Operande(Symbole* _identifiant, Valeur* _valeur)
+	{	
+		// on indique que l'opérande est un identifiant et non pas une valeur
+		if (_identifiant != NULL) operandeIdentifiant = true;
+		else operandeIdentifiant = false;
+	
 
 	
 	
-	if (_identifiant->getType() != NULL){ setType(_identifiant->getType());}	else {setType(NULL);}
+		//if (_identifiant->getType() != NULL){ setType(_identifiant->getType());}	else {setType(NULL);}
+	
 
-	if(*_identifiant->getCategorie() == "variable ")
-	{
-		//Variable* v = static_cast<Variable*>(_identifiant);
-		identifiant = _identifiant;
+		if((*_identifiant->getCategorie() == "variable ") || (*_identifiant->getCategorie() == "temporaire"))
+		{	
+		
+			identifiant = _identifiant;
+			valeur = _valeur;
+		
+		}
+
+		else { identifiant = _identifiant; valeur = NULL;}
+
+	}
+
+	Operande::Operande(Valeur* _valeur)
+	{	
+		// on indique que l'opérande est une valeur et non pas un identifiant
+		operandeIdentifiant = false;
+		identifiant = NULL;
+
 		valeur = _valeur;
 	}
-	else if (*_identifiant->getCategorie() == "temporaire")
-	{
-		//Temporaire* t = static_cast<Temporaire*>(_identifiant);
-		identifiant = _identifiant;
-		valeur = _valeur;
-		
+
+
+	Symbole* Operande::getSymbole() { return identifiant; }
+
+	Valeur* Operande::getValeur(){ return valeur;}
+
+
+	Operande::Operande(Type* _type, int _valInt){
+	
+		operandeIdentifiant = false;
+		valeur = new Valeur(_type, _valInt);
+	
 	}
-	else { identifiant = _identifiant; valeur = NULL;}
 
-}
-
-Operande::Operande(Valeur* _valeur)
-{	
-	// on indique que l'opérande est une valeur et non pas un identifiant
-	operandeIdentifiant = false;
-
-	valeur = _valeur;
-}
-
-
-
-Valeur* Operande::getValeur(){ return valeur;}
-
-
-Operande::Operande(Type* _type, int _valInt){
+	Operande::Operande(Type* _type, float _valFloat){
 	
-	operandeIdentifiant = false;
-	valeur = new Valeur(_type, _valInt);
-	
-}
+		operandeIdentifiant = false;
+		valeur = new Valeur(_type, _valFloat);
+	}
 
-Operande::Operande(Type* _type, float _valFloat){
-	
-	operandeIdentifiant = false;
-	valeur = new Valeur(_type, _valFloat);
-}
-
-Operande::Operande(Type* _type, string* _valString){
+	Operande::Operande(Type* _type, string* _valString){
 		
-	operandeIdentifiant = false;
-	valeur = new Valeur(_type, _valString);
+		operandeIdentifiant = false;
+		valeur = new Valeur(_type, _valString);
 	
-}
+	}
 
-Operande::Operande(Type* _type, bool _valBool){
+	Operande::Operande(Type* _type, bool _valBool){
 		
-	operandeIdentifiant = false;
-	valeur = new Valeur(_type, _valBool);
+		operandeIdentifiant = false;
+		valeur = new Valeur(_type, _valBool);
 
-}
-
-
-//####################################### ACCESSEURS
+	}
 
 
-Type* Operande::getType(){return getValeur()->getType();}
-
-bool Operande::getValBool(){return getValeur()->getValBool();}
-
-int Operande::getValInteger(){return getValeur()->getValInteger();}
-
-float Operande::getValFloat(){return getValeur()->getValFloat();}
-
-string* Operande::getValString(){return getValeur()->getValString();}
-
-void Operande::setType(Type* _type){ getValeur()->setType(_type);}
-
-//void Operande::setValBool(bool _valBool){valBool = _valBool;}
+//############################################################################## ACCESSEURS
 
 
+	Type* Operande::getType(){return getValeur()->getType();}
+
+	bool Operande::getValBool(){return getValeur()->getValBool();}
+
+	int Operande::getValInteger(){return getValeur()->getValInteger();}
+
+	float Operande::getValFloat(){return getValeur()->getValFloat();}
+
+	string* Operande::getValString(){return getValeur()->getValString();}
+
+	string Operande::getValConvString()
+	{
+		string valRetour = "";
+		string typr = *getType()->getStringType();
+
+	  	 ostringstream oss;
+
+		if(typr == "Integer") 		 oss << getValInteger(); 
+		else if (typr ==  "Boolean") 	 oss << getValBool(); 
+		else if (typr ==  "String")	return *getValString(); 
+		else if (typr ==  "Real")	 oss << getValFloat(); 
+		else  valRetour = "";
+		
+		valRetour = oss.str();
+		return valRetour;
+	}
 
 
+//############################################################################## MUTATEURS
+
+	void Operande::setType(Type* _type){ getValeur()->setType(_type);}
+
+	//void Operande::setValBool(bool _valBool){valBool = _valBool;}
+
+//############################################################################## METHODES
+
+	bool Operande::isIdentifiant(){ return operandeIdentifiant;}
 
 
-bool Operande::memeType(Type* _type1, Type* _type2)
-{
-	string* a1 =  _type1->getStringType();
-	string* a2 =  _type2->getStringType();	
+	bool Operande::memeType(Type* _type1, Type* _type2)
+	{
+		string* a1 =  _type1->getStringType();
+		string* a2 =  _type2->getStringType();	
 
-	return (*a1 == *a2);
-}
+		return (*a1 == *a2);
+	}
 
-bool Operande::memeType(Type* _type1, string* _type2)
-{
-	string* a1 =  _type1->getStringType();
-	string* a2 =  _type2;	
+	bool Operande::memeType(Type* _type1, string* _type2)
+	{
+		string* a1 =  _type1->getStringType();
+		string* a2 =  _type2;	
 
-	return (*a1 == *a2);
-}
+		return (*a1 == *a2);
+	}
 
 
 Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
@@ -130,6 +138,9 @@ Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
 	int type = 0;
 	int operation = 0;
 	Operande* exRetour;
+
+	Type* tempType;
+	Symbole* s1 = ex1->getSymbole();
 
 	string typeEx1 = *(ex1->getType()->getStringType());
 	string typeEx2 = *(ex2->getType()->getStringType());
@@ -156,72 +167,74 @@ Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
 		switch(type)
 		{
 			case 1: // Integer
+				tempType = new TypeInteger();
 				switch(operation)
 				{		
 					case 1: // +
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() + ex2->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() + ex2->getValInteger())   );
 					break;
 					case 2: // -
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() - ex2->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() - ex2->getValInteger())  );
 					break;
 					case 3: // *
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() * ex2->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() * ex2->getValInteger())  );
 					break;
 					case 4: // /
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() / ex2->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() / ex2->getValInteger())  );
 					break;
 					case 5: // div
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() / ex2->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() / ex2->getValInteger())  );
 					break;
 					case 6: // mod
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger() % ex2->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() % ex2->getValInteger())  );
 					break;
 					case 7: // -a
-						exRetour = new Operande(new TypeInteger(), -ex1->getValInteger() );
+						exRetour = new Operande(s1,new Valeur(tempType, -ex1->getValInteger())  );
 					break;
 					case 8: // +a
-						exRetour = new Operande(new TypeInteger(), +ex1->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, +ex1->getValInteger())  );
 					break;
 					case 9: // :=
-						exRetour = new Operande(new TypeInteger(), ex1->getValInteger());
+						exRetour = new Operande(s1,new Valeur(tempType, ex2->getValInteger())  );
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée pour les entiers." << endl;
-						exRetour = new Operande(new TypeInteger(), 0);
+						exRetour = new Operande(s1,new Valeur(tempType, 0));
 					break;
 				}
 			
 			break;
 			case 2: // Real
+				tempType = new TypeReal();
 				switch(operation)
 				{		
 					case 1: // +
-						exRetour = new Operande(new TypeReal(), ex1->getValFloat() + ex2->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() + ex2->getValFloat()));
 					break;
 					case 2: // -
-						exRetour = new Operande(new TypeReal(), ex1->getValFloat() - ex2->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() - ex2->getValFloat()));
 					break;
 					case 3: // *
-						exRetour = new Operande(new TypeReal(), ex1->getValFloat() * ex2->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() * ex2->getValFloat()));
 					break;
 					case 4: // /
-						exRetour = new Operande(new TypeReal(), ex1->getValFloat() / ex2->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() / ex2->getValFloat()));
 					break;
 					case 5: // div
-						exRetour = new Operande(new TypeReal(), ex1->getValFloat() / ex2->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() / ex2->getValFloat()));
 					break;
 					case 7: // -a
-						exRetour = new Operande(new TypeReal(), -ex1->getValFloat() );
+						exRetour = new Operande(s1,new Valeur(tempType, -ex1->getValFloat()));
 					break;
 					case 8: // +a
-						exRetour = new Operande(new TypeReal(), +ex1->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, +ex1->getValFloat()));
 					break;
 					case 9: // :=
-						exRetour = new Operande(new TypeReal(), ex1->getValFloat());
+						exRetour = new Operande(s1,new Valeur(tempType, ex2->getValFloat()));
 					break;
 					default:
 						cout << "Erreur: Cette opération n'est pas gérée pour les reels." << endl;
-						exRetour = new Operande(new TypeReal(), 0);
+						exRetour = new Operande(s1,new Valeur(tempType, 0));
 					break;
 				}
 			break;
@@ -232,7 +245,7 @@ Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
 						//exRetour = new Operande(new TypeString(), new *string(ex1->getValString() + ex2->getValString()));
 					break;
 					case 9: // :=
-						exRetour = new Operande(new TypeString(), ex1->getValString());
+						exRetour = new Operande(new TypeString(), ex2->getValString());
 					break;
 
 					default:
@@ -277,6 +290,10 @@ Operande* Operande::comparaisonBool(Operande* ex1, Operande* ex2, string* _opera
 	int operation = 0;
 	bool resultat = false;
 	Operande* exRetour;
+
+	Type* tempType = new TypeBoolean();
+	Symbole* s1 = ex1->getSymbole();
+	
 	
 	bool valEx1 = ex1-> getValBool();
 	bool valEx2 = ex2-> getValBool();
@@ -292,29 +309,29 @@ Operande* Operande::comparaisonBool(Operande* ex1, Operande* ex2, string* _opera
 	if ((typeEx1 == typeEx2) && (typeEx1 == "Boolean"))
 	
 		switch(operation)
-		{
+		{	
 			case 1: resultat = valEx1 && valEx2;
-				exRetour = new Operande(new TypeBoolean(), resultat);
+				exRetour = new Operande(s1,new Valeur(tempType, resultat));
 			break;
 			case 2: resultat = valEx1 || valEx2;
-				exRetour = new Operande(new TypeBoolean(), resultat);
+				exRetour = new Operande(s1,new Valeur(tempType, resultat));
 			break;
 			case 3: resultat = valEx1 && valEx2;
-				exRetour = new Operande(new TypeBoolean(), resultat);
+				exRetour = new Operande(s1,new Valeur(tempType, resultat));
 			break;
 			case 4: resultat = !(valEx1 == valEx2);
-				exRetour = new Operande(new TypeBoolean(), resultat);
+				exRetour = new Operande(s1,new Valeur(tempType, resultat));
 			break;
 			default:
 				cout << "Erreur: comparaisonBool avec une opération non gérée." << endl;
-				exRetour = new Operande(new TypeBoolean(), false);
+				exRetour = new Operande(s1,new Valeur(tempType, false));
 			break;
 
 	}
 	else
 	{
 		cout << "Erreur: comparaisonBool entre 2 types non booléens." << endl;
-		exRetour = new Operande(new TypeBoolean(), false);
+		exRetour = new Operande(s1,new Valeur(tempType, false));
 	}
 	
 	return exRetour;
@@ -325,6 +342,9 @@ Operande* Operande::comparaison(Operande* ex1, Operande* ex2, string* _operation
 	int type = 0;
 	int operation = 0;
 	Operande* exRetour;
+
+	Type* tempType = new TypeBoolean();
+	Symbole* s1 = ex1->getSymbole();
 
 	string typeEx1 = *(ex1->getType()->getStringType());
 	string typeEx2 = *(ex2->getType()->getStringType());
@@ -350,7 +370,8 @@ Operande* Operande::comparaison(Operande* ex1, Operande* ex2, string* _operation
 		{
 			case 1: // Boolean
 				switch(operation)
-				{		
+				{	
+					
 					case 1: // =
 						if (ex1->getValBool() == ex2->getValBool()) exRetour = new Operande(new TypeBoolean(), true);
 						else 	exRetour = new Operande(new TypeBoolean(), false);
@@ -385,6 +406,7 @@ Operande* Operande::comparaison(Operande* ex1, Operande* ex2, string* _operation
 			case 2: // Integer
 				switch(operation)
 				{		
+					
 					case 1: // =
 						if (ex1->getValInteger() == ex2->getValInteger()) exRetour = new Operande(new TypeBoolean(), true);
 						else 	exRetour = new Operande(new TypeBoolean(), false);					

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Symbole::Symbole(){}
+Symbole::Symbole(){nomSymbole = new string("");}
 
 Symbole::~Symbole(){}
 
@@ -16,6 +16,7 @@ string* Symbole::getCategorie(){return categorie;}
 
 Type* Symbole::getType(){return type;}
 
+string* Symbole::getNomSymbole(){return nomSymbole;}
 
 /*
 int TableDesSymboles::ajouterIdent(Expression* ex){

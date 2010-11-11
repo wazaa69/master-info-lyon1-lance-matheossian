@@ -19,6 +19,11 @@ class Variable : public Symbole {
         Variable(Type* _type, int _id);
 
 	Variable(TypeUser* _typeUser, int _id);
+
+	Variable(Type* _type, int _id, std::string _nomSymbole);
+
+	Variable(TypeUser* _typeUser, int _id, std::string _nomSymbole);
+
         /**
         *   @brief Destructeur
         */
