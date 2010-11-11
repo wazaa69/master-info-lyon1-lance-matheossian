@@ -1,0 +1,27 @@
+/* Conteneurs */
+body{font-family:Arial;}
+#entete{}
+#menu{}
+#article{background-color:#F2F5F9;}
+#piedpage{}
+
+/* Titres */
+.pageTitre{}
+
+
+/* Menu */
+.menuTitre{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.menuItem{
+    display:block;
+    font-weight:bold;
+}
+
+/* Couleur */
+.bleuLien{color:#4A6BC4}
+.bleu{color:#174A7C;}
+.rouge{color:#B00000;}
+
