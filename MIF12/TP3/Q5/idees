@@ -18,6 +18,20 @@ on a un conteneurCode qui contient la liste des instructions
 
 $$ = $1->operation($1,$3,new string("+")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 2, new Etiquette(tableSymb->getNumContexteTSActuel(true), "")));
 
+
+
+    (1) t1 := 0                        (11) aller a (14)
+    (2) z := t1                        (12) t6 := -5
+    (3) t2 := x + 1                    (13) h := t6
+    (4) x := t2                        (14) t7 := y+h
+    (5) si y>=10 aller a (12)          (15) y := t7
+    (6) t3 := 2*x                      (16) si x>50 aller a (20)
+    (7) t4 := t3+z                     (17) t8 := 5*y
+    (8) z := t4                        (18) si z>t8 aller a (20)
+    (9) t5 := 5                        (19) aller a (3)
+    (10) h := t5                       (20) ...
+
+
 ////////////////////:
 
 

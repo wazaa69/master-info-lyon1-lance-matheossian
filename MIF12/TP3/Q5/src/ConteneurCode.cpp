@@ -52,6 +52,7 @@ void ConteneurCode::affichageCode3AD()
 		}
 
 
+		// AFFECTATION seulement
 		else if ((tabInstruction[i]->getOperande(1) != NULL) && (tabInstruction[i]->getOperande(2) != NULL))
 		{
 			cout << *tabInstruction[i]->getOperande(1)->getSymbole()->getNomSymbole() << operation(1) << tabInstruction[i]->getOperande(2)->getValConvString() << endl;
