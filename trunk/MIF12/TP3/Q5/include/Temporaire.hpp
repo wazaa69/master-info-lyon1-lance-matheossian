@@ -14,7 +14,7 @@ class Temporaire : public Symbole  {
        
 	private:
 		
-	std::string* nomTemporaire;
+	
 	Operande* ex;
 
 	public:

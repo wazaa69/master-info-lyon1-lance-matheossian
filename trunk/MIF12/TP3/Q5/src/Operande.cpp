@@ -14,10 +14,6 @@ using namespace std;
 		else operandeIdentifiant = false;
 	
 
-	
-	
-		//if (_identifiant->getType() != NULL){ setType(_identifiant->getType());}	else {setType(NULL);}
-	
 
 		if((*_identifiant->getCategorie() == "variable ") || (*_identifiant->getCategorie() == "temporaire"))
 		{	

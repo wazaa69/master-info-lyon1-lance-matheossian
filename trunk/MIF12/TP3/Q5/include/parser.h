@@ -71,24 +71,27 @@
      SEP_DOTDOT = 287,
      SEP_PO = 288,
      SEP_PF = 289,
-     OP_PTR = 290,
-     OP_SUB = 291,
-     OP_EQ = 292,
-     OP_NEQ = 293,
-     OP_LTE = 294,
-     OP_MUL = 295,
-     OP_GT = 296,
-     OP_GTE = 297,
-     OP_ADD = 298,
-     OP_LT = 299,
-     OP_SLASH = 300,
-     OP_AFFECT = 301,
-     TOK_IDENT = 302,
-     TOK_INTEGER = 303,
-     TOK_REAL = 304,
-     TOK_STRING = 305,
-     TOK_PTR = 306,
-     TOK_BOOLEAN = 307
+     SEP_COMG = 290,
+     SEP_COMD = 291,
+     OP_PTR = 292,
+     OP_SUB = 293,
+     OP_EQ = 294,
+     OP_NEQ = 295,
+     OP_LTE = 296,
+     OP_MUL = 297,
+     OP_GT = 298,
+     OP_GTE = 299,
+     OP_ADD = 300,
+     OP_LT = 301,
+     OP_SLASH = 302,
+     OP_AFFECT = 303,
+     TOK_IDENT = 304,
+     TOK_INTEGER = 305,
+     TOK_REAL = 306,
+     TOK_STRING = 307,
+     TOK_PTR = 308,
+     TOK_BOOLEAN = 309,
+     OP_DIV = 310
    };
 #endif
 
@@ -99,7 +102,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 208 "src/parser.y"
+#line 211 "src/parser.y"
 
 
 	int numeroIdent;
@@ -112,7 +115,8 @@ typedef union YYSTYPE
 	Type* type;
 
 	TypeInterval* typeInterval;
-	int interBase;
+
+	int entier;
 
 	TypeArray* typeArray;
 	TypePointeur* typePointeur;
@@ -125,7 +129,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 129 "src/parser.h"
+#line 133 "src/parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

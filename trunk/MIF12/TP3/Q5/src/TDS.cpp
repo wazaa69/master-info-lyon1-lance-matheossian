@@ -73,7 +73,7 @@ string TableDesSymboles::getPortee()
 	return portee;
 }
 
-
+// sert à rien
 bool TableDesSymboles::TableSymbContientI(TableDesSymboles* TS, int identifiantSymbole)
 {
 	bool contient = false;
@@ -153,12 +153,12 @@ void TableDesSymboles::afficherTable()
 				Variable* v = static_cast<Variable*>(tableSymb[i]);
 	
 					if(*v->getType()->getStringType() != "Array")
-					{
+					{	
 						cout << v->getID() << " | " << *v->getCategorie() << " | " << *v->getType()->getStringType() << endl; 
 					}
 					else
-					{
-						TypeArray* ta = static_cast<TypeArray*>(v->getType());
+					{	
+						TypeArray* ta = static_cast<TypeArray*>(v->getType()); 
 						cout << v->getID() << " | " << *v->getCategorie() << " | " << *ta->getStringType()<< " | ["<< ta->getInterval()->getDebut() << "," << ta->getInterval()->getFin() << "] | "<< *ta->getTypeTab()->getStringType() <<  endl; 
 					}
 			}

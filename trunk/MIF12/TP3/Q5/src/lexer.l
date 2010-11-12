@@ -15,6 +15,8 @@
 	int column = 0;
 	int ligne = 1;
 
+	bool commentaire = false;
+
 %}
 
 chiffre				[0-9]
@@ -32,6 +34,8 @@ SEP_DOTDOT			".."
 SEP_PO				"("
 SEP_PF				")"
 
+SEP_COMG			"{"
+SEP_COMD			"}"
 
 
 OP_EQ				"="
@@ -45,6 +49,7 @@ OP_LT				"<"
 OP_SLASH 			"/"
 OP_SUB				"-"
 OP_AFFECT			":="
+
 
 T				[tT]
 R				[rR]
@@ -110,14 +115,17 @@ not			{column += yyleng; return KW_NOT;}
 "^"                     {column += yyleng; return OP_PTR;}
 {OP_SUB}		{column += yyleng; return OP_SUB;}
 
+{SEP_COMG}		{column += yyleng; commentaire = true; return SEP_COMG;}
+{SEP_COMD}		{column += yyleng; commentaire = false; return SEP_COMD;}
 
-{T}{R}{U}{E}		{column += yyleng; yylval.numeroBoolean = tableBoolean->ajouterAutre(yytext);    return TOK_BOOLEAN;}
-{F}{A}{L}{S}{E}		{column += yyleng; yylval.numeroBoolean = tableBoolean->ajouterAutre(yytext);    return TOK_BOOLEAN;}
-{chiffres} 		{column += yyleng; yylval.numeroInteger = tableInteger->ajouterAutre(yytext);	 return TOK_INTEGER;}
-{chiffres}"."{chiffres} {column += yyleng; yylval.numeroReal = tableReal->ajouterAutre(yytext) ;	 return TOK_REAL;}
-'([^']|'')+'		{column += yyleng; yylval.numeroString = tableString->ajouterAutre(yytext) ;	 return TOK_STRING;}
-nil			{column += yyleng; yylval.numeroPtr = tablePtr->ajouterAutre(yytext) ;		 return TOK_PTR;}
-[a-zA-Z][a-zA-Z0-9]*   	{column += yyleng; yylval.numeroIdent = tableId->ajouterIdent(yytext);  	 return TOK_IDENT;}
+
+{T}{R}{U}{E}		{column += yyleng; if(!commentaire){yylval.numeroBoolean = tableBoolean->ajouterAutre(yytext);   return TOK_BOOLEAN;}}
+{F}{A}{L}{S}{E}		{column += yyleng; if(!commentaire){yylval.numeroBoolean = tableBoolean->ajouterAutre(yytext);   return TOK_BOOLEAN;}}
+{chiffres} 		{column += yyleng; if(!commentaire){yylval.numeroInteger = tableInteger->ajouterAutre(yytext);	 return TOK_INTEGER;}}
+{chiffres}"."{chiffres} {column += yyleng; if(!commentaire){yylval.numeroReal = tableReal->ajouterAutre(yytext);	 return TOK_REAL;}}
+'([^']|'')+'		{column += yyleng; if(!commentaire){yylval.numeroString = tableString->ajouterAutre(yytext);	 return TOK_STRING;}}
+nil			{column += yyleng; if(!commentaire){yylval.numeroPtr = tablePtr->ajouterAutre(yytext);		 return TOK_PTR;}}
+[a-zA-Z][a-zA-Z0-9]*   	{column += yyleng; if(!commentaire){yylval.numeroIdent = tableId->ajouterIdent(yytext);  	 return TOK_IDENT;}}
 \n			{ligne += 1;}
 .			
 	

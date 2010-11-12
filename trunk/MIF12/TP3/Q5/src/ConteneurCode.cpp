@@ -36,26 +36,41 @@ void ConteneurCode::ajouterLesInstrFinBlocCourant(vector <Instruction*> _tabInst
 void ConteneurCode::affichageCode3AD()
 {
 	string temp = "";
-	string* op1 = new string("");
+
+	Instruction* i1;
+	Operande* op1;
+	Operande* op2;
+	Operande* op3;
+	string* operation;
+
+	
 	
 	cout << "Code 3@" << endl;
 
 	for (unsigned int i = 0 ; i < tabInstruction.size(); i++)
 	{
-		if ( (tabInstruction[i]->getOperande(1) != NULL) && (tabInstruction[i]->getOperande(2) != NULL) && (tabInstruction[i]->getOperande(3) != NULL) ){
+		// On récupère tous les attibuts de l'instruction pour plus de lisibilité
+	 	i1 = tabInstruction[i];
+		op1 = i1->getOperande(1);
+		op2 = i1->getOperande(2);
+		op3 = i1->getOperande(3);
+		operation = i1->getOperation();
+		
+		// OPERATIONS
+		if ( (op1 != NULL) && (op2 != NULL) && (op3 != NULL) ){
 
-			if ( tabInstruction[i]->getOperande(1)->isIdentifiant() == true )
-				 cout << tabInstruction[i]->getOperande(1)->getSymbole()->getNomSymbole() << operation(1) << tabInstruction[i]->getOperande(2)->getValInteger() << " " << *tabInstruction[i]->getOperation()  << " " << tabInstruction[i]->getOperande(3)->getValInteger()  << endl;
+			if (op1->isIdentifiant() == true )
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString()  << endl;
 			 
 			else
-				cout << "  "  << operation(1) << tabInstruction[i]->getOperande(2)->getValInteger() << " " << *tabInstruction[i]->getOperation()  << " " << tabInstruction[i]->getOperande(3)->getValInteger()  << endl;
+				cout << "  "  << convOperation(1) << op2->getValConvString() << " " <<  *operation  << " " << op3->getValConvString()  << endl;
 		}
 
 
 		// AFFECTATION seulement
 		else if ((tabInstruction[i]->getOperande(1) != NULL) && (tabInstruction[i]->getOperande(2) != NULL))
 		{
-			cout << *tabInstruction[i]->getOperande(1)->getSymbole()->getNomSymbole() << operation(1) << tabInstruction[i]->getOperande(2)->getValConvString() << endl;
+			cout << *op1->getSymbole()->getNomSymbole() <<" " << *operation << " " << op2->getValConvString() << endl;
 		}
 		
 	}
@@ -63,7 +78,7 @@ void ConteneurCode::affichageCode3AD()
 }
 
 
-string ConteneurCode::operation(int _operation)
+string ConteneurCode::convOperation(int _operation)
 {
 
 	switch(_operation){

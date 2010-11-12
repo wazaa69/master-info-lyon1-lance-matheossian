@@ -28,13 +28,13 @@ function fonc1 ( param4,param5 : type1): string;
 
 procedure proc1 ( param1,param6 : integer);
 	const   cons2 = true;
-	type type2 = array [ 1 .. 10 ] of integer;
+	type type2 = array [5 .. 10 ] of integer;
 	var var2 : integer;
 	    label lab2;
 
 		procedure proc2 ( param2 : integer);
 			const   cons3 = true;
-			type type3 = array [ 1.. 10 ] of integer;
+			type type3 = array [ 7.. 10 ] of integer;
 			var var3 : type3;
 
 			procedure proc3 ( param3 : integer);
@@ -58,15 +58,8 @@ begin
 vInt0 := 5;
 vInt1 := 6;
 vInt2 := vInt0 + vInt1;
+vInt3 := vInt2 +10;
 
-vReal1 := 15.4254;
-vReal2 := 4545.4;
-
-vBool1 := true;
-vBool2 := false;
-
-vStr1 := 'coucou';
-vStr2 := 'coucou';
 
 end.
 
