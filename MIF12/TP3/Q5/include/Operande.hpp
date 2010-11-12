@@ -101,7 +101,7 @@ class Operande {
 		*   @param ex1 une Operande, ex2 une Operande, operation un string
 		*   @return Retourne une Operande intialisée avec le  bon type et la bonne valeur
 		*/
-		Operande* operation(Operande* ex1, Operande* ex2, std::string* _operation);
+		Operande* operation(Symbole* symboleRetour, Operande* ex1, Operande* ex2, std::string* _operation);
 
 		/**
 		*   @brief Va evaluer le résultat de la comparaison booleenne "operation" entre les Operandes ex1 et ex2

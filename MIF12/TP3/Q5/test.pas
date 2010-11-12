@@ -55,7 +55,7 @@ procedure proc1 ( param1,param6 : integer);
 
 begin
 
-vInt0 := 5;
+vInt0 := 10;
 vInt1 := 6;
 vInt2 := vInt0 + vInt1;
 vInt3 := vInt2 +10;
