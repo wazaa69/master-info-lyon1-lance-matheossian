@@ -740,8 +740,21 @@ Instr          : //KW_WHILE Expression KW_DO Instr
                | //KW_FOR TOK_IDENT OP_AFFECT Expression ForDirection Expression KW_DO Instruction
                | //KW_IF Expression KW_THEN Instruction
                | //KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
-               | VarExpr OP_AFFECT Expression	  {$1 = $1->operation($1,$3, new string(":="));
-						   CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+               | VarExpr OP_AFFECT Expression	  
+							{ /*if ($1 == NULL) {
+
+									Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), NULL);
+									Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
+
+									if(opRetour->getSymbole() != NULL){ 
+										$$ = opRetour;
+										}
+									else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
+							}*/
+
+								   $1 = $1->operation($1->getSymbole(),$1,$3, new string(":=")); cout << "bordel " << $3->getValConvString() << endl;
+		    						   CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); 
+							}
                | //Call
                | BlockCode
 	       | Commentaire
@@ -781,19 +794,24 @@ Expression     : VarExpr				{}
                ;
 
 MathExpr       : Expression OP_ADD Expression	{
-						// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
-						int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle], new string("temp1"), new TypeInteger());
-						Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+						if (($1 != NULL) && ($3 != NULL)){ 
+							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle], new string("temp1"), new TypeInteger());
+							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
 
-						// Initialisation des composantes de l'instruction et du bloc d'instructions
-						Operande* op1 = new Operande(s1,NULL);
-						Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
-						Instruction* i1 = new Instruction(op1,$1,$3,2,e1);
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Operande* op1 = new Operande(s1,NULL);
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,$1,$3,2,e1);
 
-						op1 = $1->operation($1,$3,new string("+"));  	 // on effectue l'addition des 2 opérandes et on stocke le résultat dans op1
-						CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
-
+							op1 = $1->operation(s1,$1,$3,new string("+"));  	 // on effectue l'addition des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+							cout << $1->getValConvString()<< "+ " << $3->getValConvString() << " = " <<  op1->getValConvString() << endl;
 							
+						}
+						else { 	std::cerr << "Erreur : addition avec une opérande nulle  \n"; erreur = true; return 0;}
+
+							/*
 						}
                | Expression OP_SUB Expression	{ $$ = $1->operation($1,$3,new string("-")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 3, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | Expression OP_MUL Expression	{ $$ = $1->operation($1,$3,new string("*")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 4, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
@@ -801,7 +819,7 @@ MathExpr       : Expression OP_ADD Expression	{
                | Expression KW_DIV Expression	{ $$ = $1->operation($1,$3,new string("div")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 6, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | Expression KW_MOD Expression	{ $$ = $1->operation($1,$3,new string("mod")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 7, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | OP_SUB Expression		{ $$ = $2->operation($2,NULL,new string("-a")); CCode->ajouterInstFinBlocCourant(new Instruction($$, NULL, $2, 8, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
-               | OP_ADD Expression		{ $$ = $2->operation($2,NULL,new string("+a")); CCode->ajouterInstFinBlocCourant(new Instruction($$, NULL, $2, 9, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+               | OP_ADD Expression		{ $$ = $2->operation($2,NULL,new string("+a")); CCode->ajouterInstFinBlocCourant(new Instruction($$, NULL, $2, 9, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); */}
                ;
 					
 CompExpr       : Expression OP_EQ Expression	{ $$ = $1->comparaison($1,$3, new string("="));  }
@@ -837,16 +855,36 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
                | TOK_STRING				{ $$ = new Operande(new TypeString(), new string(tableString->getElement($1))); }
                ;
 
-VarExpr        : TOK_IDENT				{ 
-								Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
-								Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
+VarExpr        : TOK_IDENT				{ 	// il faut récupérer la dernière valeur correspondant à l'ident
+								cout << "test1" << endl;				
 
-								// Vérification de l'existence de VarExpr
-								if(opRetour->getSymbole() != NULL){ 
-									$$ = opRetour;
-								}
-								else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
+								Operande* op1 = CCode->getDerniereAffectationVariable(tableId->getElement($1));
+	
+								// cas ou la variable a déjà été affectée
+								if (op1 != NULL) { $$ = op1; cout << "test2" << op1->getValConvString() << endl; }
+								else { $$ = NULL;}
+
+								 /*
+								if (op1 == NULL) {
+
+									Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), NULL);
+									Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
+
+									if(opRetour->getSymbole() != NULL){ 
+										$$ = opRetour;
+										}
+									else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
+								
+								}*/
 							
+
+								//
+
+								//
+								//cout << "opretour " << opRetour->getValConvString() << endl;
+								// Vérification de l'existence de VarExpr 
+								
+								
 							
 							
 							

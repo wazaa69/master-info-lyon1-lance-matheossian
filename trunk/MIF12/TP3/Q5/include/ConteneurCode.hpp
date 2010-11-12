@@ -25,6 +25,8 @@
 	void affichageCode3AD();
 
 	std::string convOperation(int _operation);
+
+	Operande* getDerniereAffectationVariable(std::string nomVariable);
 };
 
 #endif

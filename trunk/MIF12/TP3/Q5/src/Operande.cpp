@@ -129,14 +129,14 @@ using namespace std;
 	}
 
 
-Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
+Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* ex2, string* _operation)
 {	
 	int type = 0;
 	int operation = 0;
 	Operande* exRetour;
 
 	Type* tempType;
-	Symbole* s1 = ex1->getSymbole();
+	Symbole* s1 = symboleRetour;
 
 	string typeEx1 = *(ex1->getType()->getStringType());
 	string typeEx2 = *(ex2->getType()->getStringType());
@@ -168,6 +168,7 @@ Operande* Operande::operation(Operande* ex1, Operande* ex2, string* _operation)
 				switch(operation)
 				{		
 					case 1: // +
+						cout << "ex1 " <<  ex1->getValInteger() << "ex2 " <<  ex2->getValInteger() << endl;
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() + ex2->getValInteger())   );
 					break;
 					case 2: // -
