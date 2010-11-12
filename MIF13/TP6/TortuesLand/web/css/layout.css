@@ -2,7 +2,7 @@
     Mise en page
 */
 
-root { 
-    display: block;
+#terrain {
+    background: #FFF url("../images/herbe.jpg");
 }
 
