@@ -86,8 +86,10 @@ void ConteneurCode::affichageCode3AD()
 
 Operande* ConteneurCode::getDerniereAffectationVariable(string nomVariable)
 {
-	for (int i = tabInstruction.size(); i != 0; i--)
+	
+	for (int i = tabInstruction.size()-1; i >= 0; i--)
 	{
+	
 		if (*tabInstruction[i]->getOperande(1)->getSymbole()->getNomSymbole() == nomVariable)
 		{
 			return tabInstruction[i]->getOperande(1);

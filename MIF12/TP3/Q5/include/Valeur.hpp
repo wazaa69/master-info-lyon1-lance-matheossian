@@ -25,6 +25,8 @@ class Valeur {
 	    /**
         *   @brief Constructeur
         */
+		Valeur(Type* _type);
+		
 		Valeur(Type* _type, int _valInt);
 
 		Valeur(Type* _type, float _valFloat);
