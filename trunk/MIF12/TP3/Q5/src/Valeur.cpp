@@ -3,6 +3,20 @@
 
 using namespace std;
 
+
+Valeur::Valeur(Type* _type){
+	
+
+	valInt = 0;
+
+	valFloat = 0;
+	valBool = false;
+	valString = new string("_");
+	type = _type;
+	
+}
+
+
 Valeur::Valeur(Type* _type, int _valInt){
 	
 

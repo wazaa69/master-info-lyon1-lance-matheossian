@@ -741,18 +741,8 @@ Instr          : //KW_WHILE Expression KW_DO Instr
                | //KW_IF Expression KW_THEN Instruction
                | //KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
                | VarExpr OP_AFFECT Expression	  
-							{ /*if ($1 == NULL) {
-
-									Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), NULL);
-									Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
-
-									if(opRetour->getSymbole() != NULL){ 
-										$$ = opRetour;
-										}
-									else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
-							}*/
-
-								   $1 = $1->operation($1->getSymbole(),$1,$3, new string(":=")); cout << "bordel " << $3->getValConvString() << endl;
+							{ 
+								   $1 = $1->operation($1->getSymbole(),$1,$3, new string(":="));
 		    						   CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); 
 							}
                | //Call
@@ -861,21 +851,21 @@ VarExpr        : TOK_IDENT				{ 	// il faut récupérer la dernière valeur corr
 								Operande* op1 = CCode->getDerniereAffectationVariable(tableId->getElement($1));
 	
 								// cas ou la variable a déjà été affectée
-								if (op1 != NULL) { $$ = op1; cout << "test2" << op1->getValConvString() << endl; }
-								else { $$ = NULL;}
+								if (op1 != NULL) { $$ = op1; cout << "test15" << op1->getValConvString() << endl; }
 
-								 /*
-								if (op1 == NULL) {
+								else if (op1 == NULL) { 	 cout << "test2" << endl;
+									Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType()); 
 
-									Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), NULL);
 									Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
 
 									if(opRetour->getSymbole() != NULL){ 
 										$$ = opRetour;
 										}
 									else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
-								
-								}*/
+
+								cout << "test3" << endl;				
+
+								}
 							
 
 								//
