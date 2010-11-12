@@ -151,7 +151,8 @@
 %token SEP_DOTDOT
 %token SEP_PO
 %token SEP_PF
-
+%token SEP_COMG
+%token SEP_COMD
 
 %token OP_PTR
 %token OP_SUB
@@ -183,8 +184,10 @@
 %type <typeInterval> InterType
 %type <typeInterval> ArrayIndex
 
-%type <interBase> InterBase
+
 %type <typeArray> ArrayType
+%type <entier> InterBase
+%type <entier> NSInterBase
 
 %type <typePointeur> PointerType
 %type <type> UserType
@@ -217,7 +220,8 @@
 	Type* type;
 
 	TypeInterval* typeInterval;
-	int interBase;
+
+	int entier;
 
 	TypeArray* typeArray;
 	TypePointeur* typePointeur;
@@ -229,6 +233,14 @@
 }
 
 
+%left OP_ADD OP_SUB
+%left OP_MUL OP_DIV
+/*
+%left PLUS  MOINS
+%left FOIS  DIVISE
+%left NEG
+%right  PUISSANCE
+*/
 %%
 
 //############################################################################################################################### PROG
@@ -604,6 +616,8 @@ UserType       :    ArrayType							{$$ = $1;}
 	       |    RecordType							{ niveauTDS--; TDS_Actuelle = tabTDSPere[niveauTDS];  $$ = $1;}
 	       ;		
 
+//############################################################################################################################### TYPE RECORD
+
 RecordType     : KW_RECORD RecordFields KW_END					{
 
 										
@@ -677,7 +691,7 @@ RecordField    : ListIdent SEP_DOTS Type					{
 
 
 
-
+//############################################################################################################################### TYPE ARRAY
 
 
 ArrayType      : KW_ARRAY SEP_CO ArrayIndex SEP_CF KW_OF Type    { /*   array[ 6 .. 10 ] of integer  ou array[ a .. b ] of real */ 
@@ -690,7 +704,7 @@ ArrayIndex     : TOK_IDENT					{}
 
 InterType      : InterBase SEP_DOTDOT InterBase             {
 								
-								 $$ = new TypeInterval($1,$3);
+								 $$ = new TypeInterval($1,$3); 
 							     }
                ;
 
@@ -702,9 +716,12 @@ PointerType    : OP_PTR Type			{$$ = new TypePointeur(*$2);}
 InterBase      : NSInterBase			{}
                | OP_SUB NSInterBase		{}
                ;
-
-NSInterBase    : TOK_IDENT			{}
-               | TOK_INTEGER			{}
+NSInterBase    : TOK_IDENT			{	// On récupère le string correspondant dans la TS des Tok_Ident et on le cast en entier  
+							istringstream iss(tableId->getElement($1)); int nombre; 
+						        iss >> nombre; $$ = nombre;}
+               | TOK_INTEGER			{	// On récupère le string correspondant dans la TS des Tok_ident et on le cast en entier  
+						       	istringstream iss(tableInteger->getElement($1)); 
+							int nombre;  iss >> nombre; $$ = nombre;}
                ;
 
 //############################################################################################################################### INSTRUCTION
@@ -723,10 +740,16 @@ Instr          : //KW_WHILE Expression KW_DO Instr
                | //KW_FOR TOK_IDENT OP_AFFECT Expression ForDirection Expression KW_DO Instruction
                | //KW_IF Expression KW_THEN Instruction
                | //KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
-               | VarExpr OP_AFFECT Expression	  {$1 = $1->operation($1,$3, new string(":=")); CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+               | VarExpr OP_AFFECT Expression	  {$1 = $1->operation($1,$3, new string(":="));
+						   CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | //Call
                | BlockCode
+	       | Commentaire
                ;
+
+Commentaire	: SEP_COMG TOK_STRING SEP_COMD // ne marche pas (je pense que le SEP_COMD n'est pas pris en compte par le lexer qui le voit comme un composant de TOK_STRING
+		;
+
 /*
 ForDirection   : KW_TO
                | KW_DOWNTO
@@ -757,7 +780,21 @@ Expression     : VarExpr				{}
 
                ;
 
-MathExpr       : Expression OP_ADD Expression	{ $$ = $1->operation($1,$3,new string("+")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 2, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+MathExpr       : Expression OP_ADD Expression	{
+						// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+						int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle], new string("temp1"), new TypeInteger());
+						Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+
+						// Initialisation des composantes de l'instruction et du bloc d'instructions
+						Operande* op1 = new Operande(s1,NULL);
+						Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+						Instruction* i1 = new Instruction(op1,$1,$3,2,e1);
+
+						op1 = $1->operation($1,$3,new string("+"));  	 // on effectue l'addition des 2 opérandes et on stocke le résultat dans op1
+						CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+
+							
+						}
                | Expression OP_SUB Expression	{ $$ = $1->operation($1,$3,new string("-")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 3, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | Expression OP_MUL Expression	{ $$ = $1->operation($1,$3,new string("*")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 4, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | Expression OP_SLASH Expression	{ $$ = $1->operation($1,$3,new string("/")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 5, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
@@ -788,7 +825,7 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
 							  string booleen = tableBoolean->getElement($1);
 							 if((booleen.substr(0,1) == "t" )|| (booleen.substr(0,1) == "T" )){ $$ = new Operande(new TypeBoolean(), true);}
 							  else{ $$ = new Operande(new TypeBoolean(), false); }
-							cout << "ici" << endl;
+					
 						
 							 }
                | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; 
@@ -801,8 +838,17 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
                ;
 
 VarExpr        : TOK_IDENT				{ 
-							Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
-							$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
+								Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
+								Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
+
+								// Vérification de l'existence de VarExpr
+								if(opRetour->getSymbole() != NULL){ 
+									$$ = opRetour;
+								}
+								else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
+							
+							
+							
 							
 /*
                | VarExpr SEP_CO Expression SEP_CF	

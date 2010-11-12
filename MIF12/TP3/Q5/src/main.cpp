@@ -71,8 +71,8 @@ int main(int argc, char** argv)
 
     if(!erreur){
 
-  //  std::cout << "\nTable des identifiants: \n"<<std::endl;
-    //tableId->afficherTable();
+    std::cout << "\nTable des identifiants: \n"<<std::endl;
+    tableId->afficherTable();
 
      std::cout << std::endl;
      tableSymb->afficherTables(listeTDS);
