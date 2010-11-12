@@ -3,7 +3,9 @@ program test;
 const   cons1 = 'bonjour';
 type type1 = array [ 1.. 10 ] of integer;
 var vInt0 , vInt1 ,vInt2,vInt3: integer;
-    vReal0 , vReal1 ,vReal2,vReal3: real;
+    vReal0, vReal1 ,vReal2,vReal3: real;
+    vBool1, vBool2: boolean;
+    vStr1, vStr2: string;
     
 	array1 : array [1 .. 15 ] of integer;
 
@@ -55,11 +57,16 @@ begin
 
 vInt0 := 5;
 vInt1 := 6;
-vInt2 := 7;
-vInt3 := 8;
+vInt2 := vInt0 + vInt1;
 
 vReal1 := 15.4254;
-vReal2 := 4545.4; 
+vReal2 := 4545.4;
+
+vBool1 := true;
+vBool2 := false;
+
+vStr1 := 'coucou';
+vStr2 := 'coucou';
 
 end.
 

@@ -723,7 +723,7 @@ Instr          : //KW_WHILE Expression KW_DO Instr
                | //KW_FOR TOK_IDENT OP_AFFECT Expression ForDirection Expression KW_DO Instruction
                | //KW_IF Expression KW_THEN Instruction
                | //KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
-               | VarExpr OP_AFFECT Expression	  {cout << *$1->getSymbole()->getNomSymbole() << endl; $1 = $1->operation($1,$3, new string(":=")); CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+               | VarExpr OP_AFFECT Expression	  {$1 = $1->operation($1,$3, new string(":=")); CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | //Call
                | BlockCode
                ;
@@ -788,20 +788,20 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
 							  string booleen = tableBoolean->getElement($1);
 							 if((booleen.substr(0,1) == "t" )|| (booleen.substr(0,1) == "T" )){ $$ = new Operande(new TypeBoolean(), true);}
 							  else{ $$ = new Operande(new TypeBoolean(), false); }
+							cout << "ici" << endl;
 						
 							 }
                | TOK_REAL				{ istringstream iss(tableReal->getElement($1)) ; 
 							  float reel; iss >> reel; $$ = new Operande(new TypeReal(), reel);
 	       
 	       /*| Call
-		| TOK_PTR				{cout << "tok_ptr" << $1 << endl; istringstream iss(tablePtr->getElement($1)); int pointeur; $$ = new Operande(new TypePointeur($1), iss >> pointeur); 
-               | TOK_PTR				{$$ = new Operande(new TypePointeur($1), $1);} */}
+		| TOK_PTR				{} 
+               | TOK_PTR				{} */}
                | TOK_STRING				{ $$ = new Operande(new TypeString(), new string(tableString->getElement($1))); }
                ;
 
-VarExpr        : TOK_IDENT				{ //$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
+VarExpr        : TOK_IDENT				{ 
 							Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType(), $1);
-							cout << *tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getNomSymbole() << endl;
 							$$ = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
 							
 /*
