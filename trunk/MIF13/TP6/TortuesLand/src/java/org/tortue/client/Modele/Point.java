@@ -1,7 +1,7 @@
 package org.tortue.client.Modele;
 
 /**
- * Un point. la classe Point n'étant as prise en charge par GWT, il faut la recréer
+ * Un point. la classe Point n'étant pas prise en charge par GWT, il faut la recréer
  */
 public class Point {
 
