@@ -9,9 +9,7 @@ TypeInterval::TypeInterval()
 	
 }
 
-TypeInterval::~TypeInterval(){
-
-}
+TypeInterval::~TypeInterval(){}
 
 int TypeInterval::getDebut(){ return debut;}
 

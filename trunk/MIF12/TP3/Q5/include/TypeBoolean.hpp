@@ -4,12 +4,15 @@
 #include "Type.hpp"
 
 /**
-*	@brief Type d'un symbole.
+*	@brief Type Boléen d'un symbole.
 */
 class TypeBoolean : public Type {
 
 	public:
 
+		/**
+		* @brief Crée un type Booléen et stocke le nom "Boolean"
+		*/
 		TypeBoolean();
 		~TypeBoolean();
 

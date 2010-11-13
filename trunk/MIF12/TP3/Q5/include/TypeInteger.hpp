@@ -9,7 +9,10 @@
 class TypeInteger : public Type {
 
 	public:
-
+	
+		/**
+		* @brief Crée un type Integer et stocke le nom "Integer"
+		*/
 		TypeInteger();
 		~TypeInteger();
 
