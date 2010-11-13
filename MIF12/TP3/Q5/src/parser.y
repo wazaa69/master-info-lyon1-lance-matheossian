@@ -109,6 +109,7 @@
 //############################################### TEMPORAIRES
 
 	extern std::vector<Temporaire*> tabTemporaires;
+	int nombreTemp = 0;
 
 //############################################### CODE 3@
 
@@ -735,12 +736,12 @@ ListInstr      : ListInstr SEP_SCOL Instr
                ;
 
 
-Instr          : //KW_WHILE Expression KW_DO Instr
-               | //KW_REPEAT ListInstr KW_UNTIL Expression
-               | //KW_FOR TOK_IDENT OP_AFFECT Expression ForDirection Expression KW_DO Instruction
-               | //KW_IF Expression KW_THEN Instruction
-               | //KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
-               | VarExpr OP_AFFECT Expression	  
+Instr          : /*KW_WHILE Expression KW_DO Instr
+               | KW_REPEAT ListInstr KW_UNTIL Expression
+               | KW_FOR TOK_IDENT OP_AFFECT Expression ForDirection Expression KW_DO Instruction
+               | KW_IF Expression KW_THEN Instruction
+               | KW_IF Expression KW_THEN Instruction KW_ELSE Instruction
+               | */VarExpr OP_AFFECT Expression	  
 							{ 
 								   $1 = $1->operation($1->getSymbole(),$1,$3, new string(":="));
 		    						   CCode->ajouterInstFinBlocCourant(new Instruction($1, $3, NULL, 1, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); 
@@ -786,7 +787,11 @@ Expression     : VarExpr				{}
 MathExpr       : Expression OP_ADD Expression	{
 						if (($1 != NULL) && ($3 != NULL)){ 
 							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
-							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle], new string("temp1"), new TypeInteger());
+							nombreTemp++;
+							
+							string nomTemp = "temp" + nombre;
+							//string* nomTemp = new string("temp" + nombreTemp);
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
 							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
 
 							// Initialisation des composantes de l'instruction et du bloc d'instructions
