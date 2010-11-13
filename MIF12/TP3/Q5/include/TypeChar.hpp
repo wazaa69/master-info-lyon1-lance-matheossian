@@ -11,6 +11,9 @@ class TypeChar : public Type {
 
 	public:
 
+		/**
+		* @brief Crée un type Char et stocke le nom "Char"
+		*/
 		TypeChar();
 		~TypeChar();
 

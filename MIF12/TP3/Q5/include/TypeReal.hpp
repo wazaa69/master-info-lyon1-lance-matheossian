@@ -9,7 +9,10 @@
 class TypeReal : public Type {
 
 	public:
-
+	
+		/**
+		* @brief Crée un type Réel et stocke le nom "Real"
+		*/
 		TypeReal();
 		~TypeReal();
 

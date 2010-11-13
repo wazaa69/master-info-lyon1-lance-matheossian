@@ -46,23 +46,22 @@ $(BIN_DIR)/$(BIN): $(OBJS)
 #To Objets
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) -o $@ -c $<
+	
+$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
+	$(CPP) $(CPPFLAGS) -o $@ -c $<
 
 #To SRC
 $(SRC_DIR)%.c : $(SRC_DIR)%.l 
 	$(FLEX) -o $@ $<
-	mv -v $(SRC_DIR)parser.h $(INC_DIR) #Déplacement de parser.h dans le dossier des includes 
+	rm -f $(INC_DIR)parser.h #On efface l'ancien fichier parser.h du dossier "include"
+	mv -v $(SRC_DIR)parser.h $(INC_DIR) #Déplacement du nouveau parser.h dans le dossier "include"
 
 $(SRC_DIR)%.c : $(SRC_DIR)%.y
 	$(BISON) -o $@ $<
 
-	
-
 #Gestion des dépendances
 $(DEP_DIR)%.d: $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) -MM -MD -o $@ $<
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
-	$(CPP) $(CPPFLAGS) -o $@ -c $<
 
 $(DEP_DIR)%.d: $(SRC_DIR)%.cpp
 	$(CPP) $(CPPFLAGS) -MM -MD -o $@ $<

@@ -12,17 +12,13 @@ Type::Type(string* _type){
 }
 
 
-Type::Type(const Type &_type){
-	
+Type::Type(const Type &_type){	
 	type =  new string("");
 	type = _type.type;
-
 }
 
 
-
 Type::~Type(){}
-
 
 
 string* Type::getStringType(){return type;}
