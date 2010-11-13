@@ -59,25 +59,37 @@ void ConteneurCode::affichageCode3AD()
 		// OPERATIONS
 		if ( (op1 != NULL) && (op2 != NULL) && (op3 != NULL) ){
 
-			// on affiche les différents cas d'opération ( 2 entiers, 1 ident et 1 entier, 2 idents)
-			if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == false) && (op3->isIdentifiant() == false)) // 2 entiers
-				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString()  << endl;
+			// on affiche les différents cas d'opération ( 2 valeurs, 1 ident et 1 valeur, 2 idents)
+			if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == false) && (op3->isIdentifiant() == false)) {// 2 valeurs
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString()  << "		 | {Détail :" ;
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString()  << "} " << endl;}
 			 
-			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == true) && (op3->isIdentifiant() == false)) // 1 ident 1 entier
-				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << *op2->getSymbole()->getNomSymbole() << " " << *operation  << " " << op3 ->getValConvString()  << endl;
+			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == true) && (op3->isIdentifiant() == false)){ // 1 ident 1 entier
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << *op2->getSymbole()->getNomSymbole() << " " << *operation  << " " << op3 ->getValConvString()  << "		 | {Détail : ";
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString() << "} " << endl;}
 
-			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == false) && (op3->isIdentifiant() == true)) // 1 entier 1 ident
-				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << *op3->getSymbole()->getNomSymbole()  << endl;
 
-			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == true) && (op3->isIdentifiant() == true)) // 2 idents
-				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << *op2->getSymbole()->getNomSymbole() << " " << *operation  << " " << *op3->getSymbole()->getNomSymbole()  << endl;
+			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == false) && (op3->isIdentifiant() == true)) {// 1 valeur 1 ident
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << *op3->getSymbole()->getNomSymbole()  << " 		| {Détail : ";
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString()  << "} " << endl;}
+
+			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == true) && (op3->isIdentifiant() == true)){ // 2 idents
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << *op2->getSymbole()->getNomSymbole() << " " << *operation  << " " << *op3->getSymbole()->getNomSymbole()  << " 		| {Détail : ";
+				 cout << *op1->getSymbole()->getNomSymbole() << convOperation(1) << op2->getValConvString() << " " << *operation  << " " << op3 ->getValConvString()  << "} " << endl;}
 		}
 
 
 		// AFFECTATION seulement
 		else if ((tabInstruction[i]->getOperande(1) != NULL) && (tabInstruction[i]->getOperande(2) != NULL))
 		{
-			cout << *op1->getSymbole()->getNomSymbole() <<" " << *operation << " " << op2->getValConvString() << endl;
+			// on affiche les différents cas d'opération (1 entier, 1 ident)
+			if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == false)) // 1 valeur
+				cout << *op1->getSymbole()->getNomSymbole() <<" " << *operation << " " << op2->getValConvString() << endl;
+				
+			else if ((op1->isIdentifiant() == true) && (op2->isIdentifiant() == true))
+				cout << *op1->getSymbole()->getNomSymbole() <<" " << *operation << " " << *op2->getSymbole()->getNomSymbole() << endl;
+				
+			
 		}
 		
 	}
