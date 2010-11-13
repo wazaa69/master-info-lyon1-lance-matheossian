@@ -95,12 +95,12 @@ void ConteneurCode::affichageCode3AD()
 		else if ((tabInstruction[i]->getOperande(1) != NULL) && (tabInstruction[i]->getOperande(2) == NULL)  && (tabInstruction[i]->getOperande(3) != NULL))
 		{	
 			// on affiche les différents cas d'opération (1 entier, 1 ident)
-			if ((op1->isIdentifiant() == true) && (op3->isIdentifiant() == false)) {// 1 valeur
+			if ((op1->isIdentifiant() == true) && (op3->isIdentifiant() == false)) // 1 valeur
 				cout << *op1->getSymbole()->getNomSymbole() <<" " << *operation << " " << op3->getValConvString() << endl;
-				cout << "1" << endl;}
+
 			else if ((op1->isIdentifiant() == true) && (op3->isIdentifiant() == true)){
 				cout << *op1->getSymbole()->getNomSymbole() <<" " << *operation << " " << *op3->getSymbole()->getNomSymbole() << " 		 { Détail : ";
-				 cout << *op1->getSymbole()->getNomSymbole() << *operation << op3->getValConvString() << " } " << endl;cout << "2" << endl;}
+				 cout << *op1->getSymbole()->getNomSymbole() << *operation << op3->getValConvString() << " } " << endl;}
 				
 			
 		}
