@@ -8,24 +8,28 @@ using namespace std;
 
 
 	Operande::Operande(Symbole* _identifiant, Valeur* _valeur)
-	{	
+	{
+		
 		// on indique que l'opérande est un identifiant et non pas une valeur
-		if (_identifiant != NULL) operandeIdentifiant = true;
-		else operandeIdentifiant = false;
+		if (_identifiant != NULL){
+			
+			if((*_identifiant->getCategorie() == "variable ") || (*_identifiant->getCategorie() == "temporaire"))
+			{	
 	
-
-
-		if((*_identifiant->getCategorie() == "variable ") || (*_identifiant->getCategorie() == "temporaire"))
-		{	
+				identifiant = _identifiant;
+				valeur = _valeur;
 		
-			identifiant = _identifiant;
-			valeur = _valeur;
+			}
+
+			else { identifiant = _identifiant; valeur = NULL;}
 		
+		operandeIdentifiant = true;
 		}
 
-		else { identifiant = _identifiant; valeur = NULL;}
+		else {operandeIdentifiant = false; valeur = _valeur; identifiant = NULL;}
 
 	}
+
 
 	Operande::Operande(Valeur* _valeur)
 	{	
@@ -163,22 +167,28 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 	else if(*_operation == ":=")	 operation = 9;
 	else 				 operation = 0;
 
-	if (typeEx1 == typeEx2)
+	cout << "operation";
+	cout << operation << endl;
+
+	if ((typeEx1 == typeEx2) || ((ex1 != NULL ) && (ex2 == NULL)))
 	{
 		switch(type)
 		{
 			case 1: // Integer
 				tempType = new TypeInteger();
-				switch(operation)
-				{		
-					case 1: // +
 					
+				switch(operation)
+				{	
+					case 1: // +
+
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() + ex2->getValInteger())   );
+
 					break;
 					case 2: // -
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() - ex2->getValInteger())  );
 					break;
 					case 3: // *
+						
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() * ex2->getValInteger())  );
 					break;
 					case 4: // /
@@ -197,7 +207,6 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 						else {std::cerr << "Erreur : division par 0  \n";erreur = true; return 0;}
 					break;
 					case 7: // -a
-						cout << "la" << endl;
 						exRetour = new Operande(s1,new Valeur(tempType, -ex1->getValInteger())  );
 					break;
 					case 8: // +a

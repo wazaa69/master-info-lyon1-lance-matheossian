@@ -793,7 +793,7 @@ MathExpr       : Expression OP_ADD Expression	{
 
 							op1 = $1->operation(s1,$1,$3,new string("+"));  	 // on effectue l'addition des 2 opérandes et on stocke le résultat dans op1
 							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
-							
+														
 							
 						}
 						else { 	std::cerr << "Erreur : addition avec une opérande nulle  \n"; erreur = true; return 0;}
@@ -924,13 +924,17 @@ MathExpr       : Expression OP_ADD Expression	{
 							Symbole* s1 = $2->getSymbole();
 							Operande* op1;
 							if (s1 != NULL)  op1 = new Operande($2->getSymbole(),$2->getValeur());
-							else   op1 = new Operande($2->getValeur());
+							else   op1 = new Operande(NULL,$2->getValeur());
+							
 
 							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
 							Instruction* i1 = new Instruction(op1,NULL,$2,8,e1);
+							
+
 					
-							op1 = $2->operation($2->getSymbole(),$2,NULL,new string("-a"));  	 // on effectue l'opération NEG des 2 opérandes et on stocke le résultat dans op1
+							op1 = op1->operation(op1->getSymbole(),$2,NULL,new string("-a"));  	 // on effectue l'opération NEG des 2 opérandes et on stocke le résultat dans op1
 							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+	
 
 						}
 						else { 	std::cerr << "Erreur : operation NEG avec une opérande nulle  \n"; erreur = true; return 0;} /*}}

@@ -56,8 +56,9 @@ procedure proc1 ( param1,param6 : integer);
 begin
 
 
-vInt1 := (50 mod 7);
-vInt2 := -15;
+
+vInt1 := 10;
+vInt2 := 10 - 5 * 145435 + vInt1;
 
 
 
