@@ -622,9 +622,9 @@ UserType       :    ArrayType							{$$ = $1;}
 RecordType     : KW_RECORD RecordFields KW_END					{
 
 										
-								if (niveauTDS >= tabTDSPere.size())  // ???????????????????????????????????????????????????????????????????????????????????????,
-									{ tabTDSPere.push_back(TDS_Actuelle);} // ???????????????????????????????????????????????????????????????????????????????????????,
-								else { tabTDSPere[niveauTDS] = TDS_Actuelle;} // ???????????????????????????????????????????????????????????????????????????????????????,
+								if (niveauTDS >= tabTDSPere.size())  
+									{ tabTDSPere.push_back(TDS_Actuelle);} 
+								else { tabTDSPere[niveauTDS] = TDS_Actuelle;} 
 
 								if(tabTDSPere.size() == 1) TDS_Actuelle++;
 
@@ -640,14 +640,14 @@ RecordType     : KW_RECORD RecordFields KW_END					{
 								TDS_Actuelle = tableSymb->getNumContexteTSActuel(true);
 								tmpRecord->setContexteTS(TDS_Actuelle);
 
-								tmpTds = new TableDesSymboles(TDS_Actuelle);  // ???????????????????????????????????????????????????????????????????????????????????????,
+								tmpTds = new TableDesSymboles(TDS_Actuelle);  
 								listeTDS.push_back(tmpRecord); // on rajoute le nouveau contexte dans la liste des TS
 
 								tmpRecord = new TableDesSymboles(0);
-								 // ???????????????????????????????????????????????????????????????????????????????????????,
+
 								//tmpTds = new TableDesSymboles(tableSymb->getNumContexteTSActuel(true)); // on initialise tmpTds pour le nouveau contexte
 
-								niveauTDS++;  // ???????????????????????????????????????????????????????????????????????????????????????,
+								niveauTDS++;  
 
 										}
                ;
@@ -761,16 +761,6 @@ ForDirection   : KW_TO
 */
 
 
-/*
-
-x = y + z
-on cree un temporaire qui va stocker le résultat de l'addition
-on cree l'instruction 3@ qu'on ajoute au conteneurCode
-
-usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle], new string("temp1"), new TypeInteger()); 
-				     usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle], new string("temp2"), new TypeBoolean());
-				     usine->ajouterEtiquette(tableId, listeTDS[TDS_Actuelle], new string("etiq1"));
-*/
 
 //############################################################################################################################### OPERANDE
 
@@ -783,6 +773,8 @@ Expression     : VarExpr				{}
 
 
                ;
+
+//############################################################################################################################### OPERANDE OPERATIONS
 
 MathExpr       : Expression OP_ADD Expression	{
 						if (($1 != NULL) && ($3 != NULL)){ 
@@ -851,7 +843,7 @@ MathExpr       : Expression OP_ADD Expression	{
 
 							op1 = $1->operation(s1,$1,$3,new string("*"));  	 // on effectue la multiplication des 2 opérandes et on stocke le résultat dans op1
 							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
-							cout << $1->getValConvString()<< "* " << $3->getValConvString() << " = " <<  op1->getValConvString() << endl;
+							
 							
 						}
 						else { 	std::cerr << "Erreur : multiplication avec une opérande nulle  \n"; erreur = true; return 0;}
@@ -859,14 +851,96 @@ MathExpr       : Expression OP_ADD Expression	{
 
 
 
-/*}
-               | Expression OP_SLASH Expression	{ $$ = $1->operation($1,$3,new string("/")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 5, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
-               | Expression KW_DIV Expression	{ $$ = $1->operation($1,$3,new string("div")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 6, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
-               | Expression KW_MOD Expression	{ $$ = $1->operation($1,$3,new string("mod")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 7, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
-               | OP_SUB Expression		{ $$ = $2->operation($2,NULL,new string("-a")); CCode->ajouterInstFinBlocCourant(new Instruction($$, NULL, $2, 8, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+}
+               | Expression OP_SLASH Expression	{ 
+						if (($1 != NULL) && ($3 != NULL)){ 
+							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+							nombreTemp++;
+ 							ostringstream oss;	 oss << nombreTemp; // on convertit le numéro du temporaire en string pour pouvoir créer son nom
+							string nomTemp = "temp" + oss.str();
+
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
+							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Operande* op1 = new Operande(s1,NULL);
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,$1,$3,5,e1);
+
+							op1 = $1->operation(s1,$1,$3,new string("/"));  	 // on effectue la division des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+
+						}
+						else { 	std::cerr << "Erreur : multiplication avec une opérande nulle  \n"; erreur = true; return 0;}
+}
+               | Expression KW_DIV Expression	{
+						if (($1 != NULL) && ($3 != NULL)){ 
+							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+							nombreTemp++;
+ 							ostringstream oss;	 oss << nombreTemp; // on convertit le numéro du temporaire en string pour pouvoir créer son nom
+							string nomTemp = "temp" + oss.str();
+
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
+							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Operande* op1 = new Operande(s1,NULL);
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,$1,$3,6,e1);
+
+							op1 = $1->operation(s1,$1,$3,new string("div"));  	 // on effectue l'opération DIV des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+
+						}
+						else { 	std::cerr << "Erreur : operation DIV avec une opérande nulle  \n"; erreur = true; return 0;}
+  }
+               | Expression KW_MOD Expression	{  
+						if (($1 != NULL) && ($3 != NULL)){ 
+							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+							nombreTemp++;
+ 							ostringstream oss;	 oss << nombreTemp; // on convertit le numéro du temporaire en string pour pouvoir créer son nom
+							string nomTemp = "temp" + oss.str();
+
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
+							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Operande* op1 = new Operande(s1,NULL);
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,$1,$3,7,e1);
+
+							op1 = $1->operation(s1,$1,$3,new string("mod"));  	 // on effectue l'opération MOD des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+
+						}
+						else { 	std::cerr << "Erreur : operation MOD avec une opérande nulle  \n"; erreur = true; return 0;}
+}
+
+               | OP_SUB Expression		{
+
+						if ($2 != NULL){ 
+
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Symbole* s1 = $2->getSymbole();
+							Operande* op1;
+							if (s1 != NULL)  op1 = new Operande($2->getSymbole(),$2->getValeur());
+							else   op1 = new Operande($2->getValeur());
+
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,NULL,$2,8,e1);
+					
+							op1 = $2->operation($2->getSymbole(),$2,NULL,new string("-a"));  	 // on effectue l'opération NEG des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+
+						}
+						else { 	std::cerr << "Erreur : operation NEG avec une opérande nulle  \n"; erreur = true; return 0;} /*}}
                | OP_ADD Expression		{ $$ = $2->operation($2,NULL,new string("+a")); CCode->ajouterInstFinBlocCourant(new Instruction($$, NULL, $2, 9, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); */}
                ;
-					
+				
+//  $$ = $2->operation($2,NULL,new string("-a")); CCode->ajouterInstFinBlocCourant(new Instruction($$, NULL, $2, 8, new Etiquette(tableSymb->getNumContexteTSActuel(true), "")));
+	
+//############################################################################################################################### OPERANDE COMPARAISONS
+
 CompExpr       : Expression OP_EQ Expression	{ $$ = $1->comparaison($1,$3, new string("="));  }
                | Expression OP_NEQ Expression	{ $$ = $1->comparaison($1,$3, new string("<>")); }
                | Expression OP_LT Expression	{ $$ = $1->comparaison($1,$3, new string("<"));  }

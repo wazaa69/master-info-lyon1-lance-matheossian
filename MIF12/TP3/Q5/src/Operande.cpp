@@ -138,8 +138,12 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 	Type* tempType;
 	Symbole* s1 = symboleRetour;
 
-	string typeEx1 = *(ex1->getType()->getStringType());
-	string typeEx2 = *(ex2->getType()->getStringType());
+	string typeEx1;
+	string typeEx2;
+
+	if (ex1 != NULL)  typeEx1 = *(ex1->getType()->getStringType());
+	if (ex2 != NULL)  typeEx2 = *(ex2->getType()->getStringType());
+
 	
 	if     (typeEx1 == "Integer")	 type = 1;
 	else if(typeEx1 == "Real") 	 type = 2;
@@ -168,7 +172,7 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 				switch(operation)
 				{		
 					case 1: // +
-						//cout << "ex1 " <<  ex1->getValInteger() << "ex2 " <<  ex2->getValInteger() << endl;
+					
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() + ex2->getValInteger())   );
 					break;
 					case 2: // -
@@ -178,15 +182,22 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() * ex2->getValInteger())  );
 					break;
 					case 4: // /
+						if( ex2->getValInteger() != 0 )
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() / ex2->getValInteger())  );
+						else {std::cerr << "Erreur : division par 0  \n";erreur = true; return 0;}
 					break;
 					case 5: // div
+						if( ex2->getValInteger() != 0 )
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() / ex2->getValInteger())  );
+						else {std::cerr << "Erreur : division par 0  \n";erreur = true; return 0;}
 					break;
 					case 6: // mod
+						if( ex2->getValInteger() != 0 )
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() % ex2->getValInteger())  );
+						else {std::cerr << "Erreur : division par 0  \n";erreur = true; return 0;}
 					break;
 					case 7: // -a
+						cout << "la" << endl;
 						exRetour = new Operande(s1,new Valeur(tempType, -ex1->getValInteger())  );
 					break;
 					case 8: // +a
@@ -216,10 +227,14 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() * ex2->getValFloat()));
 					break;
 					case 4: // /
-						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() / ex2->getValFloat()));
+						if( ex2->getValFloat() != 0 )
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() / ex2->getValFloat())  );
+						else {std::cerr << "Erreur : division par 0  \n";erreur = true; return 0;}
 					break;
 					case 5: // div
-						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() / ex2->getValFloat()));
+						if( ex2->getValFloat() != 0 )
+						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValFloat() / ex2->getValFloat())  );
+						else {std::cerr << "Erreur : division par 0  \n";erreur = true; return 0;}
 					break;
 					case 7: // -a
 						exRetour = new Operande(s1,new Valeur(tempType, -ex1->getValFloat()));
@@ -237,8 +252,9 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 				}
 			break;
 			case 3: // String
+				tempType = new TypeString();	
 				switch(operation)
-				{	tempType = new TypeString();	
+				{	
 					case 1: // +
 						//exRetour = new Operande(new TypeString(), new *string(ex1->getValString() + ex2->getValString()));
 					break;
