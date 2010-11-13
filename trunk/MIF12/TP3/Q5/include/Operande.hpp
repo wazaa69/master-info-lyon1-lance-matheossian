@@ -20,6 +20,7 @@
 //#include "Temporaire.hpp"
 
 #include "Valeur.hpp"
+extern bool erreur;
 
 /**
 *	@brief Operande
@@ -27,7 +28,6 @@
 class Operande {
 
 	private:
-
 
 		bool operandeIdentifiant;
 

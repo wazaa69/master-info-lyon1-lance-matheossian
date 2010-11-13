@@ -58,9 +58,9 @@ string* Instruction::getOperation(){
 	break;
 	case 5: return new string("/");
 	break;
-	case 6: return new string("NEG");
+	case 6: return new string("div");
 	break;
-	case 7: return new string("");
+	case 7: return new string("mod");
 	break;
 	case 8: return new string("");
 	break;
