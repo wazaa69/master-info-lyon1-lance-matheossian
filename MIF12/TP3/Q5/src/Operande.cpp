@@ -168,7 +168,7 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 				switch(operation)
 				{		
 					case 1: // +
-						cout << "ex1 " <<  ex1->getValInteger() << "ex2 " <<  ex2->getValInteger() << endl;
+						//cout << "ex1 " <<  ex1->getValInteger() << "ex2 " <<  ex2->getValInteger() << endl;
 						exRetour = new Operande(s1,new Valeur(tempType, ex1->getValInteger() + ex2->getValInteger())   );
 					break;
 					case 2: // -

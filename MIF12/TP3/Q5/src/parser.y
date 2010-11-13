@@ -788,9 +788,9 @@ MathExpr       : Expression OP_ADD Expression	{
 						if (($1 != NULL) && ($3 != NULL)){ 
 							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
 							nombreTemp++;
-							
-							string nomTemp = "temp" + nombre;
-							//string* nomTemp = new string("temp" + nombreTemp);
+ 							ostringstream oss;	 oss << nombreTemp; // on convertit le numéro du temporaire en string pour pouvoir créer son nom
+							string nomTemp = "temp" + oss.str();
+
 							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
 							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
 
@@ -801,15 +801,65 @@ MathExpr       : Expression OP_ADD Expression	{
 
 							op1 = $1->operation(s1,$1,$3,new string("+"));  	 // on effectue l'addition des 2 opérandes et on stocke le résultat dans op1
 							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
-							cout << $1->getValConvString()<< "+ " << $3->getValConvString() << " = " <<  op1->getValConvString() << endl;
+							
 							
 						}
 						else { 	std::cerr << "Erreur : addition avec une opérande nulle  \n"; erreur = true; return 0;}
 
-							/*
+							
 						}
-               | Expression OP_SUB Expression	{ $$ = $1->operation($1,$3,new string("-")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 3, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
-               | Expression OP_MUL Expression	{ $$ = $1->operation($1,$3,new string("*")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 4, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
+
+
+               | Expression OP_SUB Expression	{ 
+						if (($1 != NULL) && ($3 != NULL)){ 
+							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+							nombreTemp++;
+ 							ostringstream oss;	 oss << nombreTemp; // on convertit le numéro du temporaire en string pour pouvoir créer son nom
+							string nomTemp = "temp" + oss.str();
+
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
+							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Operande* op1 = new Operande(s1,NULL);
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,$1,$3,3,e1);
+
+							op1 = $1->operation(s1,$1,$3,new string("-"));  	 // on effectue la soustraction des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+							
+							
+						}
+						else { 	std::cerr << "Erreur : soustraction avec une opérande nulle  \n"; erreur = true; return 0;}
+
+
+}
+               | Expression OP_MUL Expression	{   
+						if (($1 != NULL) && ($3 != NULL)){ 
+							// création du temporaire qui va être utilisé pour l'initialisation de l'opérande contenant le résultat de l'opération
+							nombreTemp++;
+ 							ostringstream oss;	 oss << nombreTemp; // on convertit le numéro du temporaire en string pour pouvoir créer son nom
+							string nomTemp = "temp" + oss.str();
+
+							int idTemp = usine->ajouterTemporaire(tableId, listeTDS[TDS_Actuelle],new string(nomTemp), new TypeInteger());
+							Symbole* s1 = listeTDS[TDS_Actuelle]->getSymboleI(idTemp);
+
+							// Initialisation des composantes de l'instruction et du bloc d'instructions
+							Operande* op1 = new Operande(s1,NULL);
+							Etiquette* e1 = new Etiquette(tableSymb->getNumContexteTSActuel(true), "");
+							Instruction* i1 = new Instruction(op1,$1,$3,4,e1);
+
+							op1 = $1->operation(s1,$1,$3,new string("*"));  	 // on effectue la multiplication des 2 opérandes et on stocke le résultat dans op1
+							CCode->ajouterInstFinBlocCourant(i1); $$ = op1;  // on ajoute l'instruction dans le bloc d'instructions
+							cout << $1->getValConvString()<< "* " << $3->getValConvString() << " = " <<  op1->getValConvString() << endl;
+							
+						}
+						else { 	std::cerr << "Erreur : multiplication avec une opérande nulle  \n"; erreur = true; return 0;}
+
+
+
+
+/*}
                | Expression OP_SLASH Expression	{ $$ = $1->operation($1,$3,new string("/")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 5, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | Expression KW_DIV Expression	{ $$ = $1->operation($1,$3,new string("div")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 6, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
                | Expression KW_MOD Expression	{ $$ = $1->operation($1,$3,new string("mod")); CCode->ajouterInstFinBlocCourant(new Instruction($$, $1, $3, 7, new Etiquette(tableSymb->getNumContexteTSActuel(true), ""))); }
@@ -851,14 +901,14 @@ AtomExpr       : SEP_PO Expression SEP_PF		{$$ = $2;}
                ;
 
 VarExpr        : TOK_IDENT				{ 	// il faut récupérer la dernière valeur correspondant à l'ident
-								cout << "test1" << endl;				
+											
 
 								Operande* op1 = CCode->getDerniereAffectationVariable(tableId->getElement($1));
 	
 								// cas ou la variable a déjà été affectée
-								if (op1 != NULL) { $$ = op1; cout << "test15" << op1->getValConvString() << endl; }
+								if (op1 != NULL) { $$ = op1; }
 
-								else if (op1 == NULL) { 	 cout << "test2" << endl;
+								else if (op1 == NULL) { 	
 									Valeur* valTOK_IDENT = new Valeur(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1)->getType()); 
 
 									Operande* opRetour = new Operande(tableSymb->getTableSymbContenantI(listeTDS,$1)->getSymboleI($1), valTOK_IDENT);
@@ -868,7 +918,7 @@ VarExpr        : TOK_IDENT				{ 	// il faut récupérer la dernière valeur corr
 										}
 									else { 	std::cerr << "Erreur : Il n'existe aucun symbole dans la TDS ayant pour identifiant " << $1 << " \n"; erreur = true; return 0;}
 
-								cout << "test3" << endl;				
+											
 
 								}
 							
