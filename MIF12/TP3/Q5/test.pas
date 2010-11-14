@@ -6,6 +6,7 @@ var vInt0 , vInt1 ,vInt2,vInt3: integer;
     vReal0, vReal1 ,vReal2,vReal3: real;
     vBool1, vBool2: boolean;
     vStr1, vStr2: string;
+    vPoint1 : ^integer;
     
 	array1 : array [1 .. 15 ] of integer;
 
@@ -22,9 +23,6 @@ function fonc1 ( param4,param5 : type1): string;
 	begin
 	
 	end;
-
-
-
 
 procedure proc1 ( param1,param6 : integer);
 	const   cons2 = true;
@@ -55,12 +53,8 @@ procedure proc1 ( param1,param6 : integer);
 
 begin
 
-
-
 vInt1 := 10;
-vInt2 := 10 - 5 * 145435 + vInt1;
-
-
+vInt2 := 45 - 12;
+vInt3 := vInt1 - 5 * vInt2;
 
 end.
-

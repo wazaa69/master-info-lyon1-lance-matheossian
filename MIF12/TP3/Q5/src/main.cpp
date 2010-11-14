@@ -1,3 +1,15 @@
+/*!
+ * \author LANCE Florian <lance.florian@gmail.com>
+ * \author MATHEOSSIAN Dimitri <matheossian.dimitri@gmail.com>
+ *
+ * \note TP MIF12 : COMPILATEUR PASCAL
+ *
+ * \since 20/09/2010
+ * \version 14/11/2010
+ *
+ */
+
+
 #include <stdio.h>
 #include <iostream>
 
