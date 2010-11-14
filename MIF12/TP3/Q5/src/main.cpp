@@ -96,26 +96,53 @@ int main(int argc, char** argv)
     if(yyin != NULL)
         fclose(yyin);
 
-    //supression des instances
+    //on vide les tableau et on supprime les instances
 
-	/*delete tableSymb;
-	delete tableId;
-	delete tableInteger;
-	delete tableReal;
-	delete tableString;
-	delete tablePtr;
-	delete tableBoolean;
-*/
 
-	listeTDS.clear();
-	tmpNumId.clear();
-	tmpType.clear();
-	listeTypeUser.clear();
-	tabTDSPere.clear();
+	//delete CCode;
+
+	delete usine;
+
+	for (unsigned int i = 0; i < tabTemporaires.size();i++) delete tabTemporaires[i];
+	tabTemporaires.clear();
+
+	//delete symbTypeUserRemonte;
+
+	delete tmpRecord;
+
+	for (unsigned int i = 0; i < tabArguments.size();i++) delete tabArguments[i];
 	tabArguments.clear();
+
 	tabTDSPere.clear();
 
- 	
+	for (unsigned int i = 0; i < listeTypeUser.size();i++) delete listeTypeUser[i];
+	listeTypeUser.clear();
+
+	for (unsigned int i = 0; i < tmpType.size();i++) delete tmpType[i];
+	tmpType.clear();
+
+
+	tmpNumId.clear();
+
+	for (unsigned int i = 0; i < listeTDS.size();i++) {delete listeTDS[i];}
+	listeTDS.clear();
+
+	delete typeUser;
+
+
+	delete tableSymb;
+	//delete tmpTds;
+
+
+	delete tableBoolean;
+	delete tablePtr;
+	delete tableString;
+	delete tableReal;
+	delete tableInteger;
+	delete tableId;
+	
+
+
 
 
     return 0;

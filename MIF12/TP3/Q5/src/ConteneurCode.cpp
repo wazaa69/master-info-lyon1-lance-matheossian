@@ -8,7 +8,14 @@ ConteneurCode::ConteneurCode(){
 	
 }
 
-ConteneurCode::~ConteneurCode(){}
+ConteneurCode::~ConteneurCode(){
+	
+	int size = tabInstruction.size();
+	for (unsigned int i = 0; i < size;i++) delete tabInstruction[i];
+
+	tabInstruction.clear();
+
+}
 
 void ConteneurCode::ajouterInstFinBlocCourant(Instruction* _instruction)
 {

@@ -9,12 +9,10 @@
 
  class Factory {
 
-	private:
+	public:
 	
 	Factory();
 	~Factory();
-
-	public:
 
 	static int ajouterTemporaire(TableDesIdentificateurs* _TDI, TableDesSymboles* _TDS, std::string* _nomTemporaire, Type* _type);
 	

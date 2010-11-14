@@ -15,6 +15,8 @@ using namespace std;
 
  int Fonction::getArite(){ return arite;}
 
-Fonction::~Fonction(){}
+Fonction::~Fonction(){
+	delete typeResult;
+}
 
 

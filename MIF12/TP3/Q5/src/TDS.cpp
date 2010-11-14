@@ -27,8 +27,14 @@ TableDesSymboles::TableDesSymboles()
 }
 
 TableDesSymboles::~TableDesSymboles(){ 
+
+	
+	unsigned int size = tableSymb.size();
+	for (unsigned int i = 0; i < size;i++) delete tableSymb[i];
+
+
+
 	tableSymb.clear();
-	portee.clear();
 }
 
 

@@ -8,6 +8,9 @@ using namespace std;
 
 TableDesIdentificateurs::TableDesIdentificateurs(){}
 TableDesIdentificateurs::~TableDesIdentificateurs(){
+
+	unsigned int size = tableId.size();
+	for (unsigned int i = 0; i < size;i++) delete tableId[i];
 	tableId.clear();
 }
 

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Type::Type(){}
+Type::Type(){type=NULL;}
 
 Type::Type(string* _type){
     type = _type; //copie
@@ -18,7 +18,11 @@ Type::Type(const Type &_type){
 }
 
 
-Type::~Type(){}
+Type::~Type(){
+	//std::cout << getStringType() << std::endl; //on a bien toutes les adresses
+	//if(type != NULL) std::cout << *getStringType() << std::endl; //mais pas les string
+	//delete type; //soucis
+}
 
 
 string* Type::getStringType(){return type;}

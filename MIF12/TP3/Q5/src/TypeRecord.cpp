@@ -19,7 +19,7 @@ TypeRecord::TypeRecord(TableDesSymboles* _TDSLocale)
 
 
 TypeRecord::~TypeRecord(){
-
+	delete TDSLocale;
 }
 
 

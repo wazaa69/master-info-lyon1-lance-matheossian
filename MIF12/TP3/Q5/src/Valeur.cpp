@@ -65,7 +65,10 @@ Valeur::Valeur(Type* _type, bool _valBool){
 	type = _type;
 }
 
-Valeur::~Valeur(){}
+Valeur::~Valeur(){
+	delete type;
+	delete valString;
+}
 
 Type* Valeur::getType(){return type;}
 

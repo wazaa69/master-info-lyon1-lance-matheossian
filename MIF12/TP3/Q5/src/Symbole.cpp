@@ -7,7 +7,11 @@ using namespace std;
 
 Symbole::Symbole(){nomSymbole = new string("");}
 
-Symbole::~Symbole(){}
+Symbole::~Symbole(){
+	delete categorie;
+	delete type;
+	delete nomSymbole;
+}
 
 int Symbole::getID(){return id;}
 
