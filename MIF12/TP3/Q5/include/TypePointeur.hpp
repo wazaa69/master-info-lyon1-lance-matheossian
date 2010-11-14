@@ -10,7 +10,7 @@ class TypePointeur : public Type {
 
 	private:
 
-	Type* reference; /** un pointeur sur un Type */
+	Type* reference; /** @var reference un pointeur sur un Type */
 
 	public:
 	
@@ -18,6 +18,10 @@ class TypePointeur : public Type {
 		* @brief Crée un type Pointeur pour stocker l'adresse d'un Type
 		*/
 		TypePointeur();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypePointeur();
 
 		/**

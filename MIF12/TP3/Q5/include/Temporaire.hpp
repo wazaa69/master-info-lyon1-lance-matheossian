@@ -15,18 +15,29 @@ class Temporaire : public Symbole  {
 	private:
 		
 	
-	Operande* ex;
+	Operande* ex; /** @var ex operande */
 
 	public:
 
 	/**
         *   @brief Constructeur, initialise le Temporaire
 	*   @param _id identifiant du symbole
+	*   @param _ex operande du symbole
         */
         Temporaire(int _id, Operande* _ex);
 
+	/**
+        *   @brief Constructeur, initialise le Temporaire
+	*   @param _id identifiant du symbole
+	*   @param _nomTemporaire strin nom du symbole
+	*   @param _type type du symbole
+        */
 	Temporaire(int _id, std::string _nomTemporaire, Type* _type);
 
+        /**
+        *   @brief Accesseur
+	*   @return Operande ex
+        */
 	Operande* getOperande();
 
         /**

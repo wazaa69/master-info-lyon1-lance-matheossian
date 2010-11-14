@@ -13,30 +13,49 @@ class Valeur {
        
 	private:
 
-	Type* type;
+	Type* type; /** @var type type de la valeur */
 
-	int valInt;
-	float valFloat;
-	bool valBool;
-	std::string* valString;
+	int valInt; /** @var valInt valeur entière de la valeur */
+	float valFloat; /** @var valFloat valeur reele de la valeur */
+	bool valBool; /** @var valBool valeur booleene de la valeur */
+	std::string* valString; /** @var valString valeur string de la valeur */
 
 	public:
 	
-	    /**
+	/**
         *   @brief Constructeur
+	*   @param _type type de la valeur
         */
-		Valeur(Type* _type);
+	Valeur(Type* _type);
 		
-		Valeur(Type* _type, int _valInt);
+	/**
+        *   @brief Constructeur
+	*   @param _type type de la valeur
+	*   @param _valInt entier
+        */
+	Valeur(Type* _type, int _valInt);
 
-		Valeur(Type* _type, float _valFloat);
+	/**
+        *   @brief Constructeur
+	*   @param _type type de la valeur
+	*   @param _valFloat reel
+        */
+	Valeur(Type* _type, float _valFloat);
 	
-		Valeur(Type* _type, std::string* _valString);
+	/**
+        *   @brief Constructeur
+	*   @param _type type de la valeur
+	*   @param _valString string
+        */
+	Valeur(Type* _type, std::string* _valString);
 
-		Valeur(Type* _type, bool _valBool);
+	/**
+        *   @brief Constructeur
+	*   @param _type type de la valeur
+	*   @param _valBool bool
+        */
+	Valeur(Type* _type, bool _valBool);
 
-
-	void setType(Type* _type);
 
 
         /**
@@ -44,15 +63,42 @@ class Valeur {
         */
         ~Valeur();	
 
+        /**
+        *   @brief Accesseur
+	* @return type 
+        */
 	Type* getType();
 
+        /**
+        *   @brief Accesseur
+	* @return valBool 
+        */
 	bool getValBool();
 	
+        /**
+        *   @brief Accesseur
+	* @return valInteger
+        */
 	int getValInteger();
 
+        /**
+        *   @brief Accesseur
+	* @return valFloat
+        */
 	float getValFloat();
 
+        /**
+        *   @brief Accesseur
+	* @return valString
+        */
 	std::string* getValString();
+
+	/**
+        *   @brief Mutateur
+	*   @param _type type de la valeur
+        */
+	void setType(Type* _type);
+
 	
 };
 

@@ -11,7 +11,7 @@ class TypeRecord : public Type {
 
 	private:
 
-		TableDesSymboles* TDSLocale; /** table des symboles correspondant à ce nouveau contexte */
+		TableDesSymboles* TDSLocale; /** @var TDSLocale table des symboles correspondant à ce nouveau contexte */
 
 	public:
 	
@@ -19,6 +19,10 @@ class TypeRecord : public Type {
 		* @brief Crée un type Record et stocke le nom "Record"
 		*/
 		TypeRecord();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypeRecord();
 		
 		/**

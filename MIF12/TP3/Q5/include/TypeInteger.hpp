@@ -11,9 +11,13 @@ class TypeInteger : public Type {
 	public:
 	
 		/**
-		* @brief Crée un type Integer et stocke le nom "Integer"
+		* @brief Constructeur Crée un type Integer et stocke le nom "Integer"
 		*/
 		TypeInteger();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypeInteger();
 
 };

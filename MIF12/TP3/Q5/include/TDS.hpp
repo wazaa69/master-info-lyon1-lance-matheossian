@@ -13,8 +13,8 @@ class TableDesSymboles {
 	private:
 
 		std::vector<Symbole*> tableSymb; /** @var tableSymb la table des symboles */
-		int numeroContexteTS;
-		std::string portee; 
+		int numeroContexteTS; /** @var numeroContexteTS numero du contexte de la TDS */
+		std::string portee; /** @var portee string indiquant si la portée est globale ou locale */
 		
 	public:
 
@@ -85,6 +85,10 @@ class TableDesSymboles {
 
 //###################################################################################### METHODES
 	
+        /**
+        *   @brief Mutateur
+        *   @param _contexte entier contenant le numéro du contexte
+        */
 	void setContexteTS(int _contexte);
 
 	void incNumIdActuel();

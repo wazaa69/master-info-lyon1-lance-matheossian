@@ -11,14 +11,14 @@
 
 	private:	
 	
-	Operande* operande1; /** première opérande de l'instruction */
-	Operande* operande2; /** deuxième opérande de l'instruction */
-	Operande* operande3; /** troisième opérande de l'instruction */
+	Operande* operande1; /** @var operande1 première opérande de l'instruction */
+	Operande* operande2; /** @var operande2 deuxième opérande de l'instruction */
+	Operande* operande3; /** @var operande3 troisième opérande de l'instruction */
 
-	Etiquette* etiquette; /** étiquette de l'instruction */
+	Etiquette* etiquette; /** @var etiquette étiquette de l'instruction */
 
-	int numeroInstruction; /** numéro correspondant à l'instruction */
-	int operation; /** numéro correspondant à l'opération effectuée dans l'instruction */
+	int numeroInstruction; /** @var numeroInstruction numéro correspondant à l'instruction */
+	int operation; /** @var operation numéro correspondant à l'opération effectuée dans l'instruction */
 
 	public:
 

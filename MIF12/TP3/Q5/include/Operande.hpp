@@ -29,10 +29,10 @@ class Operande {
 
 	private:
 
-		bool operandeIdentifiant; /** booleen indiquand si l'opérande est un identifiant ou une simple valeur */
+		bool operandeIdentifiant; /** @var operandeIdentifiant booleen indiquand si l'opérande est un identifiant ou une simple valeur */
 
-		Symbole* identifiant; /** symbole de l'opérande (est NULL si juste une valeur) */
-		Valeur* valeur; /** valeur de l'opérande */
+		Symbole* identifiant; /** @var identifiant symbole de l'opérande (est NULL si juste une valeur) */
+		Valeur* valeur; /** @var valeur valeur de l'opérande */
 
 	public:
 
@@ -60,19 +60,22 @@ class Operande {
 
 		/**
 		* @brief Constructeur
-		* @param _valeur Valeur de l'opérande
+		* @param _type type de la valeur de l'opérande
+		* @param _valFloat reel intitialisant la valeur de l'opérande
 		*/
 		Operande(Type* _type, float _valFloat);
 	
 		/**
 		* @brief Constructeur
-		* @param _valeur Valeur de l'opérande
+		* @param _type type de la valeur de l'opérande
+		* @param _valString string intitialisant la valeur de l'opérande
 		*/
 		Operande(Type* _type, std::string* _valString);
 
 		/**
 		* @brief Constructeur
-		* @param _valeur Valeur de l'opérande
+		* @param _type type de la valeur de l'opérande
+		* @param _valBool booleen intitialisant la valeur de l'opérande
 		*/
 		Operande(Type* _type, bool _valBool);
 		
@@ -84,39 +87,87 @@ class Operande {
 
 //################################################################################## ACCESSEURS
 		
+		/**
+		* @brief Accesseur
+		* @return valbool de valeur
+		*/
 		bool getValBool();
 	
+		/**
+		* @brief Accesseur
+		* @return valInteger de valeur
+		*/
 		int getValInteger();
 
+		/**
+		* @brief Accesseur
+		* @return valFloat de valeur
+		*/
 		float getValFloat();
 
+		/**
+		* @brief Accesseur
+		* @return valString de valeur
+		*/
 		std::string* getValString();
 
+		/**
+		* @brief Accesseur
+		* @return un string de la valeur de la variable correspondant à l'initialisation du type de valeur
+		*/
 		std::string getValConvString();
 
+		/**
+		* @brief Accesseur
+		* @return le type de valeur
+		*/
 		Type* getType();
 
 
-
+		/**
+		* @brief Accesseur
+		* @return valeur
+		*/
 		Valeur* getValeur();
 
+		/**
+		* @brief Accesseur
+		* @return symbole
+		*/
 		Symbole* getSymbole();
 
 
 //################################################################################## MUTATEURS
 
+		/**
+		* @brief Mutateur
+		*   @param _type 
+		*/
 		void setType(Type* _type);
 		
-		//void setValBool(bool _valBool);
-
 
 //################################################################################## METHODES
 
+		/**
+		* @brief indique si l'opérande est un identifiant
+		* @return booleen
+		*/
 		bool isIdentifiant();
 
-
+		/**
+		* @brief vérifie si les types sont du même type
+		* @param _type1 type
+		* @param _type2 type
+		* @return booleen
+		*/
 		bool memeType(Type* _type1, Type* _type2);
 
+		/**
+		* @brief vérifie si les types sont du même type
+		* @param _type1 type 
+		* @param _type2 string
+		* @return booleen
+		*/
 		bool memeType(Type* _type1, std::string* _type2);
 		
 		/**
