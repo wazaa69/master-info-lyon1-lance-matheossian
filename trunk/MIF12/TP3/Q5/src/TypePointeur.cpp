@@ -10,7 +10,9 @@ TypePointeur::TypePointeur(const Type &ref)
 	
 }
 
-TypePointeur::~TypePointeur(){}
+TypePointeur::~TypePointeur(){
+	delete reference;
+}
 
 /*
 string* TypePointeur::getStringType(){

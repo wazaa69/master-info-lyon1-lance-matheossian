@@ -23,5 +23,5 @@ Temporaire::Temporaire(int _id, string _nomTemporaire, Type* _type)
 
 Operande* Temporaire::getOperande(){ return ex;}
 
-Temporaire::~Temporaire(){}
+Temporaire::~Temporaire(){delete ex;}
 

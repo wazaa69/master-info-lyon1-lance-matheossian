@@ -591,7 +591,10 @@ Operande* Operande::comparaison(Operande* ex1, Operande* ex2, string* _operation
 
 //####################################### DESTRUCTEUR
 
-Operande::~Operande(){}
+Operande::~Operande(){
+	delete identifiant;
+	//delete valeur;
+}
 
 
 

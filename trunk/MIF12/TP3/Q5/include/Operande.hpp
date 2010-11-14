@@ -37,7 +37,7 @@ class Operande {
 		float valFloat;
 		bool valBool;
 		std::string* valString;
-	*/
+		*/
 		Symbole* identifiant; 
 		Valeur* valeur;
 

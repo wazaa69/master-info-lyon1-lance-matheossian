@@ -21,7 +21,13 @@ operation = _operation;
 
 }
 
-Instruction::~Instruction(){}
+Instruction::~Instruction(){
+	delete operande1;
+	delete operande2;
+	delete operande3;
+
+	delete etiquette;
+}
 
 int Instruction::getNumInstruction(){ return numeroInstruction;}
 
