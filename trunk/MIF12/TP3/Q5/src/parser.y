@@ -6,12 +6,12 @@
 	#include <sstream>
 
 
-//############################################### TABLES
+//###############################################  INCLUDE TABLES
 
 	#include "TDS.hpp"
 	#include "TDI.hpp"
 
-//############################################### SYMBOLES
+//############################################### INCLUDE SYMBOLES
 
 	#include "Valeur.hpp"
 	#include "Symbole.hpp"
@@ -25,7 +25,7 @@
 	#include "TypeUser.hpp"
 	#include "Argument.hpp"
 
-//############################################### TYPES
+//############################################### INCLUDE TYPES
 
 	#include "Type.hpp"
 	#include "TypeInteger.hpp"
@@ -38,12 +38,14 @@
 	#include "TypeArray.hpp"
 	#include "TypeRecord.hpp"
 
-//############################################### AUTRES
+//############################################### INCLUDE AUTRES
 
 	#include "Factory.hpp"
 	#include "Operande.hpp"
 	#include "Instruction.hpp"
 	#include "ConteneurCode.hpp"
+
+
 
 	using namespace std;
 
@@ -54,66 +56,65 @@
 	extern int yyerror(char* m);
 
 	extern TableDesIdentificateurs* tableId;
-	
 
 	extern TableDesSymboles* tableSymb;
+	extern TableDesSymboles* tmpTds; //une table des symboles temporaires (pour les différents contextes)
 	extern std::vector<TableDesSymboles*> listeTDS; // pour pouvoir stocker toutes les tables de symboles des différents contextes
 
-	TableDesSymboles* tmpTds =  new TableDesSymboles(0); //une table des symboles temporaires (pour les différents contextes)
 	extern std::vector<int> tmpNumId; //pour connaître le nombre d'identifiant d'un même type (utilisé pour remplir la TDS)
 	extern std::vector<Type*> tmpType;
-	
-	Factory* usine;
 
 //###############################################  USERTYPE  
   
 	extern TypeUser* typeUser;
 	extern std::vector<TypeUser*> listeTypeUser;
+	extern TypeUser* symbTypeUserRemonte;
 
-	TypeUser* symbTypeUserRemonte;
-	bool remonteeTypeUser = false;
-
+	bool remonteeTypeUser = false; // pour indiquer si on remonte un type User
 	unsigned int numTDS_TypeRemonte;
+
 //###############################################  RECORDS  
 
-	TableDesSymboles* tmpRecord = new TableDesSymboles(0);
+	extern TableDesSymboles* tmpRecord;
 
 	bool nouveauRecord = true; // booleen indiquant le début de la déclaration d'un record pour pouvoir décaler d'un cran tmpTds
-	int diffRecord; // 
-	int numIdRecord; // numero Id du record à écrire dans la table des symboles
 	bool ajoutRecord = false; // booleen servant à indiquer si le dernier type remonté est un record pour pouvoir attribuer le bon id dans la table des symboles
 
-//############################################### OperandeS
+	int diffRecord; // pour gérer le décalage dans les déclarations de record
+	int numIdRecord; // numero Id du record à écrire dans la table des symboles
 
+//############################################### OPERANDES
 
-	extern TableDesIdentificateurs* tableInteger;
-	extern TableDesIdentificateurs* tableReal;
-	extern TableDesIdentificateurs* tableString;
-	extern TableDesIdentificateurs* tablePtr;
-	extern TableDesIdentificateurs* tableBoolean;
+	extern TableDesIdentificateurs* tableInteger; // pour récupérer les TOK_INTEGER du lexer
+	extern TableDesIdentificateurs* tableReal;    // pour récupérer les TOK_REAL du lexer
+	extern TableDesIdentificateurs* tableString;  // pour récupérer les TOK_STRING du lexer
+	extern TableDesIdentificateurs* tablePtr;     // pour récupérer les TOK_PTR du lexer
+	extern TableDesIdentificateurs* tableBoolean; // pour récupérer les TOK_BOOLEAN du lexer
 
 //############################################### FONCTIONS/PROCEDURES
 
+	unsigned int ariteArgFoncProc = 0; // contient le nombre argument de la fonc/proc		
 	unsigned int TDS_Actuelle = 0; // contient le numéro de la TS actuelle
 	unsigned int niveauTDS = 0; // contient le niveau actuel de la TS (0 pour la TS principale, 1 pour celles déclarées dans cette TS, puis 2 etc)
 	extern std::vector<int> tabTDSPere; // contient les numeros des TDS en fonction du niveauTDS
 
-	unsigned int ariteArgFoncProc = 0;
-	int passage = 0;
 
 //############################################### ARGUMENTS
 
 	extern std::vector<Argument*> tabArguments;
-
 
 //############################################### TEMPORAIRES
 
 	extern std::vector<Temporaire*> tabTemporaires;
 	int nombreTemp = 0;
 
+//###############################################  FACTORY
+  
+	extern Factory* usine;
+
 //############################################### CODE 3@
 
-	 ConteneurCode* CCode = new ConteneurCode();
+	extern ConteneurCode* CCode;
 
 
 %}
@@ -250,6 +251,7 @@ Program         : ProgramHeader SEP_SCOL Block SEP_DOT          {}
                 ;
 
 ProgramHeader   : KW_PROGRAM TOK_IDENT                          {	
+
 									TDS_Actuelle = 0;
 									tabTDSPere.push_back(TDS_Actuelle);
 									listeTDS.push_back(tmpTds); // On ajoute la table des symboles principale dans listeTDS

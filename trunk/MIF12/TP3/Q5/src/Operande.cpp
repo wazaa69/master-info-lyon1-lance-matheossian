@@ -167,8 +167,6 @@ Operande* Operande::operation(Symbole* symboleRetour, Operande* ex1, Operande* e
 	else if(*_operation == ":=")	 operation = 9;
 	else 				 operation = 0;
 
-	cout << "operation";
-	cout << operation << endl;
 
 	if ((typeEx1 == typeEx2) || ((ex1 != NULL ) && (ex2 == NULL)))
 	{

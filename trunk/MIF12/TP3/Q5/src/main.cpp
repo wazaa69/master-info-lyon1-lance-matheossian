@@ -7,6 +7,7 @@
 #include "Argument.hpp"
 #include "Temporaire.hpp"
 #include "ConteneurCode.hpp"
+#include "Factory.hpp"
 
 
 extern FILE* yyin;
@@ -25,6 +26,7 @@ extern int yyparse();
 	TableDesIdentificateurs* tablePtr = new TableDesIdentificateurs(); // pour récupérer les TOK_PTR du lexer
 	TableDesIdentificateurs* tableBoolean = new TableDesIdentificateurs(); // pour récupérer les TOK_BOOLEAN du lexer
 
+	TableDesSymboles* tmpTds = new TableDesSymboles(0); //une table des symboles temporaires (pour les différents contextes)
 	TableDesSymboles* tableSymb = new TableDesSymboles();
 	TypeUser* typeUser;
 
@@ -32,7 +34,6 @@ extern int yyparse();
 	std::vector<int> tmpNumId;
 	std::vector<Type*> tmpType;
 	std::vector<TypeUser*> listeTypeUser;
-
 
 //############################################### FONCTIONS/PROCEDURES
 
@@ -42,13 +43,25 @@ extern int yyparse();
 
 	std::vector<Argument*> tabArguments;
 
+//############################################### RECORDS
+
+	TableDesSymboles* tmpRecord = new TableDesSymboles(0);
+
+//############################################### USER TYPE
+
+	TypeUser* symbTypeUserRemonte;
+
 //############################################### TEMPORAIRES
 
 	std::vector<Temporaire*> tabTemporaires;
 
+//############################################### FACTORY
+
+	Factory* usine;
+
 //############################################### CODE 3@
 
-	extern ConteneurCode* CCode;
+	ConteneurCode* CCode = new ConteneurCode();
 
 //############################################### ERREURS
 
@@ -85,13 +98,14 @@ int main(int argc, char** argv)
 
     //supression des instances
 
-	delete tableSymb;
+	/*delete tableSymb;
 	delete tableId;
 	delete tableInteger;
 	delete tableReal;
 	delete tableString;
 	delete tablePtr;
 	delete tableBoolean;
+*/
 
 	listeTDS.clear();
 	tmpNumId.clear();
@@ -99,6 +113,7 @@ int main(int argc, char** argv)
 	listeTypeUser.clear();
 	tabTDSPere.clear();
 	tabArguments.clear();
+	tabTDSPere.clear();
 
  	
 
