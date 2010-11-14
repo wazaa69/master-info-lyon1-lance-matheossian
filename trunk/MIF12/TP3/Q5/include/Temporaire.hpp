@@ -15,7 +15,7 @@ class Temporaire : public Symbole  {
 	private:
 		
 	
-	Operande* ex; /** @var ex operande */
+	Operande* ex; /**< ex operande */
 
 	public:
 

@@ -13,12 +13,12 @@ class Valeur {
        
 	private:
 
-	Type* type; /** @var type type de la valeur */
+	Type* type; /**< type type de la valeur */
 
-	int valInt; /** @var valInt valeur entière de la valeur */
-	float valFloat; /** @var valFloat valeur reele de la valeur */
-	bool valBool; /** @var valBool valeur booleene de la valeur */
-	std::string* valString; /** @var valString valeur string de la valeur */
+	int valInt; /**< valInt valeur entière de la valeur */
+	float valFloat; /**< valFloat valeur reele de la valeur */
+	bool valBool; /**< valBool valeur booleene de la valeur */
+	std::string* valString; /**< valString valeur string de la valeur */
 
 	public:
 	

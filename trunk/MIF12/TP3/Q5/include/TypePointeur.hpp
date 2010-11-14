@@ -10,7 +10,7 @@ class TypePointeur : public Type {
 
 	private:
 
-	Type* reference; /** @var reference un pointeur sur un Type */
+	Type* reference; /**< reference un pointeur sur un Type */
 
 	public:
 	

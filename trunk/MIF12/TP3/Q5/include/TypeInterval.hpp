@@ -10,8 +10,8 @@ class TypeInterval : public Type {
 
 	private:
 
-		 int debut; /** @var debut borne inférieure = où commence l'interval */
-		 int fin; /** @var fin borne supérieure = où se termine l'interval */
+		 int debut; /**< debut borne inférieure = où commence l'interval */
+		 int fin; /**< fin borne supérieure = où se termine l'interval */
 
 	public:
 	

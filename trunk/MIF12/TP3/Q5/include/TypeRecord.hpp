@@ -11,7 +11,7 @@ class TypeRecord : public Type {
 
 	private:
 
-		TableDesSymboles* TDSLocale; /** @var TDSLocale table des symboles correspondant à ce nouveau contexte */
+		TableDesSymboles* TDSLocale; /**< TDSLocale table des symboles correspondant à ce nouveau contexte */
 
 	public:
 	

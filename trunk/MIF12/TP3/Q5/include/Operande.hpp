@@ -29,10 +29,10 @@ class Operande {
 
 	private:
 
-		bool operandeIdentifiant; /** @var operandeIdentifiant booleen indiquand si l'opérande est un identifiant ou une simple valeur */
+		bool operandeIdentifiant; /**< operandeIdentifiant booleen indiquand si l'opérande est un identifiant ou une simple valeur */
 
-		Symbole* identifiant; /** @var identifiant symbole de l'opérande (est NULL si juste une valeur) */
-		Valeur* valeur; /** @var valeur valeur de l'opérande */
+		Symbole* identifiant; /**< identifiant symbole de l'opérande (est NULL si juste une valeur) */
+		Valeur* valeur; /**< valeur valeur de l'opérande */
 
 	public:
 
@@ -81,7 +81,6 @@ class Operande {
 		
 		/**
 		* @brief Destructeur
-		* @param _valeur Valeur de l'opérande
 		*/
 		~Operande();
 
@@ -172,24 +171,31 @@ class Operande {
 		
 		/**
 		*   @brief Va evaluer le résultat de l'opération "operation" entre les Operandes ex1 et ex2
-		*   @param ex1 une Operande, ex2 une Operande, operation un string
+		*	@param symboleRetour le symbole de retour
+		*   @param ex1 première opérande
+		*   @param ex2 seconde opérande
+		*	@param _operation string représentant l'opération
 		*   @return Retourne une Operande intialisée avec le  bon type et la bonne valeur
 		*/
 		Operande* operation(Symbole* symboleRetour, Operande* ex1, Operande* ex2, std::string* _operation);
 
 		/**
 		*   @brief Va evaluer le résultat de la comparaison booleenne "operation" entre les Operandes ex1 et ex2
-		*   @param ex1 une Operande, ex2 une Operande, operation un string
+		*   @param ex1 première opérande
+		*   @param ex2 seconde opérande
+		*	@param _operation string représentant l'opération
 		*   @return Retourne une Operande intialisée avec un typeBoolean et la bonne valeur
 		*/
 		Operande* comparaisonBool(Operande* ex1, Operande* ex2, std::string* _operation);
 
 		/**
 		*   @brief Va evaluer le résultat de la comparaison "operation" entre les Operandes ex1 et ex2
-		*   @param ex1 une Operande, ex2 une Operande, operation un string
+		*   @param ex1 première opérande
+		*   @param ex2 seconde opérande
+		*	@param _operation string représentant l'opération
 		*   @return Retourne une Operande intialisée avec un typeBoolean et la bonne valeur
 		*/
-		Operande* comparaison(Operande* ex1, Operande* ex2, std::string* operation);
+		Operande* comparaison(Operande* ex1, Operande* ex2, std::string* _operation);
 };
 
 #endif

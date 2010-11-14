@@ -34,7 +34,7 @@
 	* @brief ajoute une étiquette dans la TDI et dans la TDS
 	* @param _TDI TableDesIdentificateurs dans laquelle l'étiquette sera ajoutée
 	* @param _TDS TableDesSymboles dans laquelle l'étiquette sera ajoutée
-	* @param _nomTemporaire string contenant le nom de l'étiquette
+	* @param _nomEtiquette string contenant le nom de l'étiquette
 	*/	
 	static int ajouterEtiquette(TableDesIdentificateurs* _TDI, TableDesSymboles* _TDS, std::string* _nomEtiquette);
 	

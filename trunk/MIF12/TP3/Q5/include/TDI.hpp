@@ -11,7 +11,7 @@ class TableDesIdentificateurs {
 
 	private :
 
-	std::vector<std::string*> tableId; /** @var tableId la table des identifiants */
+	std::vector<std::string*> tableId; /**< tableId la table des identifiants */
 
 	public:
 
