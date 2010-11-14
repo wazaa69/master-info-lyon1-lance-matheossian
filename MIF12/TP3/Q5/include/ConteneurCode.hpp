@@ -9,9 +9,9 @@
 
 	private:	
 	
-	int nombreInstructions;/** @var nombreInstructions nombre d'instructions présentes dans le bloc de code */
+	int nombreInstructions;/**< nombreInstructions nombre d'instructions présentes dans le bloc de code */
 
-	std::vector<Instruction*> tabInstruction; /** @var tabInstruction tableau d'instructions */
+	std::vector<Instruction*> tabInstruction; /**< tabInstruction tableau d'instructions */
 
 	public:
 	

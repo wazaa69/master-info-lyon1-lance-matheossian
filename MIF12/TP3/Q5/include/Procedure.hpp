@@ -11,8 +11,8 @@ class Procedure : public Symbole {
 	
 	private:
 
-	int nomTDS; /** @var nomTDS nom de la TDS */
-	int arite;  /** @var arite arité de la TDS */
+	int nomTDS; /**< nomTDS nom de la TDS */
+	int arite;  /**< arite arité de la TDS */
 
 	public:
 	

@@ -10,7 +10,7 @@ class Type {
 
 	protected:
 
-		std::string* type; /** @var type l'attribut type peut être = "integer" | "real" | "boolean" | "interval" | "array" | "char" | "string" | "pointeur" | "record". */
+		std::string* type; /**< type l'attribut type peut être = "integer" | "real" | "boolean" | "interval" | "array" | "char" | "string" | "pointeur" | "record". */
 
 	public:
 

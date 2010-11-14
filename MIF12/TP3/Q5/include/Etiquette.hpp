@@ -10,7 +10,7 @@ class Etiquette : public Symbole {
        
 	private: 
 	
-	int numeroInstruction; /**  @var numeroInstruction numéro correspondant à l'instruction */
+	int numeroInstruction; /** < numeroInstruction numéro correspondant à l'instruction */
  
 	public:
 

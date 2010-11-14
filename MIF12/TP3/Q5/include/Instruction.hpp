@@ -11,22 +11,23 @@
 
 	private:	
 	
-	Operande* operande1; /** @var operande1 première opérande de l'instruction */
-	Operande* operande2; /** @var operande2 deuxième opérande de l'instruction */
-	Operande* operande3; /** @var operande3 troisième opérande de l'instruction */
+	Operande* operande1; /**< operande1 première opérande de l'instruction */
+	Operande* operande2; /**< operande2 deuxième opérande de l'instruction */
+	Operande* operande3; /**< operande3 troisième opérande de l'instruction */
 
-	Etiquette* etiquette; /** @var etiquette étiquette de l'instruction */
+	Etiquette* etiquette; /**< etiquette étiquette de l'instruction */
 
-	int numeroInstruction; /** @var numeroInstruction numéro correspondant à l'instruction */
-	int operation; /** @var operation numéro correspondant à l'opération effectuée dans l'instruction */
+	int numeroInstruction; /**< numeroInstruction numéro correspondant à l'instruction */
+	int operation; /**< operation numéro correspondant à l'opération effectuée dans l'instruction */
 
 	public:
 
 	/**
 	* @brief Constructeur de l'instruction
 	* @param _operande1 première opérande de l'instruction 
-	* @param _operande1 deuxième opérande de l'instruction 
-	* @param _operande1 troisième opérande de l'instruction
+	* @param _operande2 deuxième opérande de l'instruction 
+	* @param _operande3 troisième opérande de l'instruction
+	* @param _operation numéro correspondant à l'opération effectuée dans l'instruction
 	* @param _etiquette étiquette de l'instruction 
 	*/
 	Instruction(Operande* _operande1, Operande* _operande2, Operande* _operande3, int _operation,  Etiquette* _etiquette);

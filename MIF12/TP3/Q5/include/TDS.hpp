@@ -12,9 +12,9 @@ class TableDesSymboles {
 
 	private:
 
-		std::vector<Symbole*> tableSymb; /** @var tableSymb la table des symboles */
-		int numeroContexteTS; /** @var numeroContexteTS numero du contexte de la TDS */
-		std::string portee; /** @var portee string indiquant si la portée est globale ou locale */
+		std::vector<Symbole*> tableSymb; /**< tableSymb la table des symboles */
+		int numeroContexteTS; /**< numeroContexteTS numero du contexte de la TDS */
+		std::string portee; /**< portee string indiquant si la portée est globale ou locale */
 		
 	public:
 
