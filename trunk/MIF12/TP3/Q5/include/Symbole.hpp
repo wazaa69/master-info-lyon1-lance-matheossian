@@ -32,20 +32,27 @@ class Symbole {
 
 
         /**
+	* @brief Accesseur
         *   @return Retourne une chaine de caractères qui précise la catégorie du symbole
         */
         std::string* getCategorie();
 
         /**
+	* @brief Accesseur
         *   @return Retourne l'adresse d'une instance de la classe Type
         */
         Type* getType();
 
 	/**
+	* @brief Accesseur
         *   @return Retourne l'identifiant du symbole
         */
         int getID();
 
+	/**
+	* @brief Accesseur
+        *   @return Retourne un string correspondant au nom du symbole
+        */
 	std::string* getNomSymbole();
 
 };

@@ -29,34 +29,57 @@ class Operande {
 
 	private:
 
-		bool operandeIdentifiant;
+		bool operandeIdentifiant; /** booleen indiquand si l'opérande est un identifiant ou une simple valeur */
 
-		/*Type* type;
-		
-		int valInt;
-		float valFloat;
-		bool valBool;
-		std::string* valString;
-		*/
-		Symbole* identifiant; 
-		Valeur* valeur;
+		Symbole* identifiant; /** symbole de l'opérande (est NULL si juste une valeur) */
+		Valeur* valeur; /** valeur de l'opérande */
 
 	public:
 
 //################################################################################## CONSTRUCTEURS
 
+		/**
+		* @brief Constructeur
+		* @param _valeur Valeur de l'opérande
+		*/
 		Operande(Valeur* _valeur);
 
+		/**
+		* @brief Constructeur
+		* @param _identifiant symbole de l'opérande
+		* @param _valeur Valeur de l'opérande
+		*/
 		Operande(Symbole* _identifiant, Valeur* _valeur);
 
+		/**
+		* @brief Constructeur
+		* @param _type type de la valeur de l'opérande
+		* @param _valInt entier intitialisant la valeur de l'opérande
+		*/
 		Operande(Type* _type, int _valInt);
 
+		/**
+		* @brief Constructeur
+		* @param _valeur Valeur de l'opérande
+		*/
 		Operande(Type* _type, float _valFloat);
 	
+		/**
+		* @brief Constructeur
+		* @param _valeur Valeur de l'opérande
+		*/
 		Operande(Type* _type, std::string* _valString);
 
+		/**
+		* @brief Constructeur
+		* @param _valeur Valeur de l'opérande
+		*/
 		Operande(Type* _type, bool _valBool);
 		
+		/**
+		* @brief Destructeur
+		* @param _valeur Valeur de l'opérande
+		*/
 		~Operande();
 
 //################################################################################## ACCESSEURS

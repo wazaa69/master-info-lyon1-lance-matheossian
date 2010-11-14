@@ -17,6 +17,11 @@ class Constante : public Symbole{
         */
         Constante(Type* _type, int _id);
 
+	/**
+        *   @brief Constructeur, initialise la constante 
+	*   @param _id identifiant du symbole
+	*   @param nomConstante nom de la constante
+        */
 	Constante(Type* _type, int _id, std::string nomConstante);
 
         /**
