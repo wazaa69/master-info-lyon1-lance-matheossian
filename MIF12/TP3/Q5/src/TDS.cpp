@@ -26,7 +26,10 @@ TableDesSymboles::TableDesSymboles()
 	
 }
 
-TableDesSymboles::~TableDesSymboles(){}
+TableDesSymboles::~TableDesSymboles(){ 
+	tableSymb.clear();
+	portee.clear();
+}
 
 
 

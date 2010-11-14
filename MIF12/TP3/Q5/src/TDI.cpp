@@ -7,7 +7,9 @@ using namespace std;
 
 
 TableDesIdentificateurs::TableDesIdentificateurs(){}
-TableDesIdentificateurs::~TableDesIdentificateurs(){}
+TableDesIdentificateurs::~TableDesIdentificateurs(){
+	tableId.clear();
+}
 
 
 
