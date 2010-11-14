@@ -12,9 +12,9 @@ class Fonction : public Symbole {
 	
 	private:
 	
-	Type* typeResult; /** type contenant le type de retour de la fonction */
-	int nomTDS; /** nom de la TDS dans laquelle la fonction est déclarée */
-	int arite; /** arité de la fonction */
+	Type* typeResult; /** @var typeResult type contenant le type de retour de la fonction */
+	int nomTDS; /** @var nomTDS nom de la TDS dans laquelle la fonction est déclarée */
+	int arite; /** @var arite arité de la fonction */
 
 	public:
 	

@@ -11,9 +11,13 @@ class TypeBoolean : public Type {
 	public:
 
 		/**
-		* @brief Crée un type Booléen et stocke le nom "Boolean"
+		* @brief Constructeur
 		*/
 		TypeBoolean();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypeBoolean();
 
 };

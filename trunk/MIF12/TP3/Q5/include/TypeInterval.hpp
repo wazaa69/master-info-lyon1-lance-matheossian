@@ -10,8 +10,8 @@ class TypeInterval : public Type {
 
 	private:
 
-		 int debut; /** borne inférieure = où commence l'interval */
-		 int fin; /** borne supérieure = où se termine l'interval */
+		 int debut; /** @var debut borne inférieure = où commence l'interval */
+		 int fin; /** @var fin borne supérieure = où se termine l'interval */
 
 	public:
 	
@@ -19,6 +19,10 @@ class TypeInterval : public Type {
 		* @brief Crée un type TypeInterval et stocke le nom "Interval"
 		*/
 		TypeInterval();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypeInterval();
 		
 		/**

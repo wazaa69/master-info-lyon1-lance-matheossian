@@ -11,19 +11,29 @@ class Procedure : public Symbole {
 	
 	private:
 
-	int nomTDS;
-	int arite;
+	int nomTDS; /** @var nomTDS nom de la TDS */
+	int arite;  /** @var arite arité de la TDS */
 
 	public:
 	
-	    /**
+	/**
         *   @brief Constructeur, initialise le symbole avec un identifiant
 	*   @param _id identifiant du symbole
+	*   @param _arite arité de la procédure
+	*   @param _nomTDS nom de la TDS dans laquelle est déclarée la procédure
         */
         Procedure(int _id, int _arite, int _nomTDS);
 
+	/**
+        *   @brief Accesseur
+	*   @return entier nomTDS
+        */
 	int getNomTDS();
 
+	/**
+        *   @brief Accesseur
+	*   @return entier arite
+        */
 	int getArite();
 
 

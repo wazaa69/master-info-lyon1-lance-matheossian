@@ -12,9 +12,9 @@ class Symbole {
 
 	protected:
 
-        std::string* categorie; /** variable, constante, fonction, procedure, etiquette, temporaire ... */
-        Type* type; /** int, bool, char, ... */
-	int id;
+        std::string* categorie; /** @var categorie variable, constante, fonction, procedure, etiquette, temporaire ... */
+        Type* type; /** @var type  int, bool, char, ... */
+	int id; /** @var id identifiant du symbole */
 
 	std::string* nomSymbole;
 

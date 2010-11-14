@@ -14,6 +14,10 @@ class TypeReal : public Type {
 		* @brief Crée un type Réel et stocke le nom "Real"
 		*/
 		TypeReal();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypeReal();
 
 };

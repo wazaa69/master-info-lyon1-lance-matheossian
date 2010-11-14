@@ -11,8 +11,8 @@ class TypeArray : public Type {
 
 	private:
 	
-		TypeInterval* intervalArray; /** un interval */
-		Type* typeArray; /** le Type des éléments stockés dans le tableau */
+		TypeInterval* intervalArray; /** @var intervalArray un interval */
+		Type* typeArray; /** @var typeArray le Type des éléments stockés dans le tableau */
 	
 	public:
 	

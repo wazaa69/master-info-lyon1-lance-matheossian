@@ -11,7 +11,7 @@ class TableDesIdentificateurs {
 
 	private :
 
-	std::vector<std::string*> tableId; /** @param tableId la table des identifiants */
+	std::vector<std::string*> tableId; /** @var tableId la table des identifiants */
 
 	public:
 
@@ -20,7 +20,7 @@ class TableDesIdentificateurs {
         */
 	TableDesIdentificateurs();
 
-		/**
+	/**
         *   @brief Destructeur
         */
 	~TableDesIdentificateurs();
@@ -33,24 +33,33 @@ class TableDesIdentificateurs {
         */
 	int ajouterIdent(std::string id);
 
-		/**
-		*   @brief Recherche si un identifiant existe dans la TDI
-		*   @param id un identifiant
-		*   @return Retourne la position de l'identifiant si il existe dans la table, -1 sinon
-		*/
+	/**
+	*   @brief Recherche si un identifiant existe dans la TDI
+	*   @param id un identifiant
+	*   @return Retourne la position de l'identifiant si il existe dans la table, -1 sinon
+	*/
 	int getPosId(std::string* id);
 
-
+	/**
+	*   @brief Récupère l'élément de tableId à la position en paramètre
+	*   @param posId position de l'identifiant dans la tableId
+	*   @return string élément de tableId  
+	*/
 	std::string getElement(int posId);
 
 
         /**
-        *   \brief Affiche le contenu de la table
+        *   @brief Affiche le contenu de la table
         */
 	void afficherTable();
 
 
-	
+	/**
+        *   @brief permet d'ajouter un element autre que TOK_ident dans un tableId
+	*  @param id string 
+	* @return entier idenfiant de l'élément dans le tableau
+	*  
+        */
 	int ajouterAutre(std::string id);
 
 

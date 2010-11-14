@@ -14,6 +14,10 @@ class TypeString : public Type {
 		* @brief Crée un type String et stocke le nom "String"
 		*/
 		TypeString();
+
+		/**
+		* @brief Destructeur
+		*/
 		~TypeString();
 
 };
