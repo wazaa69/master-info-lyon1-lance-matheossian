@@ -25,11 +25,11 @@ public class Tortue {
 
     //------------------------------DEPLACEMENT------------------->
 
-    public void avancer(){
+    public void avancer(Terrain unTerrain){
 
         Point tmpCoordonnees = coordApresDep();
 
-        if(isEmplacementValide(tmpCoordonnees))
+        if(isEmplacementValide(unTerrain, tmpCoordonnees))
             coordonnees.clone(tmpCoordonnees);
         /*else
             angle = (angle + 180) % 360;  */ //demi-tour
@@ -60,12 +60,12 @@ public class Tortue {
      * @param coordonnees
      * @return retourne vrai si l'emplacement est valide, faux sinon
      */
-    protected boolean isEmplacementValide(Point coordonnees){
+    protected boolean isEmplacementValide(Terrain unTerrain,Point coordonnees){
 
         int x = coordonnees.getX();
         int y = coordonnees.getY();
 
-        if(( x < 0 || x > Terrain.LONGUEUR) || ( y < 0  || y > Terrain.LARGEUR))
+        if(( x < 0 || x > unTerrain.getLongueur()) || ( y < 0  || y > unTerrain.getLargeur()))
             return false;
 
         return true;

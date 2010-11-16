@@ -2,13 +2,14 @@ package org.tortue.client;
 
 import org.tortue.client.Vue.Outils;
 import org.tortue.client.Vue.VueTerrain;
-import org.tortue.client.Vue.ListeTortues;
+import org.tortue.client.Vue.ListeMesTortues;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.ArrayList;
 import org.tortue.client.Modele.Terrain;
 import org.tortue.client.Modele.Tortue;
+import org.tortue.client.Vue.ListeAutresTortues;
 
 /**
  * Page affichée
@@ -17,6 +18,8 @@ public class MainEntryPoint implements EntryPoint {
 
 
     private int idClient; /** l'id distribuée par le server */
+
+    private Terrain unTerrain;
     
     private ArrayList<Tortue> mesTortues = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
     private ArrayList<Tortue> autresTortues = new ArrayList<Tortue>(); /** la liste des autres tortues des Clients */
@@ -35,17 +38,23 @@ public class MainEntryPoint implements EntryPoint {
      * @see voir version "WebApplication" précédante pour les commentaires
      */
     public void onModuleLoad() {
-      
-        VerticalPanel vPanel = new VerticalPanel();
-        vPanel.setStyleName("MainConteneur");
 
-        vPanel.add(new Outils());
-        vPanel.add(new VueTerrain(Terrain.LONGUEUR - Terrain.MARGEINT, Terrain.LARGEUR - Terrain.MARGEINT));
-        vPanel.add(new ListeTortues("mesTortues"));
-        vPanel.add(new ListeTortues("autresTortues"));
+
+        VerticalPanel vPanelOutilsTerrain = new VerticalPanel();
+        VerticalPanel vPanelListe = new VerticalPanel();
+
         
-        RootPanel.get().add(vPanel);
+        int longueurT = unTerrain.getLongueur() - unTerrain.getMargint();
+        int largeurT = unTerrain.getLargeur() - unTerrain.getMargint();
         
+        
+        vPanelOutilsTerrain.add(new Outils("outils"));
+        vPanelOutilsTerrain.add(new VueTerrain("terrain", longueurT, largeurT));
+        vPanelListe.add(new ListeMesTortues("MesTortues"));
+        vPanelListe.add(new ListeAutresTortues("AutresTortues"));
+
+        RootPanel.get().add(vPanelOutilsTerrain);
+        RootPanel.get().add(vPanelListe);
     }
 
 }
