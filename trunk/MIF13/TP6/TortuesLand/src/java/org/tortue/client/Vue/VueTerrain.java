@@ -12,9 +12,9 @@ public class VueTerrain extends HTMLPanel {
      * @param longueur la longeur du terrain
      * @param largeur la largeur du terrain
      */
-    public VueTerrain(int longueur, int largeur) {
-        super("<div id='terrain'></div>");
-        setStyleName("conteneurTerrain");
+    public VueTerrain(String id, int longueur, int largeur) {
+        super("<div id='" + id +"'></div>");
+        setStyleName("conteneur"+id);
         setPixelSize(longueur, largeur);
     }
 

@@ -5,12 +5,11 @@ body{
     background-color:black;
     color: white;
     font-family: Arial;
-    padding:0;
-    margin:0;
+
 }
 
-.MainConteneur{
-    margin:10px;
+table{
+    float:left;
 }
 
 #outils Button{
@@ -21,8 +20,13 @@ body{
     background: #FFF url("../images/terrain.jpg");
     width:500px;
     height:500px;
+    margin-top:15px;
     border-top:2px solid #444;
     border-right:5px solid #555;
     border-bottom:4px solid #666;
+}
 
+
+.conteneurAutreTortues{
+    margin-left:100px;
 }

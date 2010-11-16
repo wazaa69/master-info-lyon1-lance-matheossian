@@ -5,9 +5,9 @@ package org.tortue.client.Modele;
  */
 public class Terrain {
 
-    public static int LONGUEUR; /**  longueur du terrain (nb cases en longueur) */
-    public static int LARGEUR;  /**  largeur du terrain (nb cases en largeur) */
-    public static int MARGEINT; /** la marge intérieur du terrain */
+    private int longueur; /**  longueur du terrain (nb cases en longueur) */
+    private int largeur;  /**  largeur du terrain (nb cases en largeur) */
+    private int margint; /** la marge intérieur du terrain */
 
     /**
      * Crée le terrain
@@ -15,8 +15,22 @@ public class Terrain {
      * @param largeur largeur du terrain
      */
     public Terrain(int longueur, int largeur) {
-        LONGUEUR = longueur;
-        LARGEUR = largeur;
+        this.longueur = longueur;
+        this.largeur = largeur;
     }
+
+    public int getLargeur() {
+        return largeur;
+    }
+
+    public int getLongueur() {
+        return longueur;
+    }
+
+    public int getMargint() {
+        return margint;
+    }
+
+
 
 }

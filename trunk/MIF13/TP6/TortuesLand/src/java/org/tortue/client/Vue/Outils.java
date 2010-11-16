@@ -12,11 +12,10 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class Outils extends HTMLPanel {
 
-    public Outils(){
+    public Outils(String id){
 
-        super("<div id='outils'></div>");
-        setStyleName("conteneurOutils");
-
+        super("<div id='" + id + "'></div>");
+        setStyleName("conteneur"+id);
 
         //balise formulaire
         FormPanel formulaire = new FormPanel();
@@ -31,8 +30,6 @@ public class Outils extends HTMLPanel {
         Button gauche = new Button("Gauche");
         Button droite = new Button("Droite");
 
-        Button ajouterTortue = new Button("Ajouter Tortue");
-
         //disposition
         HorizontalPanel hPanel = new HorizontalPanel();
         hPanel.add(angle);
@@ -40,12 +37,11 @@ public class Outils extends HTMLPanel {
         hPanel.add(avancer);
         hPanel.add(gauche);
         hPanel.add(droite);
-        hPanel.add(ajouterTortue);
 
         //ajout dans le formulaire
         formulaire.add(hPanel);
 
         //ajout dans la div d'id = "outils"
-        add(formulaire, "outils");
+        add(formulaire, id);
     }
 }
