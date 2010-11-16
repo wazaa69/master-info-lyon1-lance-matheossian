@@ -7,6 +7,7 @@ public class Terrain {
 
     public static int LONGUEUR; /**  longueur du terrain (nb cases en longueur) */
     public static int LARGEUR;  /**  largeur du terrain (nb cases en largeur) */
+    public static int MARGEINT; /** la marge intérieur du terrain */
 
     /**
      * Crée le terrain

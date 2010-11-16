@@ -14,8 +14,8 @@
 
     <entry-point class="org.tortue.client.MainEntryPoint"/>
 
-    <stylesheet src="css/layout.css"/>
-    <stylesheet src="css/style.css"/>
+    <stylesheet src="../css/layout.css"/>
+    <stylesheet src="../css/style.css"/>
 
     <!-- Do not define servlets here, use web.xml -->
 </module>
