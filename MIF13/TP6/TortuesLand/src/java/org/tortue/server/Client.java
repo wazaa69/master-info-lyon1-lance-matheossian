@@ -1,6 +1,7 @@
-package org.tortue.client.Modele;
+package org.tortue.server;
 
 import java.util.ArrayList;
+import org.tortue.client.Modele.Tortue;
 
 /**
  * Le client et ses tortues
