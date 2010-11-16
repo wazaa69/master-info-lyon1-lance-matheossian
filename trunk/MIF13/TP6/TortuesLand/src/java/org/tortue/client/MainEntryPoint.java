@@ -19,7 +19,7 @@ public class MainEntryPoint implements EntryPoint {
 
     private int idClient; /** l'id distribuée par le server */
 
-    private Terrain unTerrain;
+    private Terrain unTerrain = new Terrain(500,500);
     
     private ArrayList<Tortue> mesTortues = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
     private ArrayList<Tortue> autresTortues = new ArrayList<Tortue>(); /** la liste des autres tortues des Clients */
@@ -30,7 +30,7 @@ public class MainEntryPoint implements EntryPoint {
      * Pas de vérification pour savoir si le joueur existe déjà sur le server (donc pas d'antécédant)
      */
     public MainEntryPoint() {
-        
+        //on pourrait interroger le serveur pour connaître la taille du terrain
     }
 
     /**
