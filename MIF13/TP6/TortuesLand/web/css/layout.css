@@ -16,10 +16,8 @@ table{
     margin-left: 10px;
 }
 
-#terrain {
+.conteneurTerrain {
     background: #FFF url("../images/terrain.jpg");
-    width:500px;
-    height:500px;
     margin-top:15px;
     border-top:2px solid #444;
     border-right:5px solid #555;
