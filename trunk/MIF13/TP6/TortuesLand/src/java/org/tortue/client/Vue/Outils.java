@@ -6,12 +6,15 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import org.tortue.client.Modele.Tortue;
 
 /**
  * Les outils mis à disposition de l'utilisateur.
  */
 public class Outils extends HTMLPanel {
 
+    public static Tortue tortueCourante = null;
+    
     public Outils(String id){
 
         super("<div id='" + id + "'></div>");

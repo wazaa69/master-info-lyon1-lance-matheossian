@@ -1,9 +1,12 @@
 package org.tortue.client.Modele;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+
 /**
  * Une tortue
  */
-public class Tortue {
+public class Tortue implements IsSerializable{
 
     private String nom;
     private int numero;
@@ -20,8 +23,6 @@ public class Tortue {
         coordonnees = new Point(x,y);
         distDep = 15;
     }
-
-
 
     //------------------------------DEPLACEMENT------------------->
 
@@ -89,6 +90,11 @@ public class Tortue {
     public Point getCoordonees(){
         return coordonnees;
     }
+
+    public String getNom() {
+        return nom;
+    }
+
     
     
 }
