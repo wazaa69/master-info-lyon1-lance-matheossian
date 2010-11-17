@@ -17,8 +17,8 @@ public class Client {
         this.nom = nom;
     }
 
-    public void addTortue(String nom){
-        listeTortues.add(new Tortue(nom, listeTortues.size(), 0, 0));
+    public void addTortue(String nomTortue){
+        listeTortues.add(new Tortue(nomTortue, listeTortues.size()+1, 0, 0));
     }
 
     public Tortue getTortue(int id){

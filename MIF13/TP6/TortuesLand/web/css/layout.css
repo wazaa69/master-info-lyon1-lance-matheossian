@@ -25,6 +25,13 @@ table{
 }
 
 
+.conteneurMesTortues td{
+    display:block;
+    font-weight:bold;
+
+}
+
 .conteneurAutreTortues{
     margin-left:100px;
 }
+

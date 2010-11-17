@@ -6,11 +6,9 @@ import org.tortue.client.Vue.ListeMesTortues;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import java.util.ArrayList;
 import org.tortue.client.Modele.Terrain;
 import org.tortue.client.Modele.Tortue;
 import org.tortue.client.Traitement.GWTService;
@@ -22,16 +20,12 @@ import org.tortue.client.Vue.ListeAutresTortues;
  */
 public class MainEntryPoint implements EntryPoint {
 
+    public static Label MESSAGES = new Label(".........."); /** le message affiché selon les actions*/
 
-    Label messages = new Label("..........");
-
-    private int idClient; /** l'id distribuée par le server */
+    public static int IDCLIENT; /** l'id distribuée par le server */
 
     private Terrain unTerrain = new Terrain(500,500);
     
-    private ArrayList<Tortue> mesTortues = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
-    private ArrayList<Tortue> autresTortues = new ArrayList<Tortue>(); /** la liste des autres tortues des Clients */
-
 
     /** 
      * Création d'une nouvelle instance et initialisation des classes
@@ -61,7 +55,8 @@ public class MainEntryPoint implements EntryPoint {
         vPanelListe.add(new ListeMesTortues("MesTortues"));
         vPanelListe.add(new ListeAutresTortues("AutresTortues"));
 
-        RootPanel.get().add(messages);
+        MESSAGES.setStyleName("Message");
+        RootPanel.get().add(MESSAGES);
         RootPanel.get().add(vPanelOutilsTerrain);
         RootPanel.get().add(vPanelListe);
     }
@@ -71,15 +66,10 @@ public class MainEntryPoint implements EntryPoint {
      * Assigne un id au client.
      * (On pourrait même récupérer une classe contenant divers informations)
      */
-    public void getDataServ(){
+    public final void getDataServ(){
 
-        //définition du service que l'on souhaite appeler
+        //définition du service que l'on souhaite appeler (pas besoin de définir la route)
         GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
-        ServiceDefTarget endpoint = (ServiceDefTarget) svc;
-
-        //On définit ou trouver le service (son url relative au serveur et au dossier de base)
-        String moduleRelativeURL = GWT.getModuleBaseURL() + "traitement/gwtservice";
-        endpoint.setServiceEntryPoint(moduleRelativeURL);
 
         /*
          * C'est au travers de l'objet AsyncCallback que le serveur retournera sa réponse au client.
@@ -91,13 +81,13 @@ public class MainEntryPoint implements EntryPoint {
             public void onSuccess(Integer result) {
                 //On récupère la valeur retournée par le serveur (un String).
                 //Et on la met à jour chez le Client.
-                idClient = result.intValue();
-                messages.setText("n°Client serveur : " + result);
+                IDCLIENT = result.intValue();
+                MESSAGES.setText("n°Client serveur : " + result);
             }
 
             //en cas d'echec
             public void onFailure(Throwable caught) {
-                messages.setText("Arg !! Connexion Echouée, si c'est votre première connexion alors rechargez la page");
+                MESSAGES.setText("Arg !! Connexion Echouée, si c'est votre première connexion alors rechargez la page");
             }
         };
 

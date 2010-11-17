@@ -10,6 +10,7 @@ public class Factory {
     private static ListeClients listeClients = new ListeClients();
     private static Terrain unTerrain = new Terrain(500,500);
 
+
     /**
      * L'application démarre quand le premier client arrive
      * @param nom le nom du premier client
@@ -29,6 +30,6 @@ public class Factory {
     }
 
     public void setUnTerrain(Terrain unTerrain) {
-        this.unTerrain = unTerrain;
+        Factory.unTerrain = unTerrain;
     }
 }
