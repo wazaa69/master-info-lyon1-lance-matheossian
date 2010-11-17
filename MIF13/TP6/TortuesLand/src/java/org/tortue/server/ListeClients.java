@@ -21,4 +21,8 @@ public class ListeClients {
         listeClients.remove(id);
     }
 
+    public int size(){
+        return listeClients.size();
+    }
+
 }
