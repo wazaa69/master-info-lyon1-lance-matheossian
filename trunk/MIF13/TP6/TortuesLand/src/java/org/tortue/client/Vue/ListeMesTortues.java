@@ -1,8 +1,5 @@
 package org.tortue.client.Vue;
 
-
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,11 +10,12 @@ import org.tortue.client.Modele.Tortue;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tortue.client.MainEntryPoint;
-import org.tortue.client.Modele.Terrain;
 import org.tortue.client.Traitement.GWTService;
 import org.tortue.client.Traitement.GWTServiceAsync;
 
@@ -52,48 +50,13 @@ public class ListeMesTortues extends HTMLPanel {
         Button ajouterTortue = new Button("[+1 Tortue]");
         vPanel.add(ajouterTortue);
 
-        /*  1 - on crée une tortue
-         *  2 - on prévient le serveur de cette création
-         *  3 - selon sa réponse, on ajoute ou non la tortue dans la liste du client
-         */
+
         ajouterTortue.addClickHandler(new ClickHandler(){
             @Override
             public void onClick(ClickEvent event) {
-
-                numTortueAjoute = MainEntryPoint.MESTORTUES.size()+1;
-
-                int x = Math.round(MainEntryPoint.UNTERRAIN.getLongueur()/2) - 25; //largeur image/2
-                int y = Math.round(MainEntryPoint.UNTERRAIN.getLargeur()/2) - 25; //hauteur image/2
-
-                tmpTortue = new Tortue("Tortue-"+numTortueAjoute,numTortueAjoute, x, y);
-
-                //si la tortue est ajouté côté server, on l'ajoute côté client
-                if(addTortue(tmpTortue)){
-
-                    MainEntryPoint.MESTORTUES.add(tmpTortue); //Ajout au Modèle
-                    Outils.tortueCourante = tmpTortue; //Mise à jour de la tortue courante
-
-                    //Création d'une commande pour la tortue qui va être affichée dans le menu
-                    Command majTortueCourante = new ItemTortueCommand(tmpTortue);
-
-                    //Ajout d'un Item au menu de la Vue
-                    MenuItem itemTortue = new MenuItem(tmpTortue.getNom(), majTortueCourante);
-                    menuDesTortues.addItem(itemTortue);
-
-                    //Ajout de la tortue sur la Vue du Terrain----------------->
-                    HTMLPanel vueTortue = new HTMLPanel("<div id='" + tmpTortue.getNom() + "'class='vueTortue'></div>");
-
-                    vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginLeft(tmpTortue.getCoordonees().getX(), Unit.PX);
-                    vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginTop(tmpTortue.getCoordonees().getY(), Unit.PX);
-
-                    MainEntryPoint.VUETORTUES.add(vueTortue);
-                    MainEntryPoint.VUETERRAIN.add(vueTortue, "vurTerrain");
-                    //<---------------------------------------------------------
-
-                    addTortue = false; //remise à zéro du booléen
+                    addTortueServeurAndClient();
                 }
 
-            }
         });
 
         formulaire.add(vPanel);
@@ -108,17 +71,26 @@ public class ListeMesTortues extends HTMLPanel {
     }
 
     /**
-     * Ajoute une tortue côté serveur
-     * Si une erreur est retournée, la tortue n'est pas ajouté au Client/Serveur
+     * Ajoute une tortue côté serveur puis client
+     * 1 - on crée une tortue
+     * 2 - on prévient le serveur de cette création
+     * 3 - selon sa réponse, on ajoute ou non la tortue côté client
      */
-    public boolean addTortue(final Tortue tmpTortue){
+    public void addTortueServeurAndClient(){
+
+        numTortueAjoute = MainEntryPoint.MESTORTUES.size()+1;
+
+        int x = Math.round(MainEntryPoint.UNTERRAIN.getLongueur()/2) - 25; //largeur image/2
+        int y = Math.round(MainEntryPoint.UNTERRAIN.getLargeur()/2) - 25; //hauteur image/2
+
+        tmpTortue = new Tortue("Tortue-"+numTortueAjoute,numTortueAjoute, x, y);
 
         GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
 
         final AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 
             public void onSuccess(Boolean result) {
-                addTortue = result.booleanValue();
+                addTortueClient();
 		MainEntryPoint.MESSAGES.setText(tmpTortue.getNom() + " ajoutée côté Client et Serveur.");
             }
 
@@ -129,8 +101,37 @@ public class ListeMesTortues extends HTMLPanel {
 
         svc.addTortue(MainEntryPoint.IDCLIENT, tmpTortue.getNom(), callback);
 
-        return addTortue;
+    }
 
+
+    /**
+     * Seulement après que le serveur ai ajouté la tortue, celle-ci est ajouté puis affiché côté client.
+     */
+    private void addTortueClient(){
+
+        MainEntryPoint.MESTORTUES.add(tmpTortue); //Ajout au Modèle
+        Outils.tortueCourante = tmpTortue; //Mise à jour de la tortue courante
+
+        //Création d'une commande pour la tortue qui va être affichée dans le menu
+        Command majTortueCourante = new ItemTortueCommand(tmpTortue);
+
+        //Ajout d'un Item au menu de la Vue
+        MenuItem itemTortue = new MenuItem(tmpTortue.getNom(), majTortueCourante);
+        menuDesTortues.addItem(itemTortue);
+
+        //Ajout de la tortue sur la Vue du Terrain----------------->
+        HTMLPanel vueTortue = new HTMLPanel("<div id='" + tmpTortue.getNom() + "'class='vueTortue'></div>");
+        Label nomTortue = new Label(tmpTortue.getNom());
+        nomTortue.setStyleName("nomTortue");
+        vueTortue.add(nomTortue, tmpTortue.getNom());  //ajout du nom de la tortue
+
+        vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginLeft(tmpTortue.getCoordonees().getX(), Unit.PX);
+        vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginTop(tmpTortue.getCoordonees().getY(), Unit.PX);
+
+        MainEntryPoint.VUETORTUES.add(vueTortue);
+        MainEntryPoint.VUETERRAIN.add(vueTortue, "vurTerrain");
+        //<---------------------------------------------------------
+        
     }
 
 }
