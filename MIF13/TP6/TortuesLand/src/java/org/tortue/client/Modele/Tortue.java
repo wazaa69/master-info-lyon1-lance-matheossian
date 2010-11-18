@@ -1,25 +1,31 @@
 package org.tortue.client.Modele;
 
-import java.io.Serializable;
-
-
 /**
  * Une tortue.
  */
-public class Tortue implements Serializable{
+public class Tortue {
 
-    private String nom;
+    private String nom; /** le nom de la tortue */
 
-    private Point coordonnees;
-    private float angle;
+    private Point coordonnees; /** coordonnees (unité en pixel) */
+    private float angle; /** en degrés */
 
-    int distDep;
+    int distDep; /** la distance de déplacement (unité en pixel) */
  
   
     public Tortue(String nom, int x, int y) {
         this.nom = nom;
         coordonnees = new Point(x,y);
+        angle = 0;
         distDep = 15;
+    }
+
+
+    public Tortue(Tortue uneTortue) {
+        nom = uneTortue.getNom();
+        coordonnees = uneTortue.getCoordonees();
+        angle = uneTortue.getAngle();
+        distDep = uneTortue.getDistDep();
     }
 
     //------------------------------DEPLACEMENT------------------->
@@ -96,6 +102,10 @@ public class Tortue implements Serializable{
 
     public String getNom() {
         return nom;
+    }
+
+    public int getDistDep() {
+        return distDep;
     }
 
     

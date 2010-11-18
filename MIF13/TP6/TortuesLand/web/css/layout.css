@@ -12,9 +12,11 @@ table{
     float:left;
 }
 
-#outils Button{
-    margin-left: 10px;
+#Outils Button,
+#Outils .gwt-Label{
+    margin-right: 5px;
 }
+
 
 .conteneurTerrain {
     background: url("../images/terrain.jpg");

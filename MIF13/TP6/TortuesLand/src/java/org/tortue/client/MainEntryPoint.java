@@ -17,6 +17,7 @@ import org.tortue.client.Traitement.GWTService;
 import org.tortue.client.Traitement.GWTServiceAsync;
 import org.tortue.client.Vue.ListeAutresTortues;
 
+
 /**
  * Page affichée
  */
@@ -33,7 +34,7 @@ public class MainEntryPoint implements EntryPoint {
     public static Terrain UNTERRAIN = new Terrain(500,500);
 
     public static ArrayList<Tortue> MESTORTUES = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
-
+    public static ArrayList<Tortue> AUTRESTORTUES = new ArrayList<Tortue>(); /** la liste des autres tortues des Clients */
 
     /** 
      * Création d'une nouvelle instance et initialisation des classes
@@ -49,8 +50,6 @@ public class MainEntryPoint implements EntryPoint {
      * @see voir version "WebApplication" précédante pour les commentaires
      */
     public void onModuleLoad() {
-
-
         VerticalPanel vPanelOutilsTerrain = new VerticalPanel();
         VerticalPanel vPanelListe = new VerticalPanel();
 
@@ -65,6 +64,7 @@ public class MainEntryPoint implements EntryPoint {
         RootPanel.get().add(MESSAGES);
         RootPanel.get().add(vPanelOutilsTerrain);
         RootPanel.get().add(vPanelListe);
+
     }
 
 
