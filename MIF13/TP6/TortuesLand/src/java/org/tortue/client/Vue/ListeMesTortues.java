@@ -10,7 +10,6 @@ import org.tortue.client.Modele.Tortue;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -30,7 +29,6 @@ public class ListeMesTortues extends HTMLPanel {
 
 
     private Tortue tmpTortue; /** une tortue temporaire */
-    private boolean addTortue = false; /** le booléen pour savoir si on ajoute ou non une tortue */
     
     /**
      * Crée un conteneur avec id
@@ -83,13 +81,13 @@ public class ListeMesTortues extends HTMLPanel {
         int x = Math.round(MainEntryPoint.UNTERRAIN.getLongueur()/2) - 25; //largeur image/2
         int y = Math.round(MainEntryPoint.UNTERRAIN.getLargeur()/2) - 25; //hauteur image/2
 
-        tmpTortue = new Tortue("Tortue-"+numTortueAjoute,numTortueAjoute, x, y);
+        tmpTortue = new Tortue("Tortue-"+numTortueAjoute, x, y);
 
         GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
 
-        final AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+        final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
-            public void onSuccess(Boolean result) {
+            public void onSuccess(String result) {
                 addTortueClient();
 		MainEntryPoint.MESSAGES.setText(tmpTortue.getNom() + " ajoutée côté Client et Serveur.");
             }

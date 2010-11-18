@@ -2,6 +2,8 @@ package org.tortue.client.Traitement;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import org.tortue.client.Modele.Point;
+
 
 /**
  * Flux ascendant Client -> Server
@@ -21,5 +23,14 @@ public interface GWTService extends RemoteService {
      * @param nomTortue le nom de la tortue à créer
      * @return retourne vrai si la tortue à été ajoutée, faux sinon
      */
-     public Boolean addTortue(int idClient, String nomTortue);
+     public String addTortue(int idClient, String nomTortue);
+
+
+    /**
+    * Déplace la tortue côté serveur
+    * @param idClient le numéro qui identifie le client
+    * @param idTortueClient le numéro qui identifie la tortue du client
+    * @param choixDeplacement 0 = avancer, 1 = tourner à gauche,
+    */
+    public String deplacerTortue(int idClient, int idTortueClient, Point coordonnees, float angle);
 }
