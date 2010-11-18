@@ -1,9 +1,11 @@
 package org.tortue.client.Modele;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Une tortue.
  */
-public class Tortue {
+public class Tortue implements IsSerializable {
 
     private String nom; /** le nom de la tortue */
 
