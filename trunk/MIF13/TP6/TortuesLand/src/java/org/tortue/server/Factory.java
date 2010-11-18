@@ -1,14 +1,17 @@
 package org.tortue.server;
 
+import org.tortue.client.ClientServeur.ListeClients;
 import org.tortue.client.Modele.Terrain;
+
 
 /**
  *
  */
 public class Factory {
 
-    private static ListeClients listeClients = new ListeClients();
+    private ListeClients listeClients = new ListeClients();
     private static Terrain unTerrain = new Terrain(500,500);
+    private DernieresTortuesDeplacees listeDTD = new DernieresTortuesDeplacees(0);
 
 
     /**
@@ -17,12 +20,12 @@ public class Factory {
      */
     public Factory() {}
 
-    public static ListeClients getListeClients() {
+    public ListeClients getListeClients() {
         return listeClients;
     }
 
-    public static void setListeClients(ListeClients listeClients) {
-        Factory.listeClients = listeClients;
+    public void setListeClients(ListeClients listeClients) {
+        this.listeClients = listeClients;
     }
 
     public Terrain getUnTerrain() {
@@ -32,4 +35,10 @@ public class Factory {
     public void setUnTerrain(Terrain unTerrain) {
         Factory.unTerrain = unTerrain;
     }
+
+    public DernieresTortuesDeplacees getListeDTD() {
+        return listeDTD;
+    }
+
+    
 }

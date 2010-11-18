@@ -35,12 +35,12 @@ public class Outils extends HTMLPanel {
         formulaire.setMethod(FormPanel.METHOD_POST);
         
         //label + input text + boutons
-        Label angle = new Label("Angle : ");
         angleTodo = new TextBox();
-        angleTodo.setSize("70","20");
+        angleTodo.setText("0");
+        angleTodo.setSize("40","20");
         Button avancer = new Button("Avancer");
-        Button gauche = new Button("Gauche");
-        Button droite = new Button("Droite");
+        Button horaire = new Button("Horaire");
+        Button antihoraire = new Button("Anti-Horaire");
 
 
         //ACTIONS
@@ -50,13 +50,13 @@ public class Outils extends HTMLPanel {
             }
         });
 
-        gauche.addClickHandler(new ClickHandler() {
+        horaire.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 deplacerTortue(1);
             }
         });
 
-        droite.addClickHandler(new ClickHandler() {
+        antihoraire.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 deplacerTortue(2);
             }
@@ -65,11 +65,15 @@ public class Outils extends HTMLPanel {
 
         //disposition
         HorizontalPanel hPanel = new HorizontalPanel();
-        hPanel.add(angle);
-        hPanel.add(angleTodo);
         hPanel.add(avancer);
-        hPanel.add(gauche);
-        hPanel.add(droite);
+        hPanel.add(new Label("|"));
+        hPanel.add(new Label("Tourner de"));
+        hPanel.add(angleTodo);
+        hPanel.add(new Label("° dans le sens"));
+        hPanel.add(horaire);
+        hPanel.add(new Label("ou"));
+        hPanel.add(antihoraire);
+
 
         //ajout dans le formulaire
         formulaire.add(hPanel);
@@ -107,17 +111,17 @@ public class Outils extends HTMLPanel {
                         break;
                     }
                     
-                    //gauche
+                    //horaire
                     case 1: {
                         tortueCourante.setAngle(tortueCourante.getAngle() + angle);
-                        message += " a tourné à gauche de " + angle + "° (côté server et client).";
+                        message += " a tourné dans le sens horaire, de " + angle + "° (côté server et client).";
                         break;
                     }
 
-                    //droite
+                    //anti-horaire
                     case 2: {
                         tortueCourante.setAngle(tortueCourante.getAngle() - angle);
-                        message += " a tourné à droite de " + angle + "° (côté server et client).";
+                        message += " a tourné dans le sens anti-horaire de " + angle + "° (côté server et client).";
                         break;
                     }
                 }

@@ -19,11 +19,12 @@ public interface GWTService extends RemoteService {
 
     /**
      * Ajoute une tortue dans la liste des tortue du client
-     * @param idClient le numéro qui identifie le client
+     * @param idClient l'identifiant du client à qui appartient la tortue
+     * @param idTortueClient l'identifiant de la tortue chez le client
      * @param nomTortue le nom de la tortue à créer
      * @return retourne vrai si la tortue à été ajoutée, faux sinon
      */
-     public String addTortue(int idClient, String nomTortue);
+     public String addTortue(int idClient, int idTortueClient, String nomTortue);
 
 
     /**

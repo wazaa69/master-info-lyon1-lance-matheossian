@@ -9,7 +9,7 @@ public interface GWTServiceAsync {
 
     public void getId(String nomClient, AsyncCallback<java.lang.Integer> asyncCallback);
 
-    public void addTortue(int idClient, String nomTortue, AsyncCallback<String> asyncCallback);
+    public void addTortue(int idClient, int idTortueClient, String nomTortue, AsyncCallback<String> asyncCallback);
 
     public void deplacerTortue(int idClient, int idTortueClient, Point coordonnees, float angle, AsyncCallback<String> asyncCallback);
 

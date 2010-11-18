@@ -97,7 +97,7 @@ public class ListeMesTortues extends HTMLPanel {
             }
         };
 
-        svc.addTortue(MainEntryPoint.IDCLIENT, tmpTortue.getNom(), callback);
+        svc.addTortue(MainEntryPoint.IDCLIENT, MainEntryPoint.MESTORTUES.size(), tmpTortue.getNom(), callback);
 
     }
 
