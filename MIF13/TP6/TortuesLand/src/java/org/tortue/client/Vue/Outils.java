@@ -143,7 +143,7 @@ public class Outils extends HTMLPanel {
     
     private void avancerTortue(){
         int index = MainEntryPoint.MESTORTUES.indexOf(tortueCourante);
-        HTMLPanel vueTortue = MainEntryPoint.VUETORTUES.get(index);
+        HTMLPanel vueTortue = MainEntryPoint.VUEMESTORTUES.get(index);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginLeft(tortueCourante.getCoordonees().getX(), Unit.PX);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginTop(tortueCourante.getCoordonees().getY(), Unit.PX);
     }

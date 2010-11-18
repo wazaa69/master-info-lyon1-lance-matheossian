@@ -1,17 +1,19 @@
 package org.tortue.client.ClientServeur;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import org.tortue.client.Modele.Tortue;
 
 /**
  * Le client et ses tortues
  */
-public class Client {
+public class Client implements IsSerializable{
 
     private String nom;
 
     private ArrayList<Tortue> listeTortues = new ArrayList<Tortue>();
 
+    public Client() {}
 
     public Client(String nom) {
         this.nom = nom;
@@ -37,5 +39,9 @@ public class Client {
     public String getNom() {
         return nom;
     }
-    
+
+    public ArrayList<Tortue> getListeTortues() {
+        return listeTortues;
+    }
+
 }

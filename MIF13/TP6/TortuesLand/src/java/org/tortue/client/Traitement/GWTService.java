@@ -2,7 +2,9 @@ package org.tortue.client.Traitement;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import org.tortue.client.ClientServeur.ListeClients;
 import org.tortue.client.Modele.Point;
+import org.tortue.client.Modele.Tortue;
 
 
 /**
@@ -17,6 +19,13 @@ public interface GWTService extends RemoteService {
      */
      public int getId(String nomClient);
 
+     /**
+      * Récupère la liste de tous les clients, de façon à afficher leur tortues
+      * Comme un client peut quitter l'application, on est obligé de tou retélécharger
+      * @return retourne la liste des clients
+      */
+     public ListeClients getListeClients();
+
     /**
      * Ajoute une tortue dans la liste des tortue du client
      * @param idClient l'identifiant du client à qui appartient la tortue
@@ -24,7 +33,7 @@ public interface GWTService extends RemoteService {
      * @param nomTortue le nom de la tortue à créer
      * @return retourne vrai si la tortue à été ajoutée, faux sinon
      */
-     public String addTortue(int idClient, int idTortueClient, String nomTortue);
+     public String addTortue(int idClient, int idTortueClient, Tortue uneTortue);
 
 
     /**
