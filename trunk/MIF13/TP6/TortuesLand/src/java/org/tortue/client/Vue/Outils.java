@@ -1,8 +1,10 @@
 package org.tortue.client.Vue;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -11,6 +13,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import org.tortue.client.MainEntryPoint;
 import org.tortue.client.Modele.Tortue;
+import org.tortue.client.Traitement.GWTService;
+import org.tortue.client.Traitement.GWTServiceAsync;
 
 /**
  * Les outils mis à disposition de l'utilisateur.
@@ -32,7 +36,7 @@ public class Outils extends HTMLPanel {
         
         //label + input text + boutons
         Label angle = new Label("Angle : ");
-        final TextBox angleTodo = new TextBox();
+        angleTodo = new TextBox();
         angleTodo.setSize("70","20");
         Button avancer = new Button("Avancer");
         Button gauche = new Button("Gauche");
@@ -42,22 +46,19 @@ public class Outils extends HTMLPanel {
         //ACTIONS
         avancer.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                tortueCourante.avancer(MainEntryPoint.UNTERRAIN);
-                majVueTortue();
+                deplacerTortue(0);
             }
         });
 
         gauche.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                tortueCourante.setAngle(tortueCourante.getAngle() +  new Integer(angleTodo.getText()));
-                majVueTortue();
+                deplacerTortue(1);
             }
         });
 
         droite.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                tortueCourante.setAngle(tortueCourante.getAngle() - new Integer(angleTodo.getText()));
-                majVueTortue();
+                deplacerTortue(2);
             }
         });
 
@@ -77,15 +78,70 @@ public class Outils extends HTMLPanel {
         add(formulaire, id);
     }
 
-    private void majVueTortue(){
+
+    private void deplacerTortue(final int choixDeplacement){
+
+        GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
+
+
+        //récupération de l'angle
+        final Integer angle;
+        if(!angleTodo.getText().isEmpty())
+            angle = new Integer(angleTodo.getText());
+        else
+            angle = 0;
+
+        final AsyncCallback<String> callback = new AsyncCallback<String>() {
+
+            public void onSuccess(String result) {
+
+                String message = tortueCourante.getNom();
+                
+                switch (choixDeplacement) {
+
+                    //avancer
+                    case 0: {
+                        tortueCourante.avancer(MainEntryPoint.UNTERRAIN);
+                        avancerTortue();
+                        message +=  " a avancée (côté server et client).";
+                        break;
+                    }
+                    
+                    //gauche
+                    case 1: {
+                        tortueCourante.setAngle(tortueCourante.getAngle() + angle);
+                        message += " a tourné à gauche de " + angle + "° (côté server et client).";
+                        break;
+                    }
+
+                    //droite
+                    case 2: {
+                        tortueCourante.setAngle(tortueCourante.getAngle() - angle);
+                        message += " a tourné à droite de " + angle + "° (côté server et client).";
+                        break;
+                    }
+                }
+
+                MainEntryPoint.MESSAGES.setText(message);
+
+            }
+
+            public void onFailure(Throwable caught) {
+                MainEntryPoint.MESSAGES.setText("Serveur erreur : Ajout de Tortue Echoué (l'ajout côté client a aussi été annulé).");
+            }
+        };
+
+        int indexTortueCourante = MainEntryPoint.MESTORTUES.indexOf(tortueCourante);
+        svc.deplacerTortue(MainEntryPoint.IDCLIENT, indexTortueCourante , tortueCourante.getCoordonees(), angle, callback);
+
+    }
+
+    
+    private void avancerTortue(){
         int index = MainEntryPoint.MESTORTUES.indexOf(tortueCourante);
         HTMLPanel vueTortue = MainEntryPoint.VUETORTUES.get(index);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginLeft(tortueCourante.getCoordonees().getX(), Unit.PX);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginTop(tortueCourante.getCoordonees().getY(), Unit.PX);
-    }
-
-    private boolean faireDeplacement(String choix){
-        return false;
     }
 
 }

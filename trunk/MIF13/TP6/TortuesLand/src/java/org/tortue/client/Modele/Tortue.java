@@ -3,15 +3,12 @@ package org.tortue.client.Modele;
 import java.io.Serializable;
 
 
-
-
 /**
- * Une tortue
+ * Une tortue.
  */
 public class Tortue implements Serializable{
 
     private String nom;
-    private int numero;
 
     private Point coordonnees;
     private float angle;
@@ -19,9 +16,8 @@ public class Tortue implements Serializable{
     int distDep;
  
   
-    public Tortue(String nom, int numero, int x, int y) {
+    public Tortue(String nom, int x, int y) {
         this.nom = nom;
-        this.numero = numero;
         coordonnees = new Point(x,y);
         distDep = 15;
     }
@@ -88,6 +84,10 @@ public class Tortue implements Serializable{
 
     public void setPosition(int x, int y){
         coordonnees.setXY(x, y);
+    }
+
+    public void setPosition(Point unPoint){
+        coordonnees.setXY(unPoint.getX(), unPoint.getY());
     }
 
     public Point getCoordonees(){

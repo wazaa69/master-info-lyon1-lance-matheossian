@@ -1,9 +1,12 @@
 package org.tortue.client.Modele;
 
+import java.io.Serializable;
+
 /**
- * Un point. la classe Point n'étant pas prise en charge par GWT, il faut la recréer
+ * Un point.
+ * La classe Point n'étant pas prise en charge par GWT, il faut la recréer.
  */
-public class Point {
+public class Point implements Serializable{
 
     int x;
     int y;
