@@ -6,9 +6,11 @@ import org.tortue.client.Vue.ListeMesTortues;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.ArrayList;
 import org.tortue.client.Modele.Terrain;
 import org.tortue.client.Modele.Tortue;
 import org.tortue.client.Traitement.GWTService;
@@ -21,11 +23,17 @@ import org.tortue.client.Vue.ListeAutresTortues;
 public class MainEntryPoint implements EntryPoint {
 
     public static Label MESSAGES = new Label(".........."); /** le message affiché selon les actions*/
-
     public static int IDCLIENT; /** l'id distribuée par le server */
 
-    private Terrain unTerrain = new Terrain(500,500);
+
+    public static HTMLPanel VUETERRAIN; /** la vue du terrain */
+    public static ArrayList<HTMLPanel> VUETORTUES = new ArrayList<HTMLPanel>(); /** vue de chaque tortue */
+
     
+    public static Terrain UNTERRAIN = new Terrain(500,500);
+
+    public static ArrayList<Tortue> MESTORTUES = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
+
 
     /** 
      * Création d'une nouvelle instance et initialisation des classes
@@ -45,13 +53,11 @@ public class MainEntryPoint implements EntryPoint {
 
         VerticalPanel vPanelOutilsTerrain = new VerticalPanel();
         VerticalPanel vPanelListe = new VerticalPanel();
- 
-        int longueurT = unTerrain.getLongueur() - unTerrain.getMargint();
-        int largeurT = unTerrain.getLargeur() - unTerrain.getMargint();
 
-        
-        vPanelOutilsTerrain.add(new Outils("outils"));
-        vPanelOutilsTerrain.add(new VueTerrain("terrain", longueurT, largeurT));
+        vPanelOutilsTerrain.add(new Outils("Outils"));
+
+        VUETERRAIN = new VueTerrain("Terrain", UNTERRAIN.getLongueur(), UNTERRAIN.getLargeur());
+        vPanelOutilsTerrain.add(VUETERRAIN);
         vPanelListe.add(new ListeMesTortues("MesTortues"));
         vPanelListe.add(new ListeAutresTortues("AutresTortues"));
 
@@ -87,7 +93,7 @@ public class MainEntryPoint implements EntryPoint {
 
             //en cas d'echec
             public void onFailure(Throwable caught) {
-                MESSAGES.setText("Arg !! Connexion Echouée, si c'est votre première connexion alors rechargez la page");
+                MESSAGES.setText("Arg !! Connexion Echouée, si c'est votre première connexion alors rechargez la page (F5)");
             }
         };
 

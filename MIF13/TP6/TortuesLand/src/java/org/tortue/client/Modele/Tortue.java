@@ -32,8 +32,8 @@ public class Tortue implements IsSerializable{
 
         if(isEmplacementValide(unTerrain, tmpCoordonnees))
             coordonnees.clone(tmpCoordonnees);
-        /*else
-            angle = (angle + 180) % 360;  */ //demi-tour
+        else
+            angle = (angle + 180) % 360; //demi-tour
     }
 
 
@@ -66,7 +66,8 @@ public class Tortue implements IsSerializable{
         int x = coordonnees.getX();
         int y = coordonnees.getY();
 
-        if(( x < 0 || x > unTerrain.getLongueur()) || ( y < 0  || y > unTerrain.getLargeur()))
+        if(( x < 0 || x > unTerrain.getLongueur()-unTerrain.getMargint())
+        || ( y < 0 || y > unTerrain.getLargeur()-unTerrain.getMargint()))
             return false;
 
         return true;

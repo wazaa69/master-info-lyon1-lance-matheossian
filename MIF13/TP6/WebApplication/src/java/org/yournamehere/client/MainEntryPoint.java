@@ -54,7 +54,7 @@ public class MainEntryPoint implements EntryPoint {
             menuHTML.add(menuTitre, "titreMenu");
 
 
-            MenuBar  menuWidget = new MenuBar();
+            MenuBar menuWidget = new MenuBar();
             menuWidget.addStyleName("menuWidget");
 
 
