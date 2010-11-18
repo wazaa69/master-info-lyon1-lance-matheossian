@@ -17,6 +17,7 @@ public class Terrain {
     public Terrain(int longueur, int largeur) {
         this.longueur = longueur;
         this.largeur = largeur;
+        margint = 50;
     }
 
     public int getLargeur() {
@@ -30,7 +31,4 @@ public class Terrain {
     public int getMargint() {
         return margint;
     }
-
-
-
 }

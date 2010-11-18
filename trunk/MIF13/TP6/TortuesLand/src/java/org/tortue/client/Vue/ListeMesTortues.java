@@ -4,6 +4,7 @@ package org.tortue.client.Vue;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tortue.client.MainEntryPoint;
+import org.tortue.client.Modele.Terrain;
 import org.tortue.client.Traitement.GWTService;
 import org.tortue.client.Traitement.GWTServiceAsync;
 
@@ -31,10 +33,6 @@ public class ListeMesTortues extends HTMLPanel {
 
     private Tortue tmpTortue; /** une tortue temporaire */
     private boolean addTortue = false; /** le booléen pour savoir si on ajoute ou non une tortue */
-
-
-    private ArrayList<Tortue> mesTortues = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
-
     
     /**
      * Crée un conteneur avec id
@@ -62,14 +60,17 @@ public class ListeMesTortues extends HTMLPanel {
             @Override
             public void onClick(ClickEvent event) {
 
-                numTortueAjoute = mesTortues.size()+1;
+                numTortueAjoute = MainEntryPoint.MESTORTUES.size()+1;
 
-                tmpTortue = new Tortue("Tortue-"+numTortueAjoute,numTortueAjoute, 0, 0);
+                int x = Math.round(MainEntryPoint.UNTERRAIN.getLongueur()/2) - 25; //largeur image/2
+                int y = Math.round(MainEntryPoint.UNTERRAIN.getLargeur()/2) - 25; //hauteur image/2
+
+                tmpTortue = new Tortue("Tortue-"+numTortueAjoute,numTortueAjoute, x, y);
 
                 //si la tortue est ajouté côté server, on l'ajoute côté client
                 if(addTortue(tmpTortue)){
 
-                    mesTortues.add(tmpTortue); //Ajout au Modèle
+                    MainEntryPoint.MESTORTUES.add(tmpTortue); //Ajout au Modèle
                     Outils.tortueCourante = tmpTortue; //Mise à jour de la tortue courante
 
                     //Création d'une commande pour la tortue qui va être affichée dans le menu
@@ -78,6 +79,16 @@ public class ListeMesTortues extends HTMLPanel {
                     //Ajout d'un Item au menu de la Vue
                     MenuItem itemTortue = new MenuItem(tmpTortue.getNom(), majTortueCourante);
                     menuDesTortues.addItem(itemTortue);
+
+                    //Ajout de la tortue sur la Vue du Terrain----------------->
+                    HTMLPanel vueTortue = new HTMLPanel("<div id='" + tmpTortue.getNom() + "'class='vueTortue'></div>");
+
+                    vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginLeft(tmpTortue.getCoordonees().getX(), Unit.PX);
+                    vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginTop(tmpTortue.getCoordonees().getY(), Unit.PX);
+
+                    MainEntryPoint.VUETORTUES.add(vueTortue);
+                    MainEntryPoint.VUETERRAIN.add(vueTortue, "vurTerrain");
+                    //<---------------------------------------------------------
 
                     addTortue = false; //remise à zéro du booléen
                 }
