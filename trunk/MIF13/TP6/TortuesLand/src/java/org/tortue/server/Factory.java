@@ -13,6 +13,8 @@ public class Factory {
     private static Terrain unTerrain = new Terrain(500,500);
     private DernieresTortuesDeplacees listeDTD = new DernieresTortuesDeplacees(0);
 
+    private int nbTortues = 0; /** le nombre de tortue côté serveur*/
+
 
     /**
      * L'application démarre quand le premier client arrive
@@ -39,6 +41,16 @@ public class Factory {
     public DernieresTortuesDeplacees getListeDTD() {
         return listeDTD;
     }
+
+    public int getNbTortues() {
+        return nbTortues;
+    }
+
+    public void incremanteNbTortues(int nbTortues) {
+        this.nbTortues++;
+    }
+
+    
 
     
 }

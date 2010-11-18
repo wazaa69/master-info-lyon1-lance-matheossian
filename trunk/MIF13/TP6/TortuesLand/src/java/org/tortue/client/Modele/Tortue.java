@@ -13,8 +13,10 @@ public class Tortue implements IsSerializable {
     private float angle; /** en degrés */
 
     int distDep; /** la distance de déplacement (unité en pixel) */
- 
-  
+
+    public Tortue() {
+    }
+
     public Tortue(String nom, int x, int y) {
         this.nom = nom;
         coordonnees = new Point(x,y);
@@ -110,6 +112,10 @@ public class Tortue implements IsSerializable {
         return distDep;
     }
 
-    
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+   
     
 }

@@ -11,7 +11,8 @@ public class Point implements Serializable{
     int x;
     int y;
 
-     public Point() {
+
+    public Point() {
         this.x = 0;
         this.y = 0;
     }

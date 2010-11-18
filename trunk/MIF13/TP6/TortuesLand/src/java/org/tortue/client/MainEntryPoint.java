@@ -1,5 +1,6 @@
 package org.tortue.client;
 
+import java.util.ArrayList;
 import org.tortue.client.Vue.Outils;
 import org.tortue.client.Vue.VueTerrain;
 import org.tortue.client.Vue.ListeMesTortues;
@@ -10,7 +11,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import java.util.ArrayList;
+import org.tortue.client.ClientServeur.ListeClients;
 import org.tortue.client.Modele.Terrain;
 import org.tortue.client.Modele.Tortue;
 import org.tortue.client.Traitement.GWTService;
@@ -26,23 +27,22 @@ public class MainEntryPoint implements EntryPoint {
     public static Label MESSAGES = new Label(".........."); /** le message affiché selon les actions*/
     public static int IDCLIENT; /** l'id distribuée par le server */
 
+    public static ArrayList<Tortue> MESTORTUES = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
+    public static ListeClients LISTECLIENTS = new ListeClients(); /** la liste des clients => liste des auters tortues */
 
-    public static HTMLPanel VUETERRAIN; /** la vue du terrain */
-    public static ArrayList<HTMLPanel> VUETORTUES = new ArrayList<HTMLPanel>(); /** vue de chaque tortue */
-
-    
     public static Terrain UNTERRAIN = new Terrain(500,500);
 
-    public static ArrayList<Tortue> MESTORTUES = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
-    public static ArrayList<Tortue> AUTRESTORTUES = new ArrayList<Tortue>(); /** la liste des autres tortues des Clients */
+    public static HTMLPanel VUETERRAIN; /** la vue du terrain */
+    public static ArrayList<HTMLPanel> VUEMESTORTUES = new ArrayList<HTMLPanel>(); /** vue de chaque tortue du client */
+    public static ArrayList<HTMLPanel> VUEAUTRESTORTUES = new ArrayList<HTMLPanel>(); /** vue de chaque tortue des autres clients */
+
 
     /** 
      * Création d'une nouvelle instance et initialisation des classes
      * Pas de vérification pour savoir si le joueur existe déjà sur le server (donc pas d'antécédant)
      */
     public MainEntryPoint() {
-        //on pourrait interroger le serveur pour connaître la taille du terrain
-        getDataServ();
+        getMyId();
     }
 
     /**
@@ -72,15 +72,11 @@ public class MainEntryPoint implements EntryPoint {
      * Assigne un id au client.
      * (On pourrait même récupérer une classe contenant divers informations)
      */
-    public final void getDataServ(){
+    public final void getMyId(){
 
         //définition du service que l'on souhaite appeler (pas besoin de définir la route)
         GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
 
-        /*
-         * C'est au travers de l'objet AsyncCallback que le serveur retournera sa réponse au client.
-         * On définit par la même occasion le comportement de retour.
-         */
         final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 
             //en cas de succes
@@ -88,7 +84,7 @@ public class MainEntryPoint implements EntryPoint {
                 //On récupère la valeur retournée par le serveur (un String).
                 //Et on la met à jour chez le Client.
                 IDCLIENT = result.intValue();
-                MESSAGES.setText("n°Client serveur : " + result);
+                MESSAGES.setText("n°Client serveur : " + result + ".");
             }
 
             //en cas d'echec

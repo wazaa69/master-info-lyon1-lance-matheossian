@@ -10,7 +10,6 @@ import org.tortue.client.Modele.Tortue;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -54,7 +53,6 @@ public class ListeMesTortues extends HTMLPanel {
             public void onClick(ClickEvent event) {
                     addTortueServeurAndClient();
                 }
-
         });
 
         formulaire.add(vPanel);
@@ -76,19 +74,17 @@ public class ListeMesTortues extends HTMLPanel {
      */
     public void addTortueServeurAndClient(){
 
-        numTortueAjoute = MainEntryPoint.MESTORTUES.size()+1;
-
         int x = Math.round(MainEntryPoint.UNTERRAIN.getLongueur()/2) - 25; //largeur image/2
         int y = Math.round(MainEntryPoint.UNTERRAIN.getLargeur()/2) - 25; //hauteur image/2
+        tmpTortue = new Tortue("Tortue-", x, y);
 
-        tmpTortue = new Tortue("Tortue-"+numTortueAjoute, x, y);
 
         GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
 
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
             public void onSuccess(String result) {
-                addTortueClient();
+                addTortueClient(result);
 		MainEntryPoint.MESSAGES.setText(tmpTortue.getNom() + " ajoutée côté Client et Serveur.");
             }
 
@@ -97,16 +93,18 @@ public class ListeMesTortues extends HTMLPanel {
             }
         };
 
-        svc.addTortue(MainEntryPoint.IDCLIENT, MainEntryPoint.MESTORTUES.size(), tmpTortue.getNom(), callback);
+        svc.addTortue(MainEntryPoint.IDCLIENT, MainEntryPoint.MESTORTUES.size(), tmpTortue, callback);
 
     }
 
 
     /**
      * Seulement après que le serveur ai ajouté la tortue, celle-ci est ajouté puis affiché côté client.
+     * @param nomTortue le nom renvoyé par le serveur
      */
-    private void addTortueClient(){
+    private void addTortueClient(String nomTortue){
 
+        tmpTortue.setNom(nomTortue);
         MainEntryPoint.MESTORTUES.add(tmpTortue); //Ajout au Modèle
         Outils.tortueCourante = tmpTortue; //Mise à jour de la tortue courante
 
@@ -117,19 +115,8 @@ public class ListeMesTortues extends HTMLPanel {
         MenuItem itemTortue = new MenuItem(tmpTortue.getNom(), majTortueCourante);
         menuDesTortues.addItem(itemTortue);
 
-        //Ajout de la tortue sur la Vue du Terrain----------------->
-        HTMLPanel vueTortue = new HTMLPanel("<div id='" + tmpTortue.getNom() + "'class='vueTortue'></div>");
-        Label nomTortue = new Label(tmpTortue.getNom());
-        nomTortue.setStyleName("nomTortue");
-        vueTortue.add(nomTortue, tmpTortue.getNom());  //ajout du nom de la tortue
-
-        vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginLeft(tmpTortue.getCoordonees().getX(), Unit.PX);
-        vueTortue.getElementById(tmpTortue.getNom()).getStyle().setMarginTop(tmpTortue.getCoordonees().getY(), Unit.PX);
-
-        MainEntryPoint.VUETORTUES.add(vueTortue);
-        MainEntryPoint.VUETERRAIN.add(vueTortue, "vurTerrain");
-        //<---------------------------------------------------------
-        
+        VueTerrain.addTortueTerrain(MainEntryPoint.VUEMESTORTUES, tmpTortue);
     }
+
 
 }
