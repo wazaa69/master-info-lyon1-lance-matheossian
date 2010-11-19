@@ -11,7 +11,6 @@ public class Factory {
 
     private ListeClients listeClients = new ListeClients();
     private static Terrain unTerrain = new Terrain(500,500);
-    private DernieresTortuesDeplacees listeDTD = new DernieresTortuesDeplacees(0);
 
     private int nbTortues = 0; /** le nombre de tortue côté serveur*/
 
@@ -36,10 +35,6 @@ public class Factory {
 
     public void setUnTerrain(Terrain unTerrain) {
         Factory.unTerrain = unTerrain;
-    }
-
-    public DernieresTortuesDeplacees getListeDTD() {
-        return listeDTD;
     }
 
     public int getNbTortues() {

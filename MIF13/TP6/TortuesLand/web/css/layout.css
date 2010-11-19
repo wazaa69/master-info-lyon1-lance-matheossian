@@ -5,10 +5,15 @@ body{
     background-color:black;
     color: white;
     font-family: Arial;
-
 }
 
-table{
+#Message{
+    margin-bottom:25px;
+}
+
+/* Partie gauche */
+
+#OutilsTerrain{
     float:left;
 }
 
@@ -18,33 +23,40 @@ table{
 }
 
 
-.conteneurTerrain {
+#Terrain {
     background: url("../images/terrain.jpg");
-    margin-top:15px;
     border-top:2px solid #444;
     border-right:5px solid #555;
     border-bottom:4px solid #666;
 }
 
 
-.conteneurMesTortues td{
-    display:block;
-    font-weight:bold;
-
-}
-
-#AutreTortues{
-    margin-left:100px;
-}
-
 .vueTortue{
     position:absolute; /* obligatoire */
     width:50px;
     height:50px;
-    background: url("../images/tortue.png");
+    background: url("../images/tortue.png") no-repeat scroll 0 0 transparent;
 }
 
 .nomTortue{
     padding-top:45px;
 }
+
+
+/* Partie Droite */
+
+#Liste{
+    padding-left:10px;
+}
+
+#MesTortues td{
+    display:block;
+    font-weight:bold;
+
+}
+
+#AutresTortues{
+    padding-left:5px;
+}
+
 

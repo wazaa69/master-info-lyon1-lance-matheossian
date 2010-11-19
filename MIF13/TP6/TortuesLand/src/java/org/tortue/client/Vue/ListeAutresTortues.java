@@ -21,16 +21,19 @@ import org.tortue.client.Traitement.GWTServiceAsync;
  */
 public class ListeAutresTortues extends HTMLPanel {
 
+    MainEntryPoint mep;
     String id;
 
     /**
      * Crée un conteneur avec id
      * @param id l'id du conteneur (on se passera de createUniqueId() pour cet APi)
      */
-    public ListeAutresTortues(String id) {
+    public ListeAutresTortues(String id, MainEntryPoint mep) {
 
-        super("<div id='" + id + "'></div>");
+        super("");
+        getElement().setId(id);
 
+        this.mep = mep;
         this.id = id; /** on sauvegarde l'identifiant */
 
         //on ajoute un rafraichissement periodique de la liste des autres tortues et de leur affichage
@@ -56,11 +59,11 @@ public class ListeAutresTortues extends HTMLPanel {
         final AsyncCallback<ListeClients> callback = new AsyncCallback<ListeClients>() {
 
             public void onSuccess(ListeClients result) {
-                MainEntryPoint.LISTECLIENTS.addClients(result);
+                mep.getListeClients().addClients(result);
             }
 
             public void onFailure(Throwable caught) {
-                MainEntryPoint.MESSAGES.setText("Arg !! Récupération de la liste des clients échouée !");
+                MainEntryPoint.INFOMESS.setText("Arg !! Récupération de la liste des clients échouée !");
             }
         };
 
@@ -77,19 +80,19 @@ public class ListeAutresTortues extends HTMLPanel {
         getElementById(id).setInnerHTML(" "); //on efface ce qu'il y a actuellement
         VerticalPanel vPanel = new VerticalPanel();
 
-        VueTerrain.suppAnciennesAutresTortues();
+        mep.getVueTerrain().suppAnciennesAutresTortues();
 
-        ListeClients lc = MainEntryPoint.LISTECLIENTS;
+        ListeClients lc = mep.getListeClients();
         ArrayList<Tortue> listeTortuesClient;
 
         for(int i = 0; i < lc.size(); i++){
 
             listeTortuesClient = lc.getClient(i).getListeTortues();
 
-            if(i !=  MainEntryPoint.IDCLIENT){
+            if(i !=  mep.getIdClient()){
                 for(int j = 0; j < listeTortuesClient.size(); j++){
                     vPanel.add(new Label("Client : " + lc.getClient(i).getNom() + " | " + listeTortuesClient.get(j).getNom()));
-                    VueTerrain.addTortueTerrain(MainEntryPoint.VUEAUTRESTORTUES, listeTortuesClient.get(j));
+                    mep.getVueTerrain().addTortueTerrain(mep.getVueAutresTortues(), listeTortuesClient.get(j));
                 }
             }
         }

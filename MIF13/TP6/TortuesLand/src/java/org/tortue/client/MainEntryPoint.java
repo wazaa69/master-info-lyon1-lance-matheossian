@@ -24,18 +24,19 @@ import org.tortue.client.Vue.ListeAutresTortues;
  */
 public class MainEntryPoint implements EntryPoint {
 
-    public static Label MESSAGES = new Label(".........."); /** le message affiché selon les actions*/
-    public static int IDCLIENT; /** l'id distribuée par le server */
+    public static Label INFOMESS = new Label(".........."); /** le message affiché selon les actions*/
+    private int idClient; /** l'id distribuée par le server */
 
-    public static ArrayList<Tortue> MESTORTUES = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
-    public static ListeClients LISTECLIENTS = new ListeClients(); /** la liste des clients => liste des auters tortues */
+    private ArrayList<Tortue> mesTortues = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
+    private ListeClients listeClients = new ListeClients(); /** la liste des clients => liste des auters tortues */
 
-    public static Terrain UNTERRAIN = new Terrain(500,500);
+    private Terrain unTerrain = new Terrain(500,500);
 
-    public static HTMLPanel VUETERRAIN; /** la vue du terrain */
-    public static ArrayList<HTMLPanel> VUEMESTORTUES = new ArrayList<HTMLPanel>(); /** vue de chaque tortue du client */
-    public static ArrayList<HTMLPanel> VUEAUTRESTORTUES = new ArrayList<HTMLPanel>(); /** vue de chaque tortue des autres clients */
+    private VueTerrain vueTerrain; /** la vue du terrain */
+    private ArrayList<HTMLPanel> vueMesTortues = new ArrayList<HTMLPanel>(); /** vue de chaque tortue du client */
+    private ArrayList<HTMLPanel> vueAutresTortues = new ArrayList<HTMLPanel>(); /** vue de chaque tortue des autres clients */
 
+    //private Modele leModele = new Model();
 
     /** 
      * Création d'une nouvelle instance et initialisation des classes
@@ -51,17 +52,19 @@ public class MainEntryPoint implements EntryPoint {
      */
     public void onModuleLoad() {
         VerticalPanel vPanelOutilsTerrain = new VerticalPanel();
+        vPanelOutilsTerrain.getElement().setId("OutilsTerrain");
         VerticalPanel vPanelListe = new VerticalPanel();
+        vPanelListe.getElement().setId("Liste");
 
-        vPanelOutilsTerrain.add(new Outils("Outils"));
+        vPanelOutilsTerrain.add(new Outils("Outils", this));
 
-        VUETERRAIN = new VueTerrain("Terrain", UNTERRAIN.getLongueur(), UNTERRAIN.getLargeur());
-        vPanelOutilsTerrain.add(VUETERRAIN);
-        vPanelListe.add(new ListeMesTortues("MesTortues"));
-        vPanelListe.add(new ListeAutresTortues("AutresTortues"));
+        vueTerrain = new VueTerrain("Terrain", this, unTerrain.getLongueur(), unTerrain.getLargeur());
+        vPanelOutilsTerrain.add(vueTerrain);
+        vPanelListe.add(new ListeMesTortues("MesTortues", this));
+        vPanelListe.add(new ListeAutresTortues("AutresTortues", this));
 
-        MESSAGES.setStyleName("Message");
-        RootPanel.get().add(MESSAGES);
+        INFOMESS.getElement().setId("Message");
+        RootPanel.get().add(INFOMESS);
         RootPanel.get().add(vPanelOutilsTerrain);
         RootPanel.get().add(vPanelListe);
 
@@ -83,13 +86,13 @@ public class MainEntryPoint implements EntryPoint {
             public void onSuccess(Integer result) {
                 //On récupère la valeur retournée par le serveur (un String).
                 //Et on la met à jour chez le Client.
-                IDCLIENT = result.intValue();
-                MESSAGES.setText("n°Client serveur : " + result + ".");
+                idClient = result.intValue();
+                INFOMESS.setText("n°Client serveur : " + result + ".");
             }
 
             //en cas d'echec
             public void onFailure(Throwable caught) {
-                MESSAGES.setText("Arg !! Connexion Echouée, si c'est votre première connexion alors rechargez la page (F5)");
+                INFOMESS.setText("Arg !! Connexion Echouée, si c'est votre première connexion alors rechargez la page (F5)");
             }
         };
 
@@ -100,6 +103,34 @@ public class MainEntryPoint implements EntryPoint {
          */
         svc.getId("bob", callback);
 
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public ListeClients getListeClients() {
+        return listeClients;
+    }
+
+    public ArrayList<Tortue> getMesTortues() {
+        return mesTortues;
+    }
+
+    public Terrain getUnTerrain() {
+        return unTerrain;
+    }
+
+    public ArrayList<HTMLPanel> getVueAutresTortues() {
+        return vueAutresTortues;
+    }
+
+    public ArrayList<HTMLPanel> getVueMesTortues() {
+        return vueMesTortues;
+    }
+
+    public VueTerrain getVueTerrain() {
+        return vueTerrain;
     }
 
 }

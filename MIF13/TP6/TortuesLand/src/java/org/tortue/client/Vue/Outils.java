@@ -21,13 +21,16 @@ import org.tortue.client.Traitement.GWTServiceAsync;
  */
 public class Outils extends HTMLPanel {
 
+    MainEntryPoint mep;
     public static Tortue tortueCourante; /** la tortue courante controlée par l'utilisateur */
     private TextBox angleTodo = new TextBox();
     
-    public Outils(String id){
+    public Outils(String id, MainEntryPoint mep){
 
-        super("<div id='" + id + "'></div>");
-        setStyleName("conteneur"+id);
+        super("");
+        getElement().setId(id);
+
+        this.mep = mep;
 
         //balise formulaire
         FormPanel formulaire = new FormPanel();
@@ -46,19 +49,19 @@ public class Outils extends HTMLPanel {
         //ACTIONS
         avancer.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                deplacerTortue(0);
+                if(tortueCourante != null) deplacerTortue(0);
             }
         });
 
         horaire.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                deplacerTortue(1);
+                if(tortueCourante != null) deplacerTortue(1);
             }
         });
 
         antihoraire.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                deplacerTortue(2);
+                if(tortueCourante != null) deplacerTortue(2);
             }
         });
 
@@ -105,7 +108,7 @@ public class Outils extends HTMLPanel {
 
                     //avancer
                     case 0: {
-                        tortueCourante.avancer(MainEntryPoint.UNTERRAIN);
+                        tortueCourante.avancer(mep.getUnTerrain());
                         avancerTortue();
                         message +=  " a avancée (côté server et client).";
                         break;
@@ -126,24 +129,24 @@ public class Outils extends HTMLPanel {
                     }
                 }
 
-                MainEntryPoint.MESSAGES.setText(message);
+                MainEntryPoint.INFOMESS.setText(message);
 
             }
 
             public void onFailure(Throwable caught) {
-                MainEntryPoint.MESSAGES.setText("Serveur erreur : Ajout de Tortue Echoué (l'ajout côté client a aussi été annulé).");
+                MainEntryPoint.INFOMESS.setText("Serveur erreur : Ajout de Tortue Echoué (l'ajout côté client a aussi été annulé).");
             }
         };
 
-        int indexTortueCourante = MainEntryPoint.MESTORTUES.indexOf(tortueCourante);
-        svc.deplacerTortue(MainEntryPoint.IDCLIENT, indexTortueCourante , tortueCourante.getCoordonees(), angle, callback);
+        int indexTortueCourante = mep.getMesTortues().indexOf(tortueCourante);
+        svc.deplacerTortue(mep.getIdClient(), indexTortueCourante , tortueCourante.getCoordonees(), angle, callback);
 
     }
 
     
     private void avancerTortue(){
-        int index = MainEntryPoint.MESTORTUES.indexOf(tortueCourante);
-        HTMLPanel vueTortue = MainEntryPoint.VUEMESTORTUES.get(index);
+        int index = mep.getMesTortues().indexOf(tortueCourante);
+        HTMLPanel vueTortue = mep.getVueMesTortues().get(index);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginLeft(tortueCourante.getCoordonees().getX(), Unit.PX);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginTop(tortueCourante.getCoordonees().getY(), Unit.PX);
     }
