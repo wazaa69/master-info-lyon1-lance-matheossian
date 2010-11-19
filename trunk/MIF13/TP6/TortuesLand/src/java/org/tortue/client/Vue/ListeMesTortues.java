@@ -23,9 +23,9 @@ import org.tortue.client.Traitement.GWTServiceAsync;
 public class ListeMesTortues extends HTMLPanel {
 
 
-    private MenuBar menuDesTortues; /** l'identifiant du conteneur */
-    private int numTortueAjoute; /** le numéro de la dernière tortue ajoutée : utile pour les commandes */
+    private MainEntryPoint mep;
 
+    private MenuBar menuDesTortues; /** l'identifiant du conteneur */
 
     private Tortue tmpTortue; /** une tortue temporaire */
     
@@ -33,10 +33,12 @@ public class ListeMesTortues extends HTMLPanel {
      * Crée un conteneur avec id
      * @param id l'id du conteneur (on se passera de createUniqueId() pour cet APi)
      */
-    public ListeMesTortues(String id) {
+    public ListeMesTortues(String id, MainEntryPoint mep) {
 
-        super("<div id='" + id + "'></div>");
-        setStyleName("conteneur" + id);
+        super("");
+        getElement().setId(id);
+
+        this.mep = mep;
 
         //balise formulaire
         FormPanel formulaire = new FormPanel();
@@ -74,10 +76,10 @@ public class ListeMesTortues extends HTMLPanel {
      */
     public void addTortueServeurAndClient(){
 
-        int x = Math.round(MainEntryPoint.UNTERRAIN.getLongueur()/2) - 25; //largeur image/2
-        int y = Math.round(MainEntryPoint.UNTERRAIN.getLargeur()/2) - 25; //hauteur image/2
-        tmpTortue = new Tortue("Tortue-", x, y);
+        int x = Math.round(mep.getUnTerrain().getLongueur()/2) - 25; //largeur image/2
+        int y = Math.round(mep.getUnTerrain().getLargeur()/2) - 25; //hauteur image/2
 
+        tmpTortue = new Tortue("Tortue-", x, y);
 
         GWTServiceAsync svc = (GWTServiceAsync) GWT.create(GWTService.class);
 
@@ -85,15 +87,15 @@ public class ListeMesTortues extends HTMLPanel {
 
             public void onSuccess(String result) {
                 addTortueClient(result);
-		MainEntryPoint.MESSAGES.setText(tmpTortue.getNom() + " ajoutée côté Client et Serveur.");
+		MainEntryPoint.INFOMESS.setText(tmpTortue.getNom() + " ajoutée côté Client et Serveur.");
             }
 
             public void onFailure(Throwable caught) {
-                MainEntryPoint.MESSAGES.setText("Serveur erreur : Ajout de Tortue Echoué (l'ajout côté client a aussi été annulé).");
+                MainEntryPoint.INFOMESS.setText("Serveur erreur : Ajout de Tortue Echoué (l'ajout côté client a aussi été annulé).");
             }
         };
 
-        svc.addTortue(MainEntryPoint.IDCLIENT, MainEntryPoint.MESTORTUES.size(), tmpTortue, callback);
+        svc.addTortue(mep.getIdClient(), mep.getMesTortues().size(), tmpTortue, callback);
 
     }
 
@@ -105,7 +107,7 @@ public class ListeMesTortues extends HTMLPanel {
     private void addTortueClient(String nomTortue){
 
         tmpTortue.setNom(nomTortue);
-        MainEntryPoint.MESTORTUES.add(tmpTortue); //Ajout au Modèle
+        mep.getMesTortues().add(tmpTortue); //Ajout au Modèle
         Outils.tortueCourante = tmpTortue; //Mise à jour de la tortue courante
 
         //Création d'une commande pour la tortue qui va être affichée dans le menu
@@ -115,7 +117,7 @@ public class ListeMesTortues extends HTMLPanel {
         MenuItem itemTortue = new MenuItem(tmpTortue.getNom(), majTortueCourante);
         menuDesTortues.addItem(itemTortue);
 
-        VueTerrain.addTortueTerrain(MainEntryPoint.VUEMESTORTUES, tmpTortue);
+        mep.getVueTerrain().addTortueTerrain(mep.getVueMesTortues(), tmpTortue);
     }
 
 

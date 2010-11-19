@@ -21,8 +21,6 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
        int nbClients = factory.getListeClients().size();
        factory.getListeClients().addClient(nomClient+"-"+nbClients);
 
-       //factory.getListeDTD().setNbClient(nbClients+1);
-
         return nbClients;
     }
 
@@ -38,7 +36,6 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
         ajoutTortue.setNom(ajoutTortue.getNom()+factory.getNbTortues());
         factory.getListeClients().getClient(idClient).addTortue(ajoutTortue);
         
-        //factory.getListeDTD().addTortueAAfficher(idClient,idTortueClient);
         factory.incremanteNbTortues(idTortueClient);
         
         return ajoutTortue.getNom();
@@ -51,8 +48,6 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
         
         uneTortue.setPosition(coordonnees);
         uneTortue.setAngle(angle);
-
-        //factory.getListeDTD().addTortueAAfficher(idClient,idTortueClient);
 
         return "";
     }

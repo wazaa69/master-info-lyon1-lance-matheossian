@@ -1,5 +1,6 @@
 package org.tortue.client.Vue;
 
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -12,18 +13,20 @@ import org.tortue.client.Modele.Tortue;
  */
 public class VueTerrain extends HTMLPanel {
 
-    private static String ID;
+    private MainEntryPoint mep;
+    private String id;
 
     /**
      * Crée la vue du terrain à partir des paramètres
      * @param longueur la longeur du terrain
      * @param largeur la largeur du terrain
      */
-    public VueTerrain(String id, int longueur, int largeur) {
-        super("<div id='" + id + "'></div>");
-        setStyleName("conteneur"+id);
+    public VueTerrain(String id, MainEntryPoint mep, int longueur, int largeur) {
+        super("");
+        getElement().setId(id);
         setPixelSize(longueur, largeur);
-        ID = id;
+        this.mep = mep;
+        this.id = id;
     }
 
     /**
@@ -31,9 +34,12 @@ public class VueTerrain extends HTMLPanel {
      * @param listeVuTortue la vue de la tortue va être ajoutée dans ce panel
      * @param uneTortue la tortue ajoutée
      */
-    public static void addTortueTerrain(ArrayList<HTMLPanel> listeVuTortue,Tortue uneTortue){
+    public void addTortueTerrain(ArrayList<HTMLPanel> listeVuTortue, Tortue uneTortue){
 
-        HTMLPanel vueTortue = new HTMLPanel("<div id='" + uneTortue.getNom() + "'class='vueTortue'></div>");
+        HTMLPanel vueTortue = new HTMLPanel("");
+        vueTortue.getElement().setId(uneTortue.getNom());
+        vueTortue.setStyleName("vueTortue");
+
         Label nomTortue = new Label(uneTortue.getNom());
         nomTortue.setStyleName("nomTortue");
         vueTortue.add(nomTortue, uneTortue.getNom());  //ajout du nom de la tortue
@@ -42,7 +48,7 @@ public class VueTerrain extends HTMLPanel {
         vueTortue.getElementById(uneTortue.getNom()).getStyle().setMarginTop(uneTortue.getCoordonees().getY(), Unit.PX);
 
         listeVuTortue.add(vueTortue);
-        MainEntryPoint.VUETERRAIN.add(vueTortue, ID);
+        mep.getVueTerrain().add(vueTortue, id);
     }
 
 
@@ -50,16 +56,15 @@ public class VueTerrain extends HTMLPanel {
     /**
      * Suppression des anciennes tortues des clients à l'affichage
      */
-    public static void suppAnciennesAutresTortues(){
+    public void suppAnciennesAutresTortues(){
 
-        int nbAutresTortues = MainEntryPoint.VUEAUTRESTORTUES.size();
+        int nbAutresTortues = mep.getVueAutresTortues().size();
 
         //on supprime toutes les div des tortues des autres clients
         for(int i = 0; i < nbAutresTortues; i++)
-            MainEntryPoint.VUETERRAIN.remove(MainEntryPoint.VUEAUTRESTORTUES.get(i));
+            mep.getVueTerrain().remove(mep.getVueAutresTortues().get(i));
         
-
-        MainEntryPoint.VUEAUTRESTORTUES.clear();
+        mep.getVueAutresTortues().clear();
     }
 
 }

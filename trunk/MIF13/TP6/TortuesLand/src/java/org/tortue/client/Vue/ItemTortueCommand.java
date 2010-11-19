@@ -22,7 +22,7 @@ public class ItemTortueCommand implements Command{
  
     public void execute() {
         Outils.tortueCourante = tortueReference;
-        MainEntryPoint.MESSAGES.setText(tortueReference.getNom() + " selectionnée !");
+        MainEntryPoint.INFOMESS.setText(tortueReference.getNom() + " selectionnée !");
     }
 
 }
