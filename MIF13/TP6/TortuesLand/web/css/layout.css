@@ -55,8 +55,18 @@ body{
 
 }
 
+#ListeMesTortues,
+#AutresTortues{
+    height:210px;
+    margin-top:15px;
+    padding-right:15px;
+}
+
+#conteneurAutresTortues{
+    margin-top:20px;
+}
+
 #AutresTortues{
     padding-left:5px;
 }
-
 

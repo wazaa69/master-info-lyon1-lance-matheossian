@@ -11,9 +11,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.tortue.client.ClientServeur.ListeClients;
-import org.tortue.client.Modele.Terrain;
-import org.tortue.client.Modele.Tortue;
+import org.tortue.client.Controleur.Controleur;
+import org.tortue.client.Modele.Modele;
 import org.tortue.client.Traitement.GWTService;
 import org.tortue.client.Traitement.GWTServiceAsync;
 import org.tortue.client.Vue.ListeAutresTortues;
@@ -27,16 +26,12 @@ public class MainEntryPoint implements EntryPoint {
     public static Label INFOMESS = new Label(".........."); /** le message affiché selon les actions*/
     private int idClient; /** l'id distribuée par le server */
 
-    private ArrayList<Tortue> mesTortues = new ArrayList<Tortue>(); /** la liste des tortues du joueurs */
-    private ListeClients listeClients = new ListeClients(); /** la liste des clients => liste des auters tortues */
-
-    private Terrain unTerrain = new Terrain(500,500);
-
     private VueTerrain vueTerrain; /** la vue du terrain */
     private ArrayList<HTMLPanel> vueMesTortues = new ArrayList<HTMLPanel>(); /** vue de chaque tortue du client */
     private ArrayList<HTMLPanel> vueAutresTortues = new ArrayList<HTMLPanel>(); /** vue de chaque tortue des autres clients */
 
-    //private Modele leModele = new Model();
+    private Modele modele = new Modele();
+    private Controleur controleur =  new Controleur();
 
     /** 
      * Création d'une nouvelle instance et initialisation des classes
@@ -58,7 +53,7 @@ public class MainEntryPoint implements EntryPoint {
 
         vPanelOutilsTerrain.add(new Outils("Outils", this));
 
-        vueTerrain = new VueTerrain("Terrain", this, unTerrain.getLongueur(), unTerrain.getLargeur());
+        vueTerrain = new VueTerrain("Terrain", this, modele.getUnTerrain().getLongueur(), modele.getUnTerrain().getLargeur());
         vPanelOutilsTerrain.add(vueTerrain);
         vPanelListe.add(new ListeMesTortues("MesTortues", this));
         vPanelListe.add(new ListeAutresTortues("AutresTortues", this));
@@ -109,18 +104,6 @@ public class MainEntryPoint implements EntryPoint {
         return idClient;
     }
 
-    public ListeClients getListeClients() {
-        return listeClients;
-    }
-
-    public ArrayList<Tortue> getMesTortues() {
-        return mesTortues;
-    }
-
-    public Terrain getUnTerrain() {
-        return unTerrain;
-    }
-
     public ArrayList<HTMLPanel> getVueAutresTortues() {
         return vueAutresTortues;
     }
@@ -131,6 +114,10 @@ public class MainEntryPoint implements EntryPoint {
 
     public VueTerrain getVueTerrain() {
         return vueTerrain;
+    }
+
+    public Modele getModele() {
+        return modele;
     }
 
 }

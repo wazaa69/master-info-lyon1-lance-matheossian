@@ -1,6 +1,5 @@
 package org.tortue.client.Vue;
 
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;

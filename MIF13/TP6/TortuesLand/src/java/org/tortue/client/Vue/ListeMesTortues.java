@@ -1,7 +1,6 @@
 package org.tortue.client.Vue;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -10,6 +9,7 @@ import org.tortue.client.Modele.Tortue;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -61,9 +61,17 @@ public class ListeMesTortues extends HTMLPanel {
         
         //ajout du formulaire
         add(formulaire, id);
+
+        Label tmpLabel = new Label("Mes tortues : ");
+        tmpLabel.setStyleName("titreListe");
+
+        add(tmpLabel, id);
+
         
-        //création et ajout du menu
-        menuDesTortues = new MenuBar();
+        //création et ajout du menu vertical
+        menuDesTortues = new MenuBar(true);
+        menuDesTortues.getElement().setId("Liste" + id);
+        menuDesTortues.getElement().setAttribute("style", "overflow-y:scroll;"); //pas accepté dans la css
         add(menuDesTortues, id);
 
     }
@@ -76,8 +84,8 @@ public class ListeMesTortues extends HTMLPanel {
      */
     public void addTortueServeurAndClient(){
 
-        int x = Math.round(mep.getUnTerrain().getLongueur()/2) - 25; //largeur image/2
-        int y = Math.round(mep.getUnTerrain().getLargeur()/2) - 25; //hauteur image/2
+        int x = Math.round(mep.getModele().getUnTerrain().getLongueur()/2) - 25; //largeur image/2
+        int y = Math.round(mep.getModele().getUnTerrain().getLargeur()/2) - 25; //hauteur image/2
 
         tmpTortue = new Tortue("Tortue-", x, y);
 
@@ -95,7 +103,7 @@ public class ListeMesTortues extends HTMLPanel {
             }
         };
 
-        svc.addTortue(mep.getIdClient(), mep.getMesTortues().size(), tmpTortue, callback);
+        svc.addTortue(mep.getIdClient(), mep.getModele().getMesTortues().size(), tmpTortue, callback);
 
     }
 
@@ -107,7 +115,7 @@ public class ListeMesTortues extends HTMLPanel {
     private void addTortueClient(String nomTortue){
 
         tmpTortue.setNom(nomTortue);
-        mep.getMesTortues().add(tmpTortue); //Ajout au Modèle
+        mep.getModele().getMesTortues().add(tmpTortue); //Ajout au Modèle
         Outils.tortueCourante = tmpTortue; //Mise à jour de la tortue courante
 
         //Création d'une commande pour la tortue qui va être affichée dans le menu
