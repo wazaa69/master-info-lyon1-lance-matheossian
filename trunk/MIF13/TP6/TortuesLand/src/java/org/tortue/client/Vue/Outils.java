@@ -108,7 +108,7 @@ public class Outils extends HTMLPanel {
 
                     //avancer
                     case 0: {
-                        tortueCourante.avancer(mep.getUnTerrain());
+                        tortueCourante.avancer(mep.getModele().getUnTerrain());
                         avancerTortue();
                         message +=  " a avancée (côté server et client).";
                         break;
@@ -138,14 +138,14 @@ public class Outils extends HTMLPanel {
             }
         };
 
-        int indexTortueCourante = mep.getMesTortues().indexOf(tortueCourante);
+        int indexTortueCourante = mep.getModele().getMesTortues().indexOf(tortueCourante);
         svc.deplacerTortue(mep.getIdClient(), indexTortueCourante , tortueCourante.getCoordonees(), angle, callback);
 
     }
 
     
     private void avancerTortue(){
-        int index = mep.getMesTortues().indexOf(tortueCourante);
+        int index = mep.getModele().getMesTortues().indexOf(tortueCourante);
         HTMLPanel vueTortue = mep.getVueMesTortues().get(index);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginLeft(tortueCourante.getCoordonees().getX(), Unit.PX);
         vueTortue.getElementById(tortueCourante.getNom()).getStyle().setMarginTop(tortueCourante.getCoordonees().getY(), Unit.PX);

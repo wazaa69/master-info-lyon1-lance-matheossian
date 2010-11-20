@@ -30,8 +30,10 @@ public class ListeAutresTortues extends HTMLPanel {
      */
     public ListeAutresTortues(String id, MainEntryPoint mep) {
 
-        super("");
-        getElement().setId(id);
+        super("<div class='titreListe'>Autres tortues :</div><div id='" + id + "'></div>");
+        getElement().setId("conteneur"+id);
+
+        getElementById(id).setAttribute("style", "overflow-y:scroll;"); //pas accepté dans la css
 
         this.mep = mep;
         this.id = id; /** on sauvegarde l'identifiant */
@@ -59,7 +61,7 @@ public class ListeAutresTortues extends HTMLPanel {
         final AsyncCallback<ListeClients> callback = new AsyncCallback<ListeClients>() {
 
             public void onSuccess(ListeClients result) {
-                mep.getListeClients().addClients(result);
+                mep.getModele().getListeClients().addClients(result);
             }
 
             public void onFailure(Throwable caught) {
@@ -82,7 +84,7 @@ public class ListeAutresTortues extends HTMLPanel {
 
         mep.getVueTerrain().suppAnciennesAutresTortues();
 
-        ListeClients lc = mep.getListeClients();
+        ListeClients lc = mep.getModele().getListeClients();
         ArrayList<Tortue> listeTortuesClient;
 
         for(int i = 0; i < lc.size(); i++){
