@@ -67,7 +67,7 @@ afficher([T|Q]):- afficherLigne(T,Q).
 	- le but,
 	- et un ordre de Transport (initiallemen vide)
 */
-depart :-
+resoudre :-
 	transports(etat(0,0,0,0), etat(1,1,1,1), ListeEtatsSucc),
 	reverse(ListeEtatsSucc,R),
 	write('etat(F,Cu,Cr,L)'), nl, nl,
