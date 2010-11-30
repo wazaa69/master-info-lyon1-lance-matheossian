@@ -49,7 +49,7 @@ calculerDiff([Ts|Qs], [Tf|Qf], Nbdiff) :- /* tête différente => incrémentation d
 
 
 /* L'état final est atteint */
-rechPf(Ef, Ef, Letats, [], Nbdiff) :- write('Liste des étapes successivent : '), nl, reverse(Letats, L), afficher(L), nl.
+rechPf(Ef, Ef, Letats, [], Nbdiff) :- write('Liste des étapes successives :'), nl, reverse(Letats, L), afficher(L), nl.
 
 /* 
 	Recherche de la liste des opérations our atteindre Ef
@@ -71,4 +71,4 @@ afficher([T|Q]):- afficherLigne(T,Q).
 
 		
 /* résolution général */
-resoudre:- initial(Ei), final(Ef), nbMaxDiff(N), rechPf(Ei, Ef, [Ei], ListeSuccOper, N),  write('Liste des opérateurs successif :'), nl, afficher(ListeSuccOper).
+resoudre:- initial(Ei), final(Ef), nbMaxDiff(N), rechPf(Ei, Ef, [Ei], ListeSuccOper, N),  write('Liste des opérateurs successifs :'), nl, afficher(ListeSuccOper).
