@@ -1,4 +1,9 @@
-/* Etat final et but */
+/* Contenance max des cruches */
+tailleCruche(1, 8).
+tailleCruche(2, 5).
+
+
+/* Etat initial et buts */
 initial(etat(0,0)).
 final(etat(4,0)).
 final(etat(3,1)).
@@ -8,72 +13,73 @@ final(etat(0,4)).
 
 isFinal(X) :- final(X).
 
-/* Valeur max des cruches */
-cruche(1, 8).
-cruche(2, 5).
 
 /* Etats interdits */
-interdit(etat(Cr1, _)) :- Cr1 > 8.
-interdit(etat(_, Cr2)) :- Cr2 > 5.
-interdit(etat(Cr1, _)) :- Cr1 < 0.
-interdit(etat(_, Cr2)) :- Cr2 < 0.
+interdit(etat(Cruche1, _)) :- Cruche1 > 8.
+interdit(etat(_, Cruche2)) :- Cruche2 > 5.
+interdit(etat(Cruche1, _)) :- Cruche1 < 0.
+interdit(etat(_, Cruche2)) :- Cruche2 < 0.
 
 
 
 /* Remplir cruche 1 */
-etatsuivant(etat(_, Cr2), etat(8, Cr2)) :- not(interdit(etat(8, Cr2))).
+etatsuivant(etat(_, Cruche2), r1, etat(8, Cruche2)) :- not(interdit(etat(8, Cruche2))).
 
 /* Remplir cruche 2 */
-etatsuivant(etat(Cr1, _), etat(Cr1, 5)) :- not(interdit(etat(Cr1, 5))).
+etatsuivant(etat(Cruche1, _), r2, etat(Cruche1, 5)) :- not(interdit(etat(Cruche1, 5))).
 
 /* Vider cruche 1 */
-etatsuivant(etat(_, Cr2), etat(0, Cr2)) :- not(interdit(etat(0, Cr2))).
+etatsuivant(etat(_, Cruche2), r3, etat(0, Cruche2)) :- not(interdit(etat(0, Cruche2))).
 
 /* Vider cruche 2 */
-etatsuivant(etat(Cr1, _), etat(Cr1, 0)) :- not(interdit(etat(Cr1, 0))).
+etatsuivant(etat(Cruche1, _), r4, etat(Cruche1, 0)) :- not(interdit(etat(Cruche1, 0))).
 
-/* Vider cruche 1 dans cruche 2 */
-etatsuivant(etat(Cr1, Cr2), etat(Crtmp1, M2)) :-
-    cruche(2, M2),
-	/* On regarde si on peut effectivement transvaser une partie de la cruche 1 dans la cruche 2, on fait donc des comparaisons sur leurs contenus*/
-    Max2 is M2 - Cr2,
-    Cr1 >= Max2,
-    Crtmp1 is Cr1 - Max2,
-    not(interdit(etat(Crtmp1, M2))).
-etatsuivant(etat(Cr1, Cr2), etat(0, Crtmp2)) :-
-    cruche(2, M2),
-    Max2 is M2 - Cr2,
-    Cr1 < Max2,
-    Crtmp2 is Cr1 + Cr2,
-    not(interdit(etat(0, Crtmp2))).
 
-/* Vider cruche 2 dans cruche 1 */
-etatsuivant(etat(Cr1, Cr2), etat(M1, Crtmp2)) :-
-    cruche(1, M1),
-	/* On regarde si on peut effectivement transvaser une partie de la cruche 2 dans la cruche 1, on fait donc des comparaisons sur leurs contenus*/
-    Max1 is M1 - Cr1,
-    Cr2 >= Max1,
-    Crtmp2 is Cr2 - Max1,
-    not(interdit(etat(M1, Crtmp2))).
+
+/* On vide cruche 1 dans cruche 2 */
+etatsuivant(etat(Cruche1, Cruche2), r5, etat(CrucheTmp1, T2)) :-
+    tailleCruche(2, T2), /* on récupère la taille de la cruche 2 */
+    Max2 is T2 - Cruche2, /* Max2 = place restante dans la cruche 2 */
+    Cruche1 >= Max2, /* si la place restante est plus petite que le contenu de la cruche 1*/
+    CrucheTmp1 is Cruche1 - Max2,  
+    not(interdit(etat(CrucheTmp1, T2))).
 	
-etatsuivant(etat(Cr1, Cr2), etat(Crtmp1, 0)) :-
-    cruche(1, M1),
-    Max1 is M1 - Cr1,
-    Cr2 < Max1,
-    Crtmp1 is Cr1 + Cr2,
-    not(interdit(etat(Crtmp1, 0))).
+etatsuivant(etat(Cruche1, Cruche2), r6, etat(0, CrucheTmp2)) :-
+    tailleCruche(2, T2),
+    Max2 is T2 - Cruche2,
+    Cruche1 < Max2,
+    CrucheTmp2 is Cruche1 + Cruche2,
+    not(interdit(etat(0, CrucheTmp2))).
+
+	
+/* On vide cruche 2 dans cruche 1 */
+etatsuivant(etat(Cruche1, Cruche2), r7, etat(T1, CrucheTmp2)) :-
+    tailleCruche(1, T1),
+    Max1 is T1 - Cruche1, /* transvaser une partie de la cruche 2 dans la cruche 1 => comparaisons sur leurs contenus */
+    Cruche2 >= Max1,
+    CrucheTmp2 is Cruche2 - Max1,
+    not(interdit(etat(T1, CrucheTmp2))).
+	
+etatsuivant(etat(Cruche1, Cruche2), r8, etat(CrucheTmp1, 0)) :-
+    tailleCruche(1, T1),
+    Max1 is T1 - Cruche1,
+    Cruche2 < Max1,
+    CrucheTmp1 is Cruche1 + Cruche2,
+    not(interdit(etat(CrucheTmp1, 0))).
 
 
 	
 /* Recherche en profondeur */
-rechPf(EtatCourt, ListeEtatsSuccTmp, ListeEtatsSucc):- /* But atteint */
-	isFinal(EtatCourt), /* l'état suivant ne doit pas être un état final pour pouvoir continuer */
-	append(ListeEtatsSuccTmp,[],ListeEtatsSucc).
+rechPf(EtatCourt, ListeEtatsSucc, ListeOperSucc):- /* But atteint */
+	isFinal(EtatCourt), /* si l'état suivant est un état final, on s'arrête et on affiche les listes */
+	write('Liste des étapes successives :'), nl, reverse(ListeEtatsSucc, L1), afficher(L1), nl,
+	write('Liste des opérateurs successifs :'), nl, reverse(ListeOperSucc, L2), afficher(L2).
 	
-rechPf(EtatCourt, ListeEtatsSuccTmp, ListeEtatsSucc) :-
-	etatsuivant(EtatCourt, EtatSuivt),
-	not(member(EtatSuivt, ListeEtatsSuccTmp)),
-	rechPf(EtatSuivt, [EtatSuivt | ListeEtatsSuccTmp], ListeEtatsSucc).
+rechPf(EtatCourt, ListeEtatsSucc, ListeOperSucc) :-
+	etatsuivant(EtatCourt, Topx, EtatSuivt),
+	not(member(EtatSuivt, ListeEtatsSucc)),
+	rechPf(EtatSuivt, [EtatSuivt | ListeEtatsSucc], [Topx | ListeOperSucc]).
+	
 	
 	
 /* Affichage ligne par ligne */
@@ -82,6 +88,6 @@ afficherLigne(X, [T|Q]):- write(X), nl, afficherLigne(T,Q).
 afficher([T|Q]):- afficherLigne(T,Q).
 
 
-/* Lancement de résolution du programme */
-resolution(Ei, ListeEtatsSucc) :- rechPf(Ei, [Ei], ListeEtatsSucc).
-resoudre :- initial(Ei), resolution(Ei, ListeEtatsSucc), reverse(ListeEtatsSucc, Resultat), nl, afficher(Resultat).
+/* On résoud le programme */
+resolution(Ei, ListeEtatsSucc, ListeOperSucc) :- rechPf(Ei, [Ei], []).
+resoudre :- initial(Ei), resolution(Ei, ListeEtatsSucc, ListeOperSucc).
