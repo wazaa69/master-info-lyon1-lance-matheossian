@@ -1,0 +1,183 @@
+\hypertarget{class_class_a}{
+\section{Référence de la classe ClassA}
+\label{class_class_a}\index{ClassA@{ClassA}}
+}
+
+
+Classe d'exemple A.  
+
+
+{\ttfamily \#include $<$ClassA.hpp$>$}Graphe de collaboration de ClassA:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=93pt]{class_class_a__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_class_a_1_1_ma_struct}{MaStruct}
+\begin{DoxyCompactList}\small\item\em Ma structure interne. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_class_a_acd165fa87ae77eeb9c715024c0301a6b}{ClassA} ()
+\begin{DoxyCompactList}\small\item\em Constructeur par défaut. \item\end{DoxyCompactList}\item 
+\hyperlink{class_class_a_a6ead4513f775571caf3c0387d535783f}{$\sim$ClassA} ()
+\begin{DoxyCompactList}\small\item\em Destructeur par défaut. \item\end{DoxyCompactList}\item 
+\hyperlink{struct_class_a_1_1_ma_struct}{MaStruct} $\ast$ \hyperlink{class_class_a_aa95d318339e8bdb65954c7942f1e1f78}{maMethode} ()
+\begin{DoxyCompactList}\small\item\em Ma méthode, et à personne d'autre ! \item\end{DoxyCompactList}\item 
+\hyperlink{struct_class_a_1_1_ma_struct}{MaStruct} $\ast$ \hyperlink{class_class_a_a30a91a34f55c7cafb8922c55c0e99d50}{maMethode} (int param1, const string param2)
+\begin{DoxyCompactList}\small\item\em Version améliorée de ma méthode, et à personne d'autre ! \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Types privés}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4}{MonEnum} \{ \hyperlink{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4a9db1f0ab44af74bb349827f67c63835d}{VAL1} =  1, 
+\hyperlink{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4a2aa208680503684c42107f008350be56}{VAL2} =  10, 
+\hyperlink{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4ab9438dfedb4070dba86d8dfaf4562851}{VAL3} =  100
+ \}
+\begin{DoxyCompactList}\small\item\em Une énumération de trois valeurs sur une échelle logarithmique 10. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs privés}
+\begin{DoxyCompactItemize}
+\item 
+long int \hyperlink{class_class_a_ab13fa04135597d1b015171ee7e823804}{\_\-attr1}
+\begin{DoxyCompactList}\small\item\em Mon premier attribut. \item\end{DoxyCompactList}\item 
+\hyperlink{class_class_b}{ClassB} $\ast$ \hyperlink{class_class_a_a705a48160d35a8656f1196967a3f11ab}{\_\-attr2}
+\begin{DoxyCompactList}\small\item\em Mon second attribut : pointeur vers instance de B. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Attributs privés statiques}
+\begin{DoxyCompactItemize}
+\item 
+static const \hyperlink{class_class_a_a37b03b75edb033b486bdbaeb5019cc08}{THE\_\-ANSWER} = 40 + 2
+\begin{DoxyCompactList}\small\item\em Constante de classe répondant à la grande question sur l'Univers. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Classe d'exemple A. Voici un petit bout de code qui illustre l'utilisation de Doxygen au travers d'un code de classe C++. \begin{DoxyAuthor}{Auteur}
+Emmanuel GAUDE $<$\href{mailto:emmanuel.gaude@etu.univ-lyon1.fr}{\tt emmanuel.gaude@etu.univ-\/lyon1.fr}$>$ 
+
+Benjamin GUILLON $<$\href{mailto:benjamin.guillon@etu.univ-lyon1.fr}{\tt benjamin.guillon@etu.univ-\/lyon1.fr}$>$ 
+\end{DoxyAuthor}
+\begin{DoxySince}{Depuis}
+2009/09/26 
+\end{DoxySince}
+\begin{DoxyVersion}{Version}
+2009/10/03
+\end{DoxyVersion}
+\begin{DoxySeeAlso}{Voir également}
+\href{http://www.stack.nl/~dimitri/doxygen/manual.html}{\tt http://www.stack.nl/$\sim$dimitri/doxygen/manual.html} 
+\end{DoxySeeAlso}
+\begin{DoxyNote}{Note}
+Vous mettez ici ce que vous voulez, comme une licence. 
+\end{DoxyNote}
+
+
+\subsection{Documentation des énumérations membres}
+\hypertarget{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4}{
+\index{ClassA@{ClassA}!MonEnum@{MonEnum}}
+\index{MonEnum@{MonEnum}!ClassA@{ClassA}}
+\subsubsection[{MonEnum}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ClassA::MonEnum}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4}
+
+
+Une énumération de trois valeurs sur une échelle logarithmique 10. \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{VAL1@{VAL1}!ClassA@{ClassA}}\index{ClassA@{ClassA}!VAL1@{VAL1}}\item[{\em 
+\hypertarget{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4a9db1f0ab44af74bb349827f67c63835d}{
+VAL1}
+\label{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4a9db1f0ab44af74bb349827f67c63835d}
+}]Première valeur de l'énum (1) \index{VAL2@{VAL2}!ClassA@{ClassA}}\index{ClassA@{ClassA}!VAL2@{VAL2}}\item[{\em 
+\hypertarget{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4a2aa208680503684c42107f008350be56}{
+VAL2}
+\label{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4a2aa208680503684c42107f008350be56}
+}]Deuxième valeur de l'énum (10) \index{VAL3@{VAL3}!ClassA@{ClassA}}\index{ClassA@{ClassA}!VAL3@{VAL3}}\item[{\em 
+\hypertarget{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4ab9438dfedb4070dba86d8dfaf4562851}{
+VAL3}
+\label{class_class_a_aebd12939da3b00aca5f7c04a0f34f0d4ab9438dfedb4070dba86d8dfaf4562851}
+}]Troisième valeur de l'énum (100) \end{description}
+\end{Desc}
+
+
+
+\subsection{Documentation des constructeurs et destructeur}
+\hypertarget{class_class_a_acd165fa87ae77eeb9c715024c0301a6b}{
+\index{ClassA@{ClassA}!ClassA@{ClassA}}
+\index{ClassA@{ClassA}!ClassA@{ClassA}}
+\subsubsection[{ClassA}]{\setlength{\rightskip}{0pt plus 5cm}ClassA::ClassA ()}}
+\label{class_class_a_acd165fa87ae77eeb9c715024c0301a6b}
+
+
+Constructeur par défaut. Classe d'exemple A \hypertarget{class_class_a_a6ead4513f775571caf3c0387d535783f}{
+\index{ClassA@{ClassA}!$\sim$ClassA@{$\sim$ClassA}}
+\index{$\sim$ClassA@{$\sim$ClassA}!ClassA@{ClassA}}
+\subsubsection[{$\sim$ClassA}]{\setlength{\rightskip}{0pt plus 5cm}ClassA::$\sim$ClassA ()}}
+\label{class_class_a_a6ead4513f775571caf3c0387d535783f}
+
+
+Destructeur par défaut. 
+
+\subsection{Documentation des fonctions membres}
+\hypertarget{class_class_a_a30a91a34f55c7cafb8922c55c0e99d50}{
+\index{ClassA@{ClassA}!maMethode@{maMethode}}
+\index{maMethode@{maMethode}!ClassA@{ClassA}}
+\subsubsection[{maMethode}]{\setlength{\rightskip}{0pt plus 5cm}double ClassA::maMethode (int {\em param1}, \/  const string {\em param2})}}
+\label{class_class_a_a30a91a34f55c7cafb8922c55c0e99d50}
+
+
+Version améliorée de ma méthode, et à personne d'autre ! 
+\begin{DoxyParams}{Paramètres}
+\item[\mbox{$\leftrightarrow$} {\em param1}]Entier dont il faut calculer la racine carrée. \item[\mbox{$\leftarrow$} {\em param2}]Message à afficher. \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Retourne un pointeur sur un nouvel objet \hyperlink{struct_class_a_1_1_ma_struct}{MaStruct} initialisé avec param1. 
+\end{DoxyReturn}
+\hypertarget{class_class_a_aa95d318339e8bdb65954c7942f1e1f78}{
+\index{ClassA@{ClassA}!maMethode@{maMethode}}
+\index{maMethode@{maMethode}!ClassA@{ClassA}}
+\subsubsection[{maMethode}]{\setlength{\rightskip}{0pt plus 5cm}double ClassA::maMethode ()}}
+\label{class_class_a_aa95d318339e8bdb65954c7942f1e1f78}
+
+
+Ma méthode, et à personne d'autre ! \begin{DoxyPrecond}{Précondition}
+Un système sous Windows... 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Une perte de données.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Renvoie}
+Retourne systématiquement NULL. 
+\end{DoxyReturn}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000001}{Obsolète}]Ne pas l'utiliser sinon plantage assuré... \end{Desc}
+\begin{Desc}
+\item[\hyperlink{bug__bug000001}{Bogue}]BSOD \end{Desc}
+
+
+\subsection{Documentation des données membres}
+\hypertarget{class_class_a_ab13fa04135597d1b015171ee7e823804}{
+\index{ClassA@{ClassA}!\_\-attr1@{\_\-attr1}}
+\index{\_\-attr1@{\_\-attr1}!ClassA@{ClassA}}
+\subsubsection[{\_\-attr1}]{\setlength{\rightskip}{0pt plus 5cm}long int {\bf ClassA::\_\-attr1}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_class_a_ab13fa04135597d1b015171ee7e823804}
+
+
+Mon premier attribut. \hypertarget{class_class_a_a705a48160d35a8656f1196967a3f11ab}{
+\index{ClassA@{ClassA}!\_\-attr2@{\_\-attr2}}
+\index{\_\-attr2@{\_\-attr2}!ClassA@{ClassA}}
+\subsubsection[{\_\-attr2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ClassB}$\ast$ {\bf ClassA::\_\-attr2}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{class_class_a_a705a48160d35a8656f1196967a3f11ab}
+
+
+Mon second attribut : pointeur vers instance de B. \hypertarget{class_class_a_a37b03b75edb033b486bdbaeb5019cc08}{
+\index{ClassA@{ClassA}!THE\_\-ANSWER@{THE\_\-ANSWER}}
+\index{THE\_\-ANSWER@{THE\_\-ANSWER}!ClassA@{ClassA}}
+\subsubsection[{THE\_\-ANSWER}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf ClassA::THE\_\-ANSWER} = 40 + 2\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{class_class_a_a37b03b75edb033b486bdbaeb5019cc08}
+
+
+Constante de classe répondant à la grande question sur l'Univers. 
+
+La documentation de cette classe a été générée à partir des fichiers suivants :\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_class_a_8hpp}{ClassA.hpp}\item 
+\hyperlink{_class_a_8cpp}{ClassA.cpp}\end{DoxyCompactItemize}
