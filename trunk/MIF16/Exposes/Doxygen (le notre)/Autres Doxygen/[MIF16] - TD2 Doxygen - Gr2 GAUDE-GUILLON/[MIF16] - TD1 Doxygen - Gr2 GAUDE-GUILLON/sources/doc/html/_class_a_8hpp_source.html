@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Exemple de documentation avec Doxygen:  Fichier source de ClassA.hpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.1 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="index.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Membres&nbsp;de&nbsp;fichier</span></a></li>
+    </ul>
+  </div>
+<h1>ClassA.hpp</h1><a href="_class_a_8hpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00025"></a>00025 <span class="preprocessor">#ifndef DEF_CLASSA</span>
+<a name="l00026"></a>00026 <span class="preprocessor"></span><span class="preprocessor">#define DEF_CLASSA</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00029"></a><a class="code" href="_class_a_8hpp.html#a6af5917cc25c3507fffd8a94263575d9">00029</a> <span class="preprocessor">#define THE_ANSWER_MACRO 40 + 2</span>
+<a name="l00030"></a>00030 <span class="preprocessor"></span> 
+<a name="l00031"></a>00031 <span class="comment">/* Inclusion d&apos;une classe externe. (ce commentaire n&apos;est pas généré) */</span> 
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;ClassB.h&quot;</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a><a class="code" href="class_class_a.html">00034</a> <span class="keyword">class </span><a class="code" href="class_class_a.html" title="Classe d&amp;#39;exemple A.">ClassA</a> {
+<a name="l00035"></a>00035     <span class="keyword">private</span>:
+<a name="l00037"></a><a class="code" href="class_class_a.html#a37b03b75edb033b486bdbaeb5019cc08">00037</a>       <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="class_class_a.html#a37b03b75edb033b486bdbaeb5019cc08" title="Constante de classe répondant à la grande question sur l&amp;#39;Univers.">THE_ANSWER</a> = <a class="code" href="_class_a_8hpp.html#a6af5917cc25c3507fffd8a94263575d9" title="Macro calculant la valeur de La Réponse sur l&amp;#39;Univers.">THE_ANSWER_MACRO</a>;
+<a name="l00038"></a>00038       
+<a name="l00040"></a><a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4">00040</a>       <span class="keyword">enum</span> <a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4" title="Une énumération de trois valeurs sur une échelle logarithmique 10.">MonEnum</a> {
+<a name="l00041"></a><a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4a9db1f0ab44af74bb349827f67c63835d">00041</a>         <a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4a9db1f0ab44af74bb349827f67c63835d">VAL1</a> = 1, 
+<a name="l00042"></a><a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4a2aa208680503684c42107f008350be56">00042</a>         <a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4a2aa208680503684c42107f008350be56">VAL2</a> = 10, 
+<a name="l00043"></a><a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4ab9438dfedb4070dba86d8dfaf4562851">00043</a>         <a class="code" href="class_class_a.html#aebd12939da3b00aca5f7c04a0f34f0d4ab9438dfedb4070dba86d8dfaf4562851">VAL3</a> = 100 
+<a name="l00044"></a>00044       };
+<a name="l00045"></a>00045       
+<a name="l00050"></a><a class="code" href="struct_class_a_1_1_ma_struct.html">00050</a>       <span class="keyword">struct </span><a class="code" href="struct_class_a_1_1_ma_struct.html" title="Ma structure interne.">MaStruct</a> {
+<a name="l00052"></a><a class="code" href="struct_class_a_1_1_ma_struct.html#a3439feaf6316628cf77919d9f4b2519a">00052</a>         <span class="keywordtype">int</span> <a class="code" href="struct_class_a_1_1_ma_struct.html#a3439feaf6316628cf77919d9f4b2519a" title="Premier attribut de la structure.">attr1</a>;
+<a name="l00054"></a><a class="code" href="struct_class_a_1_1_ma_struct.html#aaaa68ea043748cccd75e3c0403ea4d87">00054</a>         <span class="keywordtype">char</span> <a class="code" href="struct_class_a_1_1_ma_struct.html#aaaa68ea043748cccd75e3c0403ea4d87" title="Second attribut de la structure.">attr2</a>;
+<a name="l00055"></a>00055       };
+<a name="l00056"></a>00056       
+<a name="l00058"></a><a class="code" href="class_class_a.html#ab13fa04135597d1b015171ee7e823804">00058</a>       <span class="keywordtype">long</span> <span class="keywordtype">int</span> <a class="code" href="class_class_a.html#ab13fa04135597d1b015171ee7e823804" title="Mon premier attribut.">_attr1</a>;
+<a name="l00059"></a>00059       
+<a name="l00060"></a><a class="code" href="class_class_a.html#a705a48160d35a8656f1196967a3f11ab">00060</a>       <a class="code" href="class_class_b.html" title="Classe d&amp;#39;exemple B.">ClassB</a> * <a class="code" href="class_class_a.html#a705a48160d35a8656f1196967a3f11ab" title="Mon second attribut : pointeur vers instance de B.">_attr2</a>; 
+<a name="l00062"></a>00062     <span class="keyword">public</span>:
+<a name="l00064"></a>00064       <a class="code" href="class_class_a.html#acd165fa87ae77eeb9c715024c0301a6b" title="Constructeur par défaut.">ClassA</a>();
+<a name="l00065"></a>00065       
+<a name="l00067"></a>00067       <a class="code" href="class_class_a.html#a6ead4513f775571caf3c0387d535783f" title="Destructeur par défaut.">~ClassA</a>();
+<a name="l00068"></a>00068       
+<a name="l00079"></a>00079       <a class="code" href="struct_class_a_1_1_ma_struct.html" title="Ma structure interne.">MaStruct</a> * <a class="code" href="class_class_a.html#aa95d318339e8bdb65954c7942f1e1f78" title="Ma méthode, et à personne d&amp;#39;autre !">maMethode</a>();
+<a name="l00080"></a>00080       
+<a name="l00089"></a>00089       <a class="code" href="struct_class_a_1_1_ma_struct.html" title="Ma structure interne.">MaStruct</a> * <a class="code" href="class_class_a.html#aa95d318339e8bdb65954c7942f1e1f78" title="Ma méthode, et à personne d&amp;#39;autre !">maMethode</a>(<span class="keywordtype">int</span> param1, <span class="keyword">const</span> <span class="keywordtype">string</span> param2);
+<a name="l00090"></a>00090 };
+<a name="l00091"></a>00091  
+<a name="l00092"></a>00092 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr size="1"/><address style="text-align: right;"><small>Généré le Sun Sep 27 18:14:27 2009 pour Exemple de documentation avec Doxygen par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
+</body>
+</html>

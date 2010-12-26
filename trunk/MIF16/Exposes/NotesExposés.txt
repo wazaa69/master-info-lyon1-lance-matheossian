@@ -1,0 +1,154 @@
+BugZilla (1998) :
+	open source
+	Windows et UNIX
+	C’est un système de suivi de bugs (bug-tracker) par tickets basé sur une interface web.
+	Il est écrit en Perl…
+	Il a une base MySQL..
+	Il utilise un serveur Apache..
+	Pour de très gros projet avec une communauté importantes de testeurs et de débuggeurs.
+
+
+C# (2001): Lutter contre Java. Vocabulaire du C++ avec grammaire du JAVA
+
+	Getter et Setter définition :
+	class Test{
+		private int minute;
+		public int Heure{
+			get{ return minute / 60;}
+			set{ minute = value * 60 ;}
+		}
+	}
+
+	Passage par référence "ref" :
+	Public Exemple2{
+
+		public void main(){
+			int j =4;
+			Multiplie(ref j); //affiche 16
+		}
+
+		public void Multiplie(ref int i){i= i*4;}
+		
+	}
+
+	héritage :
+	public class Voiture : Vehicule
+
+	Accès méthode et constructeur de la classe mère
+	base.Vehicule; //appel du constructeur
+	
+	Sortie principale :
+	System.Console.WriteLine("(0),(1)",elem0,elem1);
+	
+	
+	public classe1<Type>{
+		Type [] nomAtt;
+		public type this [int index]{
+			Get{return nomAtt[index];}
+			Set{nomAtt[index] = value;}
+		}
+	}
+	
+	//lecture seul d'un attribut
+	protected readonly int nombre;
+	
+	//delegate = pointeur sur fonction
+	delegate int Operation(int i, int j);
+		public class1{
+		public static int addition(int i, int j){ return i+j;}
+		static void Main() {Operation d1 = addition; d1(5,6);}
+	}
+	
+Gantt project (2003):
+	Diagramme de : plusieurs log sur plusieurs platforme 
+		* de Gantt : Planning à barre sur échelle de temps. Tâches calées au plus tôt
+		* de ressources : Tâches représentées par des rectangles. Dépendances entres les tâches.
+		* de Pert : Tâches représentées par des flèches. Etapes représentées par des symboles. Dépendances entres les tâches.
+	Données -> format XML
+	
+Latex (1978) :
+	version spécial de Tex
+	langage compilé
+	Latex Project Public License
+	Distrib  Linux et Windows : TeXLive
+	Editeur texte : TeXMaker
+	Compilation : latex nomBod.tex OU pdflatex nomDoc.tex
+	Beamer	-> package de Latex pour des présentation en pdf
+			-> compilation : pdflatex
+			-> new Diapo : \begin{frame} '\end{frame}
+			-> thème mise en page : \usetheme{Warsaw}
+	Latex : Ok pr : compatibilité, formules, macro. Pas ok : difficile apprendre, need compilo
+
+Script shell :
+	interpreteur de commande
+	Sur tous les Os basé sur UNIX -> shell de base = sh
+	Bash rend l'écriture de scripts plus simple que sh
+	script shell = mini-langage de prog
+	Premère utilitée : permet l'automatisation des taches répétitive
+	Début : #!/bin/bash
+	fin : exit 0;
+	Execution : bash nomscript
+	Commandes utilisable : toutes celles sur linux (ls, grep, exec, ...)
+	Variable : MSG=salut echo $MSG
+	Variable d'environnement utilisables (exemple : PATH)
+	Fonction : nomfct(){instructions} appel : nomfct $1 $2
+	Testes sur chaine de caract : $a -eq $b  <=> $a = $b, et les autres commandes...
+	Testes sur les fichiers
+	Faire un if : if [test]; then instruction elif[test] then instruction else instruction
+	Faire un while : while[test] do instruction done
+	Faire un for : for variable in toto tutu "ti ti"; do instruction done
+	
+STL (1994):
+	libre
+	Biblio standard du c++
+	Définit des structures de données et des algorithmes génériques
+	Itérateur : l
+ist, Vector, Map
+	Conteneur : list, Vector, Map, pair, set
+	pair<int, string> p = make_pare(5,"pouet") et p.first, p.second pr utiliser
+	list<int> m; m.push_back(1); -> liste chainée
+	vector<int> m; m.pus_back(1);
+	set<int> m; s.insert(2); s.insert(2); -> le doublon n'est pas inséré, le contenu est unqiue
+	map<string,unisgned> m; m["janvier"] = 1; -> clé associée à une donnée
+	std::for_each(chaine.begin(), chaine.end(), _mafonction); void _majuscules(char & c){cout << c ;}
+	Désavantage : La STL ne contient pas d’algorithmes parallèles. Pas de graph, ni d'arbre
+	Avantages : perf séquentiel, algo generique, rapidité, qualié code, maintenance
+	
+
+Valgrind - GDB :
+	Valgrind :
+		debogueur mémoire sur linux pour C\C++
+		Memcheck : qui vérifie les fuites mémoires, les dépassements,
+		Cachegrind : qui mesure les données par rapport au cache,
+		Callgrind : qui est le profileur en question
+	GDB : débogueur, détecte les erreur classique de programmation -> gestion des points d'arrêt C/C++
+		permet de savoir :
+			- la ligne de terminaison incorrecte
+			- valeurs pendant exécution
+			- valeur d'une expression donnée à un moment
+		commandes :run(r) quit(q) break(b) clear(cl) steps(s) ..
+	Inconvéniant Valgrind :
+		Incapable de détecter les mauvaises utilisations de pointeur dans le cas d’un tableau alloué statiquement.
+		programme plus lent et plus gourmand dans Valgrind (handicap pr de gros programmes)
+	
+wxWidget (1992) :
+	bibliothèque graphique
+	Licence wxWidget
+	code source uniquemen fournis -> a compiler g++ (long)
+	Outils graphiques : dessin, évènement, drag & drop, image, opengl
+	Sockets, multitache, html, BDD
+	par rapport à Qt :
+		Avantages : respect d'apparence de l'os, rapide, communauté active, gratuite
+		Désavantage : installation longue, comportement diff selon os, - orienté objet, fonctionnalités expérimentales, designer - puissant
+Boost:
+	collection de biblio basé sur le c++, open source,r rapide , efficace et stable
+	nombreuses inclusion au prog nécessaire
+	c'est un complément de la STL
+	manipulation de chaine, struct de données, algo, thread, math et calcul
+
+BoUML :
+	génération de squelette de code depuis les diagrammes
+	C++, Java, PHP
+	9 diagra gérés sur les 13 diagrammes Uml existants
+	rapide et peu de mémoire, bonne doc, open source, multiplatforme
+	la modif partiel sur des bou de codes est un vrai handicap pour bouml
