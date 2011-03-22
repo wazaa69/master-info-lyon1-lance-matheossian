@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1300809958 source:/home/etu/m/p0604950/Desktop/MIF31/Expression/main.cpp
+	<iostream>
+	"include/Constante.h"
+	"include/Expression.h"
+	"include/MoinsUnaire.h"
+
+1300809239 source:/home/etu/m/p0604950/Desktop/MIF31/Expression/src/Constante.cpp
+	"../include/Constante.h"
+
+1300810180 /home/etu/m/p0604950/Desktop/MIF31/Expression/include/Constante.h
+	"Expression.h"
+
+1300809213 /home/etu/m/p0604950/Desktop/MIF31/Expression/include/Expression.h
+
+1300806794 source:/home/etu/m/p0604950/Desktop/MIF31/Expression/src/Expression.cpp
+	"../include/Expression.h"
+
+1300810218 source:/home/etu/m/p0604950/Desktop/MIF31/Expression/src/MoinsUnaire.cpp
+	"../include/MoinsUnaire.h"
+
+1300810186 /home/etu/m/p0604950/Desktop/MIF31/Expression/include/MoinsUnaire.h
+	"Expression.h"
+
