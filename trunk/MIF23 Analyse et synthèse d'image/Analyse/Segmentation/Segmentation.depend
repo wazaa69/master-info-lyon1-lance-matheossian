@@ -1,0 +1,117 @@
+# depslib dependency file v1.0
+1300737893 source:/home/dim/Bureau/Image/Segmentation/main.cpp
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	"include/Accroissement.h"
+
+1300738084 /home/dim/Bureau/Image/Segmentation/include/Accroissement.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+	<vector>
+	"Region.h"
+	"Graine.h"
+
+1300738677 /home/dim/Bureau/Image/Segmentation/include/Region.h
+	<vector>
+	"Graine.h"
+	"Couleur.h"
+
+1300732148 /home/dim/Bureau/Image/Segmentation/include/Graine.h
+
+1300741193 /home/dim/Bureau/Image/Segmentation/include/Couleur.h
+	<stdlib.h>
+	<time.h>
+	<vector>
+
+1300738128 source:/home/dim/Bureau/Image/Segmentation/src/Accroissement.cpp
+	"../include/Accroissement.h"
+
+1300741032 source:/home/dim/Bureau/Image/Segmentation/src/Couleur.cpp
+	"../include/Couleur.h"
+
+1300738602 source:/home/dim/Bureau/Image/Segmentation/src/Graine.cpp
+	"../include/Graine.h"
+
+1300738764 source:/home/dim/Bureau/Image/Segmentation/src/Region.cpp
+	"../include/Region.h"
+
+1300877454 source:/home/etu/m/p0604950/Desktop/Segmentation/main.cpp
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	"include/Accroissement.h"
+
+1300738084 /home/etu/m/p0604950/Desktop/Segmentation/include/Accroissement.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+	<vector>
+	"Region.h"
+	"Graine.h"
+
+1300877406 /home/etu/m/p0604950/Desktop/Segmentation/include/Region.h
+	<vector>
+	"Graine.h"
+	"Couleur.h"
+
+1300732148 /home/etu/m/p0604950/Desktop/Segmentation/include/Graine.h
+
+1300877418 /home/etu/m/p0604950/Desktop/Segmentation/include/Couleur.h
+	<stdlib.h>
+	<time.h>
+	<vector>
+
+1300877422 source:/home/etu/m/p0604950/Desktop/Segmentation/src/Accroissement.cpp
+	"../include/Accroissement.h"
+
+1300877416 source:/home/etu/m/p0604950/Desktop/Segmentation/src/Couleur.cpp
+	"../include/Couleur.h"
+
+1300738602 source:/home/etu/m/p0604950/Desktop/Segmentation/src/Graine.cpp
+	"../include/Graine.h"
+
+1300738764 source:/home/etu/m/p0604950/Desktop/Segmentation/src/Region.cpp
+	"../include/Region.h"
+
+1300972414 source:/home/dim/Bureau/Segmentation/main.cpp
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	"include/Accroissement.h"
+
+1300973761 /home/dim/Bureau/Segmentation/include/Accroissement.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+	<vector>
+	"Region.h"
+	"Graine.h"
+
+1300973355 /home/dim/Bureau/Segmentation/include/Region.h
+	<iostream>
+	<vector>
+	"Graine.h"
+	"Couleur.h"
+
+1300973849 /home/dim/Bureau/Segmentation/include/Graine.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+
+1300970465 /home/dim/Bureau/Segmentation/include/Couleur.h
+	<stdlib.h>
+	<time.h>
+	<iostream>
+	<vector>
+
+1300973040 source:/home/dim/Bureau/Segmentation/src/Graine.cpp
+	"../include/Graine.h"
+
+1300972790 source:/home/dim/Bureau/Segmentation/src/Accroissement.cpp
+	"../include/Accroissement.h"
+
+1300970758 source:/home/dim/Bureau/Segmentation/src/Couleur.cpp
+	"../include/Couleur.h"
+
+1300973351 source:/home/dim/Bureau/Segmentation/src/Region.cpp
+	"../include/Region.h"
+
