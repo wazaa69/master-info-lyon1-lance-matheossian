@@ -36,14 +36,14 @@
 		<Unit filename="include\Expression.h" />
 		<Unit filename="include\Moins.h" />
 		<Unit filename="include\MoinsUnaire.h" />
-		<Unit filename="include\Multiplication.h" />
+		<Unit filename="include\Mult.h" />
 		<Unit filename="include\Plus.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src\Constante.cpp" />
 		<Unit filename="src\Expression.cpp" />
 		<Unit filename="src\Moins.cpp" />
 		<Unit filename="src\MoinsUnaire.cpp" />
-		<Unit filename="src\Multiplication.cpp" />
+		<Unit filename="src\Mult.cpp" />
 		<Unit filename="src\Plus.cpp" />
 		<Extensions>
 			<code_completion />

@@ -22,10 +22,10 @@
 1300810186 /home/etu/m/p0604950/Desktop/MIF31/Expression/include/MoinsUnaire.h
 	"Expression.h"
 
-1301138670 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\constante.cpp
+1301175755 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\constante.cpp
 	"../include/Constante.h"
 
-1301138670 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\constante.h
+1301175750 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\constante.h
 	"Expression.h"
 
 1301138670 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\expression.h
@@ -36,7 +36,7 @@
 1301140191 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\moins.cpp
 	"../include/Moins.h"
 
-1301140170 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\moins.h
+1301177292 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\moins.h
 	"Expression.h"
 
 1301138670 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\moinsunaire.cpp
@@ -45,16 +45,30 @@
 1301138670 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\moinsunaire.h
 	"Expression.h"
 
-1301143252 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\main.cpp
+1301175545 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\main.cpp
 	<iostream>
 	"include/Constante.h"
 	"include/Expression.h"
 	"include/MoinsUnaire.h"
 	"include/Moins.h"
+	"include/Plus.h"
+	"include/Multiplication.h"
 
-1301145522 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\plus.cpp
+1301175819 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\plus.cpp
 	"../include/Plus.h"
 
-1301145482 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\plus.h
+1301177275 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\plus.h
+	"Expression.h"
+
+1301145785 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\multiplication.cpp
+	"../include/Multiplication.h"
+
+1301177284 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\multiplication.h
+	"Expression.h"
+
+1301177459 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\mult.cpp
+	"../include/Mult.h"
+
+1301177492 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\mult.h
 	"Expression.h"
 
