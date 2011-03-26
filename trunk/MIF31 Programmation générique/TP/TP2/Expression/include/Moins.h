@@ -3,7 +3,7 @@
 
 #include "Expression.h"
 
-class Moins : Expression
+class Moins : public Expression
 {
     public:
         Moins(const Expression& _exp1, const Expression& _exp2);
