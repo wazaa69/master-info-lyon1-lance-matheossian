@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include\Constante.h" open="1" top="0" tabpos="3">
+	<File name="include\Constante.h" open="0" top="0" tabpos="3">
 		<Cursor position="95" topLine="0" />
 	</File>
-	<File name="include\Expression.h" open="1" top="0" tabpos="1">
+	<File name="include\Expression.h" open="0" top="0" tabpos="1">
 		<Cursor position="219" topLine="0" />
 	</File>
-	<File name="include\Moins.h" open="1" top="0" tabpos="7">
-		<Cursor position="274" topLine="0" />
-	</File>
-	<File name="include\MoinsUnaire.h" open="1" top="0" tabpos="9">
+	<File name="include\Moins.h" open="0" top="0" tabpos="7">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="5">
-		<Cursor position="477" topLine="0" />
+	<File name="include\MoinsUnaire.h" open="0" top="0" tabpos="9">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="src\Constante.cpp" open="1" top="0" tabpos="4">
+	<File name="main.cpp" open="1" top="1" tabpos="4">
+		<Cursor position="593" topLine="0" />
+	</File>
+	<File name="src\Constante.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="194" topLine="0" />
 	</File>
-	<File name="src\Expression.cpp" open="1" top="0" tabpos="2">
+	<File name="src\Expression.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="5" topLine="0" />
 	</File>
-	<File name="src\Moins.cpp" open="1" top="0" tabpos="8">
-		<Cursor position="333" topLine="0" />
+	<File name="src\Moins.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="src\MoinsUnaire.cpp" open="1" top="0" tabpos="6">
+	<File name="src\MoinsUnaire.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="155" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
