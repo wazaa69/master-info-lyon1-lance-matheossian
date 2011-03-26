@@ -1,15 +1,15 @@
-#include "Moins.h"
+#include "../include/Moins.h"
 
-Moins::Moins(const Expression& _exp1, const Expression& _exp2) expr1(_exp1.clone()), expr2(_expr2.clone()){}
+Moins::Moins(const Expression& _exp1, const Expression& _exp2) : exp1(_exp1.clone()), exp2(_exp2.clone()){}
 
 Moins::~Moins()
 {
-    delete expr1;
-    delete expr2;
+    delete exp1;
+    delete exp2;
 }
 
 int Moins::eval() const{return exp2->eval() - exp1->eval();}
 
 Expression* Moins::clone()const{
-    return new Moins(*exp1, *expr2);
+    return new Moins(*exp1, *exp2);
 }

@@ -6,7 +6,7 @@
 class Moins : Expression
 {
     public:
-        Moins();
+        Moins(const Expression& _exp1, const Expression& _exp2);
         virtual ~Moins();
 
         Expression* clone() const;
