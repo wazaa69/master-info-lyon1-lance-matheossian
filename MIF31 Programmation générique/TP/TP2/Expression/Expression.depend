@@ -22,3 +22,33 @@
 1300810186 /home/etu/m/p0604950/Desktop/MIF31/Expression/include/MoinsUnaire.h
 	"Expression.h"
 
+1301138670 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\constante.cpp
+	"../include/Constante.h"
+
+1301138670 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\constante.h
+	"Expression.h"
+
+1301138670 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\expression.h
+
+1301138670 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\expression.cpp
+	"../include/Expression.h"
+
+1301140191 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\moins.cpp
+	"../include/Moins.h"
+
+1301140170 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\moins.h
+	"Expression.h"
+
+1301138670 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\src\moinsunaire.cpp
+	"../include/MoinsUnaire.h"
+
+1301138670 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\include\moinsunaire.h
+	"Expression.h"
+
+1301143252 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\tp\tp2\expression\main.cpp
+	<iostream>
+	"include/Constante.h"
+	"include/Expression.h"
+	"include/MoinsUnaire.h"
+	"include/Moins.h"
+
