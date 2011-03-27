@@ -1,6 +1,6 @@
 #include "../include/MoinsUnaire.h"
 
-MoinsUnaire::MoinsUnaire(const Expression& _exp): exp(_exp.clone()){}
+MoinsUnaire::MoinsUnaire(const Expression& _exp): ExpressionUnaire(*_exp.clone()){}
 
 MoinsUnaire::~MoinsUnaire(){delete exp;}
 

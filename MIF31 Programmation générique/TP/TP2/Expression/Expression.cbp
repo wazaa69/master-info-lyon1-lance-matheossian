@@ -34,6 +34,8 @@
 		</Compiler>
 		<Unit filename="include\Constante.h" />
 		<Unit filename="include\Expression.h" />
+		<Unit filename="include\ExpressionBinaire.h" />
+		<Unit filename="include\ExpressionUnaire.h" />
 		<Unit filename="include\Moins.h" />
 		<Unit filename="include\MoinsUnaire.h" />
 		<Unit filename="include\Mult.h" />
@@ -41,6 +43,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="src\Constante.cpp" />
 		<Unit filename="src\Expression.cpp" />
+		<Unit filename="src\ExpressionBinaire.cpp" />
+		<Unit filename="src\ExpressionUnaire.cpp" />
 		<Unit filename="src\Moins.cpp" />
 		<Unit filename="src\MoinsUnaire.cpp" />
 		<Unit filename="src\Mult.cpp" />

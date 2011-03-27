@@ -1,6 +1,6 @@
 #include "../include/Moins.h"
 
-Moins::Moins(const Expression& _exp1, const Expression& _exp2) : exp1(_exp1.clone()), exp2(_exp2.clone()){}
+Moins::Moins(const Expression& _exp1, const Expression& _exp2) : ExpressionBinaire(*_exp1.clone(),*_exp2.clone()){}
 
 Moins::~Moins()
 {
