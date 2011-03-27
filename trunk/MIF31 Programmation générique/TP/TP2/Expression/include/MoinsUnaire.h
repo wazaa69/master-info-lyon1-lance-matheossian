@@ -1,9 +1,9 @@
 #ifndef MOINSUNAIRE_H
 #define MOINSUNAIRE_H
 
-#include "Expression.h"
+#include "ExpressionUnaire.h"
 
-class MoinsUnaire : public Expression
+class MoinsUnaire : public ExpressionUnaire
 {
     public:
         MoinsUnaire(const Expression& _exp);
@@ -12,9 +12,8 @@ class MoinsUnaire : public Expression
         Expression* clone() const;
         int eval() const;
 
-    private:
-
-        Expression* exp;
+//    private:
+//        Expression* exp;
 
 };
 

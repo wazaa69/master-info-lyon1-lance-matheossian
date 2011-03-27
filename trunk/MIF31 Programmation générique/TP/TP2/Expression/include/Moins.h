@@ -1,9 +1,9 @@
 #ifndef MOINS_H
 #define MOINS_H
 
-#include "Expression.h"
+#include "ExpressionBinaire.h"
 
-class Moins : public Expression
+class Moins : public ExpressionBinaire
 {
     public:
         Moins(const Expression& _exp1, const Expression& _exp2);
@@ -12,10 +12,10 @@ class Moins : public Expression
         Expression* clone() const;
         int eval() const;
 
-    private:
-
-        Expression* exp1;
-        Expression* exp2;
+//    private:
+//
+//        Expression* exp1;
+//        Expression* exp2;
 
 };
 
