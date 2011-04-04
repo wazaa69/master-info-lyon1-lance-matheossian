@@ -3,7 +3,7 @@
 std::vector<Couleur> Couleur::listeCouleurs;
 
 Couleur::Couleur(){}
-Couleur::Couleur(const CvScalar& color): r(color.val[3]), v(color.val[1]), b(color.val[0]){}
+Couleur::Couleur(const CvScalar& color): r(color.val[2]), v(color.val[1]), b(color.val[0]){}
 Couleur::Couleur(const double& _r, const double& _v, const double& _b): r(_r), v(_v), b(_b){}
 Couleur::~Couleur(){}
 
@@ -32,7 +32,7 @@ const Couleur& Couleur::getNouvCouleur(){
         existe = false;
         couleur.setComposantes(prochainInt(), prochainInt(), prochainInt());
 
-        //std::cout << couleur[0] << " / " << couleur[1] << " / " << couleur[2] << std::endl;
+//        std::cout << couleur[0] << " / " << couleur[1] << " / " << couleur[2] << std::endl;
 
         for(unsigned int i = 0; i < listeCouleurs.size(); i++)
             if(couleur == listeCouleurs[i])

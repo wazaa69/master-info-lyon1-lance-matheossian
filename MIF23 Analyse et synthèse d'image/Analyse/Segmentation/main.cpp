@@ -1,6 +1,7 @@
+
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-
+// -lcv -lhighgui -lcvaux -lml -lcxcore
 #include <vector>
 
 #include "include/Accroissement.h"
@@ -25,7 +26,7 @@ int main()
 
     cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
     cvMoveWindow(nomFenetre,0,0);
-    Accroissement acc("images/deuxcarre.pgm", 50);
+    Accroissement acc("images/cle.pgm",20.0);
     cvShowImage( nomFenetre, acc.getImgSrc());
 
 
@@ -36,7 +37,7 @@ int main()
     {
         cvSetMouseCallback(nomFenetre, onLClick);
 
-        if(theFlag == 33) //clique gauche
+        if(key == 't') //clique gauche
         {
             graines.push_back(Graine(tmp->x,tmp->y));
             std::cout << "Graine " << graines.size() << " : (" << tmp->x << "," << tmp->y << ")." << std::endl;
@@ -61,4 +62,6 @@ int main()
         cvShowImage( "img", acc.getImgSeg() );
         while(key != 'q')  key = cvWaitKey(10);
     }
+
+
 }

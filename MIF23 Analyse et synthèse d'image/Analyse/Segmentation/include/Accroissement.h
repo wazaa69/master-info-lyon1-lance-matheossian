@@ -15,7 +15,7 @@
 class Accroissement
 {
     public:
-        Accroissement(const char* chemin, const int& _seuil);
+        Accroissement(const char* chemin, const double& _seuil);
         virtual ~Accroissement();
 
         void demarrer(std::vector<Graine> graines);
@@ -25,7 +25,7 @@ class Accroissement
 
     private:
 
-        const int seuil; /** seuil de différence de couleur */
+        const double seuil; /** seuil de différence de couleur */
 
         IplImage* img_src;
         IplImage* img_seg;
