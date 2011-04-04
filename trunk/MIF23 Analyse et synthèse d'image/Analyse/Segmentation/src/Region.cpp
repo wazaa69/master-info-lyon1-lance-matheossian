@@ -1,16 +1,21 @@
 #include "../include/Region.h"
 
 unsigned int Region::compteurRegions = 0;
+unsigned int Region::nombreRegions = 0;
 
 Region::Region(const Graine& graine, const Couleur& c)
 {
+    tailleRegion = 1;
     indexRegion = compteurRegions;
+    nombreRegions++;
     compteurRegions++;
+    std::cout << compteurRegions << std::endl;
 
     this->graine.setPtStart(graine.getPtStart());
 
     couleurMoyenne.setComposantes(c);
     couleurVisuelle.setComposantes(Couleur::getNouvCouleur());
+
 }
 
 Region::~Region(){}
@@ -26,3 +31,17 @@ void Region::setNouvMoyenne(const Couleur& couleur){
 
 const Couleur& Region::getCouleurMoyenne() const {return couleurMoyenne;}
 const Couleur& Region::getCouleurVisuelle() const {return couleurVisuelle;}
+
+void Region::setIndexRedirection(const unsigned int& indexRedirection)
+{
+    indexRegion = indexRedirection;
+}
+
+void Region::incTailleRegion(){tailleRegion++;}
+void Region::decTailleRegion(){tailleRegion--;}
+
+void Region::incNombreRegion(){nombreRegions++;}
+void Region::decNombreRegion(){nombreRegions--;}
+
+const int Region::getTailleRegion(){return tailleRegion;}
+const int Region::getNombreRegions(){return nombreRegions;}

@@ -3,7 +3,7 @@
 using namespace std;
 
 
-Accroissement::Accroissement(const char* chemin, const int& _seuil): seuil(_seuil)
+Accroissement::Accroissement(const char* chemin, const double& _seuil): seuil(_seuil)
 {
 
     img_src = cvLoadImage(chemin);
@@ -23,6 +23,7 @@ Accroissement::Accroissement(const char* chemin, const int& _seuil): seuil(_seui
         {
             imgIndexGrow[i].push_back(-1);
             imgIndexMerge[i].push_back(false);
+
         }
 
     }
@@ -44,13 +45,20 @@ void Accroissement::demarrer(vector<Graine> graines)
     //Grow
     deposerGraines(graines);
     contaminationPixelsVoisins();
+    cout << endl;
+    cout << imgIndexGrow[10][10] << endl;
+    cout << imgIndexGrow[img_src->height-10][10] << endl;
+    cout << imgIndexGrow[10][img_src->width - 10] << endl;
+    cout << imgIndexGrow[img_src->height - 10][img_src->width - 10]<< endl;
 
-    afficherDetails(); //seulement pour les commentaires
+
+
+//    afficherDetails(); //seulement pour les commentaires
 
     //Merge
-    sePositionnerSurlesGraine(graines);
-    contaminationRegionsVoisines();
-    modificationImgSegEtImgIndexGrow();
+//    sePositionnerSurlesGraine(graines);
+//    contaminationRegionsVoisines();
+//    modificationImgSegEtImgIndexGrow();
 }
 
 
@@ -100,74 +108,76 @@ void Accroissement::contaminationPixelsVoisins()
         const unsigned int y = pointCentral.y;
         Region region = listeIndexRegions[imgIndexGrow[x][y]]; //avec imgIndexGrow[x][y] >= 0
 
+
+//         cout <<  region.getTailleRegion() << endl;
         //cout << "----------------------" << endl << "Pixel central : " << x << " " << y  << endl;
 
         if(x > 0 && x < img_src->width-2 && y > 0 && y < img_src->height-2)
         {
-            if(imgIndexGrow[x-1][y-1]   == -1)    contaminationPixel(cvPoint(x-1, y-1),region);
-            if(imgIndexGrow[x][y-1]     == -1)    contaminationPixel(cvPoint(x, y-1),region);
-            if(imgIndexGrow[x+1][y-1]   == -1)    contaminationPixel(cvPoint(x+1, y-1),region);
-            if(imgIndexGrow[x+1][y]     == -1)    contaminationPixel(cvPoint(x+1, y),region);
-            if(imgIndexGrow[x+1][y+1]   == -1)    contaminationPixel(cvPoint(x+1, y+1),region);
-            if(imgIndexGrow[x][y+1]     == -1)    contaminationPixel(cvPoint(x, y+1),region);
-            if(imgIndexGrow[x-1][y+1]   == -1)    contaminationPixel(cvPoint(x-1, y+1),region);
-            if(imgIndexGrow[x-1][y]     == -1)    contaminationPixel(cvPoint(x-1, y),region);
+            contaminationPixel(cvPoint(x-1, y-1),region);//if(imgIndexGrow[x-1][y-1]   == -1)
+            contaminationPixel(cvPoint(x, y-1),region);//if(imgIndexGrow[x][y-1]     == -1)
+            contaminationPixel(cvPoint(x+1, y-1),region);//if(imgIndexGrow[x+1][y-1]   == -1)
+            contaminationPixel(cvPoint(x+1, y),region);//if(imgIndexGrow[x+1][y]     == -1)
+            contaminationPixel(cvPoint(x+1, y+1),region);//if(imgIndexGrow[x+1][y+1]   == -1)
+            contaminationPixel(cvPoint(x, y+1),region);//if(imgIndexGrow[x][y+1]     == -1)
+            contaminationPixel(cvPoint(x-1, y+1),region);//if(imgIndexGrow[x-1][y+1]   == -1)
+            contaminationPixel(cvPoint(x-1, y),region);//if(imgIndexGrow[x-1][y]     == -1)
         }
         else if(x == 0 && y == 0)
         {
-            if(imgIndexGrow[x+1][y]     == -1)    contaminationPixel(cvPoint(x+1, y),region);
-            if(imgIndexGrow[x+1][y+1]   == -1)    contaminationPixel(cvPoint(x+1, y+1),region);
-            if(imgIndexGrow[x][y+1]     == -1)    contaminationPixel(cvPoint(x, y+1),region);
+            contaminationPixel(cvPoint(x+1, y),region);//if(imgIndexGrow[x+1][y]     == -1)
+            contaminationPixel(cvPoint(x+1, y+1),region);//if(imgIndexGrow[x+1][y+1]   == -1)
+            contaminationPixel(cvPoint(x, y+1),region);//if(imgIndexGrow[x][y+1]     == -1)
         }
         else  if(x > 0 && x < img_src->width-2 && y == 0)
         {
-            if(imgIndexGrow[x-1][0]     == -1)  contaminationPixel(cvPoint(x-1, 0),region);
-            if(imgIndexGrow[x-1][1]     == -1)  contaminationPixel(cvPoint(x-1, 1),region);
-            if(imgIndexGrow[x][1]       == -1)  contaminationPixel(cvPoint(x, 1),region);
-            if(imgIndexGrow[x+1][1]     == -1)  contaminationPixel(cvPoint(x+1, 1),region);
-            if(imgIndexGrow[x+1][0]     == -1)  contaminationPixel(cvPoint(x+1, 0),region);
+            contaminationPixel(cvPoint(x-1, 0),region);//if(imgIndexGrow[x-1][0]     == -1)
+            contaminationPixel(cvPoint(x-1, 1),region);//if(imgIndexGrow[x-1][1]     == -1)
+            contaminationPixel(cvPoint(x, 1),region);//if(imgIndexGrow[x][1]       == -1)
+            contaminationPixel(cvPoint(x+1, 1),region);//if(imgIndexGrow[x+1][1]     == -1)
+            contaminationPixel(cvPoint(x+1, 0),region);//if(imgIndexGrow[x+1][0]     == -1)
         }
         else if(x == img_src->width-1 && y == 0)
         {
-            if(imgIndexGrow[x-1][0]     == -1)  contaminationPixel(cvPoint(x-1, 0),region);
-            if(imgIndexGrow[x-1][1]     == -1)  contaminationPixel(cvPoint(x-1, 1),region);
-            if(imgIndexGrow[x][1]       == -1)  contaminationPixel(cvPoint(x, 1),region);
+            contaminationPixel(cvPoint(x-1, 0),region);//if(imgIndexGrow[x-1][0]     == -1)
+            contaminationPixel(cvPoint(x-1, 1),region);//if(imgIndexGrow[x-1][1]     == -1)
+            contaminationPixel(cvPoint(x, 1),region);//if(imgIndexGrow[x][1]       == -1)
         }
         else if(x == img_src->width-1 && y > 0 && y < img_src->height-2)
         {
-            if(imgIndexGrow[x][y-1]     == -1)    contaminationPixel(cvPoint(x, y-1),region);
-            if(imgIndexGrow[x-1][y-1]   == -1)    contaminationPixel(cvPoint(x-1, y-1),region);
-            if(imgIndexGrow[x-1][y]     == -1)    contaminationPixel(cvPoint(x-1, y),region);
-            if(imgIndexGrow[x-1][y+1]   == -1)    contaminationPixel(cvPoint(x-1, y+1),region);
-            if(imgIndexGrow[x][y+1]     == -1)    contaminationPixel(cvPoint(x, y+1),region);
+            contaminationPixel(cvPoint(x, y-1),region);//if(imgIndexGrow[x][y-1]     == -1)
+            contaminationPixel(cvPoint(x-1, y-1),region);//if(imgIndexGrow[x-1][y-1]   == -1)
+            contaminationPixel(cvPoint(x-1, y),region);//if(imgIndexGrow[x-1][y]     == -1)
+            contaminationPixel(cvPoint(x-1, y+1),region);//if(imgIndexGrow[x-1][y+1]   == -1)
+            contaminationPixel(cvPoint(x, y+1),region);//if(imgIndexGrow[x][y+1]     == -1)
         }
         else if(x == img_src->width-1 && y == img_src->height-1)
         {
-            if(imgIndexGrow[x][y-1]     == -1)    contaminationPixel(cvPoint(x, y-1),region);
-            if(imgIndexGrow[x-1][y-1]   == -1)    contaminationPixel(cvPoint(x-1, y-1),region);
-            if(imgIndexGrow[x-1][y]     == -1)    contaminationPixel(cvPoint(x-1, y),region);
+            contaminationPixel(cvPoint(x, y-1),region);//if(imgIndexGrow[x][y-1]     == -1)
+            contaminationPixel(cvPoint(x-1, y-1),region);//if(imgIndexGrow[x-1][y-1]   == -1)
+            contaminationPixel(cvPoint(x-1, y),region);//if(imgIndexGrow[x-1][y]     == -1)
         }
         else if(x > 0 && x < img_src->width-2 && y == img_src->height-1)
         {
-            if(imgIndexGrow[x-1][y]     == -1)    contaminationPixel(cvPoint(x-1, y),region);
-            if(imgIndexGrow[x-1][y-1]   == -1)    contaminationPixel(cvPoint(x-1, y-1),region);
-            if(imgIndexGrow[x][y-1]     == -1)    contaminationPixel(cvPoint(x, y-1),region);
-            if(imgIndexGrow[x+1][y-1]   == -1)    contaminationPixel(cvPoint(x+1, y-1),region);
-            if(imgIndexGrow[x+1][y]     == -1)    contaminationPixel(cvPoint(x+1, y),region);
+            contaminationPixel(cvPoint(x-1, y),region);//if(imgIndexGrow[x-1][y]     == -1)
+            contaminationPixel(cvPoint(x-1, y-1),region);//if(imgIndexGrow[x-1][y-1]   == -1)
+            contaminationPixel(cvPoint(x, y-1),region);//if(imgIndexGrow[x][y-1]     == -1)
+            contaminationPixel(cvPoint(x+1, y-1),region);//if(imgIndexGrow[x+1][y-1]   == -1)
+            contaminationPixel(cvPoint(x+1, y),region);//if(imgIndexGrow[x+1][y]     == -1)
         }
         else if(x == 0 && y == img_src->height-1)
         {
-            if(imgIndexGrow[0][y-1]     == -1)      contaminationPixel(cvPoint(0, y-1),region);
-            if(imgIndexGrow[1][y-1]     == -1)      contaminationPixel(cvPoint(1, y-1),region);
-            if(imgIndexGrow[1][y]       == -1)      contaminationPixel(cvPoint(1, y),region);
+            contaminationPixel(cvPoint(0, y-1),region);//if(imgIndexGrow[0][y-1]     == -1)
+            contaminationPixel(cvPoint(1, y-1),region);//if(imgIndexGrow[1][y-1]     == -1)
+            contaminationPixel(cvPoint(1, y),region);//if(imgIndexGrow[1][y]       == -1)
         }
         else if(x == 0 && y > 0  && y < img_src->height - 2)
         {
-            if(imgIndexGrow[0][y-1]     == -1)      contaminationPixel(cvPoint(0, y-1),region);
-            if(imgIndexGrow[1][y-1]     == -1)      contaminationPixel(cvPoint(1, y-1),region);
-            if(imgIndexGrow[1][y]       == -1)      contaminationPixel(cvPoint(1, y),region);
-            if(imgIndexGrow[1][y+1]     == -1)      contaminationPixel(cvPoint(1, y+1),region);
-            if(imgIndexGrow[0][y+1]     == -1)      contaminationPixel(cvPoint(0, y+1),region);
+            contaminationPixel(cvPoint(0, y-1),region);//if(imgIndexGrow[0][y-1]     == -1)
+            contaminationPixel(cvPoint(1, y-1),region);//  if(imgIndexGrow[1][y-1]     == -1)
+            contaminationPixel(cvPoint(1, y),region);// if(imgIndexGrow[1][y]       == -1)
+            contaminationPixel(cvPoint(1, y+1),region);//if(imgIndexGrow[1][y+1]     == -1)
+            contaminationPixel(cvPoint(0, y+1),region);//if(imgIndexGrow[0][y+1]     == -1)
         }
 
     }
@@ -180,25 +190,46 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& region)
     double coulPixel = (color.val[2]+color.val[1]+color.val[0])/3;
     double moyCoulRegion = region.getCouleurMoyenne().moyenne();
 
-    if(abs(coulPixel - moyCoulRegion) <= seuil)
+    if((imgIndexGrow[pt.x][pt.y] == -1 ) && (abs(coulPixel - moyCoulRegion) <= seuil)) // extenion de la region
     {
         imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
         region.setNouvMoyenne(Couleur(color)); //calcul la moyenne entre la couleur de la région et color
+        region.incTailleRegion();
+        listePointsVoisins.push(pt);
         cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
+
     }
-    else
+    else if((imgIndexGrow[pt.x][pt.y] == -1 ) && (abs(coulPixel - moyCoulRegion) > seuil)) // création d'une nouvelle région
     {
         Region r = Region(Graine(pt), Couleur(color.val[2],color.val[1],color.val[0]));
         listeIndexRegions.push_back(r);
         imgIndexGrow[pt.x][pt.y] = r.getIndexRegion();
-        cvSet2D(img_seg, pt.y, pt.x, r.getCouleurVisuelle().getCvScalar());
-        //cout <<  pt.x <<  " " << pt.y  << " -> Région : " << imgIndexGrow[pt.x][pt.y] << " -> car " << coulPixel << " " << moyCoulRegion <<  endl;
+        listePointsVoisins.push(pt);
+        cout << "Création d'une région, nb de régions: " << r.getNombreRegions() << endl;
+        cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
 
     }
+    else if (imgIndexGrow[pt.x][pt.y] == region.getIndexRegion()) // collision avec la même region
+    {
+            // do nothing
+    }
+    else if ((imgIndexGrow[pt.x][pt.y] != -1 ) && (region.getTailleRegion() >= listeIndexRegions[imgIndexGrow[pt.x][pt.y]].getTailleRegion())
+                && (abs(coulPixel - moyCoulRegion) <= seuil))
+    { // absorption d'une partie d'une autre région
 
-    listePointsVoisins.push(pt);
+        listeIndexRegions[imgIndexGrow[pt.x][pt.y]].decTailleRegion();
+        if(listeIndexRegions[imgIndexGrow[pt.x][pt.y]].getTailleRegion() == 0){
+             cout << "Suppression d'une région, nb de régions: " << region.getNombreRegions() << endl;
+             region.decNombreRegion();
+        }
+
+        imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
+        region.setNouvMoyenne(Couleur(color));
+        cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
+        region.incTailleRegion();
+        listePointsVoisins.push(pt);
+    }
 }
-
 
 
 void Accroissement::contaminationRegionsVoisines()

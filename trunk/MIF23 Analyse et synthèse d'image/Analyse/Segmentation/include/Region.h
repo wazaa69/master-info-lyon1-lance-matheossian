@@ -28,15 +28,27 @@ class Region
         void setNouvMoyenne(const Couleur& couleur);
         void setIndexRedirection(const unsigned int& indexRedirection);
 
+        void incTailleRegion();
+        void decTailleRegion();
+        const int getTailleRegion();
+
+        void incNombreRegion();
+        void decNombreRegion();
+        const int getNombreRegions();
+
+
     private:
 
         static unsigned int compteurRegions; /** numéro d'indexation de la dernière région créée */
+        static unsigned int nombreRegions;
         unsigned int indexRegion; /** numéro d'indexé pour cette région */
+        unsigned int indexRedirection;
 
         Couleur couleurMoyenne; /** la couleur moyenne de la région, pour la segmentation */
         Couleur couleurVisuelle; /** la couleur de la région pour la visualisation sur une image */
 
         Graine graine; /** pour stocker la graine de départ */
+        unsigned int tailleRegion; /** taille de la région en pixels */
 
 };
 
