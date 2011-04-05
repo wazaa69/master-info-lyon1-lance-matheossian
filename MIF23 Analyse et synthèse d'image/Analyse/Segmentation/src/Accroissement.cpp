@@ -37,8 +37,26 @@ Accroissement::~Accroissement()
     cvReleaseImage(&img_seg);
 }
 
+void Accroissement::dispositionAutomatique(vector<Graine> *graines)
+{
+   unsigned int largeur = getImgSrc()->width;
+   unsigned int hauteur = getImgSrc()->height;
+   unsigned int pasX = largeur/10;
+   unsigned int pasY = hauteur/10;
 
+    for(unsigned int i = 0; i < largeur; i++)
+    {
 
+        for(unsigned int j = 0; j < hauteur; j++)
+        {
+
+            graines->push_back(Graine(i,j));
+            j += pasY;
+        }
+        i += pasX;
+    }
+
+}
 
 void Accroissement::demarrer(vector<Graine> graines)
 {
@@ -197,7 +215,7 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& region)
         listeIndexRegions.push_back(r);
         imgIndexGrow[pt.x][pt.y] = r.getIndexRegion();
         listePointsVoisins.push(pt);
-        cout << "Création d'une région, nb de régions: " << r.getNombreRegions() << endl;
+//        cout << "Création d'une région, nb de régions: " << r.getNombreRegions() << endl;
         cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
 
     }
@@ -211,7 +229,7 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& region)
 
         listeIndexRegions[imgIndexGrow[pt.x][pt.y]].decTailleRegion();
         if(listeIndexRegions[imgIndexGrow[pt.x][pt.y]].getTailleRegion() == 0){
-             cout << "Suppression d'une région, nb de régions: " << region.getNombreRegions() << endl;
+//             cout << "Suppression d'une région, nb de régions: " << region.getNombreRegions() << endl;
              region.decNombreRegion();
         }
 
@@ -221,6 +239,12 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& region)
         region.incTailleRegion();
         listePointsVoisins.push(pt);
     }
+}
+
+void Accroissement::afficherInformations()
+{
+//    cout << "Nombre de régions crées au total: " << Region().getNombreRegions() << endl;
+
 }
 
 //

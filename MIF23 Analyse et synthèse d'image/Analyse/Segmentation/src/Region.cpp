@@ -3,13 +3,17 @@
 unsigned int Region::compteurRegions = 0;
 unsigned int Region::nombreRegions = 0;
 
+Region::Region()
+{
+}
+
 Region::Region(const Graine& graine, const Couleur& c)
 {
     tailleRegion = 1;
     indexRegion = compteurRegions;
     nombreRegions++;
     compteurRegions++;
-    std::cout << compteurRegions << std::endl;
+    std::cout << "Création de la région n° " << compteurRegions << " | nombre de régions: " << nombreRegions << std::endl;
 
     this->graine.setPtStart(graine.getPtStart());
 
@@ -45,3 +49,4 @@ void Region::decNombreRegion(){nombreRegions--;}
 
 const int Region::getTailleRegion(){return tailleRegion;}
 const int Region::getNombreRegions(){return nombreRegions;}
+

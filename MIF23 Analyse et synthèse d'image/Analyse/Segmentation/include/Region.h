@@ -15,6 +15,8 @@ Chaque région est initialement liée à une graine (la première du tableau de 
 class Region
 {
     public:
+
+        Region();
         Region(const Graine& graine, const Couleur& couleur);
         virtual ~Region();
 

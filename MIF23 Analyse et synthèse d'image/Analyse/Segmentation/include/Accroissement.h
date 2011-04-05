@@ -19,6 +19,8 @@ class Accroissement
         virtual ~Accroissement();
 
         void demarrer(std::vector<Graine> graines);
+        void dispositionAutomatique(std::vector<Graine> *graines);
+        void afficherInformations();
 
         const IplImage* getImgSeg() const;
         const IplImage* getImgSrc() const;
