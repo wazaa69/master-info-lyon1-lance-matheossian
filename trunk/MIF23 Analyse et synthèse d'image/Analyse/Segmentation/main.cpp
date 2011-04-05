@@ -26,7 +26,7 @@ int main()
 
     cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
     cvMoveWindow(nomFenetre,0,0);
-    Accroissement acc("images/cle.pgm",20.0);
+    Accroissement acc("images/c.jpg",20.0);
     cvShowImage( nomFenetre, acc.getImgSrc());
 
 

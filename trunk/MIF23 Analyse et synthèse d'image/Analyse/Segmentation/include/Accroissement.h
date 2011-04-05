@@ -40,18 +40,16 @@ class Accroissement
         void deposerGraines(std::vector<Graine> graines);
         void sePositionnerSurlesGraine(std::vector<Graine> graines);
 
-        //POUR PLUS TARD : faire un pointeur de fonction pour éviter le copier collé entre les parties grow et merge !
-
         //grow
         void contaminationPixelsVoisins();
         void contaminationPixel(const CvPoint& pt, Region& region);
 
         //merge
-        void contaminationRegionsVoisines();
-        void contaminationRegion(const CvPoint& ptVoisin, Region& regionCentral);
-        void modificationImgSegEtImgIndexGrow();
-
-        void afficherDetails();
+//        void contaminationRegionsVoisines();
+//        void contaminationRegion(const CvPoint& ptVoisin, Region& regionCentral);
+//        void modificationImgSegEtImgIndexGrow();
+//
+//        void afficherDetails();
 };
 
 #endif // ACROISSEMENT_H
