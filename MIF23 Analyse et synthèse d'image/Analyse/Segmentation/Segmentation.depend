@@ -121,3 +121,99 @@
 1301181247 source:/home/dim/Bureau/Segmentation/src/Region.cpp
 	"../include/Region.h"
 
+1302466851 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\accroissement.cpp
+	"../include/Accroissement.h"
+
+1302462355 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\accroissement.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+	<vector>
+	<queue>
+	<map>
+	"Region.h"
+	"Graine.h"
+
+1302466642 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\region.h
+	<iostream>
+	<vector>
+	"Graine.h"
+	"Couleur.h"
+
+1302454587 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\graine.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+
+1302454587 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\couleur.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<stdlib.h>
+	<time.h>
+	<iostream>
+	<vector>
+
+1302454587 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\couleur.cpp
+	"../include/Couleur.h"
+
+1302454587 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\graine.cpp
+	"../include/Graine.h"
+
+1302466659 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\region.cpp
+	"../include/Region.h"
+
+1302466560 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\main.cpp
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<vector>
+	"include/Accroissement.h"
+	"include/Graine.h"
+
+1302454587 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\src\couleur.cpp
+	"../include/Couleur.h"
+
+1302454587 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\include\couleur.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<stdlib.h>
+	<time.h>
+	<iostream>
+	<vector>
+
+1302454587 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\src\graine.cpp
+	"../include/Graine.h"
+
+1302454587 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\include\graine.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+
+1302478800 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\src\region.cpp
+	"../include/Region.h"
+
+1302478771 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\include\region.h
+	<iostream>
+	<vector>
+	"Graine.h"
+	"Couleur.h"
+
+1302479077 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\main.cpp
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<vector>
+	"include/Accroissement.h"
+	"include/Graine.h"
+
+1302478643 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\include\accroissement.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+	<vector>
+	<queue>
+	<map>
+	"Region.h"
+	"Graine.h"
+
+1302478849 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\src\accroissement.cpp
+	"../include/Accroissement.h"
+
