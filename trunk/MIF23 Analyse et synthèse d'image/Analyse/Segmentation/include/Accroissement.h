@@ -46,12 +46,8 @@ class Accroissement
         void contaminationPixelsVoisins();
         void contaminationPixel(const CvPoint& pt, Region& region);
 
-        //merge
-//        void contaminationRegionsVoisines();
-//        void contaminationRegion(const CvPoint& ptVoisin, Region& regionCentral);
-//        void modificationImgSegEtImgIndexGrow();
-//
-//        void afficherDetails();
+        void changerProprietaireRegion(Region& r_grande, Region& r_petite, IplImage* img);
+
 };
 
 #endif // ACROISSEMENT_H

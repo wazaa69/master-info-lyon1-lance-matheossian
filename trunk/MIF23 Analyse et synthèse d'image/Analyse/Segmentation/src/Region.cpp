@@ -13,7 +13,7 @@ Region::Region(const Graine& graine, const Couleur& c)
     indexRegion = compteurRegions;
     nombreRegions++;
     compteurRegions++;
-    std::cout << "Création de la région n° " << compteurRegions << " | nombre de régions: " << nombreRegions << std::endl;
+//    std::cout << "Création de la région n° " << compteurRegions << " | Nombre de régions total à l'instant: " << nombreRegions << std::endl;
 
     this->graine.setPtStart(graine.getPtStart());
 
@@ -49,4 +49,15 @@ void Region::decNombreRegion(){nombreRegions--;}
 
 const int Region::getTailleRegion(){return tailleRegion;}
 const int Region::getNombreRegions(){return nombreRegions;}
+
+const int Region::getSize(){return listePointsRegion.size();}
+
+std::vector<CvPoint>& Region::getListePointsRegion(){return listePointsRegion;}
+
+void Region::ajouterPointRegion(const CvPoint &p)
+{
+
+    listePointsRegion.push_back(p);
+
+}
 

@@ -37,7 +37,12 @@ class Region
         void incNombreRegion();
         void decNombreRegion();
         const int getNombreRegions();
+        void ajouterPointRegion(const CvPoint& p);
 
+        std::vector<CvPoint> &getListePointsRegion();
+        std::vector<CvPoint> listePointsRegion;
+
+        const int getSize();
 
     private:
 
@@ -45,6 +50,7 @@ class Region
         static unsigned int nombreRegions;
         unsigned int indexRegion; /** numéro d'indexé pour cette région */
         unsigned int indexRedirection;
+
 
         Couleur couleurMoyenne; /** la couleur moyenne de la région, pour la segmentation */
         Couleur couleurVisuelle; /** la couleur de la région pour la visualisation sur une image */

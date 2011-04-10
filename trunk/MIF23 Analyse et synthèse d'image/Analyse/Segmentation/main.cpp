@@ -7,7 +7,7 @@
 #include "include/Accroissement.h"
 #include "include/Graine.h"
 
-//Déclaration hors de la classe pour passer du C --> C++
+
 int theFlag = 0;
 CvPoint* tmp = (CvPoint*) malloc(sizeof( CvPoint ) );
 void onLClick(int event, int x, int y, int flags, void* param);
@@ -17,8 +17,6 @@ void onLClick(int event, int x, int y, int flags, void* param){
     tmp->y = y;
 }
 
-
-
 int main()
 {
 
@@ -26,7 +24,7 @@ int main()
 
     cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
     cvMoveWindow(nomFenetre,0,0);
-    Accroissement acc("images/c.jpg",15.0);
+    Accroissement acc("images/cle.pgm",15.0);
     cvShowImage( nomFenetre, acc.getImgSrc());
 
 
