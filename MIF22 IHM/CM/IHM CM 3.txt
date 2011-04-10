@@ -1,8 +1,0 @@
-apprenant : adulte en formation continue
-usage de l'ordinateur dans l'enseignement
-
-Les connaissances expertes ne sont pes les connaissances à enseigner.
-On ne peut pas prendre un EIAO et injecter une IA telle qu'elle.
-Il va falloir développer une IA particulière.
-
-
