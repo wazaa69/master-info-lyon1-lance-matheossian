@@ -1,7 +1,6 @@
 #include "../include/Region.h"
 
 unsigned int Region::compteurRegions = 0;
-unsigned int Region::nombreRegions = 0;
 
 Region::Region()
 {
@@ -9,13 +8,12 @@ Region::Region()
 
 Region::Region(const Graine& graine, const Couleur& c)
 {
-    tailleRegion = 1;
     indexRegion = compteurRegions;
-    nombreRegions++;
     compteurRegions++;
-//    std::cout << "Création de la région n° " << compteurRegions << " | Nombre de régions total à l'instant: " << nombreRegions << std::endl;
 
     this->graine.setPtStart(graine.getPtStart());
+
+    listePointsRegion.push_back(graine.getPtStart());
 
     couleurMoyenne.setComposantes(c);
     couleurVisuelle.setComposantes(Couleur::getNouvCouleur());
@@ -36,28 +34,11 @@ void Region::setNouvMoyenne(const Couleur& couleur){
 const Couleur& Region::getCouleurMoyenne() const {return couleurMoyenne;}
 const Couleur& Region::getCouleurVisuelle() const {return couleurVisuelle;}
 
-void Region::setIndexRedirection(const unsigned int& indexRedirection)
-{
-    indexRegion = indexRedirection;
-}
-
-void Region::incTailleRegion(){tailleRegion++;}
-void Region::decTailleRegion(){tailleRegion--;}
-
-void Region::incNombreRegion(){nombreRegions++;}
-void Region::decNombreRegion(){nombreRegions--;}
-
-const int Region::getTailleRegion(){return tailleRegion;}
-const int Region::getNombreRegions(){return nombreRegions;}
+unsigned int Region::getCompteurRegions(){return compteurRegions;}
 
 const int Region::getSize(){return listePointsRegion.size();}
 
 std::vector<CvPoint>& Region::getListePointsRegion(){return listePointsRegion;}
 
-void Region::ajouterPointRegion(const CvPoint &p)
-{
-
-    listePointsRegion.push_back(p);
-
-}
+void Region::ajouterPointRegion(const CvPoint& p){listePointsRegion.push_back(cvPoint(p.x, p.y));}
 

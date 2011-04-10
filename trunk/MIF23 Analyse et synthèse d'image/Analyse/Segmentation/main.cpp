@@ -24,12 +24,12 @@ int main()
 
     cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
     cvMoveWindow(nomFenetre,0,0);
-    Accroissement acc("images/cle.pgm",15.0);
+    Accroissement acc("images/cle.pgm",10.0);
     cvShowImage( nomFenetre, acc.getImgSrc());
 
 
     std::vector<Graine> graines; //pour stocker les cliques de l'utilisateur
-    char key;
+    char key = 'y';
 
     std::cout << "Disposition des graines automatique ? (y) (n)" << std::endl;
 

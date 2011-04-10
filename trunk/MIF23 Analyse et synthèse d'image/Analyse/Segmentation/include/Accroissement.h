@@ -33,9 +33,7 @@ class Accroissement
         IplImage* img_seg;
 
         std::vector< std::vector<int> > imgIndexGrow; /** tableau de la taille de l'image, stocke à quelle région appartient chaque pixel, initialement à -1 */
-        std::vector< std::vector<bool> > imgIndexMerge; /** similaire au tableau précédant mais pour la partie merging, si false = non traité, false sinon */
         std::vector<Region> listeIndexRegions;
-        std::map<int,int> mapDeRedirections;
 
         std::queue<CvPoint> listePointsVoisins; //FIFO
 
@@ -44,7 +42,7 @@ class Accroissement
 
         //grow
         void contaminationPixelsVoisins();
-        void contaminationPixel(const CvPoint& pt, Region& region);
+        void contaminationPixel(const CvPoint& pt, Region& uneRegion);
 
         void changerProprietaireRegion(Region& r_grande, Region& r_petite, IplImage* img);
 
