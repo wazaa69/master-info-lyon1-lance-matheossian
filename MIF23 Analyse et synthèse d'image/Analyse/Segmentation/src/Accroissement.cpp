@@ -219,8 +219,10 @@ void Accroissement::coloration()
         for(unsigned y = 0; y < imgIndexGrow[x].size(); y++)
         {
             //on modifie uniquement les pixels des régions redirigés
-//            int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
-//            if(redirection != -1) cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
+            if(imgIndexGrow[x][y] > 0){
+                int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
+                if(redirection != -1) cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
+            }
         }
 }
 

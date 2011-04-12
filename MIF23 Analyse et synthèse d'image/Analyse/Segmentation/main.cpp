@@ -24,7 +24,7 @@ int main()
 
     cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
     cvMoveWindow(nomFenetre,0,0);
-    Accroissement acc("images/ny.jpg",15.0);
+    Accroissement acc("images/ny.jpg",5.0);
     cvShowImage( nomFenetre, acc.getImgSrc());
 
 
