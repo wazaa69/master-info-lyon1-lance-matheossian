@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include\Accroissement.h" open="0" top="0" tabpos="3">
-		<Cursor position="1252" topLine="13" />
+	<File name="include\Accroissement.h" open="1" top="0" tabpos="3">
+		<Cursor position="1114" topLine="7" />
 	</File>
-	<File name="include\Region.h" open="0" top="0" tabpos="4">
-		<Cursor position="1114" topLine="15" />
+	<File name="include\Region.h" open="1" top="0" tabpos="4">
+		<Cursor position="951" topLine="8" />
 	</File>
-	<File name="main.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="606" topLine="18" />
+	<File name="main.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="631" topLine="15" />
 	</File>
-	<File name="src\Accroissement.cpp" open="1" top="1" tabpos="0">
-		<Cursor position="8196" topLine="151" />
+	<File name="src\Accroissement.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="6936" topLine="170" />
 	</File>
 	<File name="src\Couleur.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="553" topLine="48" />
 	</File>
-	<File name="src\Region.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="525" topLine="0" />
+	<File name="src\Region.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="1266" topLine="8" />
 	</File>
 </CodeBlocks_layout_file>

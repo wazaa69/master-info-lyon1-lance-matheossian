@@ -22,7 +22,7 @@ class Region
 
         Graine& getGraine();
 
-        const unsigned int& getIndexRegion() const;
+        unsigned int getIndexRegion() const;
 
         const Couleur& getCouleurMoyenne() const;
         const Couleur& getCouleurVisuelle() const;
@@ -32,10 +32,11 @@ class Region
 
         static unsigned int getCompteurRegions();
 
-        void ajouterPointRegion(const CvPoint& p);
-        std::vector<CvPoint>& getListePointsRegion();
-
-        const int getSize();
+//        void ajouterPointRegion(const CvPoint& p);
+//        std::vector<CvPoint>& getListePointsRegion();
+//
+//        const int getSize();
+        unsigned int tailleRegion;
 
     private:
 
@@ -47,6 +48,7 @@ class Region
 
         Graine graine; /** pour stocker la graine de départ */
         std::vector<CvPoint> listePointsRegion; /** liste de tous les pixels de la région */
+
 
 };
 

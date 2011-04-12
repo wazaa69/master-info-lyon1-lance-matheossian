@@ -22,8 +22,12 @@ class Accroissement
         void dispositionAutomatique(std::vector<Graine> *graines);
         void afficherInformations();
 
+        void coloration();
+
         const IplImage* getImgSeg() const;
         const IplImage* getImgSrc() const;
+
+        int indexRedirection(const Region& uneRegion);
 
     private:
 
@@ -34,6 +38,8 @@ class Accroissement
 
         std::vector< std::vector<int> > imgIndexGrow; /** tableau de la taille de l'image, stocke à quelle région appartient chaque pixel, initialement à -1 */
         std::vector<Region> listeIndexRegions;
+
+        std::map<int,int> carteRedirections;
 
         std::queue<CvPoint> listePointsVoisins; //FIFO
 

@@ -27,20 +27,22 @@ const Couleur& Couleur::getNouvCouleur(){
 
     //if(Couleur::listeCouleurs.size() != pow(256,3)){};
 
-    while(existe){
+    couleur.setComposantes(prochainInt(), prochainInt(), prochainInt());
 
-        existe = false;
-        couleur.setComposantes(prochainInt(), prochainInt(), prochainInt());
-
-//        std::cout << couleur[0] << " / " << couleur[1] << " / " << couleur[2] << std::endl;
-
-        for(unsigned int i = 0; i < listeCouleurs.size(); i++)
-            if(couleur == listeCouleurs[i])
-            {
-                existe = true;
-                break;
-            }
-    }
+//    while(existe){
+//
+//        existe = false;
+//        couleur.setComposantes(prochainInt(), prochainInt(), prochainInt());
+//
+////        std::cout << couleur[0] << " / " << couleur[1] << " / " << couleur[2] << std::endl;
+//
+//        for(unsigned int i = 0; i < listeCouleurs.size(); i++)
+//            if(couleur == listeCouleurs[i])
+//            {
+//                existe = true;
+//                break;
+//            }
+//    }
 
     Couleur::listeCouleurs.push_back(couleur);
 
