@@ -38,9 +38,3 @@ const Couleur& Region::getCouleurVisuelle() const {return couleurVisuelle;}
 
 unsigned int Region::getCompteurRegions(){return compteurRegions;}
 
-//const int Region::getSize(){return listePointsRegion.size();}
-//
-//std::vector<CvPoint>& Region::getListePointsRegion(){return listePointsRegion;}
-//
-//void Region::ajouterPointRegion(const CvPoint& p){listePointsRegion.push_back(cvPoint(p.x, p.y));}
-
