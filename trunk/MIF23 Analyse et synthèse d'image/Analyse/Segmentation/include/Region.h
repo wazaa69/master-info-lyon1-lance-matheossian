@@ -32,10 +32,6 @@ class Region
 
         static unsigned int getCompteurRegions();
 
-//        void ajouterPointRegion(const CvPoint& p);
-//        std::vector<CvPoint>& getListePointsRegion();
-//
-//        const int getSize();
         unsigned int tailleRegion;
 
     private:

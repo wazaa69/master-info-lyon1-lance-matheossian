@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 Accroissement::Accroissement(const char* chemin, const double& _seuil): seuil(_seuil)
 {
 
@@ -86,7 +85,7 @@ void Accroissement::contaminationPixelsVoisins()
         const unsigned int y = pointCentral.y;
         Region region = listeIndexRegions[imgIndexGrow[x][y]]; //avec imgIndexGrow[x][y] >= 0
 
-        if(x > 0 && x < img_src->width-2 && y > 0 && y < img_src->height-2)
+        if(x > 0 && x < img_src->width-1 && y > 0 && y < img_src->height-1)
         {
             contaminationPixel(cvPoint(x-1, y-1),region);
             contaminationPixel(cvPoint(x, y-1),region);
@@ -103,7 +102,7 @@ void Accroissement::contaminationPixelsVoisins()
             contaminationPixel(cvPoint(x+1, y+1),region);
             contaminationPixel(cvPoint(x, y+1),region);
         }
-        else  if(x > 0 && x < img_src->width-2 && y == 0)
+        else  if(x > 0 && x < img_src->width-1 && y == 0)
         {
             contaminationPixel(cvPoint(x-1, 0),region);
             contaminationPixel(cvPoint(x-1, 1),region);
@@ -117,7 +116,7 @@ void Accroissement::contaminationPixelsVoisins()
             contaminationPixel(cvPoint(x-1, 1),region);
             contaminationPixel(cvPoint(x, 1),region);
         }
-        else if(x == img_src->width-1 && y > 0 && y < img_src->height-2)
+        else if(x == img_src->width-1 && y > 0 && y < img_src->height-1)
         {
             contaminationPixel(cvPoint(x, y-1),region);
             contaminationPixel(cvPoint(x-1, y-1),region);
@@ -131,7 +130,7 @@ void Accroissement::contaminationPixelsVoisins()
             contaminationPixel(cvPoint(x-1, y-1),region);
             contaminationPixel(cvPoint(x-1, y),region);
         }
-        else if(x > 0 && x < img_src->width-2 && y == img_src->height-1)
+        else if(x > 0 && x < img_src->width-1 && y == img_src->height-1)
         {
             contaminationPixel(cvPoint(x-1, y),region);
             contaminationPixel(cvPoint(x-1, y-1),region);
@@ -145,7 +144,7 @@ void Accroissement::contaminationPixelsVoisins()
             contaminationPixel(cvPoint(1, y-1),region);
             contaminationPixel(cvPoint(1, y),region);
         }
-        else if(x == 0 && y > 0  && y < img_src->height - 2)
+        else if(x == 0 && y > 0  && y < img_src->height - 1)
         {
             contaminationPixel(cvPoint(0, y-1),region);
             contaminationPixel(cvPoint(1, y-1),region);
@@ -158,13 +157,10 @@ void Accroissement::contaminationPixelsVoisins()
 }
 
 
+//variable de teste
 int passage = 0;
-
-//cout << passage << endl;
-
 void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
 {
-
     //Recherche si il y a une redirection vers une autres région
     Region& region = listeIndexRegions[indexRedirection(uneRegion)];
 
@@ -178,18 +174,17 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
     {
         imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
         region.tailleRegion++;
-        //region.ajouterPointRegion(pt);
         region.setNouvMoyenne(Couleur(color)); //moyenne entre la couleur de la région et celle du pixel
-        cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
+        //cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(pt);
     }
     // Création d'une nouvelle région, on plante une nouvelle gaine
     else if(imgIndexGrow[pt.x][pt.y] == -1 )
     {
         Region nouvRegion = Region(Graine(pt), Couleur(color.val[2],color.val[1],color.val[0]));
-        listeIndexRegions.push_back(nouvRegion);
         imgIndexGrow[pt.x][pt.y] = nouvRegion.getIndexRegion();
-        cvSet2D(img_seg, pt.y, pt.x, nouvRegion.getCouleurVisuelle().getCvScalar());
+        listeIndexRegions.push_back(nouvRegion);
+        //cvSet2D(img_seg, pt.y, pt.x, nouvRegion.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(pt);
     }
     //Deux pixels voisins appartiennent une région différente : si leur couleur moyenne respectent le seuil, la plus grande région absorbe la plus petite
@@ -198,7 +193,6 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
         Region& regionDuPoint = listeIndexRegions[indexRedirection(listeIndexRegions[imgIndexGrow[pt.x][pt.y]])];
 
         if(region.getIndexRegion() != regionDuPoint.getIndexRegion() //les deux région sont différentes (cas obligatoire : si on est dans la région)
-             && regionDuPoint.tailleRegion > 0
              && region.tailleRegion >= regionDuPoint.tailleRegion  //comparaison de taille
              && abs(regionDuPoint.getCouleurMoyenne().moyenne() - moyCoulRegion) <= seuil //comparaison des couleurs des régions
           )
@@ -218,11 +212,9 @@ void Accroissement::coloration()
     for(unsigned x = 0; x < imgIndexGrow.size(); x++)
         for(unsigned y = 0; y < imgIndexGrow[x].size(); y++)
         {
-            //on modifie uniquement les pixels des régions redirigés
-            if(imgIndexGrow[x][y] > 0){
-                int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
-                if(redirection != -1) cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
-            }
+            //on modifie uniquement les pixels des régions redirigées
+            int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
+            cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
         }
 }
 
@@ -260,10 +252,8 @@ void Accroissement::afficherInformations()
     cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
     cout << "Nombre de regions de la meme couleur : " << Region::getCompteurRegions() - nombreRedirections << endl;
 
-    cout << "Nombre de redirections :" << nombreRedirections << endl;
-    cout << "Nombre de points transféré par redirection :" << nombrePointsTransferes << endl;
+    cout << "Nombre de redirections : " << nombreRedirections << endl;
 }
-
 
 
 void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite, IplImage* img)
