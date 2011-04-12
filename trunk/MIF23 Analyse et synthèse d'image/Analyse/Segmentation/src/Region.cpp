@@ -8,6 +8,8 @@ Region::Region()
 
 Region::Region(const Graine& graine, const Couleur& c)
 {
+
+    tailleRegion=1;
     indexRegion = compteurRegions;
     compteurRegions++;
 
@@ -22,7 +24,7 @@ Region::Region(const Graine& graine, const Couleur& c)
 
 Region::~Region(){}
 
-const unsigned int& Region::getIndexRegion() const {return indexRegion;}
+unsigned int Region::getIndexRegion() const {return indexRegion;}
 
 void Region::setNouvMoyenne(const Couleur& couleur){
     double r = (couleurMoyenne[0] + couleur[0])/2;
@@ -36,9 +38,9 @@ const Couleur& Region::getCouleurVisuelle() const {return couleurVisuelle;}
 
 unsigned int Region::getCompteurRegions(){return compteurRegions;}
 
-const int Region::getSize(){return listePointsRegion.size();}
-
-std::vector<CvPoint>& Region::getListePointsRegion(){return listePointsRegion;}
-
-void Region::ajouterPointRegion(const CvPoint& p){listePointsRegion.push_back(cvPoint(p.x, p.y));}
+//const int Region::getSize(){return listePointsRegion.size();}
+//
+//std::vector<CvPoint>& Region::getListePointsRegion(){return listePointsRegion;}
+//
+//void Region::ajouterPointRegion(const CvPoint& p){listePointsRegion.push_back(cvPoint(p.x, p.y));}
 
