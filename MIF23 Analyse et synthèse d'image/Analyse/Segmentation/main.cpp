@@ -73,7 +73,7 @@ int main()
         acc.demarrer(graines);
 
         //sauvegarde de l'image
-        cvSaveImage("images/deuxcarre-seg.pgm",acc.getImgSeg());
+        cvSaveImage("images/resultat.jpg",acc.getImgSeg());
         //affichage
         cvShowImage( "img", acc.getImgSeg() );
         // affichage informations
