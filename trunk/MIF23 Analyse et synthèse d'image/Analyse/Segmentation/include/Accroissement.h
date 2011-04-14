@@ -9,6 +9,8 @@
 #include <queue>
 #include <map>
 
+#include <time.h>
+
 #include "Region.h"
 #include "Graine.h"
 
@@ -18,9 +20,11 @@ class Accroissement
         Accroissement(const char* chemin, const double& _seuil);
         virtual ~Accroissement();
 
-        void demarrer(std::vector<Graine> graines);
-        void dispositionAutomatique(std::vector<Graine> *graines);
+        void dispositionAutomatique(std::vector<Graine>* graines) const;
+        void dispositionAleatoire(std::vector<Graine>* graines, const unsigned int nombre) const;
         void afficherInformations();
+
+        void demarrer(std::vector<Graine>& graines);
 
         void coloration();
 

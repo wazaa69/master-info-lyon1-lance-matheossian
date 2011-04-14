@@ -2,6 +2,7 @@
 #include <opencv/highgui.h>
 // -lcv -lhighgui -lcvaux -lml -lcxcore
 #include <vector>
+#include <string>
 
 #include "include/Accroissement.h"
 #include "include/Graine.h"
@@ -18,65 +19,66 @@ void onLClick(int event, int x, int y, int flags, void* param){
 
 int main()
 {
-
     char* nomFenetre = "img";
 
     cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
     cvMoveWindow(nomFenetre,0,0);
-    Accroissement acc("images/ste.jpg",18.0);
-    cvShowImage( nomFenetre, acc.getImgSrc());
+    Accroissement acc("images/a.jpg", 15.0);
+
+    std::vector<Graine>* graines = new std::vector<Graine>; //pour stocker les cliques de l'utilisateur
+
+    std::cout << "Disposition des graines (a)utomatique, au (h)asard, au (c)hoix ? " << std::endl;
 
 
-    std::vector<Graine> graines; //pour stocker les cliques de l'utilisateur
-    char key = 'y';
+    char key = '---';
+    std::string rep;
+    while(rep.compare("a") && rep.compare("h") && rep.compare("c")) cin >> rep;
 
-    std::cout << "Disposition des graines automatique ? (y) (n)" << std::endl;
-
-
-    while(key != 'n' && key != 'y')
+    if(!rep.compare("c"))
     {
-        key = cvWaitKey(20);
+        cvShowImage( nomFenetre, acc.getImgSrc());
 
-    }
-    if (key == 'n')
-    {
         std::cout << "Cliquez sur l'image pour déposer les graines" << std::endl;
+
         while(key != 'q')
         {
             cvSetMouseCallback(nomFenetre, onLClick);
 
-            if(key == 't') //clique gauche
+            if(key == 't')
             {
-                graines.push_back(Graine(tmp->x,tmp->y));
-                std::cout << "Graine " << graines.size() << " : (" << tmp->x << "," << tmp->y << ")." << std::endl;
+                graines->push_back(Graine(tmp->x,tmp->y));
+                std::cout << "Graine " << graines->size() << " : (" << tmp->x << "," << tmp->y << ")." << std::endl;
                 theFlag = 0;
+                key = '---';
             }
 
             key = cvWaitKey(20);
         }
 
     }
-    else if (key == 'y')
+    else if(!rep.compare("a"))
     {
-
-            std::cout << "Disposition automatique des graines: " << std::endl;
-            acc.dispositionAutomatique(&graines);
-
+        std::cout << "Disposition automatique des graines. " << std::endl;
+        acc.dispositionAutomatique(graines);
+    }
+    else
+    {
+        std::cout << "Disposition au hasard des graines. " << std::endl;
+        acc.dispositionAleatoire(graines, 100);
     }
 
-    key = '-';
+    key = '---';
 
-    if(graines.size())
+    if(graines->size())
     {
-        //split & merge
-        acc.demarrer(graines);
+        std::cout << std::endl;
 
-        //sauvegarde de l'image
+        acc.demarrer(*graines);
+        delete graines;
+
         cvSaveImage("images/resultat.jpg",acc.getImgSeg());
-        //affichage
+
         cvShowImage( "img", acc.getImgSeg() );
-        // affichage informations
-        acc.afficherInformations();
 
         while(key != 'q')  key = cvWaitKey(10);
     }

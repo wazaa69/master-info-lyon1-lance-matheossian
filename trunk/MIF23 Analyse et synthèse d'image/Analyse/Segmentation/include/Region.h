@@ -25,7 +25,7 @@ class Region
         unsigned int getIndexRegion() const;
 
         const Couleur& getCouleurMoyenne() const;
-        const Couleur& getCouleurVisuelle() const;
+        const Couleur& getCouleurVisuelle();
 
         /** @brief calcul la moyenne de la couleur actuelle avec la couleur en paramètre */
         void setNouvMoyenne(const Couleur& couleur);

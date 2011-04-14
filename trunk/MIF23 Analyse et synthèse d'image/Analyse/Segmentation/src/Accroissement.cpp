@@ -2,16 +2,19 @@
 
 using namespace std;
 
+//variable de teste
+int affichageFurEtAMesure = 0;
+int nombreAglomere = 0;
+double tempsAlgo = 0;
+double tempsColoration = 0;
+
 Accroissement::Accroissement(const char* chemin, const double& _seuil): seuil(_seuil)
 {
-
     img_src = cvLoadImage(chemin);
     img_seg = cvCreateImage(cvGetSize(img_src), img_src->depth, 3);
 
     const unsigned int hauteur = img_src->height;
     const unsigned int largeur = img_src->width;
-
-    cout << hauteur << " * " << largeur << " = " << (hauteur * largeur) <<endl;
 
     for(unsigned int i = 0; i < largeur; i++)
     {
@@ -26,12 +29,14 @@ Accroissement::~Accroissement()
     cvReleaseImage(&img_seg);
 }
 
-void Accroissement::dispositionAutomatique(vector<Graine> *graines)
+
+
+void Accroissement::dispositionAutomatique(vector<Graine>* graines) const
 {
-   unsigned int largeur = getImgSrc()->width;
-   unsigned int hauteur = getImgSrc()->height;
-   unsigned int pasX = largeur/10;
-   unsigned int pasY = hauteur/10;
+    const unsigned int largeur = getImgSrc()->width;
+    const unsigned int hauteur = getImgSrc()->height;
+    const unsigned int pasX = largeur/10;
+    const unsigned int pasY = hauteur/10;
 
     for(unsigned int i = 0; i < largeur; i++)
     {
@@ -42,14 +47,39 @@ void Accroissement::dispositionAutomatique(vector<Graine> *graines)
         }
         i += pasX;
     }
-
 }
 
-void Accroissement::demarrer(vector<Graine> graines)
+void Accroissement::dispositionAleatoire(vector<Graine>* graines, const unsigned int nombre) const
 {
+    const unsigned int largeur = getImgSrc()->width;
+    const unsigned int hauteur = getImgSrc()->height;
+
+    for(unsigned int i = 0; i < nombre; i++)
+    {
+        unsigned int x = rand()%largeur;
+        unsigned int y = rand()%hauteur;
+        graines->push_back(Graine(x,y));
+    }
+}
+
+
+void Accroissement::demarrer(vector<Graine>& graines)
+{
+    clock_t finColor, finAlgo, debutColor, debutAlgo = clock();
+
     deposerGraines(graines);
     contaminationPixelsVoisins();
+
+    finAlgo = clock();
+    tempsAlgo = ((double)finAlgo - debutAlgo) / CLOCKS_PER_SEC;
+
+    debutColor = clock();
     coloration();
+    finColor = clock();
+
+    tempsColoration = ((double)finColor - debutColor) / CLOCKS_PER_SEC;
+
+    afficherInformations();
 }
 
 
@@ -60,13 +90,13 @@ void Accroissement::deposerGraines(vector<Graine> graines)
         CvPoint g = graines[i].getPtStart();
 
         //création de la région
-        CvScalar color = cvGet2D(img_src, g.y, g.x); //y, x et pas l'inverse
+        CvScalar color = cvGet2D(img_src, g.y, g.x);
         Region region = Region(graines[i], Couleur(color.val[2], color.val[1], color.val[0]));
         listeIndexRegions.push_back(region);
 
         //ajout de l'index et de la couleur sur l'image
         imgIndexGrow[g.x][g.y] = i;
-        cvSet2D(img_seg, g.y, g.x, region.getCouleurVisuelle().getCvScalar());
+        //cvSet2D(img_seg, g.y, g.x, region.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(cvPoint(g.x, g.y)); //ajouts des graines dans la liste des voisins
     }
 }
@@ -144,7 +174,7 @@ void Accroissement::contaminationPixelsVoisins()
             contaminationPixel(cvPoint(1, y-1),region);
             contaminationPixel(cvPoint(1, y),region);
         }
-        else if(x == 0 && y > 0  && y < img_src->height - 1)
+        else if(x == 0 && y > 0  && y < img_src->height-1)
         {
             contaminationPixel(cvPoint(0, y-1),region);
             contaminationPixel(cvPoint(1, y-1),region);
@@ -157,8 +187,7 @@ void Accroissement::contaminationPixelsVoisins()
 }
 
 
-//variable de teste
-int passage = 0;
+
 void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
 {
     //Recherche si il y a une redirection vers une autres région
@@ -168,27 +197,26 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
     double coulPixel = (color.val[2]+color.val[1]+color.val[0])/3; //couleur moyenne du pixel
     double moyCoulRegion = region.getCouleurMoyenne().moyenne(); //couleur moyenne de la région voisinne
 
-
     // Extension de la region
     if((imgIndexGrow[pt.x][pt.y] == -1) && (abs(coulPixel - moyCoulRegion) <= seuil) )
     {
         imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
         region.tailleRegion++;
         region.setNouvMoyenne(Couleur(color)); //moyenne entre la couleur de la région et celle du pixel
-        //cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
+        cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(pt);
     }
     // Création d'une nouvelle région, on plante une nouvelle gaine
-    else if(imgIndexGrow[pt.x][pt.y] == -1 )
-    {
-        Region nouvRegion = Region(Graine(pt), Couleur(color.val[2],color.val[1],color.val[0]));
-        imgIndexGrow[pt.x][pt.y] = nouvRegion.getIndexRegion();
-        listeIndexRegions.push_back(nouvRegion);
-        //cvSet2D(img_seg, pt.y, pt.x, nouvRegion.getCouleurVisuelle().getCvScalar());
-        listePointsVoisins.push(pt);
-    }
+//    else if(imgIndexGrow[pt.x][pt.y] == -1 )
+//    {
+//        Region nouvRegion = Region(Graine(pt), Couleur(color.val[2],color.val[1],color.val[0]));
+//        imgIndexGrow[pt.x][pt.y] = nouvRegion.getIndexRegion();
+//        listeIndexRegions.push_back(nouvRegion);
+//        //cvSet2D(img_seg, pt.y, pt.x, nouvRegion.getCouleurVisuelle().getCvScalar());
+//        listePointsVoisins.push(pt);
+//    }
     //Deux pixels voisins appartiennent une région différente : si leur couleur moyenne respectent le seuil, la plus grande région absorbe la plus petite
-    else
+    else if(imgIndexGrow[pt.x][pt.y] != -1 )
     {
         Region& regionDuPoint = listeIndexRegions[indexRedirection(listeIndexRegions[imgIndexGrow[pt.x][pt.y]])];
 
@@ -202,20 +230,9 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
         }
     }
 
-    passage++;
-    //if(passage%75000 == 0){cvWaitKey(15); cvShowImage( "img", getImgSeg() );}
+//    affichageFurEtAMesure++;
+//    if(affichageFurEtAMesure%7500 == 0){cvWaitKey(15); cvShowImage( "img", getImgSeg() );}
 
-}
-
-void Accroissement::coloration()
-{
-    for(unsigned x = 0; x < imgIndexGrow.size(); x++)
-        for(unsigned y = 0; y < imgIndexGrow[x].size(); y++)
-        {
-            //on modifie uniquement les pixels des régions redirigées
-            int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
-            cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
-        }
 }
 
 
@@ -241,21 +258,6 @@ int Accroissement::indexRedirection(const Region& uneRegion)
 }
 
 
-int nombreRedirections = 0;
-int nombrePointsTransferes = 0;
-
-void Accroissement::afficherInformations()
-{
-
-    cout << img_seg->height << " * " << img_seg->width << " = " << (img_seg->height * img_seg->width) <<endl;
-
-    cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
-    cout << "Nombre de regions de la meme couleur : " << Region::getCompteurRegions() - nombreRedirections << endl;
-
-    cout << "Nombre de redirections : " << nombreRedirections << endl;
-}
-
-
 void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite, IplImage* img)
 {
     //on calcul la couleur moyenne des deux régions
@@ -266,7 +268,36 @@ void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite
     r_grande.tailleRegion += r_petite.tailleRegion;
     r_petite.tailleRegion = 0;
 
-    nombreRedirections++; //1 région aglomérée implique une redirection suplpémentaire
+    nombreAglomere++; //1 région aglomérée implique une redirection suplpémentaire
+}
+
+
+void Accroissement::coloration()
+{
+    for(unsigned x = 0; x < imgIndexGrow.size(); x++)
+        for(unsigned y = 0; y < imgIndexGrow[x].size(); y++)
+        {
+            if(imgIndexGrow[x][y]  != -1) //au cas où l'on désactiverai le "if une région différente = nouvelle région"
+            {
+                //on modifie uniquement les pixels des régions redirigées
+                int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
+                cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
+            }
+        }
+}
+
+void Accroissement::afficherInformations()
+{
+
+    cout << img_seg->height << " * " << img_seg->width << " = " << (img_seg->height * img_seg->width) << endl << endl;
+
+    cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
+    cout << "Nombre de régions aglomerees : " << nombreAglomere << endl << endl;
+    cout << "Nombre de regions de la meme couleur : " << Region::getCompteurRegions() - nombreAglomere << endl;
+
+    cout << "Temps d'execution pour le depot de graine + grow + merge = " << tempsAlgo << " secondes"<< endl;
+    cout << "Temps d'execution pour la coloration = " << tempsColoration << " secondes"<< endl;
+    cout << "Total = " << tempsAlgo + tempsColoration << " secondes"<< endl;
 }
 
 const IplImage* Accroissement::getImgSeg() const{return img_seg;}
