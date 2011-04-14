@@ -18,8 +18,6 @@ Region::Region(const Graine& graine, const Couleur& c)
     listePointsRegion.push_back(graine.getPtStart());
 
     couleurMoyenne.setComposantes(c);
-    couleurVisuelle.setComposantes(Couleur::getNouvCouleur());
-
 }
 
 Region::~Region(){}
@@ -34,7 +32,11 @@ void Region::setNouvMoyenne(const Couleur& couleur){
 }
 
 const Couleur& Region::getCouleurMoyenne() const {return couleurMoyenne;}
-const Couleur& Region::getCouleurVisuelle() const {return couleurVisuelle;}
+const Couleur& Region::getCouleurVisuelle()
+{
+    if(!couleurVisuelle.isSet()) couleurVisuelle.setComposantes(couleurVisuelle.getNouvCouleur());
+    return couleurVisuelle;
+}
 
 unsigned int Region::getCompteurRegions(){return compteurRegions;}
 

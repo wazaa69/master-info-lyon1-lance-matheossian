@@ -26,7 +26,8 @@ class Couleur
         void setComposantes(const Couleur& coul);
         void setComposantes(const double& r, const double& v, const double& b);
 
-        static const Couleur& getNouvCouleur();
+        const Couleur& getNouvCouleur();
+        const bool isSet() const;
 
         const double& moyenne() const;
         const CvScalar& getCvScalar() const;

@@ -11,7 +11,7 @@ class Graine
     public:
         Graine();
         Graine(const CvPoint& pt);
-        Graine(const int& x, const int& y);
+        Graine(const int x, const int y);
         Graine(const Graine& g);
         virtual ~Graine();
 

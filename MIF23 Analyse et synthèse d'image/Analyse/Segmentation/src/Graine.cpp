@@ -4,7 +4,7 @@ Graine::Graine(){}
 
 Graine::Graine(const CvPoint& pt){setPtStart(pt);}
 
-Graine::Graine(const int& x, const int& y){
+Graine::Graine(const int x, const int y){
     ptStart.x = x;
     ptStart.y = y;
 }
