@@ -2,9 +2,7 @@
 
 unsigned int Region::compteurRegions = 0;
 
-Region::Region()
-{
-}
+Region::Region(){}
 
 Region::Region(const Graine& graine, const Couleur& c)
 {
@@ -15,14 +13,16 @@ Region::Region(const Graine& graine, const Couleur& c)
 
     this->graine.setPtStart(graine.getPtStart());
 
-    listePointsRegion.push_back(graine.getPtStart());
-
     couleurMoyenne.setComposantes(c);
 }
 
 Region::~Region(){}
 
 unsigned int Region::getIndexRegion() const {return indexRegion;}
+
+unsigned int Region::getTailleRegion() const {return tailleRegion;}
+void Region::setTailleRegion(unsigned int valeur){tailleRegion = valeur;}
+
 
 void Region::setNouvMoyenne(const Couleur& couleur){
     double r = (couleurMoyenne[0] + couleur[0])/2;

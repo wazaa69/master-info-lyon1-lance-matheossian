@@ -24,6 +24,9 @@ class Region
 
         unsigned int getIndexRegion() const;
 
+        unsigned int getTailleRegion() const;
+        void setTailleRegion(unsigned int valeur);
+
         const Couleur& getCouleurMoyenne() const;
         const Couleur& getCouleurVisuelle();
 
@@ -31,8 +34,6 @@ class Region
         void setNouvMoyenne(const Couleur& couleur);
 
         static unsigned int getCompteurRegions();
-
-        unsigned int tailleRegion;
 
     private:
 
@@ -43,7 +44,7 @@ class Region
         Couleur couleurVisuelle; /** la couleur de la région pour la visualisation sur une image */
 
         Graine graine; /** pour stocker la graine de départ */
-        std::vector<CvPoint> listePointsRegion; /** liste de tous les pixels de la région */
+        unsigned int tailleRegion; /** nombre de pixels qui composent la région */
 
 
 };

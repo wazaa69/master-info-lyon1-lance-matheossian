@@ -17,7 +17,7 @@
 class Accroissement
 {
     public:
-        Accroissement(const char* chemin, const double& _seuil);
+        Accroissement(const IplImage* img_src, const double& _seuil);
         virtual ~Accroissement();
 
         void dispositionAutomatique(std::vector<Graine>* graines) const;
@@ -37,7 +37,7 @@ class Accroissement
 
         const double seuil; /** seuil de différence de couleur */
 
-        IplImage* img_src;
+        const IplImage* img_src;
         IplImage* img_seg;
 
         std::vector< std::vector<int> > imgIndexGrow; /** tableau de la taille de l'image, stocke à quelle région appartient chaque pixel, initialement à -1 */
