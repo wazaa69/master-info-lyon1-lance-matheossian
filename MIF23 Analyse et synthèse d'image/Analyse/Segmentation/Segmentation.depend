@@ -121,10 +121,10 @@
 1301181247 source:/home/dim/Bureau/Segmentation/src/Region.cpp
 	"../include/Region.h"
 
-1302815300 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\accroissement.cpp
+1303158499 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\accroissement.cpp
 	"../include/Accroissement.h"
 
-1302815281 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\accroissement.h
+1303149435 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\accroissement.h
 	<opencv/cv.h>
 	<opencv/highgui.h>
 	<iostream>
@@ -135,7 +135,7 @@
 	"Region.h"
 	"Graine.h"
 
-1302809654 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\region.h
+1303158412 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\region.h
 	<iostream>
 	<vector>
 	"Graine.h"
@@ -163,11 +163,12 @@
 1302809640 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\region.cpp
 	"../include/Region.h"
 
-1302815458 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\main.cpp
+1303157024 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\main.cpp
 	<opencv/cv.h>
 	<opencv/highgui.h>
 	<vector>
 	<string>
+	"include/Histogramme.h"
 	"include/Accroissement.h"
 	"include/Graine.h"
 
@@ -218,4 +219,13 @@
 
 1302478849 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation - new\src\accroissement.cpp
 	"../include/Accroissement.h"
+
+1303157731 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\histogramme.cpp
+	"../include/Histogramme.h"
+
+1303157362 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\histogramme.h
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<iostream>
+	<vector>
 

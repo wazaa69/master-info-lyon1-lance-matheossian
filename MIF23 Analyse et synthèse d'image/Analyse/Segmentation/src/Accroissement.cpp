@@ -3,14 +3,13 @@
 using namespace std;
 
 //variable de teste
-int affichageFurEtAMesure = 0;
+//int affichageFurEtAMesure = 0;
 int nombreAglomere = 0;
 double tempsAlgo = 0;
 double tempsColoration = 0;
 
-Accroissement::Accroissement(const char* chemin, const double& _seuil): seuil(_seuil)
+Accroissement::Accroissement(const IplImage* _img_src, const double& _seuil): img_src(_img_src), seuil(_seuil)
 {
-    img_src = cvLoadImage(chemin);
     img_seg = cvCreateImage(cvGetSize(img_src), img_src->depth, 3);
 
     const unsigned int hauteur = img_src->height;
@@ -23,44 +22,7 @@ Accroissement::Accroissement(const char* chemin, const double& _seuil): seuil(_s
     }
 }
 
-Accroissement::~Accroissement()
-{
-    cvReleaseImage(&img_src);
-    cvReleaseImage(&img_seg);
-}
-
-
-
-void Accroissement::dispositionAutomatique(vector<Graine>* graines) const
-{
-    const unsigned int largeur = getImgSrc()->width;
-    const unsigned int hauteur = getImgSrc()->height;
-    const unsigned int pasX = largeur/10;
-    const unsigned int pasY = hauteur/10;
-
-    for(unsigned int i = 0; i < largeur; i++)
-    {
-        for(unsigned int j = 0; j < hauteur; j++)
-        {
-            graines->push_back(Graine(i,j));
-            j += pasY;
-        }
-        i += pasX;
-    }
-}
-
-void Accroissement::dispositionAleatoire(vector<Graine>* graines, const unsigned int nombre) const
-{
-    const unsigned int largeur = getImgSrc()->width;
-    const unsigned int hauteur = getImgSrc()->height;
-
-    for(unsigned int i = 0; i < nombre; i++)
-    {
-        unsigned int x = rand()%largeur;
-        unsigned int y = rand()%hauteur;
-        graines->push_back(Graine(x,y));
-    }
-}
+Accroissement::~Accroissement(){cvReleaseImage(&img_seg);}
 
 
 void Accroissement::demarrer(vector<Graine>& graines)
@@ -182,7 +144,6 @@ void Accroissement::contaminationPixelsVoisins()
             contaminationPixel(cvPoint(1, y+1),region);
             contaminationPixel(cvPoint(0, y+1),region);
         }
-
     }
 }
 
@@ -201,7 +162,7 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
     if((imgIndexGrow[pt.x][pt.y] == -1) && (abs(coulPixel - moyCoulRegion) <= seuil) )
     {
         imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
-        region.tailleRegion++;
+        region.setTailleRegion(region.getTailleRegion()+1);
         region.setNouvMoyenne(Couleur(color)); //moyenne entre la couleur de la région et celle du pixel
         cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(pt);
@@ -221,7 +182,7 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
         Region& regionDuPoint = listeIndexRegions[indexRedirection(listeIndexRegions[imgIndexGrow[pt.x][pt.y]])];
 
         if(region.getIndexRegion() != regionDuPoint.getIndexRegion() //les deux région sont différentes (cas obligatoire : si on est dans la région)
-             && region.tailleRegion >= regionDuPoint.tailleRegion  //comparaison de taille
+             && region.getTailleRegion() >= regionDuPoint.getTailleRegion()  //comparaison de taille
              && abs(regionDuPoint.getCouleurMoyenne().moyenne() - moyCoulRegion) <= seuil //comparaison des couleurs des régions
           )
         {
@@ -265,8 +226,8 @@ void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite
 
     carteRedirections.insert(pair<int,int>(r_petite.getIndexRegion(), r_grande.getIndexRegion()));
 
-    r_grande.tailleRegion += r_petite.tailleRegion;
-    r_petite.tailleRegion = 0;
+    r_grande.setTailleRegion(r_grande.getTailleRegion() + r_petite.getTailleRegion());
+    r_petite.setTailleRegion(0);
 
     nombreAglomere++; //1 région aglomérée implique une redirection suplpémentaire
 }
@@ -292,8 +253,8 @@ void Accroissement::afficherInformations()
     cout << img_seg->height << " * " << img_seg->width << " = " << (img_seg->height * img_seg->width) << endl << endl;
 
     cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
-    cout << "Nombre de régions aglomerees : " << nombreAglomere << endl << endl;
-    cout << "Nombre de regions de la meme couleur : " << Region::getCompteurRegions() - nombreAglomere << endl;
+    cout << "Nombre de regions aglomerees : " << nombreAglomere << endl << endl;
+    cout << "Nombre de regions de la meme couleur : " << Region::getCompteurRegions() - nombreAglomere << endl << endl;
 
     cout << "Temps d'execution pour le depot de graine + grow + merge = " << tempsAlgo << " secondes"<< endl;
     cout << "Temps d'execution pour la coloration = " << tempsColoration << " secondes"<< endl;
