@@ -15,6 +15,9 @@ Accroissement::Accroissement(const IplImage* _img_src, const double& _seuil): im
     const unsigned int hauteur = img_src->height;
     const unsigned int largeur = img_src->width;
 
+    nbPointsTotal = hauteur * largeur;
+    nbPointsHorsRegion = nbPointsTotal;
+
     for(unsigned int i = 0; i < largeur; i++)
     {
         imgIndexGrow.push_back(vector<int>());
@@ -31,6 +34,7 @@ void Accroissement::demarrer(vector<Graine>& graines)
 
     deposerGraines(graines);
     contaminationPixelsVoisins();
+    if(nbPointsHorsRegion/nbPointsTotal > 0.1) contaminationEtendue();
 
     finAlgo = clock();
     tempsAlgo = ((double)finAlgo - debutAlgo) / CLOCKS_PER_SEC;
@@ -163,6 +167,8 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
     {
         imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
         region.setTailleRegion(region.getTailleRegion()+1);
+        nbPointsHorsRegion--;
+        cout << nbPointsHorsRegion << endl;
         region.setNouvMoyenne(Couleur(color)); //moyenne entre la couleur de la région et celle du pixel
         cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(pt);
@@ -189,10 +195,22 @@ void Accroissement::contaminationPixel(const CvPoint& pt, Region& uneRegion)
             changerProprietaireRegion(region, regionDuPoint, img_seg);
             listePointsVoisins.push(pt);
         }
+        else if(region.getIndexRegion() != regionDuPoint.getIndexRegion() && region.getTailleRegion() >= regionDuPoint.getTailleRegion())
+        {
+            //seul le seuillage n'est pas respecté, on conserve ces points pour plus tard (au cas où le growing n'occuperait pas 99% de l'image)
+            listePointsVRejetes.push(pt);
+        }
     }
 
 //    affichageFurEtAMesure++;
 //    if(affichageFurEtAMesure%7500 == 0){cvWaitKey(15); cvShowImage( "img", getImgSeg() );}
+
+}
+
+
+
+void contaminationEtendue()
+{
 
 }
 

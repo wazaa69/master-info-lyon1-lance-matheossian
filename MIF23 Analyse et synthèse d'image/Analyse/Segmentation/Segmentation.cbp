@@ -35,11 +35,13 @@
 		<Unit filename="include\Accroissement.h" />
 		<Unit filename="include\Couleur.h" />
 		<Unit filename="include\Graine.h" />
+		<Unit filename="include\Histogramme.h" />
 		<Unit filename="include\Region.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src\Accroissement.cpp" />
 		<Unit filename="src\Couleur.cpp" />
 		<Unit filename="src\Graine.cpp" />
+		<Unit filename="src\Histogramme.cpp" />
 		<Unit filename="src\Region.cpp" />
 		<Extensions>
 			<code_completion />

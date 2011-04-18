@@ -46,13 +46,18 @@ class Accroissement
         std::map<int,int> carteRedirections;
 
         std::queue<CvPoint> listePointsVoisins; //FIFO
+        std::queue<CvPoint> listePointsVRejetes; /** listes des points voisins rejetés car ils n'ont pas respecté le seuil */
+
+        unsigned int nbPointsHorsRegion;
+        unsigned int nbPointsTotal;
 
         void deposerGraines(std::vector<Graine> graines);
         void sePositionnerSurlesGraine(std::vector<Graine> graines);
 
-        //grow
+
         void contaminationPixelsVoisins();
         void contaminationPixel(const CvPoint& pt, Region& uneRegion);
+        void contaminationEtendue();
 
         void changerProprietaireRegion(Region& r_grande, Region& r_petite, IplImage* img);
 
