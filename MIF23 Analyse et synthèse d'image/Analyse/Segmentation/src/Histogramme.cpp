@@ -51,7 +51,7 @@ Histogramme::Histogramme (const IplImage* img_src, const unsigned int rvbG): pic
 
     finAlgo = clock();
 
-    std::cout << "Temps de création de l'histogramme : " << (((double)finAlgo - debutAlgo) / CLOCKS_PER_SEC) << std::endl;
+    std::cout << "Temps de creation de l'histogramme : " << (((double)finAlgo - debutAlgo) / CLOCKS_PER_SEC) << std::endl;
 }
 
 Histogramme::~Histogramme (){}

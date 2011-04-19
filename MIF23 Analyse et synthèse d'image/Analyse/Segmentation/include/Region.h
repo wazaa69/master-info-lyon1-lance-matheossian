@@ -34,6 +34,7 @@ class Region
         void setNouvMoyenne(const Couleur& couleur);
 
         static unsigned int getCompteurRegions();
+        const Graine& getGraine() const;
 
     private:
 
