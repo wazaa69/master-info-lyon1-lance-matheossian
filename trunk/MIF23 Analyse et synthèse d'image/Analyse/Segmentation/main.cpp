@@ -21,7 +21,7 @@ void onLClick(int event, int x, int y, int flags, void* param){
 
 double demanderSeuil(const IplImage* img_src);
 void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines);
-void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines);
+void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe  = 100);
 void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int nombre);
 
 
@@ -31,6 +31,7 @@ int main()
     char* chemainImg ="images/ny.jpg";
     IplImage* img_src = cvLoadImage(chemainImg);
     if(img_src == NULL){cout << "Mauvaise chemin d'image !" << endl; exit(0);}
+    double occupationMin = 70; /* taux d'occupation minimal des régions */
 
     std::vector<Graine>* graines = new std::vector<Graine>;
 
@@ -39,20 +40,21 @@ int main()
 
     if(graines->size())
     {
-        Accroissement acc(img_src, seuil);
-        acc.demarrer(*graines);
-
         cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
         cvMoveWindow(nomFenetre,0,0);
+
+        Accroissement acc(img_src, seuil, occupationMin);
+        acc.demarrer(*graines);
+
         cvShowImage( nomFenetre, acc.getImgSeg() );
         cvSaveImage("images/result.jpg",acc.getImgSeg());
 
         char key = '----';
         while(key != 'q')  key = cvWaitKey(10);
+        cvDestroyWindow(nomFenetre);
     }
 
     delete graines;
-    cvDestroyWindow(nomFenetre);
     cvReleaseImage(&img_src);
 }
 
@@ -60,8 +62,8 @@ int main()
 
 double demanderSeuil(const IplImage* img_src)
 {
-    std::string rep ="y";
-    double seuil = 15;
+    std::string rep;
+    double seuil = 10;
 
     std::cout << "Seuillage selon l'intensite la plus commune dans l'image (histogramme) : y/n" << std::endl;
     while(rep.compare("y") && rep.compare("n") && rep.compare("Y") && rep.compare("N")) cin >> rep;
@@ -73,11 +75,16 @@ double demanderSeuil(const IplImage* img_src)
     }
     else
     {
-        std::cout << "Seuil actuel : " << seuil << ". Si vous desirez le conserver entrez la lettre 'y', sinon entrez un nombre : " << endl;
         rep.clear();
+        std::cout << "Seuil actuel : " << seuil << "." << endl << endl << "Si vous desirez le conserver entrez la lettre 'y', sinon entrez un nombre : " << endl;
         cin >> rep;
-        if(rep.compare("y") || rep.compare("Y")) seuil = atof(rep.c_str());
-        std::cout << "Nouveau seuil : " << seuil << endl << endl;
+        if(!rep.compare("y") || !rep.compare("Y")){}
+        else
+        {
+                seuil = atof(rep.c_str());
+                std::cout << "Nouveau seuil : " << seuil << endl << endl;
+        }
+
     }
 
     return seuil;
@@ -127,23 +134,41 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
     }
     else if(!rep.compare("a"))
     {
-        std::cout << "Disposition automatique des graines. " << std::endl;
-        dispositionAutomatique(img_src->width, img_src->height, graines);
+        std::cout << "Disposition automatique des graines." << std::endl;
+
+        bool nMax = img_src->width/10 > img_src->height/10;
+
+        cout << "Cadrillage en N * N graines, donner une valeur pour N (avec N <= " << (nMax?ceil(img_src->height/10):ceil(img_src->width/10)) << ") : " << std::endl;
+        cin >> rep;
+        dispositionAutomatique(img_src->width, img_src->height, graines, atof(rep.c_str()));
     }
     else
     {
         std::cout << "Disposition au hasard des graines. " << std::endl;
-        dispositionAleatoire(img_src->width, img_src->height, graines, (img_src->width/100) * (img_src->height/100));
+
+        bool nMax = img_src->height/3 > img_src->width/3;
+
+        cout << "Nombre de graine N a rependre (avec N <= " << (nMax?ceil(img_src->width/3)*2:ceil(img_src->height/3)*2) << ") : " << std::endl;
+
+        cin >> rep;
+
+        dispositionAleatoire(img_src->width, img_src->height, graines, atof(rep.c_str()));
     }
 
     std::cout << std::endl;
 }
 
 
-void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines)
+void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe)
 {
-    const unsigned int pasX = largeur/10;
-    const unsigned int pasY = hauteur/10;
+    unsigned int pasX = largeur/decoupe;
+    unsigned int pasY = hauteur/decoupe;
+
+    if(pasX < 10 || pasY < 10)
+    {
+        pasX = 10;
+        pasY = 10;
+    }
 
     for(unsigned int i = 0; i < largeur; i++)
     {
@@ -158,7 +183,21 @@ void dispositionAutomatique(const unsigned int largeur, const unsigned int haute
 
 void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int nombre)
 {
-    for(unsigned int i = 0; i < nombre; i++)
+
+    unsigned int nb = nombre;
+
+    //comme c'est de l'aléatoire, on ajoute une facteur *2
+    unsigned int pasX = 2*largeur/nb;
+    unsigned int pasY = 2*hauteur/nb;
+
+    //on conserve le côté le plus petit
+    if(pasX < 3 || pasY < 3)
+        if((double) (hauteur/3) > (double) (largeur/3))
+            nb = ceil(largeur/3);
+        else
+            nb = ceil(hauteur/3);
+
+    for(unsigned int i = 0; i < nb; i++)
     {
         unsigned int x = rand()%largeur;
         unsigned int y = rand()%hauteur;

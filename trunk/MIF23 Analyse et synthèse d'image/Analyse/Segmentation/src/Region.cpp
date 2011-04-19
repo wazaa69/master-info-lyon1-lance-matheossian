@@ -40,3 +40,4 @@ const Couleur& Region::getCouleurVisuelle()
 
 unsigned int Region::getCompteurRegions(){return compteurRegions;}
 
+const Graine& Region::getGraine() const {return graine;}
