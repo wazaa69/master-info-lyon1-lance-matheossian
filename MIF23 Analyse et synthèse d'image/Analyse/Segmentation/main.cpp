@@ -27,35 +27,63 @@ void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur
 
 int main()
 {
-    char* nomFenetre = "img";
-    char* chemainImg ="images/ny.jpg";
-    IplImage* img_src = cvLoadImage(chemainImg);
-    if(img_src == NULL){cout << "Mauvaise chemin d'image !" << endl; exit(0);}
-    double occupationMin = 70; /* taux d'occupation minimal des régions */
+    string nomImage, cheminImg, nomFenetre, tempCheminImage;
+    char key = '----';
 
-    std::vector<Graine>* graines = new std::vector<Graine>;
+    while (key != 'q'){
 
-    double seuil = demanderSeuil(img_src);
-    demanderDispoGraine(img_src, graines);
+        cheminImg = "images/";
 
-    if(graines->size())
-    {
-        cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
-        cvMoveWindow(nomFenetre,0,0);
 
-        Accroissement acc(img_src, seuil, occupationMin);
-        acc.demarrer(*graines);
+        bool bonChemin = 0;
+        IplImage* img_src;
 
-        cvShowImage( nomFenetre, acc.getImgSeg() );
-        cvSaveImage("images/result.jpg",acc.getImgSeg());
+        while (!bonChemin)
+        {
+            cout << endl << "Choix de l'image (repertoire " << cheminImg << " ) :" << endl;
+            cin >> nomImage;
+            tempCheminImage = cheminImg;
+            tempCheminImage += nomImage;
 
-        char key = '----';
-        while(key != 'q')  key = cvWaitKey(10);
-        cvDestroyWindow(nomFenetre);
+        //    char* nomFenetre = "img";
+
+            img_src = cvLoadImage(tempCheminImage.c_str());
+            if(img_src == NULL){cout << "Mauvaise chemin d'image !" << endl;}
+            else {bonChemin = true; cheminImg = tempCheminImage;}
+        }
+
+        double occupationMin = 70; /* taux d'occupation minimal des régions */
+
+        std::vector<Graine>* graines = new std::vector<Graine>;
+
+        double seuil = demanderSeuil(img_src);
+        demanderDispoGraine(img_src, graines);
+
+        if(graines->size())
+        {
+            cvNamedWindow(nomFenetre.c_str(), CV_WINDOW_AUTOSIZE);
+            cvMoveWindow(nomFenetre.c_str(),0,0);
+
+            Accroissement acc(img_src, seuil, occupationMin);
+            acc.demarrer(*graines);
+
+            cvShowImage( nomFenetre.c_str(), acc.getImgSeg() );
+            cvSaveImage("images/result.jpg",acc.getImgSeg());
+            cout << "Image segmentee sauvegardee: images/result.jpg" << endl;
+
+
+
+            cout << "(q) pour pour quitter (s) pour segmenter une nouvelle image: " << endl;
+            while(key != 'q' && key != 's' )  key = cvWaitKey(10);
+    //       cin >> key;
+            cvDestroyWindow(nomFenetre.c_str());
+        }
+
+
+        delete graines;
+        cvReleaseImage(&img_src);
+
     }
-
-    delete graines;
-    cvReleaseImage(&img_src);
 }
 
 
