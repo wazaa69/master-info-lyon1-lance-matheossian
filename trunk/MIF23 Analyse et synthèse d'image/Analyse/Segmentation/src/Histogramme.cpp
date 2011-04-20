@@ -20,7 +20,7 @@ Histogramme::Histogramme (const IplImage* img_src, const unsigned int rvbG): pic
         {
             for(unsigned int x = 0; x < largeur; x++)
             {
-                float intensite = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + choix];
+                int intensite = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + choix];
                 cumule(intensite);
                 majMin(intensite);
                 majMax(intensite);
@@ -34,10 +34,11 @@ Histogramme::Histogramme (const IplImage* img_src, const unsigned int rvbG): pic
         {
             for(unsigned int x = 0; x < largeur; x++)
             {
-                //pas de CvGet2D dans une double boucle avec CodeBlocks, sinon on a un petit message d'erreur
-                float r = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 0];
-                float v = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 1];
-                float b = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 2];
+                //pas de CvGet2D dans une double boucle avec CodeBlocks, sinon on a un message d'erreur
+                int r = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 2];
+                int v = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 1];
+                int b = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 0];
+
                 unsigned int intensite = (r+v+b)/3;
                 cumule(intensite);
                 majMin(intensite);
@@ -67,7 +68,7 @@ unsigned int Histogramme::getPicMax()
         return picMax;
     else
     {
-        double intensite = -1;
+        int intensite = -1;
         for(unsigned int i = 0; i < histogramme.size(); i++)
         {
             if(histogramme[i] > intensite)
@@ -82,7 +83,7 @@ unsigned int Histogramme::getPicMax()
 }
 
 
-std::vector<double>& Histogramme::getHistogramme(){return histogramme;}
+std::vector<int>& Histogramme::getHistogramme(){return histogramme;}
 
 void Histogramme::listerValeurs() const
 {

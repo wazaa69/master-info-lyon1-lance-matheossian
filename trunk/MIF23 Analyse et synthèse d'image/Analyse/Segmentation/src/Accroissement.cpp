@@ -2,11 +2,6 @@
 
 using namespace std;
 
-//variable de teste
-int nombreAglomere = 0;
-double tempsAlgo = 0;
-double tempsColoration = 0;
-
 
 
 //---------------------------------- Initialisations --------------------------------------->
@@ -16,6 +11,13 @@ double tempsColoration = 0;
 
 Accroissement::Accroissement(const IplImage* _img_src, const double _seuil, const double _occupationMin): img_src(_img_src), seuil(_seuil), occupationMin(_occupationMin)
 {
+    Region::razCompteurRegion();
+    Couleur::razListeCouleurs();
+
+    nombreAglomere = 0;
+    tempsAlgo = 0;
+    tempsColoration = 0;
+
 
     img_seg = cvCreateImage(cvGetSize(img_src), img_src->depth, 3);
 

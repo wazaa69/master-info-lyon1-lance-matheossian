@@ -39,5 +39,6 @@ const Couleur& Region::getCouleurVisuelle()
 }
 
 unsigned int Region::getCompteurRegions(){return compteurRegions;}
+void Region::razCompteurRegion(){compteurRegions = 0;}
 
 const Graine& Region::getGraine() const {return graine;}
