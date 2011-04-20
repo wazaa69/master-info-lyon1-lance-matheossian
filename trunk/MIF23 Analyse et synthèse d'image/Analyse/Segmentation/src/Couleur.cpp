@@ -25,8 +25,6 @@ const Couleur& Couleur::getNouvCouleur(){
     Couleur couleur(0,0,0);
     bool existe = true;
 
-    couleur.setComposantes(prochainInt(), prochainInt(), prochainInt());
-
     //une nouvelle couleur est créée. ---> boucle trop lourde !!
 //    while(existe){
 //
@@ -42,6 +40,8 @@ const Couleur& Couleur::getNouvCouleur(){
 //                break;
 //            }
 //    }
+
+    couleur.setComposantes(prochainInt(), prochainInt(), prochainInt());
 
     Couleur::listeCouleurs.push_back(couleur);
 

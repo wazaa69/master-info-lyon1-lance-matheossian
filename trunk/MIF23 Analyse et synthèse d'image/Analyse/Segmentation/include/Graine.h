@@ -4,8 +4,10 @@
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 
-#include <iostream>
-
+/**
+* @class Permet de stocker les coordonnées de la graine
+* Elle n'a pas plus d'attribut pour le moment.
+*/
 class Graine
 {
     public:

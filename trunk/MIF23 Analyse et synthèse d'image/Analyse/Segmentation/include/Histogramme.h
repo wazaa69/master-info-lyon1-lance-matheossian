@@ -37,11 +37,15 @@ class Histogramme
         double min; /** 0 au minimum */
         double max; /** 255 au maximum */
 
-        int picMax; /** position en x du plus grand pic de l'histogramme */
+        int picMax; /** position en x du plus grand pic de l'histogramme (de 0 à 255) */
 
-        void majMax(const unsigned int valeur);
-        void majMin(const unsigned int valeur);
-        void cumule(const unsigned int valeur);
+        void majMax(const unsigned int intensite);
+        void majMin(const unsigned int intensite);
+
+        /**
+        * @brief Incrément d'une unité l'intensite passée en paramètre
+        */
+        void cumule(const unsigned int intensite);
 
 };
 
