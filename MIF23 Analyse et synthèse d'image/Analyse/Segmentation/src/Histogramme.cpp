@@ -20,10 +20,10 @@ Histogramme::Histogramme (const IplImage* img_src, const unsigned int rvbG): pic
         {
             for(unsigned int x = 0; x < largeur; x++)
             {
-                float valeur = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + choix];
-                cumule(valeur);
-                majMin(valeur);
-                majMax(valeur);
+                float intensite = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + choix];
+                cumule(intensite);
+                majMin(intensite);
+                majMax(intensite);
             }
         }
     }
@@ -38,10 +38,10 @@ Histogramme::Histogramme (const IplImage* img_src, const unsigned int rvbG): pic
                 float r = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 0];
                 float v = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 1];
                 float b = ((uchar *)(img_src->imageData + y*img_src->widthStep))[x*img_src->nChannels + 2];
-                unsigned int valeur = (r+v+b)/3;
-                cumule(valeur);
-                majMin(valeur);
-                majMax(valeur);
+                unsigned int intensite = (r+v+b)/3;
+                cumule(intensite);
+                majMin(intensite);
+                majMax(intensite);
             }
 
         }
@@ -56,9 +56,9 @@ Histogramme::Histogramme (const IplImage* img_src, const unsigned int rvbG): pic
 
 Histogramme::~Histogramme (){}
 
-void Histogramme::majMax(const unsigned int valeur){if(valeur > max) max = valeur;}
-void Histogramme::majMin(const unsigned int valeur){if(valeur < min) min = valeur;}
-void Histogramme::cumule(const unsigned int valeur){histogramme[floor(valeur)]++;}
+void Histogramme::majMax(const unsigned int intensite){if(intensite > max) max = intensite;}
+void Histogramme::majMin(const unsigned int intensite){if(intensite < min) min = intensite;}
+void Histogramme::cumule(const unsigned int intensite){histogramme[floor(intensite)]++;}
 
 
 unsigned int Histogramme::getPicMax()

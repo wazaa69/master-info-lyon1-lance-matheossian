@@ -87,6 +87,14 @@ int main()
 }
 
 
+char* demanderImage()
+{
+    std::cout << "Entrez le numero de l'image à segmenter : " << std::endl;
+    std::cout << "deuxcarre.pgm" << endl;
+    std::cout << "deuxcarre3d.pgm" << endl;
+    std::cout << "cle.pgm" << endl;
+}
+
 
 double demanderSeuil(const IplImage* img_src)
 {

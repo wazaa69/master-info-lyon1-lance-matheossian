@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 
+/**
+* @class Classe qui permet de stocker la couleur RVB
+*/
 class Couleur
 {
     public:

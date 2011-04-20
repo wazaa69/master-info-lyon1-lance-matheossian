@@ -2,34 +2,34 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="include\Accroissement.h" open="0" top="0" tabpos="2">
-		<Cursor position="2893" topLine="31" />
+		<Cursor position="2774" topLine="51" />
 	</File>
 	<File name="include\Couleur.h" open="0" top="0" tabpos="0">
-		<Cursor position="924" topLine="10" />
+		<Cursor position="202" topLine="9" />
 	</File>
 	<File name="include\Graine.h" open="0" top="0" tabpos="0">
-		<Cursor position="332" topLine="0" />
+		<Cursor position="88" topLine="0" />
 	</File>
-	<File name="include\Histogramme.h" open="0" top="0" tabpos="0">
-		<Cursor position="274" topLine="3" />
+	<File name="include\Histogramme.h" open="1" top="1" tabpos="3">
+		<Cursor position="1316" topLine="13" />
 	</File>
 	<File name="include\Region.h" open="0" top="0" tabpos="2">
-		<Cursor position="875" topLine="12" />
+		<Cursor position="1815" topLine="26" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="0">
-		<Cursor position="1935" topLine="55" />
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="2696" topLine="89" />
 	</File>
 	<File name="src\Accroissement.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="11394" topLine="242" />
+		<Cursor position="8380" topLine="200" />
 	</File>
 	<File name="src\Couleur.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="384" topLine="9" />
+		<Cursor position="1837" topLine="0" />
 	</File>
 	<File name="src\Graine.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="143" topLine="0" />
 	</File>
-	<File name="src\Histogramme.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1689" topLine="52" />
+	<File name="src\Histogramme.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1557" topLine="15" />
 	</File>
 	<File name="src\Region.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="1172" topLine="4" />

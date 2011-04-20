@@ -7,6 +7,13 @@ int nombreAglomere = 0;
 double tempsAlgo = 0;
 double tempsColoration = 0;
 
+
+
+//---------------------------------- Initialisations --------------------------------------->
+//******************************************************************************************//
+
+
+
 Accroissement::Accroissement(const IplImage* _img_src, const double _seuil, const double _occupationMin): img_src(_img_src), seuil(_seuil), occupationMin(_occupationMin)
 {
 
@@ -68,6 +75,12 @@ void Accroissement::deposerGraines(vector<Graine> graines)
         listePointsVoisins.push(cvPoint(g.x, g.y)); //ajouts des graines dans la liste des voisins
     }
 }
+
+
+
+
+//---------------------------------- Début du growing --------------------------------------->
+//******************************************************************************************//
 
 
 
@@ -206,44 +219,6 @@ void Accroissement::contamination(const CvPoint& pt, Region& uneRegion)
     }
 }
 
-void Accroissement::contaminationEtendue()
-{
-    if(occupationMin != -1)
-    {
-        //ex : pourcentage d'occupation de l'image < pourcentage minimal d'occupation attendu
-        while( (double) (nbPointsDansRegion*100/nbPointsTotal) < occupationMin)
-        {
-
-           cvShowImage( "img", getImgSeg() );
-           cvWaitKey(1000);
-
-           cout << "Seuil : " << seuil << " --> Occupation : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%  < "  << occupationMin << endl;
-
-           /* on supprime les points qui appartiennent à une région (même si la région est redirigé),
-           de cette façon on conserve les "points frontière". */
-           for(unsigned int i = 0; i < listePointsVRejetes.size(); i++)
-           {
-               CvPoint p = listePointsVRejetes[i];
-               if(imgIndexGrow[p.x][p.y] == -1) listePointsVoisins.push(CvPoint(p));
-           }
-
-            //on vide la liste des points rejetés
-           listePointsVRejetes.clear();
-
-//            for(unsigned int i = 0; i < listeIndexRegions.size(); i++)
-//            {
-//                const Region& r = listeIndexRegions[i];
-//                listePointsVoisins.push(CvPoint(r.getGraine().getPtStart()));
-//            }
-
-           augmenteSeuil();
-
-            //on relance la contamination sur les points frontières
-           contaminationPixelsVoisins();
-        }
-    }
-}
-
 
 int Accroissement::indexRedirection(const Region& uneRegion)
 {
@@ -280,13 +255,6 @@ void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite
     nombreAglomere++; //1 région aglomérée implique une redirection suplpémentaire
 }
 
-void Accroissement::augmenteSeuil()
-{
-    //Version 1 : % du seuil précédant
-    seuil = seuil + seuil * 0.25;
-    if(seuil > 255) seuil = 255;
-}
-
 
 void Accroissement::coloration()
 {
@@ -316,5 +284,53 @@ void Accroissement::afficherInformations()
     cout << "Total pour graine + grow + merge + color = " << tempsAlgo + tempsColoration << " secondes"<< endl << endl;
 }
 
+
+
 const IplImage* Accroissement::getImgSeg() const{return img_seg;}
 const IplImage* Accroissement::getImgSrc() const {return img_src;}
+
+
+
+
+//---------------------------------- Pour s'étendre d'avanage (non terminé) ------------------------------------------>
+//********************************************************************************************************************//
+
+
+void Accroissement::contaminationEtendue()
+{
+    if(occupationMin != -1)
+    {
+        //ex : pourcentage d'occupation de l'image < pourcentage minimal d'occupation attendu
+        while( (double) (nbPointsDansRegion*100/nbPointsTotal) < occupationMin)
+        {
+
+           cvShowImage( "img", getImgSeg() );
+           cvWaitKey(1000);
+
+           cout << "Seuil : " << seuil << " --> Occupation : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%  < "  << occupationMin << endl;
+
+           /* on supprime les points qui appartiennent à une région (même si la région est redirigé),
+           de cette façon on conserve les "points frontière". */
+           for(unsigned int i = 0; i < listePointsVRejetes.size(); i++)
+           {
+               CvPoint p = listePointsVRejetes[i];
+               if(imgIndexGrow[p.x][p.y] == -1) listePointsVoisins.push(CvPoint(p));
+           }
+
+            //on vide la liste des points rejetés
+           listePointsVRejetes.clear();
+
+           augmenteSeuil();
+
+            //on relance la contamination sur les points frontières
+           contaminationPixelsVoisins();
+        }
+    }
+}
+
+void Accroissement::augmenteSeuil()
+{
+    //Version 1 : % du seuil précédant
+    seuil = seuil + seuil * 0.25;
+    if(seuil > 255) seuil = 255;
+}
