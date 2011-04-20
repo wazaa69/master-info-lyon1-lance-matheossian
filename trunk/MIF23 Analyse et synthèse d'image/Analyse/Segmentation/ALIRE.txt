@@ -1,0 +1,2 @@
+Le makefile peut être lancer dirrectement depuis ce dossier.
+Une version avec codeblocks est aussi disponible.
