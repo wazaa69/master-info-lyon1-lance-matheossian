@@ -19,108 +19,218 @@ void onLClick(int event, int x, int y, int flags, void* param){
     tmp->y = y;
 }
 
+void afficherImage(const string nomImage, const IplImage* img);
+string demanderImage();
 double demanderSeuil(const IplImage* img_src);
+
+/**
+* @brief Disposition manuelle des graines (les coordonnées seront visibles dans la console).
+* Il faut :
+* 1- focus la fenêtre de l'image source
+* 2- placer la souris sur le point désiré
+* 3- appuyer sur la lettre 't' pour sauvgarder la graine
+* 4- réitérer le procédé autant de fois que vous le voullez
+*/
 void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines);
-void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe  = 100);
+
+/**
+* @brief Dispose automatiquement les graines.
+* On divise la largeur et hauteur de l'image par "decoupe" pour obtenir un pasX et pasY.
+* Si un des deux pas est trop petit, il est fixé à 10.
+*/
+void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe);
+
+/**
+* @brief Dispose aléatoirement les graines.
+*
+*/
 void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int nombre);
 
 
 int main()
 {
-    string nomImage, cheminImg, nomFenetre, tempCheminImage;
-    char key = '----';
+    string nomImage, cheminImg, cheminImage, rep;
+    string nomFenetreSrc  = "Image Source";
+    string nomFenetreSeg  = "Image Segmentée";
 
-    while (key != 'q'){
+    IplImage* redimImgSrc;
+    IplImage* redimImgSeg;
+
+    cvNamedWindow(nomFenetreSrc.c_str(), CV_WINDOW_AUTOSIZE);
+    cvResizeWindow(nomFenetreSrc.c_str(), 1,1);
+    cvMoveWindow(nomFenetreSrc.c_str(),10,0);
+
+    cvNamedWindow(nomFenetreSeg.c_str(), CV_WINDOW_AUTOSIZE);
+    cvResizeWindow(nomFenetreSeg.c_str(), 1,1);
+    cvMoveWindow(nomFenetreSeg.c_str(),665,0);
+
+    while (rep.compare("q")){
 
         cheminImg = "images/";
-
 
         bool bonChemin = 0;
         IplImage* img_src;
 
+        //------------------------ Demande l'image à segmenter ------>
+
         while (!bonChemin)
         {
-            cout << endl << "Choix de l'image (repertoire " << cheminImg << " ) :" << endl;
-            cin >> nomImage;
-            tempCheminImage = cheminImg;
-            tempCheminImage += nomImage;
+            cheminImage = cheminImg;
+            cheminImage += demanderImage().c_str();
 
-        //    char* nomFenetre = "img";
-
-            img_src = cvLoadImage(tempCheminImage.c_str());
-            if(img_src == NULL){cout << "Mauvaise chemin d'image !" << endl;}
-            else {bonChemin = true; cheminImg = tempCheminImage;}
+            img_src = cvLoadImage(cheminImage.c_str());
+            if(img_src == NULL){cout << "Mauvais chemin d'image !" << endl;}
+            else {bonChemin = true;}
         }
 
+        //--------- Affichage ------>
+
+        afficherImage(nomFenetreSrc, img_src);
+
+        //------------------------ Crée et récuère les graines, modifie le seuil et le % d'occupation ------>
+
         double occupationMin = 70; /* taux d'occupation minimal des régions */
-
         std::vector<Graine>* graines = new std::vector<Graine>;
-
         double seuil = demanderSeuil(img_src);
         demanderDispoGraine(img_src, graines);
 
+        //------------------------ Lance l'algorithme si il y a des graines ------>
+
         if(graines->size())
         {
-            cvNamedWindow(nomFenetre.c_str(), CV_WINDOW_AUTOSIZE);
-            cvMoveWindow(nomFenetre.c_str(),0,0);
+
+            //--------- Accroissement  ---->
 
             Accroissement acc(img_src, seuil, occupationMin);
             acc.demarrer(*graines);
 
-            cvShowImage( nomFenetre.c_str(), acc.getImgSeg() );
-            cvSaveImage("images/result.jpg",acc.getImgSeg());
-            cout << "Image segmentee sauvegardee: images/result.jpg" << endl;
+            //--------- Affichage  ------>
 
+            afficherImage(nomFenetreSeg, acc.getImgSeg());
 
+            //------------------------ Sauvegarde de l'image segmentée ----------->
 
-            cout << "(q) pour pour quitter (s) pour segmenter une nouvelle image: " << endl;
-            while(key != 'q' && key != 's' )  key = cvWaitKey(10);
-    //       cin >> key;
-            cvDestroyWindow(nomFenetre.c_str());
+            cvSaveImage("images/resultat.jpg",acc.getImgSeg());
+            cout << "Image segmentee sauvegardee: images/resultat.jpg" << endl;
+
+            rep.clear();
+            cout << "(q) pour pour quitter, (s) pour segmenter une nouvelle image: " << endl;
+            while(rep.compare("q") && rep.compare("s"))  cin >> rep;
+
         }
-
 
         delete graines;
         cvReleaseImage(&img_src);
 
+        cout << endl << "-----------------------------------------------------------------" << endl << endl;
     }
+
+    cvDestroyWindow(nomFenetreSeg.c_str());
 }
 
 
-char* demanderImage()
+//-------------- Listing des images disponibles ----------------->
+//**************************************************************//
+
+
+string demanderImage()
 {
-    std::cout << "Entrez le numero de l'image à segmenter : " << std::endl;
-    std::cout << "deuxcarre.pgm" << endl;
-    std::cout << "deuxcarre3d.pgm" << endl;
-    std::cout << "cle.pgm" << endl;
+
+    //<-----------------------------------------------------AJOUTER LES IMAGES DE TESTS ICI
+    std::vector<string> images;
+    images.push_back("deuxcarre.pgm (256*256)");
+    images.push_back("deuxcarre3d.pgm (256*256)");
+
+    images.push_back("notre-dame-de-paris.jpg (500*336)");
+    images.push_back("opera-lyon.jpg (540*360)");
+    images.push_back("cellules.jpg (768*512)");
+
+    images.push_back("paysage-colore.jpg (1024*768)");
+    images.push_back("paysage-de-riziere.jpg (1280*857)");
+    images.push_back("NewYork.jpg (1468*1101)");
+    //------------------------------------------------------------------------------------<
+
+
+    cout << "Entrez le numero de l'image a segmenter : " << endl;
+
+    for(unsigned int i = 0; i < images.size(); i++) cout << i << " - " << images[i] << endl;
+
+    while(true)
+    {
+        string tmp;
+        cin >> tmp;
+        int choix = atof(tmp.c_str());
+        if(choix < images.size() && choix >= 0)
+        {
+            tmp = images[choix]; //on récupère le contenu
+            tmp = tmp.substr(0,tmp.find(" ")); //on récupère l'image sans le (taille*taille)
+            cout << tmp << endl;
+            return tmp;
+        }
+        cout << "Le numero d'image choisit n'existe pas. " << tmp << " Reeseyez : " << endl;
+    }
+
 }
+
+//-------------- Affichage des images ----------------->
+//****************************************************//
+
+void afficherImage(const string nomFenetreSeg, const IplImage* img)
+{
+
+    IplImage* tmp;
+
+    if(img->width > 640)
+    {
+        tmp = cvCreateImage(cvSize(640, img->height * ((double) 640/(double) img->width)), IPL_DEPTH_8U, 3);
+        cvResize(img, tmp);
+        cvShowImage( nomFenetreSeg.c_str(),tmp);
+    }
+    else cvShowImage( nomFenetreSeg.c_str(), img);
+    cvWaitKey(100);
+}
+
+
+//--------------------- Seuillage ------------------------------->
+//***************************************************************//
 
 
 double demanderSeuil(const IplImage* img_src)
 {
     std::string rep;
-    double seuil = 10;
+    double tmpSeuil, seuil = 10;
 
-    std::cout << "Seuillage selon l'intensite la plus commune dans l'image (histogramme) : y/n" << std::endl;
+    cout << "Seuillage selon l'intensite la plus commune dans l'image (histogramme) : y/n" << endl;
     while(rep.compare("y") && rep.compare("n") && rep.compare("Y") && rep.compare("N")) cin >> rep;
 
     if(!rep.compare("y") || !rep.compare("Y"))
     {
-        seuil = Histogramme(img_src, 3).getPicMax();
-        std::cout << "Seuil deduit depuis l'histogramme : " << seuil << endl << endl;
+        tmpSeuil = Histogramme(img_src, 3).getPicMax();
+
+        cout << "Seuil deduit depuis l'histogramme : " << tmpSeuil << endl;
+
+        if(tmpSeuil == 0)
+        {
+            cout << "Le seuil n'est pas exploitable. " << seuil << endl;
+            rep = "n"; // pour passer au if ci-dessous
+        }
+        else
+            seuil = tmpSeuil;
+
+        cout << endl;
     }
-    else
+
+    if(!rep.compare("n") || !rep.compare("N"))
     {
         rep.clear();
-        std::cout << "Seuil actuel : " << seuil << "." << endl << endl << "Si vous desirez le conserver entrez la lettre 'y', sinon entrez un nombre : " << endl;
+        cout << "Seuil actuel : " << seuil << "." << endl << endl << "Si vous desirez le conserver entrez la lettre 'y', sinon entrez un nombre : " << endl;
         cin >> rep;
         if(!rep.compare("y") || !rep.compare("Y")){}
         else
         {
-                seuil = atof(rep.c_str());
-                std::cout << "Nouveau seuil : " << seuil << endl << endl;
+            seuil = atof(rep.c_str());
+            cout << "Nouveau seuil : " << seuil << endl << endl;
         }
-
     }
 
     return seuil;
@@ -128,16 +238,20 @@ double demanderSeuil(const IplImage* img_src)
 
 
 
+//--------------------- Disposition des graines  ------------------------------->
+//*****************************************************************************//
+
+
 void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
 {
 
     std::string rep;
-    char* nomFenetre = "Image source";
+    char* nomFenetre = "Deposez vos graines";
 
-    std::cout << "Choix de disposition des graines (entrez la lettre entre parenthese) :" << endl <<
+    cout << "Choix de disposition des graines (entrez la lettre entre parenthese) :" << endl <<
     "- (a)utomatique (cadrillage)" << endl <<
     "- au (h)asard" << endl <<
-    "- au (c)hoix (selection a la souris)" << std::endl;
+    "- au (c)hoix (selection a la souris)" << endl;
 
     char key = '---';
     while(rep.compare("a") && rep.compare("h") && rep.compare("c")) cin >> rep;
@@ -145,10 +259,14 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
     if(!rep.compare("c"))
     {
         cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
-        cvMoveWindow(nomFenetre,0,0);
+        cvMoveWindow(nomFenetre,340,0);
         cvShowImage(nomFenetre, img_src);
 
-        std::cout << "Positionnez la souris sur l'image et appuyez sur 't' pour deposer une graines." << std::endl;
+        cout << endl << "1- Selectionnez la nouvelle fenetre" << endl;
+        cout << "2- Positionnez la souris ou vous desirez poser la graine" << endl;
+        cout << "3- Appuyez sur 't' pour sauvegarder la graines" << endl;
+        cout << "4- Reiterez le proceder." << endl;
+        cout << "Quand vous aurez termine, appuyez sur 'q' en restant dans la fenetre de l'image." << endl;
 
         while(key != 'q')
         {
@@ -157,7 +275,7 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
             if(key == 't')
             {
                 graines->push_back(Graine(tmp->x,tmp->y));
-                std::cout << "Graine " << graines->size() << " : (" << tmp->x << "," << tmp->y << ")." << std::endl;
+                cout << "Graine " << graines->size() << " : (" << tmp->x << "," << tmp->y << ")." << endl;
                 theFlag = 0;
                 key = '---';
             }
@@ -170,28 +288,28 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
     }
     else if(!rep.compare("a"))
     {
-        std::cout << "Disposition automatique des graines." << std::endl;
+        cout << "Disposition automatique des graines." << endl;
 
         bool nMax = img_src->width/10 > img_src->height/10;
 
-        cout << "Cadrillage en N * N graines, donner une valeur pour N (avec N <= " << (nMax?ceil(img_src->height/10):ceil(img_src->width/10)) << ") : " << std::endl;
+        cout << "Cadrillage en N * N graines, donner une valeur pour N (avec N <= " << (nMax?ceil(img_src->height/10):ceil(img_src->width/10)) << ") : " << endl;
         cin >> rep;
         dispositionAutomatique(img_src->width, img_src->height, graines, atof(rep.c_str()));
     }
     else
     {
-        std::cout << "Disposition au hasard des graines. " << std::endl;
+        cout << "Disposition au hasard des graines. " << endl;
 
         bool nMax = img_src->height/3 > img_src->width/3;
 
-        cout << "Nombre de graine N a rependre (avec N <= " << (nMax?ceil(img_src->width/3)*2:ceil(img_src->height/3)*2) << ") : " << std::endl;
+        cout << "Nombre de graine N a rependre (avec N <= " << (nMax?ceil(img_src->width/3)*2:ceil(img_src->height/3)*2) << ") : " << endl;
 
         cin >> rep;
 
         dispositionAleatoire(img_src->width, img_src->height, graines, atof(rep.c_str()));
     }
 
-    std::cout << std::endl;
+    cout << endl;
 }
 
 
@@ -200,11 +318,9 @@ void dispositionAutomatique(const unsigned int largeur, const unsigned int haute
     unsigned int pasX = largeur/decoupe;
     unsigned int pasY = hauteur/decoupe;
 
-    if(pasX < 10 || pasY < 10)
-    {
-        pasX = 10;
-        pasY = 10;
-    }
+    if(pasX < 10) pasX = 10;
+    if(pasY < 10) pasY = 10;
+
 
     for(unsigned int i = 0; i < largeur; i++)
     {

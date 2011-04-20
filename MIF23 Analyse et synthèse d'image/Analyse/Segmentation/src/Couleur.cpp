@@ -88,3 +88,9 @@ const double Couleur::prochainInt(){
     initRand();
     return rand()%256; //0 à 255
 }
+
+
+void Couleur::razListeCouleurs()
+{
+    listeCouleurs.clear();
+}

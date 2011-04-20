@@ -27,15 +27,15 @@ class Histogramme
 
         unsigned int getPicMax();
 
-        std::vector<double>& getHistogramme();
+        std::vector<int>& getHistogramme();
         void listerValeurs() const;
 
     private:
 
-        std::vector<double> histogramme; /** de 0 à 255 */
+        std::vector<int> histogramme; /** de 0 à 255 */
 
-        double min; /** 0 au minimum */
-        double max; /** 255 au maximum */
+        int min; /** 0 au minimum */
+        int max; /** 255 au maximum */
 
         int picMax; /** position en x du plus grand pic de l'histogramme (de 0 à 255) */
 

@@ -60,6 +60,11 @@ class Accroissement
         unsigned int nbPointsTotal;
         double occupationMin; /** pourcentage d'occupation de l'image souhaité */
 
+        //variables our l'affichage
+        int nombreAglomere;
+        double tempsAlgo;
+        double tempsColoration;
+
         /**
         * @brief Crée autant de région qu'il y a de graine et les sauvegarder dans listeIndexRegions.
         */

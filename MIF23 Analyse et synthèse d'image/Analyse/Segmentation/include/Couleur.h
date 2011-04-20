@@ -29,6 +29,8 @@ class Couleur
         void setComposantes(const Couleur& coul);
         void setComposantes(const double& r, const double& v, const double& b);
 
+        static void razListeCouleurs();
+
         const Couleur& getNouvCouleur();
         const bool isSet() const;
 

@@ -42,6 +42,7 @@ class Region
         * @return retourne le nombre total de région
         */
         static unsigned int getCompteurRegions();
+        static void razCompteurRegion();
 
         /**
         * @return retourne la graine de la région
