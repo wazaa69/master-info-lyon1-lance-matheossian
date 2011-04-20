@@ -1,3 +1,11 @@
+/**
+* LANCE Florian : n°10604720
+* MATHEOSSIAN Dimitri : n°10604950
+* Nous avons choisit d’effectuer la méthode d’accroissement de régions sous CodeBlocks avec OpenCv.
+* Notre code est compatible sous Ubuntu et Windows 7.
+* Un makefile est dipsonible poura compiler sous Linux.
+*/
+
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 // -lcv -lhighgui -lcvaux -lml -lcxcore
