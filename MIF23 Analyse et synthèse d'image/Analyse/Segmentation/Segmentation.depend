@@ -121,10 +121,10 @@
 1301181247 source:/home/dim/Bureau/Segmentation/src/Region.cpp
 	"../include/Region.h"
 
-1303303797 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\accroissement.cpp
+1303424604 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\accroissement.cpp
 	"../include/Accroissement.h"
 
-1303303780 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\accroissement.h
+1303423463 d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\include\accroissement.h
 	<opencv/cv.h>
 	<opencv/highgui.h>
 	<iostream>
@@ -227,4 +227,13 @@
 	<opencv/highgui.h>
 	<iostream>
 	<vector>
+
+1303425644 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif23-analyse_et_synthese_d'image\analyse\segmentation\src\main.cpp
+	<opencv/cv.h>
+	<opencv/highgui.h>
+	<vector>
+	<string>
+	"../include/Histogramme.h"
+	"../include/Accroissement.h"
+	"../include/Graine.h"
 
