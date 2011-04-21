@@ -63,9 +63,6 @@ int main()
     string nomFenetreSrc  = "Image Source";
     string nomFenetreSeg  = "Image Segmentée";
 
-    IplImage* redimImgSrc;
-    IplImage* redimImgSeg;
-
     cvNamedWindow(nomFenetreSrc.c_str(), CV_WINDOW_AUTOSIZE);
     cvResizeWindow(nomFenetreSrc.c_str(), 1,1);
     cvMoveWindow(nomFenetreSrc.c_str(),10,0);
@@ -174,7 +171,7 @@ string demanderImage()
         {
             tmp = images[choix]; //on récupère le contenu
             tmp = tmp.substr(0,tmp.find(" ")); //on récupère l'image sans le (taille*taille)
-            cout << tmp << endl;
+            cout << tmp << endl << endl;
             return tmp;
         }
         cout << "Le numero d'image choisit n'existe pas. " << tmp << " Reeseyez : " << endl;
@@ -210,24 +207,18 @@ double demanderSeuil(const IplImage* img_src)
     std::string rep;
     double tmpSeuil, seuil = 10;
 
-    cout << "Seuillage selon l'intensite la plus commune dans l'image (histogramme) : y/n" << endl;
-    while(rep.compare("y") && rep.compare("n") && rep.compare("Y") && rep.compare("N")) cin >> rep;
+    tmpSeuil = Histogramme(img_src, 3).getPicMax();
 
-    if(!rep.compare("y") || !rep.compare("Y"))
+    if(tmpSeuil != 0)
     {
-        tmpSeuil = Histogramme(img_src, 3).getPicMax();
-
-        cout << "Seuil deduit depuis l'histogramme : " << tmpSeuil << endl;
-
-        if(tmpSeuil == 0)
-        {
-            cout << "Le seuil n'est pas exploitable. " << seuil << endl;
-            rep = "n"; // pour passer au if ci-dessous
-        }
-        else
-            seuil = tmpSeuil;
-
-        cout << endl;
+        cout << "Prendre le seuil = au pic d'intensite dans l'histogramme = " << tmpSeuil << " ? y/n" << endl;
+        while(rep.compare("y") && rep.compare("n") && rep.compare("Y") && rep.compare("N")) cin >> rep;
+        if(!rep.compare("y") || !rep.compare("Y")) seuil = tmpSeuil;
+    }
+    else
+    {
+        cout << "Le pic de plus forte intensite dans l'histogramme est nul donc non-exploitable. " << endl;
+        rep = "n"; // pour passer au if ci-dessous
     }
 
     if(!rep.compare("n") || !rep.compare("N"))
@@ -235,10 +226,17 @@ double demanderSeuil(const IplImage* img_src)
         rep.clear();
         cout << "Seuil actuel : " << seuil << "." << endl << endl << "Si vous desirez le conserver entrez la lettre 'y', sinon entrez un nombre : " << endl;
         cin >> rep;
+
         if(!rep.compare("y") || !rep.compare("Y")){}
         else
         {
-            seuil = atof(rep.c_str());
+            tmpSeuil = atof(rep.c_str());
+
+            if(tmpSeuil == 0)
+                cout << "Vous avez entre un seuil null donc non-exploitable. " << endl;
+            else
+                seuil = tmpSeuil;
+
             cout << "Nouveau seuil : " << seuil << endl << endl;
         }
     }
@@ -270,7 +268,8 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
     {
         cvNamedWindow(nomFenetre, CV_WINDOW_AUTOSIZE);
         cvMoveWindow(nomFenetre,340,0);
-        cvShowImage(nomFenetre, img_src);
+        IplImage* clone = cvCloneImage(img_src);
+        cvShowImage(nomFenetre, clone);
 
         cout << endl << "1- Selectionnez la nouvelle fenetre" << endl;
         cout << "2- Positionnez la souris ou vous desirez poser la graine" << endl;
@@ -286,6 +285,8 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
             {
                 graines->push_back(Graine(tmp->x,tmp->y));
                 cout << "Graine " << graines->size() << " : (" << tmp->x << "," << tmp->y << ")." << endl;
+                cvCircle(clone, cvPoint(tmp->x,tmp->y), 4, CV_RGB(255,255,0), -1);
+                cvShowImage(nomFenetre, clone);
                 theFlag = 0;
                 key = '---';
             }
@@ -293,6 +294,7 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
             key = cvWaitKey(20);
         }
 
+        cvReleaseImage(&clone);
         cvDestroyWindow(nomFenetre);
 
     }
@@ -325,8 +327,14 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
 
 void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe)
 {
-    unsigned int pasX = largeur/decoupe;
-    unsigned int pasY = hauteur/decoupe;
+    unsigned int pasX;
+    unsigned int pasY;
+
+    if(decoupe == 0)
+    {    //comme c'est de l'aléatoire, on ajoute une facteur *2
+        pasX = largeur/decoupe;
+        pasY = hauteur/decoupe;
+    }
 
     if(pasX < 10) pasX = 10;
     if(pasY < 10) pasY = 10;
@@ -348,9 +356,14 @@ void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur
 
     unsigned int nb = nombre;
 
-    //comme c'est de l'aléatoire, on ajoute une facteur *2
-    unsigned int pasX = 2*largeur/nb;
-    unsigned int pasY = 2*hauteur/nb;
+    unsigned int pasX;
+    unsigned int pasY;
+
+    if(nb == 0)
+    {    //comme c'est de l'aléatoire, on ajoute une facteur *2
+        pasX = 2*largeur/nb;
+        pasY = 2*hauteur/nb;
+    }
 
     //on conserve le côté le plus petit
     if(pasX < 3 || pasY < 3)

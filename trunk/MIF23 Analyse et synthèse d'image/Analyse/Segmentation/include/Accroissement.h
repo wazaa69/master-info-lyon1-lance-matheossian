@@ -47,7 +47,7 @@ class Accroissement
         const IplImage* img_src;
         IplImage* img_seg;
 
-        std::vector< std::vector<int> > imgIndexGrow; /** tableau de la taille de l'image, stocke à quelle région appartient chaque pixel, initialement à -1 */
+        std::vector< std::vector<int> > imgIndex; /** tableau de la taille de l'image, stocke à quelle région appartient chaque pixel, initialement à -1 */
         std::vector<Region> listeIndexRegions;
 
         std::map<int,int> carteRedirections; /** quand une région est agrégé par une autre, on redirige l'index */
@@ -88,7 +88,7 @@ class Accroissement
 
         /**
         * @brief La grande région agrège la petite.
-        * L'index de la petite région ne sera plus ajouté dans la matrice d'indexs "imgIndexGrow".
+        * L'index de la petite région ne sera plus ajouté dans la matrice d'indexs "imgIndex".
         */
         void changerProprietaireRegion(Region& r_grande, Region& r_petite);
 

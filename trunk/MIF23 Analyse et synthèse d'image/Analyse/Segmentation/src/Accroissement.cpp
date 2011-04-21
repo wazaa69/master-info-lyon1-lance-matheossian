@@ -29,8 +29,8 @@ Accroissement::Accroissement(const IplImage* _img_src, const double _seuil, cons
 
     for(unsigned int i = 0; i < largeur; i++)
     {
-        imgIndexGrow.push_back(vector<int>());
-        for(unsigned int j = 0; j < hauteur; j++) imgIndexGrow[i].push_back(-1);
+        imgIndex.push_back(vector<int>());
+        for(unsigned int j = 0; j < hauteur; j++) imgIndex[i].push_back(-1);
     }
 }
 
@@ -72,8 +72,7 @@ void Accroissement::deposerGraines(vector<Graine> graines)
         listeIndexRegions.push_back(region);
 
         //ajout de l'index et de la couleur sur l'image
-        imgIndexGrow[g.x][g.y] = i;
-        //cvSet2D(img_seg, g.y, g.x, region.getCouleurVisuelle().getCvScalar());
+        imgIndex[g.x][g.y] = i;
         listePointsVoisins.push(cvPoint(g.x, g.y)); //ajouts des graines dans la liste des voisins
     }
 }
@@ -97,7 +96,7 @@ void Accroissement::contaminationPixelsVoisins()
         const unsigned int y = pointCentral.y;
 
 
-        Region region = listeIndexRegions[imgIndexGrow[x][y]]; //avec imgIndexGrow[x][y] >= 0
+        Region region = listeIndexRegions[imgIndex[x][y]]; //avec imgIndex[x][y] >= 0
 
         if(x > 0 && x < img_src->width-1 && y > 0 && y < img_src->height-1)
         {
@@ -181,9 +180,9 @@ void Accroissement::contamination(const CvPoint& pt, Region& uneRegion)
     double moyCoulRegion = region.getCouleurMoyenne().moyenne(); //couleur moyenne de la région voisinne
 
     // Extension de la region
-    if((imgIndexGrow[pt.x][pt.y] == -1) && (abs(coulPixel - moyCoulRegion) <= seuil) )
+    if((imgIndex[pt.x][pt.y] == -1) && (abs(coulPixel - moyCoulRegion) <= seuil) )
     {
-        imgIndexGrow[pt.x][pt.y] = region.getIndexRegion();
+        imgIndex[pt.x][pt.y] = region.getIndexRegion();
         region.setTailleRegion(region.getTailleRegion()+1);
         nbPointsDansRegion++;
         region.setNouvMoyenne(Couleur(color)); //moyenne entre la couleur de la région et celle du pixel
@@ -191,24 +190,24 @@ void Accroissement::contamination(const CvPoint& pt, Region& uneRegion)
         listePointsVoisins.push(pt);
     }
     //Version 1 : Création d'une nouvelle région, on plante une nouvelle gaine pour la faire croître
-//    else if(imgIndexGrow[pt.x][pt.y] == -1 )
+//    else if(imgIndex[pt.x][pt.y] == -1 )
 //    {
 //        Region nouvRegion = Region(Graine(pt), Couleur(color.val[2],color.val[1],color.val[0]));
-//        imgIndexGrow[pt.x][pt.y] = nouvRegion.getIndexRegion();
+//        imgIndex[pt.x][pt.y] = nouvRegion.getIndexRegion();
 //        listeIndexRegions.push_back(nouvRegion);
 //        //cvSet2D(img_seg, pt.y, pt.x, nouvRegion.getCouleurVisuelle().getCvScalar());
 //        listePointsVoisins.push(pt);
 //    }
 //    //Version 2 : le seuillage n'est pas respecté, on conserve le point pour plus tard (au cas où le growing n'occuperait pas N% de l'image)
-//    else if(imgIndexGrow[pt.x][pt.y] == -1 )
+//    else if(imgIndex[pt.x][pt.y] == -1 )
 //    {
 //        listePointsVRejetes.push_back(pt);
 //    }
     //Deux pixels voisins appartiennent une région différente : si leur couleur moyenne respectent le seuil, la plus grande région absorbe la plus petite
-    else if(imgIndexGrow[pt.x][pt.y] != -1 )
+    else if(imgIndex[pt.x][pt.y] != -1 )
     {
         //le point testé appartient à une région, on cherche sa redirection
-        Region& regionDuPoint = listeIndexRegions[indexRedirection(listeIndexRegions[imgIndexGrow[pt.x][pt.y]])];
+        Region& regionDuPoint = listeIndexRegions[indexRedirection(listeIndexRegions[imgIndex[pt.x][pt.y]])];
 
         if(region.getIndexRegion() != regionDuPoint.getIndexRegion() //les deux région sont différentes (cas obligatoire : si on est dans la région)
              && region.getTailleRegion() >= regionDuPoint.getTailleRegion()  //comparaison de taille
@@ -218,6 +217,7 @@ void Accroissement::contamination(const CvPoint& pt, Region& uneRegion)
             changerProprietaireRegion(region, regionDuPoint);
             listePointsVoisins.push(pt);
         }
+
     }
 }
 
@@ -260,13 +260,13 @@ void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite
 
 void Accroissement::coloration()
 {
-    for(unsigned x = 0; x < imgIndexGrow.size(); x++)
-        for(unsigned y = 0; y < imgIndexGrow[x].size(); y++)
+    for(unsigned x = 0; x < imgIndex.size(); x++)
+        for(unsigned y = 0; y < imgIndex[x].size(); y++)
         {
-            if(imgIndexGrow[x][y]  != -1) //au cas où l'on désactiverai le "if une région différente = nouvelle région"
+            if(imgIndex[x][y]  != -1) //au cas où l'on désactiverai le "if une région différente = nouvelle région"
             {
                 //on modifie uniquement les pixels des régions redirigées
-                int redirection = indexRedirection(listeIndexRegions[imgIndexGrow[x][y]]);
+                int redirection = indexRedirection(listeIndexRegions[imgIndex[x][y]]);
                 cvSet2D(img_seg, y, x, listeIndexRegions[redirection].getCouleurVisuelle().getCvScalar());
             }
         }
@@ -276,7 +276,7 @@ void Accroissement::afficherInformations()
 {
 
     cout << img_seg->height << " * " << img_seg->width << " = " << (img_seg->height * img_seg->width) << endl ;
-    cout << "Taux d'occupation de l'image : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%" << " sur les " << occupationMin << " % attendus." << endl << endl;
+    cout << "Taux d'occupation de l'image : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%" << endl << endl;
 
     cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
     cout << "Nombre de regions aglomerees : " << nombreAglomere << endl << endl;
@@ -316,7 +316,7 @@ void Accroissement::contaminationEtendue()
            for(unsigned int i = 0; i < listePointsVRejetes.size(); i++)
            {
                CvPoint p = listePointsVRejetes[i];
-               if(imgIndexGrow[p.x][p.y] == -1) listePointsVoisins.push(CvPoint(p));
+               if(imgIndex[p.x][p.y] == -1) listePointsVoisins.push(CvPoint(p));
            }
 
             //on vide la liste des points rejetés
