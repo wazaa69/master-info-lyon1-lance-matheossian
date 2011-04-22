@@ -17,7 +17,7 @@
 		<Cursor position="1294" topLine="28" />
 	</File>
 	<File name="src\Accroissement.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="9462" topLine="0" />
+		<Cursor position="708" topLine="0" />
 	</File>
 	<File name="src\Couleur.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="719" topLine="0" />
@@ -32,6 +32,6 @@
 		<Cursor position="1171" topLine="2" />
 	</File>
 	<File name="src\main.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6406" topLine="194" />
+		<Cursor position="398" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

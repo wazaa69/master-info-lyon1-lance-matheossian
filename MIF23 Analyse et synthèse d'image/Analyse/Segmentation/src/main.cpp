@@ -29,8 +29,19 @@ void onLClick(int event, int x, int y, int flags, void* param){
     tmp->y = y;
 }
 
+/**
+* @brief Affiche l'image et la redimenssionne avec une largeur de 640px si la largeur de l'image dépasse 640px;
+*/
 void afficherImage(const std::string nomImage, const IplImage* img);
+
+/**
+* @return renvoie le nom de l'image choisit
+*/
 string demanderImage();
+
+/**
+* @brief Demande le seuillage à utiliser (histogramme || ancien seuil || nouvelle valeur)
+*/
 double demanderSeuil(const IplImage* img_src);
 
 /**
@@ -48,14 +59,16 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines);
 * On divise la largeur et hauteur de l'image par "decoupe" pour obtenir un pasX et pasY.
 * Si un des deux pas est trop petit, il est fixé à 10.
 */
-void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe);
+void dispositionAutomatique(const IplImage* img_src, vector<Graine>* graines, const unsigned int decoupe);
 
 /**
 * @brief Dispose aléatoirement les graines.
 *
 */
-void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int nombre);
+void dispositionAleatoire(const IplImage* img_src, vector<Graine>* graines, const unsigned int nombre);
 
+
+vector<IplImage*> listeALiberer; //liste des images à libérer à chaque tour de boucle (il faut les conserver jusqu'à la fin).
 
 int main()
 {
@@ -63,20 +76,21 @@ int main()
     string nomFenetreSrc  = "Image Source";
     string nomFenetreSeg  = "Image Segmentée";
 
-    cvNamedWindow(nomFenetreSrc.c_str(), CV_WINDOW_AUTOSIZE);
-    cvResizeWindow(nomFenetreSrc.c_str(), 1,1);
-    cvMoveWindow(nomFenetreSrc.c_str(),10,0);
+    char key = '----';
+    while (key != 'q' && key != 'Q'){
 
-    cvNamedWindow(nomFenetreSeg.c_str(), CV_WINDOW_AUTOSIZE);
-    cvResizeWindow(nomFenetreSeg.c_str(), 1,1);
-    cvMoveWindow(nomFenetreSeg.c_str(),665,0);
+        cvNamedWindow(nomFenetreSrc.c_str(), CV_WINDOW_AUTOSIZE);
+        cvResizeWindow(nomFenetreSrc.c_str(), 1,1);
+        cvMoveWindow(nomFenetreSrc.c_str(),10,0);
 
-    while (rep.compare("q")){
+        cvNamedWindow(nomFenetreSeg.c_str(), CV_WINDOW_AUTOSIZE);
+        cvResizeWindow(nomFenetreSeg.c_str(), 1,1);
+        cvMoveWindow(nomFenetreSeg.c_str(),665,0);
 
         cheminImg = "images/";
 
-        bool bonChemin = 0;
-        IplImage* img_src;
+        IplImage* img_src = NULL;
+        bool bonChemin = false;
 
         //------------------------ Demande l'image à segmenter ------>
 
@@ -121,18 +135,23 @@ int main()
             cout << "Image segmentee sauvegardee: images/resultat.jpg" << endl;
 
             rep.clear();
-            cout << "(q) pour pour quitter, (s) pour segmenter une nouvelle image: " << endl;
-            while(rep.compare("q") && rep.compare("s"))  cin >> rep;
+            cout << "Cliquez sur une fenetre d'OpenCv puis (q) pour pour quitter, (s) pour segmenter une nouvelle image." << endl;
+            key = '-----';
+            while(key != 'q' && key != 's' && key != 'Q' && key != 'S') key = cvWaitKey(50);
 
         }
 
         delete graines;
         cvReleaseImage(&img_src);
+        cvDestroyAllWindows();
+
+        //------------------------ On libère les images créées dans afficherImage() ----------->
+        for(unsigned int i = 0; i < listeALiberer.size(); i++) cvReleaseImage(&listeALiberer[i]);
+        listeALiberer.clear();
 
         cout << endl << "-----------------------------------------------------------------" << endl << endl;
     }
 
-    cvDestroyWindow(nomFenetreSeg.c_str());
 }
 
 
@@ -184,16 +203,17 @@ string demanderImage()
 
 void afficherImage(const string nomFenetreSeg, const IplImage* img)
 {
-
     IplImage* tmp;
 
     if(img->width > 640)
     {
         tmp = cvCreateImage(cvSize(640, img->height * ((double) 640/(double) img->width)), IPL_DEPTH_8U, 3);
+        listeALiberer.push_back(tmp);
         cvResize(img, tmp);
         cvShowImage( nomFenetreSeg.c_str(),tmp);
     }
     else cvShowImage( nomFenetreSeg.c_str(), img);
+
     cvWaitKey(100);
 }
 
@@ -304,9 +324,11 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
 
         bool nMax = img_src->width/10 > img_src->height/10;
 
-        cout << "Cadrillage en N * N graines, donner une valeur pour N (avec N <= " << (nMax?ceil(img_src->height/10):ceil(img_src->width/10)) << ") : " << endl;
+        cout << "Donnez la valeur de N : (N <= " << (nMax?ceil(img_src->height/10):ceil(img_src->width/10)) << ") : " << endl;
+        cout << "Calcul du pas : PasX = largeurImg/N et PasY = hauteurImg/N" << endl;
+        cout << "Chaque graine sera repartie sur l'image en respectant le PasX et le PasY."<< endl;
         cin >> rep;
-        dispositionAutomatique(img_src->width, img_src->height, graines, atof(rep.c_str()));
+        dispositionAutomatique(img_src, graines, atof(rep.c_str()));
     }
     else
     {
@@ -318,40 +340,55 @@ void demanderDispoGraine(const IplImage* img_src, std::vector<Graine>* graines)
 
         cin >> rep;
 
-        dispositionAleatoire(img_src->width, img_src->height, graines, atof(rep.c_str()));
+        dispositionAleatoire(img_src, graines, atof(rep.c_str()));
     }
 
     cout << endl;
 }
 
 
-void dispositionAutomatique(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int decoupe)
+void dispositionAutomatique(const IplImage* img_src, vector<Graine>* graines, const unsigned int decoupe)
 {
-    unsigned int pasX;
-    unsigned int pasY;
+    double pasX;
+    double pasY;
 
-    if(decoupe == 0)
+    unsigned largeur = img_src->width;
+    unsigned hauteur = img_src->height;
+
+    if(decoupe != 0)
     {    //comme c'est de l'aléatoire, on ajoute une facteur *2
-        pasX = largeur/decoupe;
-        pasY = hauteur/decoupe;
+        pasX = (double) largeur/(double) decoupe;
+        pasY = (double) hauteur/(double) decoupe;
     }
 
     if(pasX < 10) pasX = 10;
     if(pasY < 10) pasY = 10;
 
+    string nomFenetre = "Repartition Automatique";
+    cvNamedWindow(nomFenetre.c_str(), CV_WINDOW_AUTOSIZE);
+    IplImage* clone = cvCloneImage(img_src);
 
-    for(unsigned int i = 0; i < largeur; i++)
+    unsigned int x = 0, y = 0;
+
+    while(y < hauteur)
     {
-        for(unsigned int j = 0; j < hauteur; j++)
+        x = 0;
+
+        while(x < largeur)
         {
-            graines->push_back(Graine(i,j));
-            j += pasY;
+            graines->push_back(Graine(x,y));
+            cvCircle(clone, cvPoint(x,y), 4, CV_RGB(255,255,0), -1);
+            x += pasX;
         }
-        i += pasX;
+
+        y += pasY;
     }
+
+    afficherImage(nomFenetre.c_str(), clone);
+    cvReleaseImage(&clone);
 }
 
-void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur, vector<Graine>* graines, const unsigned int nombre)
+void dispositionAleatoire(const IplImage* img_src, vector<Graine>* graines, const unsigned int nombre)
 {
 
     unsigned int nb = nombre;
@@ -359,7 +396,10 @@ void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur
     unsigned int pasX;
     unsigned int pasY;
 
-    if(nb == 0)
+    unsigned int largeur = img_src->width;
+    unsigned int hauteur = img_src->height;
+
+    if(nb != 0)
     {    //comme c'est de l'aléatoire, on ajoute une facteur *2
         pasX = 2*largeur/nb;
         pasY = 2*hauteur/nb;
@@ -372,10 +412,18 @@ void dispositionAleatoire(const unsigned int largeur, const unsigned int hauteur
         else
             nb = ceil(hauteur/3);
 
+    string nomFenetre = "Repartition Aléatoire";
+    cvNamedWindow(nomFenetre.c_str(), CV_WINDOW_AUTOSIZE);
+    IplImage* clone = cvCloneImage(img_src);
+
     for(unsigned int i = 0; i < nb; i++)
     {
         unsigned int x = rand()%largeur;
         unsigned int y = rand()%hauteur;
         graines->push_back(Graine(x,y));
+        cvCircle(clone, cvPoint(x,y), 4, CV_RGB(255,255,0), -1);
     }
+
+    afficherImage(nomFenetre.c_str(), clone);
+    cvReleaseImage(&clone);
 }
