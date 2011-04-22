@@ -18,7 +18,7 @@ Accroissement::Accroissement(const IplImage* _img_src, const double _seuil, cons
     tempsAlgo = 0;
     tempsColoration = 0;
 
-
+    img_seg =NULL;
     img_seg = cvCreateImage(cvGetSize(img_src), img_src->depth, 3);
 
     const unsigned int hauteur = img_src->height;
@@ -279,7 +279,7 @@ void Accroissement::afficherInformations()
     cout << "Taux d'occupation de l'image : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%" << endl << endl;
 
     cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
-    cout << "Nombre de regions aglomerees : " << nombreAglomere << endl << endl;
+    cout << "Nombre de regions aglomerees : " << nombreAglomere-1 << endl << endl;
 
     cout << "Temps d'execution pour le depot de graine + grow + merge = " << tempsAlgo << " secondes"<< endl;
     cout << "Temps d'execution pour la coloration = " << tempsColoration << " secondes" << endl;
