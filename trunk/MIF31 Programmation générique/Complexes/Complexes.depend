@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1189868556 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\main.cpp
+	<iostream>
+
+1303933618 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\src\icellule.cpp
+	"../include/ICellule.h"
+
+1303939007 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\include\icellule.h
+	<vector>
+	"Point.h"
+
+1303933572 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\src\point.cpp
+	"../include/Point.h"
+
+1303935088 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\include\point.h
+	<vector>
+
+1303935754 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\src\complexecubique.cpp
+	"../include/ComplexeCubique.h"
+
+1303943437 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\include\complexecubique.h
+	<string>
+	<vector>
+	"ICellule.h"
+
+1303943042 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\src\ihm.cpp
+	"../include/Ihm.h"
+
+1303943029 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\include\ihm.h
+
