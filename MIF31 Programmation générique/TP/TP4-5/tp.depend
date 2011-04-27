@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1303219051 source:/home/etu/m/p0604950/Desktop/tpnote/tp/main.cpp
+	<iostream>
+	<deque>
+	<set>
+	<list>
+	<iterator>
+	"include/Tableau.h"
+	"include/Generation.h"
+
+1303214762 /home/etu/m/p0604950/Desktop/tpnote/tp/include/Tableau.h
+	<iostream>
+	<algorithm>
+	<cassert>
+
+1303216002 /home/etu/m/p0604950/Desktop/tpnote/tp/include/Generation.h
+	<iostream>
+
+1303216101 source:/home/etu/m/p0604950/Desktop/tpnote/tp/src/Generation.cpp
+	"../include/Generation.h"
+
+1303216101 source:/home/etu/m/p0604950/Desktop/TP5/src/Generation.cpp
+	"../include/Generation.h"
+
+1303216002 /home/etu/m/p0604950/Desktop/TP5/include/Generation.h
+	<iostream>
+
+1303224890 source:/home/etu/m/p0604950/Desktop/TP5/main.cpp
+	<iostream>
+	<deque>
+	<set>
+	<list>
+	<iterator>
+	"include/Tableau.h"
+	"include/Generation.h"
+
+1303224939 /home/etu/m/p0604950/Desktop/TP5/include/Tableau.h
+	<iostream>
+	<algorithm>
+	<cassert>
+
