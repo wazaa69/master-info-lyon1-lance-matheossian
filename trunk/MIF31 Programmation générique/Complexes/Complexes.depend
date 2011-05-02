@@ -28,3 +28,39 @@
 
 1303943029 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\projet\complexes\include\ihm.h
 
+1303935754 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\complexecubique.cpp
+	"../include/ComplexeCubique.h"
+
+1304362813 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\complexecubique.h
+	<string>
+	<vector>
+	"ICellule.h"
+
+1304361637 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\icellule.h
+	<vector>
+	"Point.h"
+
+1304354116 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\point.h
+	<vector>
+
+1303933618 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\icellule.cpp
+	"../include/ICellule.h"
+
+1304354117 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\ihm.cpp
+	"../include/Ihm.h"
+
+1304354116 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\ihm.h
+
+1304354117 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\point.cpp
+	"../include/Point.h"
+
+1304358167 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\main.cpp
+	<iostream>
+	"include/ComplexeCubique.h"
+
+1304357843 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\lecteur.cpp
+	"../include/Lecteur.h"
+
+1304357936 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\lecteur.h
+	<string>
+

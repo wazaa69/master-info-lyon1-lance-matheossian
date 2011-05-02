@@ -6,29 +6,78 @@
 
 #include "ICellule.h"
 
-template <unsigned int DIMCOMPLEXE, unsigned int DIMPOINT, class T>
+template <unsigned int DIMCOMPLEXE, class T, unsigned int DIMPOINT>
 class ComplexeCubique
 {
     public:
-        ComplexeCubique();
+
+        ComplexeCubique()
+        {
+
+
+            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+            {
+                const unsigned int e = i;
+                ICellule<e, T, DIMPOINT>* tmp = new ICellule<e, T, DIMPOINT>(NULL);
+                std::vector<Cellule*> him;
+                him.push_back((Cellule) tmp);
+                tabCellules.push_back(him); //upcast, il faudra utiliser un dynamic_cast pour le downcast
+            }
+
+        }
         virtual ~ComplexeCubique();
 
     protected:
 
     private:
 
+        //--------------------------------------------------------------------------------------->
+        //-----------------------------------ITERATOR COMPLEXE-----------------------------------
+        //---------------------------------------------------------------------------------------<
+
+
+        /**
+        * @class L'itérateur de la classe ComplexeCubique
+        */
+        class Iterator
+        {
+
+            public:
+                Iterator(){}
+                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
+
+                virtual ~Iterator(){}
+
+            private:
+
+                unsigned int dimensionActu; /** dimenssion dans laquelle se trouve l'itérateur */
+                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
+        };
+
+
+        Iterator begin();
+        Iterator end();
+
+
+        //--------------------------------------------------------------------------------------->
+        //---------------------------------------COMPLEXE----------------------------------------
+        //---------------------------------------------------------------------------------------<
+
+
+
         /**
             @brief Un ensemble de ICellule pour chaque dimenssion I :
             liste[0][0] =  ICellule n°0 contenant un point (un sommet)
             liste[1][0] =  ICellule n°0 contenant un segement (en fait elle contiendra deux ICellules <=> deux points)
             etc ..
-        */
+            La taille initial du "std::vector<...> listeICellules" est DIMCOMPLEXE.
 
-        //fonctionne si on met ICellule<5>* mais on veut pas le spécialiser nous !!! Damn c tard, verrai sa demain
-        std::vector< std::vector<ICellule*> > listeICellules; // <----------- Regader dans la STL si ya pas un autre truc que ca
+        */
+        std::vector< std::vector<Cellule*> > tabCellules;
+
 
         /**
-            @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i􀀀1)-cellules dans
+            @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i-1)cellules dans
             son bord (des pointeurs non NULL).
         */
         bool isValideComplexe();
@@ -81,11 +130,7 @@ class ComplexeCubique
             ces conditions en mode debug au moyen d’assert.
         */
 
-        /** @brief Chargement des données d’un complexe cubique à partir d’un fichier */
-        void chargerDonnees(std::string cheminFichier);
 
-        /** @brief Sauvegarder les données d'un complexe cubique dans un fichier */
-        void sauvegarderDonnees(std::string cheminFichier);
 
         /**
             @brief Simplifier un complex cubique :
