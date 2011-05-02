@@ -6,6 +6,19 @@
 #include "Point.h"
 
 /**
+* @class On préferera utiliser une clase de base "Cellule" à la méta-programmation (au cas où le fichier texte source varie)
+*/
+class Cellule
+{
+    public:
+        const unsigned int& getDimension() const{return dimension;}
+
+    private:
+        unsigned int dimension;
+};
+
+
+/**
 * @class Classe I-Cellule :
 * en dimension 0, une 0-cellule est un point,
 * en dimension 1, une 1-cellule est un segment,
@@ -14,14 +27,22 @@
 * en dimension 4, une 4-cellule est un tesseract.
 */
 
-template <unsigned int DIMENSION, class T = int, unsigned int DIMPOINT = 0>
-class ICellule
+template <unsigned int DIMENSION, class T = double, unsigned int DIMPOINT = 2>
+class ICellule : Cellule
 {
     public:
-        ICellule();
+
+        /**
+        * @param nouvBords les bords sont forcément des (i-1)-Cellules
+        */
+        ICellule(std::vector< ICellule<DIMENSION-1, T, DIMPOINT>* > nouvBords){dimension = DIMENSION;}
         virtual ~ICellule();
 
+        ICellule* operator[](int i){return getBord(i);}
+        const ICellule* operator[](int i) const{return getBord(i);}
+
     protected:
+
     private:
 
         /**
@@ -32,29 +53,38 @@ class ICellule
         * Le nombre de bords = 2 * DIMENSION
         * les 0-cellules (sommets) contiendront juste un point associé au sommet (voir spécialisation)
         */
-        std::vector<ICellule*> bords;
+        std::vector< ICellule<DIMENSION-1, T, DIMPOINT> > bords;
 
-        const ICellule* getBord(const unsigned int i) const;
-        void setBord(const unsigned int i, const ICellule& icellule);
+        const ICellule* getBord(const unsigned int i) const{return (i < bords.size())?bords[i]:NULL;}
+
+        /**
+        * @brief Ajoute un bord à la cellule
+        * @param icellule
+        */
+        void addBord(ICellule* icellule){bords.push_back(icellule);}
 
 };
 
 
 //Spécialisation : on a une 0-Cellule
 template <class T, unsigned int DIMPOINT>
-class ICellule<0, T, DIMPOINT>
+class ICellule<0, T, DIMPOINT> : Cellule
 {
     public:
-        ICellule();
+
+        /**
+        * @param nouvSommet le sommet car on est dans une 0-Cellules
+        */
+        ICellule(ICellule<0, T, DIMPOINT>* nouvSommet){dimension = 0;}
+
         virtual ~ICellule();
 
     private:
 
-        Point<T, DIMPOINT> sommet; /** un point contenant 3 données de type T.
+        Point<T, DIMPOINT> sommet; /** Un point contenant 3 données de type T.
                                     *  Exemple : 3 double pour représenter les coordonnées x, y et z */
 
-        const Point<T, DIMPOINT>* getBord() const;
-        void setBord(Point<T, DIMPOINT>& point);
+        const Point<T, DIMPOINT>* getBord() const{return sommet;}
 };
 
 #endif // ICELLULE_H
