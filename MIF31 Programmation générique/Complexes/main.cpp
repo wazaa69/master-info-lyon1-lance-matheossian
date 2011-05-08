@@ -6,6 +6,6 @@ using namespace std;
 
 int main()
 {
-    ComplexeCubique<5,2,double> c();
+    ComplexeCubique<5,double,2>::creer();
     return 0;
 }

@@ -31,12 +31,14 @@
 1303935754 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\complexecubique.cpp
 	"../include/ComplexeCubique.h"
 
-1304362813 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\complexecubique.h
+1304887554 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\complexecubique.h
 	<string>
 	<vector>
+	<iostream>
 	"ICellule.h"
 
-1304361637 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\icellule.h
+1304886285 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\icellule.h
+	<iostream>
 	<vector>
 	"Point.h"
 
@@ -54,7 +56,7 @@
 1304354117 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\src\point.cpp
 	"../include/Point.h"
 
-1304358167 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\main.cpp
+1304884853 source:d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\main.cpp
 	<iostream>
 	"include/ComplexeCubique.h"
 

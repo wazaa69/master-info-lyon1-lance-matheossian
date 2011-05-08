@@ -1,22 +1,10 @@
 #ifndef ICELLULE_H
 #define ICELLULE_H
 
+#include <iostream>
 #include <vector>
 
 #include "Point.h"
-
-/**
-* @class On préferera utiliser une clase de base "Cellule" à la méta-programmation (au cas où le fichier texte source varie)
-*/
-class Cellule
-{
-    public:
-        const unsigned int& getDimension() const{return dimension;}
-
-    private:
-        unsigned int dimension;
-};
-
 
 /**
 * @class Classe I-Cellule :
@@ -28,18 +16,21 @@ class Cellule
 */
 
 template <unsigned int DIMENSION, class T = double, unsigned int DIMPOINT = 2>
-class ICellule : Cellule
+class ICellule
 {
     public:
 
         /**
         * @param nouvBords les bords sont forcément des (i-1)-Cellules
         */
-        ICellule(std::vector< ICellule<DIMENSION-1, T, DIMPOINT>* > nouvBords){dimension = DIMENSION;}
+        ICellule(std::vector< ICellule<DIMENSION-1, T, DIMPOINT>* > nouvBords){}
         virtual ~ICellule();
 
         ICellule* operator[](int i){return getBord(i);}
         const ICellule* operator[](int i) const{return getBord(i);}
+
+        bool isValideICellule(){return bords.size() == 2 *DIMENSION;}
+        void afficher(){std::cout << "N" << std::endl;}
 
     protected:
 
@@ -68,16 +59,17 @@ class ICellule : Cellule
 
 //Spécialisation : on a une 0-Cellule
 template <class T, unsigned int DIMPOINT>
-class ICellule<0, T, DIMPOINT> : Cellule
+class ICellule<0, T, DIMPOINT>
 {
     public:
 
         /**
         * @param nouvSommet le sommet car on est dans une 0-Cellules
         */
-        ICellule(ICellule<0, T, DIMPOINT>* nouvSommet){dimension = 0;}
-
+        ICellule(){}
         virtual ~ICellule();
+
+        void afficher(){std::cout << "0" << std::endl;}
 
     private:
 
