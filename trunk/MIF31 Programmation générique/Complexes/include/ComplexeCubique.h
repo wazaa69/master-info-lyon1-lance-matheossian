@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "ICellule.h"
 
@@ -14,18 +15,25 @@ class ComplexeCubique
         ComplexeCubique()
         {
 
-
-            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
-            {
-                const unsigned int e = i;
-                ICellule<e, T, DIMPOINT>* tmp = new ICellule<e, T, DIMPOINT>(NULL);
-                std::vector<Cellule*> him;
-                him.push_back((Cellule) tmp);
-                tabCellules.push_back(him); //upcast, il faudra utiliser un dynamic_cast pour le downcast
-            }
-
         }
-        virtual ~ComplexeCubique();
+
+        virtual ~ComplexeCubique()
+        {
+//            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+//                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
+//                    delete(getICellule(i,j));
+//
+//            tabCellules.clear();
+        }
+
+
+        //fodrait un truc comme ca pour dire au compilateur qu'il doit créer DIMCOMPLEXE différents type de ICellule
+        void creer()
+        {
+            tabCellules.push_back( std::vector< ComplexeCubique<DIMCOMPLEXE, T, DIMPOINT>* >());
+            ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::creer();
+        }
+
 
     protected:
 
@@ -71,16 +79,29 @@ class ComplexeCubique
             liste[1][0] =  ICellule n°0 contenant un segement (en fait elle contiendra deux ICellules <=> deux points)
             etc ..
             La taille initial du "std::vector<...> listeICellules" est DIMCOMPLEXE.
-
+            Si on connait la valeur i de tabCellules[i][j] alors on sait en quoi caster le contenu.
         */
-        std::vector< std::vector<Cellule*> > tabCellules;
+        std::vector< std::vector<void*> > tabCellules;
 
 
         /**
             @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i-1)cellules dans
             son bord (des pointeurs non NULL).
         */
-        bool isValideComplexe();
+        bool isValideComplexe()
+        {
+            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
+                {
+                    ICellule<i, T, DIMPOINT>* tmp = dynamic_cast< ICellule<i, T, DIMPOINT>* >(tabCellules[i][j])
+                    if(!tmp->isValideICellule()) break;
+                }
+
+            return true;
+
+        }
+
+
 
         /**
             @brief Recherche d’une i-cellule donnée par son pointeur dans la structure de donnée STL. Retourne
@@ -145,6 +166,14 @@ class ComplexeCubique
         */
         void simplificationDuComplexe();
 
+
+};
+
+template <class T, unsigned int DIMPOINT>
+class ComplexeCubique<0, T, DIMPOINT>: ComplexeCubique<1, T, DIMPOINT>
+{
+    public:
+    void creer(){}
 
 };
 
