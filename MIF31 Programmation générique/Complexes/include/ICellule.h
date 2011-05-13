@@ -15,24 +15,28 @@
 * en dimension 4, une 4-cellule est un tesseract.
 */
 
-template <unsigned int DIMENSION, class T = double, unsigned int DIMPOINT = 2>
+template <unsigned int DIMENSION, typename T = double, unsigned int DIMPOINT = 2>
 class ICellule
 {
     public:
 
+
+        ICellule(){};
         /**
         * @param nouvBords les bords sont forcément des (i-1)-Cellules
         */
         ICellule(std::vector< ICellule<DIMENSION-1, T, DIMPOINT>* > nouvBords){}
-        virtual ~ICellule();
 
-        ICellule* operator[](int i){return getBord(i);}
-        const ICellule* operator[](int i) const{return getBord(i);}
+
+//        virtual ~ICellule();
 
         bool isValideICellule(){return bords.size() == 2 *DIMENSION;}
         void afficher(){std::cout << "N" << std::endl;}
 
     protected:
+
+//         ICellule* operator[](int i){return getBord(i);}
+         const ICellule* operator[](int i) const{return getBord(i);}
 
     private:
 
@@ -66,8 +70,8 @@ class ICellule<0, T, DIMPOINT>
         /**
         * @param nouvSommet le sommet car on est dans une 0-Cellules
         */
-        ICellule(){}
-        virtual ~ICellule();
+
+//        virtual ~ICellule();
 
         void afficher(){std::cout << "0" << std::endl;}
 

@@ -7,7 +7,7 @@
 
 #include "ICellule.h"
 
-template <unsigned int DIMCOMPLEXE, class T, unsigned int DIMPOINT>
+template <unsigned int DIMCOMPLEXE, typename T, unsigned int DIMPOINT>
 class ComplexeCubique
 {
     public:
@@ -26,7 +26,6 @@ class ComplexeCubique
 //            tabCellules.clear();
         }
 
-
         //fodrait un truc comme ca pour dire au compilateur qu'il doit créer DIMCOMPLEXE différents type de ICellule
         void creer()
         {
@@ -36,6 +35,8 @@ class ComplexeCubique
 
 
     protected:
+
+//         bool isValideComplexe();
 
     private:
 
@@ -47,24 +48,24 @@ class ComplexeCubique
         /**
         * @class L'itérateur de la classe ComplexeCubique
         */
-        class Iterator
-        {
-
-            public:
-                Iterator(){}
-                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
-
-                virtual ~Iterator(){}
-
-            private:
-
-                unsigned int dimensionActu; /** dimenssion dans laquelle se trouve l'itérateur */
-                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
-        };
-
-
-        Iterator begin();
-        Iterator end();
+//        class Iterator
+//        {
+//
+//            public:
+//                Iterator(){}
+//                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
+//
+//                virtual ~Iterator(){}
+//
+//            private:
+//
+//                unsigned int dimensionActu; /** dimenssion dans laquelle se trouve l'itérateur */
+//                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
+//        };
+//
+//
+//        Iterator begin();
+//        Iterator end();
 
 
         //--------------------------------------------------------------------------------------->
@@ -88,18 +89,18 @@ class ComplexeCubique
             @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i-1)cellules dans
             son bord (des pointeurs non NULL).
         */
-        bool isValideComplexe()
-        {
-            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
-                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
-                {
-                    ICellule<i, T, DIMPOINT>* tmp = dynamic_cast< ICellule<i, T, DIMPOINT>* >(tabCellules[i][j])
-                    if(!tmp->isValideICellule()) break;
-                }
-
-            return true;
-
-        }
+//        bool isValideComplexe()
+//        {
+//            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+//                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
+//                {
+//                    ICellule<i, T, DIMPOINT>* tmp = dynamic_cast< ICellule<i, T, DIMPOINT>* >(tabCellules[i][j])
+//                    if(!tmp->isValideICellule()) break;
+//                }
+//
+//            return true;
+//
+//        }
 
 
 

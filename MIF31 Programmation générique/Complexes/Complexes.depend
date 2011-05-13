@@ -66,3 +66,36 @@
 1304357936 d:\bibliothèques\documents\fac\cours\m1\s2\mif31-programmation_generique\complexes\include\lecteur.h
 	<string>
 
+1305306370 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\src\complexecubique.cpp
+	"../include/ComplexeCubique.h"
+
+1305313580 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\include\complexecubique.h
+	<string>
+	<vector>
+	<iostream>
+	"ICellule.h"
+
+1305322168 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\include\icellule.h
+	<iostream>
+	<vector>
+	"Point.h"
+
+1305322182 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\include\point.h
+	<vector>
+
+1305306370 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\src\icellule.cpp
+	"../include/ICellule.h"
+
+1305306370 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\src\ihm.cpp
+	"../include/Ihm.h"
+
+1305306370 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\include\ihm.h
+
+1305308217 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\src\point.cpp
+	"../include/Point.h"
+
+1305322123 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\main.cpp
+	<iostream>
+	"include/Point.h"
+	"include/ICellule.h"
+
