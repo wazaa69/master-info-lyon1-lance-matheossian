@@ -3,23 +3,33 @@
 
 #include <vector>
 
-template <class T, unsigned int DIMENSION>
+template <typename T, unsigned int DIMENSION>
 class Point
 {
     public:
-        Point();
-        virtual ~Point();
 
-        const T getCoordonnees(const unsigned int i) const{}
-        void setCoordonnees(const unsigned int i, const T& coordonne);
+        Point(){}
+        Point( double &_coordonnees);
+
+        virtual ~Point(){};
+
+        const T getCoordonnees(const unsigned int i) const{ return coordonnees[i];}
+        void setCoordonnees(const unsigned int i, const T& coordonnee) {coordonnees[i] = coordonnee;}
 
     protected:
 
 
     private:
 
-        std::vector<T> coordonnees;
+        T* coordonnees;
+
 };
+
+template <typename T, unsigned int DIMENSION>
+Point<T,DIMENSION>::Point(double &_coordonnees)
+{
+    coordonnees = &_coordonnees;
+}
 
 #endif // POINT_H
 
