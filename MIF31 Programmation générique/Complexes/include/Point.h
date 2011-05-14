@@ -9,15 +9,12 @@ class Point
     public:
 
         Point(){}
-        Point( double &_coordonnees);
+        Point(T &_coordonnees);
 
-        virtual ~Point(){};
+        virtual ~Point(){ delete coordonnees;};
 
         const T getCoordonnees(const unsigned int i) const{ return coordonnees[i];}
         void setCoordonnees(const unsigned int i, const T& coordonnee) {coordonnees[i] = coordonnee;}
-
-    protected:
-
 
     private:
 
@@ -26,7 +23,7 @@ class Point
 };
 
 template <typename T, unsigned int DIMENSION>
-Point<T,DIMENSION>::Point(double &_coordonnees)
+Point<T,DIMENSION>::Point(T &_coordonnees)
 {
     coordonnees = &_coordonnees;
 }

@@ -22,21 +22,27 @@ class ICellule
 
 
         ICellule(){};
+        ICellule(const ICellule<DIMENSION, T, DIMPOINT> &_icellule){ bords = _icellule.bords;}
         /**
         * @param nouvBords les bords sont forcément des (i-1)-Cellules
         */
         ICellule(std::vector< ICellule<DIMENSION-1, T, DIMPOINT>* > nouvBords){}
 
 
-//        virtual ~ICellule();
+        virtual ~ICellule(){}
 
-        bool isValideICellule(){return bords.size() == 2 *DIMENSION;}
+        bool isValideICellule(){std::cout<< bords.size() << std::endl; return bords.size() == 2 *DIMENSION;}
         void afficher(){std::cout << "N" << std::endl;}
+
+        void addBord(const ICellule<DIMENSION-1, T, DIMPOINT> &_icellule){bords.push_back(_icellule);}
+        const ICellule* getBord(const unsigned int &i) const{return (i < bords.size())?bords[i]:NULL;}
+
 
     protected:
 
 //         ICellule* operator[](int i){return getBord(i);}
          const ICellule* operator[](int i) const{return getBord(i);}
+
 
     private:
 
@@ -50,13 +56,14 @@ class ICellule
         */
         std::vector< ICellule<DIMENSION-1, T, DIMPOINT> > bords;
 
-        const ICellule* getBord(const unsigned int i) const{return (i < bords.size())?bords[i]:NULL;}
+
 
         /**
         * @brief Ajoute un bord à la cellule
         * @param icellule
         */
-        void addBord(ICellule* icellule){bords.push_back(icellule);}
+//        void addBord(ICellule* icellule){bords.push_back(icellule);}
+
 
 };
 
@@ -70,8 +77,8 @@ class ICellule<0, T, DIMPOINT>
         /**
         * @param nouvSommet le sommet car on est dans une 0-Cellules
         */
-
-//        virtual ~ICellule();
+        ICellule(){}
+        virtual ~ICellule(){}
 
         void afficher(){std::cout << "0" << std::endl;}
 

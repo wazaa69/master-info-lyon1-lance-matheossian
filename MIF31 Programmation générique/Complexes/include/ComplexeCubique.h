@@ -7,30 +7,25 @@
 
 #include "ICellule.h"
 
+
 template <unsigned int DIMCOMPLEXE, typename T, unsigned int DIMPOINT>
-class ComplexeCubique
+class ComplexeCubique : ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
 {
     public:
 
-        ComplexeCubique()
-        {
+    /// CONSTRUCTEUR / DESTRUCTEUR
 
-        }
+        ComplexeCubique(){std::cout<< "Instanciation complexe cubique de dimension " << DIMCOMPLEXE <<  std::endl;}
 
-        virtual ~ComplexeCubique()
-        {
-//            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
-//                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
-//                    delete(getICellule(i,j));
-//
-//            tabCellules.clear();
-        }
+        virtual ~ComplexeCubique(){ tabCellules.clear(); }
 
-        //fodrait un truc comme ca pour dire au compilateur qu'il doit créer DIMCOMPLEXE différents type de ICellule
-        void creer()
+
+    /// METHODES
+
+        void creer(const unsigned int _dimensionICellule)
         {
-            tabCellules.push_back( std::vector< ComplexeCubique<DIMCOMPLEXE, T, DIMPOINT>* >());
-            ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::creer();
+            if (DIMCOMPLEXE == _dimensionICellule) tabCellules.push_back(new ICellule<DIMCOMPLEXE, T, DIMPOINT>());
+            else ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::creer(_dimensionICellule);
         }
 
 
@@ -39,6 +34,7 @@ class ComplexeCubique
 //         bool isValideComplexe();
 
     private:
+        std::vector<ICellule<DIMCOMPLEXE, T, DIMPOINT>*> tabCellules;
 
         //--------------------------------------------------------------------------------------->
         //-----------------------------------ITERATOR COMPLEXE-----------------------------------
@@ -48,20 +44,20 @@ class ComplexeCubique
         /**
         * @class L'itérateur de la classe ComplexeCubique
         */
-//        class Iterator
-//        {
-//
-//            public:
-//                Iterator(){}
-//                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
-//
-//                virtual ~Iterator(){}
-//
-//            private:
-//
-//                unsigned int dimensionActu; /** dimenssion dans laquelle se trouve l'itérateur */
-//                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
-//        };
+        class Iterator
+        {
+
+            public:
+                Iterator(){}
+                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
+
+                virtual ~Iterator(){}
+
+            private:
+
+                unsigned int dimensionActu; /** dimension dans laquelle se trouve l'itérateur */
+                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
+        };
 //
 //
 //        Iterator begin();
@@ -75,14 +71,14 @@ class ComplexeCubique
 
 
         /**
-            @brief Un ensemble de ICellule pour chaque dimenssion I :
+            @brief Un ensemble de ICellule pour chaque dimension I :
             liste[0][0] =  ICellule n°0 contenant un point (un sommet)
             liste[1][0] =  ICellule n°0 contenant un segement (en fait elle contiendra deux ICellules <=> deux points)
             etc ..
             La taille initial du "std::vector<...> listeICellules" est DIMCOMPLEXE.
             Si on connait la valeur i de tabCellules[i][j] alors on sait en quoi caster le contenu.
         */
-        std::vector< std::vector<void*> > tabCellules;
+//        std::vector< std::vector<void*> > tabCellules;
 
 
         /**
@@ -170,12 +166,17 @@ class ComplexeCubique
 
 };
 
-template <class T, unsigned int DIMPOINT>
-class ComplexeCubique<0, T, DIMPOINT>: ComplexeCubique<1, T, DIMPOINT>
+template <typename T, unsigned int DIMPOINT>
+class ComplexeCubique<0, T, DIMPOINT>
 {
     public:
-    void creer(){}
+    void creer(const unsigned int _dimensionICellule){
+        tabCellules.push_back(new ICellule<0,T,DIMPOINT>());
+    }
 
+    private:
+    std::vector<ICellule<0,T,DIMPOINT>*> tabCellules;
 };
+
 
 #endif // COMPLEXECUBIQUE_H
