@@ -17,10 +17,6 @@ class ComplexeCubique : public ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
     /// CONSTRUCTEUR / DESTRUCTEUR
 
         ComplexeCubique(){std::cout<< "Instanciation complexe cubique de dimension " << DIMCOMPLEXE <<  std::endl;
-//        for (unsigned int i = 0; i < DIMCOMPLEXE; i++) nbCellules.push_back(0);
-
-//        for (unsigned int i = 0; i < DIMCOMPLEXE; i++) tabCellules.push_back(std::vector);
-
 
         }
 
@@ -68,7 +64,7 @@ class ComplexeCubique : public ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
     private:
         std::vector<ICellule<DIMCOMPLEXE, T, DIMPOINT>*> tabCellules;
 //        std::vector<std::vector<ICellule<DIMCOMPLEXE, T, DIMPOINT>*> > tabCellules;
-        std::vector<unsigned int> nbCellules;
+//        std::vector<unsigned int> nbCellules;
 
 };
 
@@ -77,15 +73,17 @@ bool ComplexeCubique<DIMCOMPLEXE, T, DIMPOINT>::estValide()
 {
     bool retour = true;
 
-    for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
-    {
-        for(unsigned int y = 0; y < nbCellules[DIMCOMPLEXE] ; i++)
-        {
-            retour &= tabCellules[i][0].estValide();
-        }
-    }
+    retour &= ComplexeCubique<DIMCOMPLEXE -1, T, DIMPOINT>::estValide();
+
+//     std::cout <<  tabCellules[0]->getNbCellulesBord() << std::endl;
+     std::cout <<  DIMCOMPLEXE << std::endl;
+//    for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+//    {
+//       std::cout <<  tabCellules[i]->getNbCellulesBord() << std::endl;
+//    }
     return retour;
 }
+
 
 template <unsigned int DIMCOMPLEXE, typename T, unsigned int DIMPOINT>
 void ComplexeCubique<DIMCOMPLEXE, T, DIMPOINT>::creer0Cell(const Point<T, DIMPOINT> &p)
@@ -106,7 +104,7 @@ class ComplexeCubique<0, T, DIMPOINT>
     ComplexeCubique(){};
 
     void creer(const unsigned int _dimensionICellule){
-        tabCellules.push_back(new ICellule<0,T,DIMPOINT>());
+    tabCellules.push_back(new ICellule<0,T,DIMPOINT>());
 
     }
 
@@ -114,6 +112,7 @@ class ComplexeCubique<0, T, DIMPOINT>
 //        tabCellules.push_back(ICellule<0, T, DIMPOINT>(p));
         }
 
+    bool estValide(){return true;}
 
     private:
     std::vector<ICellule<0,T,DIMPOINT>*> tabCellules;

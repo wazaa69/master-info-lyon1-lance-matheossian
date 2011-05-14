@@ -4,6 +4,8 @@
 #include <vector>
 #include <assert.h>
 
+/// DECLARATION CLASSE POINT
+
 template <typename T_TYPE, unsigned int T_DIMENSION>
 class Point
 {

@@ -1,6 +1,6 @@
 #include <iostream>
 
-//#include "include/ComplexeCubique.h"
+#include "include/ComplexeCubique.h"
 #include "include/Point.h"
 #include "include/ICellule.h"
 
@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 
-    ICellule<2,double,2> *c2 = new ICellule<2,double,2>();
+//    ICellule<2,double,2> *c2 = new ICellule<2,double,2>();
 
 //    cout << c2.estValide() << endl;
 //    c2.addBord(c2.getBord(0));
@@ -30,6 +30,12 @@ int main()
 //
 //
 //    ComplexeCubique<2,int,2> c;
+//    c.creer(2);
+
+    cout << endl;
+    ComplexeCubique<3,int,2> c2;
+    c2.creer(3);
+//    cout << c.estValide() << endl;
 //    c.creer(2);
 //    c.creer(1);
 //    c.creer(0);
