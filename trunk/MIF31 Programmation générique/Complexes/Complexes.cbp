@@ -37,10 +37,6 @@
 		<Unit filename="include\Ihm.h" />
 		<Unit filename="include\Point.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src\ComplexeCubique.cpp" />
-		<Unit filename="src\ICellule.cpp" />
-		<Unit filename="src\Ihm.cpp" />
-		<Unit filename="src\Point.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
