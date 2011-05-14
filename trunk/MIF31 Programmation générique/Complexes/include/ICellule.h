@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Point.h"
+#include <assert.h>
 
 /**
 * @class Classe I-Cellule :
@@ -15,11 +16,12 @@
 * en dimension 4, une 4-cellule est un tesseract.
 */
 
-template <unsigned int DIMENSION, typename T = double, unsigned int DIMPOINT = 2>
+template <unsigned int DIMENSION, typename T , unsigned int DIMPOINT>
 class ICellule
 {
     public:
 
+        typedef ICellule<DIMENSION, T, DIMPOINT> Self;
 
         ICellule(){};
         ICellule(const ICellule<DIMENSION, T, DIMPOINT> &_icellule){ bords = _icellule.bords;}
@@ -31,8 +33,7 @@ class ICellule
 
         virtual ~ICellule(){}
 
-        bool isValideICellule(){std::cout<< bords.size() << std::endl; return bords.size() == 2 *DIMENSION;}
-        void afficher(){std::cout << "N" << std::endl;}
+        bool estValide(){ return bords.size() == 2 *DIMENSION;}
 
         void addBord(const ICellule<DIMENSION-1, T, DIMPOINT> &_icellule){bords.push_back(_icellule);}
         const ICellule* getBord(const unsigned int &i) const{return (i < bords.size())?bords[i]:NULL;}
@@ -42,6 +43,7 @@ class ICellule
 
 //         ICellule* operator[](int i){return getBord(i);}
          const ICellule* operator[](int i) const{return getBord(i);}
+         ICellule& operator=(const Self& );
 
 
     private:
@@ -56,8 +58,6 @@ class ICellule
         */
         std::vector< ICellule<DIMENSION-1, T, DIMPOINT> > bords;
 
-
-
         /**
         * @brief Ajoute un bord à la cellule
         * @param icellule
@@ -66,6 +66,27 @@ class ICellule
 
 
 };
+
+template <unsigned int DIMENSION, typename T , unsigned int DIMPOINT >
+ICellule<DIMENSION, T, DIMPOINT> & ICellule<DIMENSION, T, DIMPOINT>::operator=(const ICellule<DIMENSION, T, DIMPOINT>& _c)
+{
+    this.bords = _c.bords;
+    return *this;
+}
+
+//  Tableau & operator=(const Self& );
+
+//template <class T,int agrandissement>
+//Tableau<T,agrandissement> & Tableau<T,agrandissement>::operator =
+//(const Tableau<T,agrandissement> &  t)
+//{
+//  if ( &t != this)
+//    {
+//      Self copy(t);
+//      swap(*this, copy);
+//    }
+//  return *this;
+//}
 
 
 //Spécialisation : on a une 0-Cellule
@@ -78,9 +99,8 @@ class ICellule<0, T, DIMPOINT>
         * @param nouvSommet le sommet car on est dans une 0-Cellules
         */
         ICellule(){}
+        ICellule(const Point<T, DIMPOINT> &p);
         virtual ~ICellule(){}
-
-        void afficher(){std::cout << "0" << std::endl;}
 
     private:
 
@@ -89,5 +109,13 @@ class ICellule<0, T, DIMPOINT>
 
         const Point<T, DIMPOINT>* getBord() const{return sommet;}
 };
+
+template <class T, unsigned int DIMPOINT>
+ICellule<0, T, DIMPOINT>::ICellule(const Point<T, DIMPOINT> &p)
+{
+    sommet = new Point<T, DIMPOINT>(p);
+}
+
+
 
 #endif // ICELLULE_H

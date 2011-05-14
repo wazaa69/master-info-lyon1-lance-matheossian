@@ -6,16 +6,23 @@
 #include <iostream>
 
 #include "ICellule.h"
+#include "Point.h"
 
 
 template <unsigned int DIMCOMPLEXE, typename T, unsigned int DIMPOINT>
-class ComplexeCubique : ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
+class ComplexeCubique : public ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
 {
     public:
 
     /// CONSTRUCTEUR / DESTRUCTEUR
 
-        ComplexeCubique(){std::cout<< "Instanciation complexe cubique de dimension " << DIMCOMPLEXE <<  std::endl;}
+        ComplexeCubique(){std::cout<< "Instanciation complexe cubique de dimension " << DIMCOMPLEXE <<  std::endl;
+//        for (unsigned int i = 0; i < DIMCOMPLEXE; i++) nbCellules.push_back(0);
+
+//        for (unsigned int i = 0; i < DIMCOMPLEXE; i++) tabCellules.push_back(std::vector);
+
+
+        }
 
         virtual ~ComplexeCubique(){ tabCellules.clear(); }
 
@@ -26,38 +33,149 @@ class ComplexeCubique : ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
         {
             if (DIMCOMPLEXE == _dimensionICellule) tabCellules.push_back(new ICellule<DIMCOMPLEXE, T, DIMPOINT>());
             else ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::creer(_dimensionICellule);
+
+//            if (DIMCOMPLEXE == _dimensionICellule) {
+//
+//                ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::initTabCellules();
+//
+//                 std::vector<  ICellule<DIMCOMPLEXE, T, DIMPOINT>* > v;
+//                tabCellules.push_back(v);
+//                tabCellules[0].push_back(new ICellule<DIMCOMPLEXE, T, DIMPOINT>());
+//
+//            }
+//            else ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::creer(_dimensionICellule);
+
         }
 
+//        void initTabCellules()
+//        {
+//            ComplexeCubique<DIMCOMPLEXE-1, T, DIMPOINT>::initTabCellules();
+//            std::vector<  ICellule<DIMCOMPLEXE, T, DIMPOINT>* > v;
+//            tabCellules.push_back(v);
+//        }
+
+        /**
+            @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i-1)cellules dans
+            son bord (des pointeurs non NULL).
+        */
+        bool estValide();
+
+        /** @brief création d’une 0-cellule prenant un point en paramètre. */
+        void creer0Cell(const Point<T, DIMPOINT> &p);
 
     protected:
 
-//         bool isValideComplexe();
-
     private:
         std::vector<ICellule<DIMCOMPLEXE, T, DIMPOINT>*> tabCellules;
+//        std::vector<std::vector<ICellule<DIMCOMPLEXE, T, DIMPOINT>*> > tabCellules;
+        std::vector<unsigned int> nbCellules;
+
+};
+
+template <unsigned int DIMCOMPLEXE, typename T, unsigned int DIMPOINT>
+bool ComplexeCubique<DIMCOMPLEXE, T, DIMPOINT>::estValide()
+{
+    bool retour = true;
+
+    for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+    {
+        for(unsigned int y = 0; y < nbCellules[DIMCOMPLEXE] ; i++)
+        {
+            retour &= tabCellules[i][0].estValide();
+        }
+    }
+    return retour;
+}
+
+template <unsigned int DIMCOMPLEXE, typename T, unsigned int DIMPOINT>
+void ComplexeCubique<DIMCOMPLEXE, T, DIMPOINT>::creer0Cell(const Point<T, DIMPOINT> &p)
+{
+    ComplexeCubique<0, T, DIMPOINT>::creer0Cell(p);
+//    ICellule<0, T, DIMPOINT> c(const Point<T, DIMPOINT> &p);
+//    tabCellules[0][nbCellules[0]] = c;
+//    nbCellules[0]++;
+}
+
+
+
+template <typename T, unsigned int DIMPOINT>
+class ComplexeCubique<0, T, DIMPOINT>
+{
+    public:
+
+    ComplexeCubique(){};
+
+    void creer(const unsigned int _dimensionICellule){
+        tabCellules.push_back(new ICellule<0,T,DIMPOINT>());
+
+    }
+
+    void creer0Cell(const Point<T, DIMPOINT> &p){
+//        tabCellules.push_back(ICellule<0, T, DIMPOINT>(p));
+        }
+
+
+    private:
+    std::vector<ICellule<0,T,DIMPOINT>*> tabCellules;
+};
+
+//    void initTabCellules()
+//    {
+//        std::vector<  ICellule<0, T, DIMPOINT>* > v;
+//        tabCellules.push_back(v);
+//    }
+
+
+//
+//        std::vector<  ICellule<0, T, DIMPOINT>* > v;
+//        tabCellules.push_back(v);
+//        tabCellules[0].push_back(new ICellule<0, T, DIMPOINT>());
+
+#endif // COMPLEXECUBIQUE_H
+
+
+
+
+        /**
+            @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i-1)cellules dans
+            son bord (des pointeurs non NULL).
+        */
+//        bool isValideComplexe()
+//        {
+//            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
+//                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
+//                {
+//                    ICellule<i, T, DIMPOINT>* tmp = dynamic_cast< ICellule<i, T, DIMPOINT>* >(tabCellules[i][j])
+//                    if(!tmp->isValideICellule()) break;
+//                }
+//
+//            return true;
+//
+//        }
+
 
         //--------------------------------------------------------------------------------------->
         //-----------------------------------ITERATOR COMPLEXE-----------------------------------
         //---------------------------------------------------------------------------------------<
 
 
-        /**
-        * @class L'itérateur de la classe ComplexeCubique
-        */
-        class Iterator
-        {
-
-            public:
-                Iterator(){}
-                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
-
-                virtual ~Iterator(){}
-
-            private:
-
-                unsigned int dimensionActu; /** dimension dans laquelle se trouve l'itérateur */
-                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
-        };
+//        /**
+//        * @class L'itérateur de la classe ComplexeCubique
+//        */
+//        class Iterator
+//        {
+//
+//            public:
+//                Iterator(){}
+//                Iterator(const unsigned int _dimensionActu, const unsigned int _iCellActu) : dimensionActu(_dimensionActu), iCellActu(_iCellActu){}
+//
+//                virtual ~Iterator(){}
+//
+//            private:
+//
+//                unsigned int dimensionActu; /** dimension dans laquelle se trouve l'itérateur */
+//                unsigned int iCellActu; /** cellule sur laquelle pointe l'itérateur */
+//        };
 //
 //
 //        Iterator begin();
@@ -81,22 +199,7 @@ class ComplexeCubique : ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
 //        std::vector< std::vector<void*> > tabCellules;
 
 
-        /**
-            @brief Test de validité du complexe. Vérifie que chaque i-cellule possède bien 2:i (i-1)cellules dans
-            son bord (des pointeurs non NULL).
-        */
-//        bool isValideComplexe()
-//        {
-//            for(unsigned int i = 0; i < DIMCOMPLEXE; i++)
-//                for(unsigned int j = 0; j < tabCellules[i].size(); j++)
-//                {
-//                    ICellule<i, T, DIMPOINT>* tmp = dynamic_cast< ICellule<i, T, DIMPOINT>* >(tabCellules[i][j])
-//                    if(!tmp->isValideICellule()) break;
-//                }
-//
-//            return true;
-//
-//        }
+
 
 
 
@@ -125,7 +228,7 @@ class ComplexeCubique : ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
         */
         //
 
-        /** @brief création d’une 0-cellule prenant un point en paramètre. */
+
         //
 
 
@@ -161,22 +264,4 @@ class ComplexeCubique : ComplexeCubique< DIMCOMPLEXE - 1, T, DIMPOINT>
             il ne doit normalement plus exister deux cellules pouvant être réduite (quelque soit le couple de
             dimensions (i, i+1)), et le complexe doit être valide. Vous vérifierez ces propriétés au moyen d’un assert.
         */
-        void simplificationDuComplexe();
-
-
-};
-
-template <typename T, unsigned int DIMPOINT>
-class ComplexeCubique<0, T, DIMPOINT>
-{
-    public:
-    void creer(const unsigned int _dimensionICellule){
-        tabCellules.push_back(new ICellule<0,T,DIMPOINT>());
-    }
-
-    private:
-    std::vector<ICellule<0,T,DIMPOINT>*> tabCellules;
-};
-
-
-#endif // COMPLEXECUBIQUE_H
+//        void simplificationDuComplexe();
