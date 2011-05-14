@@ -7,68 +7,89 @@
 #include "Point.h"
 #include <assert.h>
 
-/**
-* @class Classe I-Cellule :
-* en dimension 0, une 0-cellule est un point,
-* en dimension 1, une 1-cellule est un segment,
-* en dimension 2, une 2-cellule est un carré,
-* en dimension 3, une 3-cellule est un cube,
-* en dimension 4, une 4-cellule est un tesseract.
-*/
+static int nbCellules = 0;
+static int nbPoints = 0;
 
-template <unsigned int DIMENSION, typename T , unsigned int DIMPOINT>
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION>
 class ICellule
 {
     public:
 
-        typedef ICellule<DIMENSION, T, DIMPOINT> Self;
+        typedef ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> Self;
+        typedef ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION> Bord;
 
-        ICellule(){};
-        ICellule(const ICellule<DIMENSION, T, DIMPOINT> &_icellule){ bords = _icellule.bords;}
-        /**
-        * @param nouvBords les bords sont forcément des (i-1)-Cellules
-        */
-        ICellule(std::vector< ICellule<DIMENSION-1, T, DIMPOINT>* > nouvBords){}
+        /// CONSTRUCTEURS / DESTRUCTEURS
 
+        ICellule();
+        ICellule(const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> &_icellule){ bords = _icellule.bords;}
+        ICellule(std::vector< ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* > nouvBords){}
 
-        virtual ~ICellule(){}
+        virtual ~ICellule(){bords.clear();}
 
-        bool estValide(){ return bords.size() == 2 *DIMENSION;}
+        /// GETTERS / SETTERS
 
-        void addBord(const ICellule<DIMENSION-1, T, DIMPOINT> &_icellule){bords.push_back(_icellule);}
-        const ICellule* getBord(const unsigned int &i) const{return (i < bords.size())?bords[i]:NULL;}
+        ICellule& getBord(const unsigned int _range) const;
+        void addBord(const Bord &_icellule);
+
+        /// METHODES
+
+        bool estValide();
 
 
     protected:
 
 //         ICellule* operator[](int i){return getBord(i);}
-         const ICellule* operator[](int i) const{return getBord(i);}
-         ICellule& operator=(const Self& );
-
+        ICellule* operator[](int i) const{return getBord(i);}
+        ICellule& operator=(const Self& );
 
     private:
 
-        /**
-        * Bord :
-        * un segment à 2 sommets (2 bords)
-        * un carré à 4 segments (4 bords)
-        * un cube à 6 faces (6 bords)
-        * Le nombre de bords = 2 * DIMENSION
-        * les 0-cellules (sommets) contiendront juste un point associé au sommet (voir spécialisation)
-        */
-        std::vector< ICellule<DIMENSION-1, T, DIMPOINT> > bords;
-
-        /**
-        * @brief Ajoute un bord à la cellule
-        * @param icellule
-        */
+        std::vector< Bord* > bords;
+//        std::vector< ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* > bords;
 //        void addBord(ICellule* icellule){bords.push_back(icellule);}
-
-
 };
 
-template <unsigned int DIMENSION, typename T , unsigned int DIMPOINT >
-ICellule<DIMENSION, T, DIMPOINT> & ICellule<DIMENSION, T, DIMPOINT>::operator=(const ICellule<DIMENSION, T, DIMPOINT>& _c)
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::ICellule()
+{
+    nbCellules++;
+    std::cout << "Initialisation cellule n° " << nbCellules << std::endl;
+    for(unsigned int i = 0; i < 2* T_DIMCOMPLEXE; i++)
+    {
+        bords.push_back(new ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>());
+    }
+
+}
+
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> & ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::getBord(const unsigned int _range) const
+{
+    assert(bords.size()>_range);
+    return bords[_range];
+}
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+void ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::addBord(const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION> &_icellule)
+{
+//  if(bords.size() < 2 * T_DIMCOMPLEXE) {bords.push_back(_icellule);}
+
+}
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+bool ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::estValide()
+{
+    if ( bords.size() != 2 * T_DIMENSION *( T_DIMENSION- 1 )) return false;
+    return true;
+}
+
+
+
+
+
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> & ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::operator=(const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>& _c)
 {
     this.bords = _c.bords;
     return *this;
@@ -90,30 +111,35 @@ ICellule<DIMENSION, T, DIMPOINT> & ICellule<DIMENSION, T, DIMPOINT>::operator=(c
 
 
 //Spécialisation : on a une 0-Cellule
-template <class T, unsigned int DIMPOINT>
-class ICellule<0, T, DIMPOINT>
+template <typename T_TYPE, unsigned int T_DIMENSION>
+class ICellule<0, T_TYPE, T_DIMENSION>
 {
     public:
 
-        /**
-        * @param nouvSommet le sommet car on est dans une 0-Cellules
-        */
-        ICellule(){}
-        ICellule(const Point<T, DIMPOINT> &p);
+        ICellule();
+        ICellule(const Point<T_TYPE, T_DIMENSION> &p);
         virtual ~ICellule(){}
 
     private:
 
-        Point<T, DIMPOINT> sommet; /** Un point contenant 3 données de type T.
-                                    *  Exemple : 3 double pour représenter les coordonnées x, y et z */
-
-        const Point<T, DIMPOINT>* getBord() const{return sommet;}
+        Point<T_TYPE, T_DIMENSION> *sommet;
+        const Point<T_TYPE, T_DIMENSION>* getBord() const{return sommet;}
 };
 
-template <class T, unsigned int DIMPOINT>
-ICellule<0, T, DIMPOINT>::ICellule(const Point<T, DIMPOINT> &p)
+template <typename T_TYPE , unsigned int T_DIMENSION >
+ICellule<0, T_TYPE, T_DIMENSION>::ICellule()
 {
-    sommet = new Point<T, DIMPOINT>(p);
+    nbPoints++;
+    std::cout << "Initialisation point n° " << nbPoints << std::endl;
+    sommet = new Point<T_TYPE, T_DIMENSION>();
+}
+
+
+
+template <typename T_TYPE, unsigned int T_DIMENSION>
+ICellule<0, T_TYPE, T_DIMENSION>::ICellule(const Point<T_TYPE, T_DIMENSION> &p)
+{
+    sommet = new Point<T_TYPE, T_DIMENSION>(p);
 }
 
 
