@@ -8,29 +8,26 @@ using namespace std;
 
 int main()
 {
-    cout << "Debut: " << endl;
 
-    ComplexeCubique<2,double,2> c;
-    c.creer(2);
-    c.creer(1);
+
+//    int *coordonnees = new int[2];
+//    coordonnees[0] = 1;
+//    coordonnees[1] = 2;
 //
+//
+//
+//    ComplexeCubique<2,int,2> c;
+//    c.creer(2);
+//    c.creer(1);
+//    c.creer(0);
+//
+//    c.creer0Cell(Point<int, 2>(*coordonnees));
 
 
-//    ICellule<0,double,2> c1;
-
-
-//    ICellule<2,double,2> c5( ICellule<2,double,2>);
-
-
-
-    cout << "fin " << endl;
+    cout << "Fin " << endl;
     return 0;
 }
 
-//    double *tab = new double[3];
-//    char *tab2 = new char[4];
-//    Point<double, 2> p1(*tab);
-//    Point<char, 2> p2(*tab2);
 
 
 //    ICellule<2,double,2> c2;
@@ -43,3 +40,17 @@ int main()
 //    c2.addBord(c5);
 //    c2.addBord(c6);
 //    cout << c2.isValideICellule() << endl;
+
+    /// TEST POINT.H
+//    double *tab = new double[3];
+//    char *tab2 = new char[4];
+//    Point<double, 3> p1(tab);
+//    Point<char, 4> p2(tab2);
+//    Point<double, 3> p3( Point<double, 3>);
+//
+//    Point<double, 3> p4;
+//    p4.setCoordonnees(0,1.0);
+//    cout << p4.getCoordonnees(1) << endl;
+
+
+
