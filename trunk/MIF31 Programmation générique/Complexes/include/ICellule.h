@@ -10,6 +10,8 @@
 static int nbCellules = 0;
 static int nbPoints = 0;
 
+/// DECLARATION CLASSE POINT
+
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION>
 class ICellule
 {
@@ -21,96 +23,27 @@ class ICellule
         /// CONSTRUCTEURS / DESTRUCTEURS
 
         ICellule();
-        ICellule(const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> &_icellule){ bords = _icellule.bords;}
+        ICellule(std::vector< ICellule*> &_bords);
         ICellule(std::vector< ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* > nouvBords){}
 
         virtual ~ICellule(){bords.clear();}
 
         /// GETTERS / SETTERS
 
-        ICellule& getBord(const unsigned int _range) const;
-        void addBord(const Bord &_icellule);
+        const std::vector<Bord*>* getBords() const { return &bords;}
+        int getDim() const {return T_DIMENSION;}
+        int getNbCellulesBord() const {return bords.size();}
 
-        /// METHODES
-
-        bool estValide();
-
-
-    protected:
-
-//         ICellule* operator[](int i){return getBord(i);}
-        ICellule* operator[](int i) const{return getBord(i);}
-        ICellule& operator=(const Self& );
+//        ICellule& operator=(const Self& );
 
     private:
-
         std::vector< Bord* > bords;
-//        std::vector< ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* > bords;
-//        void addBord(ICellule* icellule){bords.push_back(icellule);}
+
+
 };
 
-template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
-ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::ICellule()
-{
-    nbCellules++;
-    std::cout << "Initialisation cellule n° " << nbCellules << std::endl;
-    for(unsigned int i = 0; i < 2* T_DIMCOMPLEXE; i++)
-    {
-        bords.push_back(new ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>());
-    }
+/// DECLARATION SPECIALISATION CLASSE POINT DE DIMENSION 0
 
-}
-
-
-template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
-ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> & ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::getBord(const unsigned int _range) const
-{
-    assert(bords.size()>_range);
-    return bords[_range];
-}
-
-template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
-void ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::addBord(const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION> &_icellule)
-{
-//  if(bords.size() < 2 * T_DIMCOMPLEXE) {bords.push_back(_icellule);}
-
-}
-
-template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
-bool ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::estValide()
-{
-    if ( bords.size() != 2 * T_DIMENSION *( T_DIMENSION- 1 )) return false;
-    return true;
-}
-
-
-
-
-
-
-template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
-ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> & ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::operator=(const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>& _c)
-{
-    this.bords = _c.bords;
-    return *this;
-}
-
-//  Tableau & operator=(const Self& );
-
-//template <class T,int agrandissement>
-//Tableau<T,agrandissement> & Tableau<T,agrandissement>::operator =
-//(const Tableau<T,agrandissement> &  t)
-//{
-//  if ( &t != this)
-//    {
-//      Self copy(t);
-//      swap(*this, copy);
-//    }
-//  return *this;
-//}
-
-
-//Spécialisation : on a une 0-Cellule
 template <typename T_TYPE, unsigned int T_DIMENSION>
 class ICellule<0, T_TYPE, T_DIMENSION>
 {
@@ -120,11 +53,53 @@ class ICellule<0, T_TYPE, T_DIMENSION>
         ICellule(const Point<T_TYPE, T_DIMENSION> &p);
         virtual ~ICellule(){}
 
+        const std::vector<ICellule<0, T_TYPE, T_DIMENSION>*>* getBords() const { return NULL;}
+        int getNbCellulesBord() const {return 0;}
+
+        const Point<T_TYPE, T_DIMENSION>& getPoint() const{return sommet;}
+
     private:
 
         Point<T_TYPE, T_DIMENSION> *sommet;
-        const Point<T_TYPE, T_DIMENSION>* getBord() const{return sommet;}
+
 };
+
+/// IMPLEMENTATION FONCTIONS MEMBRES
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::ICellule()
+{
+    int facteur = 2;
+    nbCellules++;
+    std::cout << "Initialisation cellule n° " << nbCellules << std::endl;
+
+//    if(T_DIMCOMPLEXE == 1 ) facteur = 1;
+    for(unsigned int i = 0; i < facteur* T_DIMCOMPLEXE; i++)
+    {
+        bords.push_back(new ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>());
+    }
+}
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::ICellule(std::vector< ICellule*> &_bords)
+{
+    nbCellules++;
+    std::cout << "Initialisation cellule n° " << nbCellules << std::endl;
+    for(unsigned int i = 0; i < 2* T_DIMCOMPLEXE; i++)
+    {
+        bords.push_back(_bords[i]);
+    }
+}
+
+//template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+//ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION> & ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::operator=(const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>& _c)
+//{
+//    this.bords = _c.bords;
+//    return *this;
+//}
+
+
+
 
 template <typename T_TYPE , unsigned int T_DIMENSION >
 ICellule<0, T_TYPE, T_DIMENSION>::ICellule()
