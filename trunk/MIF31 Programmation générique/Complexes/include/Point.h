@@ -6,15 +6,19 @@
 
 /// DECLARATION CLASSE POINT
 
+static int compteur = 0;
+
 template <typename T_TYPE, unsigned int T_DIMENSION>
 class Point
 {
+    typedef Point<T_TYPE, T_DIMENSION> Self;
+
     public:
 
     /// CONSTRUCTEURS / DESTRUCTEURS
         Point();
         Point(const T_TYPE _coordonnees[T_DIMENSION]);
-        Point(const Point<T_TYPE, T_DIMENSION> &p);
+        Point(const Self &p);
 
         virtual ~Point(){ delete coordonnees;};
 
@@ -44,7 +48,8 @@ Point<T_TYPE,T_DIMENSION>::Point(const T_TYPE _coordonnees[T_DIMENSION])
 template <typename T_TYPE, unsigned int T_DIMENSION>
 Point<T_TYPE,T_DIMENSION>::Point(const Point<T_TYPE, T_DIMENSION> &_p)
 {
-    for (unsigned int i = 0; i < T_DIMENSION; i++) this.coordonnees[i] = _p.coordonnees[i];
+    for (unsigned int i = 0; i < T_DIMENSION; i++) coordonnees[i] = _p.coordonnees[i];
+    ++compteur;
 }
 
 template <typename T_TYPE, unsigned int T_DIMENSION>
