@@ -9,38 +9,37 @@ using namespace std;
 int main()
 {
 
-//    ICellule<2,double,2> *c2 = new ICellule<2,double,2>();
-
-//    cout << c2.estValide() << endl;
-//    c2.addBord(c2.getBord(0));
-
-//    ICellule<1, double, 2> c4 = c2.getBord(0);
-
-//    c2.addBord(c3);
-//    c2.addBord(c4);
-//    c2.addBord(c5);
-//    c2.addBord(c6);
-//    cout << c2.isValideICellule() << endl;
 
 
-//    int *coordonnees = new int[2];
-//    coordonnees[0] = 1;
-//    coordonnees[1] = 2;
-//
-//
-//
-//    ComplexeCubique<2,int,2> c;
-//    c.creer(2);
+    int *coordonnees = new int[2];
+    coordonnees[0] = 1;
+    coordonnees[1] = 2;
 
     cout << endl;
+
+    ICellule<2,int,2> cell1();
+
     ComplexeCubique<3,int,2> c2;
-    c2.creer(3);
-//    cout << c.estValide() << endl;
-//    c.creer(2);
-//    c.creer(1);
-//    c.creer(0);
-//
-//    c.creer0Cell(Point<int, 2>(*coordonnees));
+    c2.AjoutICellule((EnsembleCell*)cell1);
+
+//    c2.creer(2);
+//    c2.creer(2);
+
+//    c2.creer0Cell( Point<int, 2>(coordonnees));
+
+//    c2.getTab(2);
+//    cout << "valide "  << c2.estValide() << endl;
+
+//    ComplexeCubique<3,int,2>::Iterator it= c2.begin(2);
+
+//    Point<int, 2> p3();
+//    Point<int, 2> *p4 = new Point<int, 2>(p3);
+
+
+//    Point<int, 2> *p = new Point<int,2>(coordonnees);
+
+
+//    c2.creer0Cell(Point<int, 2>(*coordonnees));
 
 
     cout << "Fin " << endl;
