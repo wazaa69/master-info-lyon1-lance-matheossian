@@ -17,10 +17,20 @@ int main()
 
     cout << endl;
 
-    ICellule<2,int,2> cell1();
+//    ICellule<2,int,2> cell1();
 
     ComplexeCubique<3,int,2> c2;
-    c2.AjoutICellule((EnsembleCell*)cell1);
+    c2.creer(2);
+//    c2.creer(3);
+    Iterator<ICellule<2,int,2>,2> *it2 = c2.ComplexeCubique<2,int,2>::getIterator();
+    ICellule<2,int,2> *cell1 = it2->getCellActu();
+
+    c2.creer(2);
+    Iterator<ICellule<3,int,2>,3> *it3 = c2.ComplexeCubique<3,int,2>::getIterator();
+
+
+//    it2getCellActuelle();
+//    c2.AjoutICellule((EnsembleCell*)cell1);
 
 //    c2.creer(2);
 //    c2.creer(2);
@@ -28,7 +38,7 @@ int main()
 //    c2.creer0Cell( Point<int, 2>(coordonnees));
 
 //    c2.getTab(2);
-//    cout << "valide "  << c2.estValide() << endl;
+    cout << "valide "  << c2.estValide() << endl;
 
 //    ComplexeCubique<3,int,2>::Iterator it= c2.begin(2);
 
