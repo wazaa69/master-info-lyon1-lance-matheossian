@@ -61,7 +61,9 @@ class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIM
         void ajout(CelluleSelf &_c);
         bool estValide(bool _init);
         void creer0Cell(const Point<T_TYPE, T_DIMENSION> &p);
-        Iterator<CelluleSelf, T_DIMCOMPLEXE>* getIteratorSur(CelluleSelf* _cell);
+        Iterator<CelluleSelf, T_DIMCOMPLEXE>* getIteratorSur(const CelluleSelf* _cell);
+        Iterator<CelluleSelf, T_DIMCOMPLEXE>* getIteratorProprioBord(const CelluleInf* _cell);
+        bool estDansUnBord(const CelluleInf* _cell1, const CelluleSelf* _cell2);
 
     private:
         std::vector<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>*> tabCellules;
@@ -130,24 +132,49 @@ bool ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::estValide(bool _init =
 
 /// getIterator sur
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
-Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::getIteratorSur(ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cell)
+Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::getIteratorSur(const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cell)
 {
     for (unsigned int i = 0; i< tabCellules.size(); i++)
     {
         if (tabCellules[i]->getNumCellule() == _cell->getNumCellule())
         {
             std::cout << "Cellule trouvee. " << std::endl;
-//           Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> *iter = new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
-//            return Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
-//            return iter;
             return new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
         }
     }
     std::cout << "Cellule non trouvee. " << std::endl;
     return new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
-//    return Iterator< ICellule <T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
 }
 
+/// getIteratorProprioBord
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
+Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::getIteratorProprioBord(const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* _cell)
+{
+    for (unsigned int i = 0; i < tabCellules.size(); i++)
+    {
+        for (unsigned int j = 0; j < tabCellules[i]->getBords()->size(); j++)
+        {
+            if(tabCellules[i]->getBords()->at(j)->getNumCellule() == _cell->getNumCellule())
+            {
+                std::cout << "Cellule trouvee. " << std::endl;
+                return new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,j);
+            }
+        }
+    }
+    std::cout << "Cellule (i+1) non trouvee. " << std::endl;
+    return new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
+}
+
+/// estDansUnBord
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
+bool ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::estDansUnBord(const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* _cell1, const ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cell2)
+{
+    for (unsigned int j = 0; j < _cell2->getBords()->size(); j++)
+    {
+        if(_cell2->getBords()->at(j)->getNumCellule() == _cell1->getNumCellule()) return true;
+    }
+    return false;
+}
 
 /// IMPLEMENTATIONS SPECIALISATION 0 #################################################################################
 
