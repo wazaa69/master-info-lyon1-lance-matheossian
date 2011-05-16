@@ -10,40 +10,29 @@
 
 /// CLASSE COMPLEXE CUBIQUE SPECIALISATION   ######################################################################
 
+
+template <typename TYPE_I, unsigned int DIMENSION>
+        class Iterator
+        {
+            public:
+                Iterator(std::vector<TYPE_I*>  &_v) : cellules(_v), position(0) {}
+                Iterator(std::vector<TYPE_I*>  &_v, const unsigned int _position) : cellules(_v), position(_position) {}
+
+                virtual ~Iterator(){}
+
+                TYPE_I* getCellActu(){return cellules[position];}
+                TYPE_I* getCellI(const unsigned int _i) {return cellules[_i];}
+
+            private:
+                std::vector<TYPE_I*> cellules;
+                unsigned int position;
+        };
+
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
 class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIMENSION>
 {
 
         public:
-        /**
-        * @class L'itérateur de la classe ComplexeCubique
-        */
-
-        class Iterator
-        {
-            public:
-                Iterator(){}
-                Iterator(const unsigned int _position,  ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cellule) :  position(_position), cellule(_cellule){
-//                Iterator(const unsigned int _position) : dimension(T_DIMCOMPLEXE), position(_position){
-
-                }
-
-                virtual ~Iterator(){}
-
-//                Iterator get
-
-            private:
-
-                ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* cellule;
-                unsigned int dimension; /** dimension dans laquelle se trouve l'itérateur */
-                unsigned int position; /** cellule sur laquelle pointe l'itérateur */
-        };
-
-        Iterator begin(const unsigned int _dimension) {
-            if(T_DIMCOMPLEXE == _dimension){return Iterator(0,tabCellules[0]);}
-
-            else { return ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::begin(_dimension); }
-        }
 
 
     /// CONSTRUCTEUR / DESTRUCTEUR
@@ -51,20 +40,16 @@ class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIM
         ComplexeCubique(){std::cout<< "Instanciation complexe cubique de dimension " << T_DIMCOMPLEXE <<  std::endl;}
         virtual ~ComplexeCubique(){ tabCellules.clear(); }
 
-    /// GETTERS / SETTERS
-
-//        std::vector<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>*>* getTab(unsigned int _dimension)
-//        {
-//            if (T_DIMCOMPLEXE == _dimension){return &tabCellules;}
-//            else {return ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getTab(_dimension);}
-//        }
-
-
     /// METHODES
 
         void creer(const unsigned int _dimensionICellule)
         {
-            if (T_DIMCOMPLEXE == _dimensionICellule) tabCellules.push_back(new ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>());
+            if (T_DIMCOMPLEXE == _dimensionICellule) {
+
+                    tabCellules.push_back(new ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>());
+                    it = new Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> (tabCellules);
+
+            }
             else ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::creer(_dimensionICellule);
         }
 
@@ -77,10 +62,28 @@ class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIM
         /** @brief création d’une 0-cellule prenant un point en paramètre. */
         void creer0Cell(const Point<T_TYPE, T_DIMENSION> &p);
 
+
+        Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* getIterator(){return it;}
+
+        Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* getIteratorSur(ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cell)
+        {
+            for (unsigned int i = 0; i< tabCellules.size(); i++)
+            {
+                if( it.getCellI(i) == _cell)
+                {
+                    std::cout << "Cellule trouvee. " << std::endl;
+                    return Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
+                }
+            }
+            std::cout << "Cellule non trouvee. " << std::endl;
+            return Iterator< ICellule <T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
+        }
+
     protected:
 
     private:
         std::vector<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>*> tabCellules;
+        Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> * it;
 
 };
 
@@ -106,6 +109,7 @@ class ComplexeCubique<0, T_TYPE, T_DIMENSION>
 
     private:
     std::vector<ICellule<0,T_TYPE,T_DIMENSION>*> tabCellules;
+    Iterator<ICellule<0, T_TYPE, T_DIMENSION>, 0> * it;
 };
 
 /// IMPLEMENTATIONS SPECIALISATION ##################################################################################
