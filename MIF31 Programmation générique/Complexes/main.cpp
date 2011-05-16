@@ -91,26 +91,21 @@ int main()
     else cout << "Non valide !" << endl;
     cout << endl;
 
-    cout << "On cherche la cellule I1_8 dans le complexe avec l'iterateur." << endl;
-    Iterator<ICellule<1,int,2>,1> *it2_1 = complexe.ComplexeCubique<1,int,2>::getIteratorSur(I1_8);
+    cout << "On cherche la cellule I1_8 dans le complexe." << endl;
+    Iterator<ICellule<1,int,2>,1> *it1_1 = complexe.ComplexeCubique<1,int,2>::getIteratorSur(I1_8);
+    cout << "La cellule est a la position " << it1_1->getPosition() << " et a comme numero " << it1_1->getCellActu()->getNumCellule() <<  endl;
+
+    ICellule<1,int,2> *testPresenceCell;
+    cout << endl << "On cherche la cellule testPresenceCell dans le complexe avec l'iterateur. it1_2" << endl;
+    Iterator<ICellule<1,int,2>,1> *it1_2 = complexe.ComplexeCubique<1,int,2>::getIteratorSur(testPresenceCell);
+
+    cout << endl << "On cherche la (i+1)cellule qui aurait I1_4 comme bord." << endl;
+    Iterator<ICellule<2,int,2>,2> *it2_1 = complexe.ComplexeCubique<2,int,2>::getIteratorProprioBord(I1_4);
     cout << "La cellule est a la position " << it2_1->getPosition() << " et a comme numero " << it2_1->getCellActu()->getNumCellule() <<  endl;
+
+    cout << "On cherche si I0_3 est un bord de I1_2 --> ";
+    cout << complexe.ComplexeCubique<1,int,2>::estDansUnBord(I0_3,I1_2) << endl;
 
     return 0;
 }
-
-
-
-
-    /// TEST POINT.H
-//    double *tab = new double[3];
-//    char *tab2 = new char[4];
-//    Point<double, 3> p1(tab);
-//    Point<char, 4> p2(tab2);
-//    Point<double, 3> p3( Point<double, 3>);
-//
-//    Point<double, 3> p4;
-//    p4.setCoordonnees(0,1.0);
-//    cout << p4.getCoordonnees(1) << endl;
-
-
 

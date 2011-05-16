@@ -28,6 +28,7 @@ class ICellule
         /// GETTERS / SETTERS
 
         const std::vector<Bord*>* getBords() const { return &bords;}
+//        Bord* getBord(const unsigned int _position) const { return bords[_position};}
         unsigned int getDimension() const {return T_DIMENSION;}
         unsigned int getNbCellulesBord() const {return bords.size();}
         unsigned int getNumCellule() const { return numCellule;}
