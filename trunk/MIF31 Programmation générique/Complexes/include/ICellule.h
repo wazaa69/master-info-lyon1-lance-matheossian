@@ -28,8 +28,8 @@ class ICellule
         /// GETTERS / SETTERS
 
         const std::vector<Bord*>* getBords() const { return &bords;}
-        int getDimension() const {return T_DIMENSION;}
-        int getNbCellulesBord() const {return bords.size();}
+        unsigned int getDimension() const {return T_DIMENSION;}
+        unsigned int getNbCellulesBord() const {return bords.size();}
         unsigned int getNumCellule() const { return numCellule;}
 
     private:
@@ -58,6 +58,7 @@ class ICellule<0, T_TYPE, T_DIMENSION>
 
         const std::vector<Self *>* getBords() const { return NULL;}
         const Bord& getPoint() const{return sommet;}
+        bool estInitPoint()const { if(sommet != NULL) return true; else return false;}
         unsigned int getDimension() const {return T_DIMENSION;}
         unsigned int getNumCellule() const { return numCellule;}
 
@@ -65,7 +66,6 @@ class ICellule<0, T_TYPE, T_DIMENSION>
 
         Point<T_TYPE, T_DIMENSION> *sommet;
         unsigned int numCellule;
-
 };
 
 /// IMPLEMENTATION FONCTIONS MEMBRES ######################################################################
