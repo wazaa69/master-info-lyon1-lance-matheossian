@@ -20,7 +20,7 @@ class Iterator
     /// CONSTRUCTEUR / DESTRUCTEUR
 
         Iterator(std::vector<TYPE_I*>  &_v) : cellules(_v), position(0), taille(_v.size()) {}
-        Iterator(std::vector<TYPE_I*>  &_v, const unsigned int _position) : cellules(_v), position(_position) {}
+        Iterator(std::vector<TYPE_I*>  &_v, const unsigned int _position) : cellules(_v), position(_position), taille(_v.size()) {}
         virtual ~Iterator(){}
 
     /// SETTERS / GETTERS
@@ -28,6 +28,7 @@ class Iterator
         TYPE_I* getCellActu(){return cellules[position];}
         TYPE_I* getCellI(const unsigned int _i) {return cellules[_i];}
         unsigned int getTaille()const { return taille;}
+        unsigned int getPosition() const {return position;}
 
     private:
 
@@ -57,29 +58,10 @@ class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIM
 
     /// METHODES
 
-        void ajout(CelluleSelf &_c)
-        {
-            tabCellules.push_back(&_c);
-            it = new Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> (tabCellules);
-        }
-
+        void ajout(CelluleSelf &_c);
         bool estValide(bool _init);
         void creer0Cell(const Point<T_TYPE, T_DIMENSION> &p);
-
-
-        Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* getIteratorSur(ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cell)
-        {
-            for (unsigned int i = 0; i< tabCellules.size(); i++)
-            {
-                if( it.getCellI(i) == _cell)
-                {
-                    std::cout << "Cellule trouvee. " << std::endl;
-                    return Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
-                }
-            }
-            std::cout << "Cellule non trouvee. " << std::endl;
-            return Iterator< ICellule <T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
-        }
+        Iterator<CelluleSelf, T_DIMCOMPLEXE>* getIteratorSur(CelluleSelf* _cell);
 
     private:
         std::vector<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>*> tabCellules;
@@ -92,8 +74,6 @@ class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIM
 template <typename T_TYPE, unsigned int T_DIMENSION>
 class ComplexeCubique<0, T_TYPE, T_DIMENSION>
 {
-
-
     public:
 
         typedef ICellule<0, T_TYPE, T_DIMENSION> CelluleSelf;
@@ -109,12 +89,7 @@ class ComplexeCubique<0, T_TYPE, T_DIMENSION>
 
     /// METHODES
 
-        void ajout(ICellule<0, T_TYPE, T_DIMENSION> &_c)
-        {
-            tabCellules.push_back(&_c);
-            it = new Iterator<ICellule<0, T_TYPE, T_DIMENSION>, 0> (tabCellules);
-        }
-
+        void ajout(CelluleSelf &_c);
         void creer0Cell(const Point<T_TYPE, T_DIMENSION> &p){
             tabCellules.push_back(new ICellule<0, T_TYPE, T_DIMENSION>(p));
         }
@@ -127,37 +102,74 @@ class ComplexeCubique<0, T_TYPE, T_DIMENSION>
 
 /// IMPLEMENTATIONS #################################################################################################
 
+/// AJOUT
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
+void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::ajout(CelluleSelf &_c)
+{
+    tabCellules.push_back(&_c);
+    it = new Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> (tabCellules);
+}
+
+/// VALIDITE
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
 bool ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::estValide(bool _init = true)
 {
     bool retour = _init;
-
     retour &= ComplexeCubique<T_DIMCOMPLEXE -1, T_TYPE, T_DIMENSION>::estValide(retour);
-    std::cout << "Validité complexe dimension: " << T_DIMCOMPLEXE << std::endl;
 
     for(unsigned int i = 0; i < tabCellules.size(); i++)
     {
-        std::cout << "cellule num " << i << " du complexe" << std::endl;
-        retour &= tabCellules[i]->estValide(retour);
+        std::cout << "cellule num " << tabCellules[i]->getNumCellule() << " a "<<  tabCellules[i]->getNbCellulesBord() << " ("<< T_DIMCOMPLEXE - 1<< ") cellules " << std::endl;
+        if( tabCellules[i]->getNbCellulesBord() == 2* T_DIMCOMPLEXE){retour&= true;}
+        else retour = false;
     }
 
     std::cout << std::endl;
     return retour;
 }
 
+/// getIterator sur
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
+Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>* ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::getIteratorSur(ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>* _cell)
+{
+    for (unsigned int i = 0; i< tabCellules.size(); i++)
+    {
+        if (tabCellules[i]->getNumCellule() == _cell->getNumCellule())
+        {
+            std::cout << "Cellule trouvee. " << std::endl;
+//           Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> *iter = new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
+//            return Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
+//            return iter;
+            return new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,i);
+        }
+    }
+    std::cout << "Cellule non trouvee. " << std::endl;
+    return new Iterator< ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
+//    return Iterator< ICellule <T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE>(tabCellules,tabCellules.size());
+}
+
+
 /// IMPLEMENTATIONS SPECIALISATION 0 #################################################################################
+
+template <typename T_TYPE, unsigned int T_DIMENSION>
+void ComplexeCubique<0, T_TYPE, T_DIMENSION>::ajout(ICellule<0, T_TYPE, T_DIMENSION> &_c)
+{
+    tabCellules.push_back(&_c);
+    it = new Iterator<ICellule<0, T_TYPE, T_DIMENSION>, 0> (tabCellules);
+}
 
 template <typename T_TYPE, unsigned int T_DIMENSION>
 bool ComplexeCubique<0, T_TYPE, T_DIMENSION>::estValide(bool _init = true)
 {
     bool retour = _init;
-
-    std::cout << "Validité complexe dimension: " << 0 << std::endl;
+    bool validite;
 
     for(unsigned int i = 0; i < tabCellules.size(); i++)
     {
-        std::cout << "cellule num " << i << " du complexe" << std::endl;
-        retour &= tabCellules[i]->estValide(retour);
+        validite = tabCellules[i]->estInitPoint();
+        if(validite)std::cout << "cellule num " << tabCellules[i]->getNumCellule() << " a un point. " << std::endl;
+        else std::cout << "cellule num " << tabCellules[i]->getNumCellule() << " n'a pas point. " << std::endl;
+        retour &= validite;
     }
 
     std::cout << std::endl;

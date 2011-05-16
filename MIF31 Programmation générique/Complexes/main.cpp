@@ -78,17 +78,22 @@ int main()
     complexe.ComplexeCubique<0,int,2>::ajout(*I0_8); // ajout d'une 0-cellule dans le complexe
     complexe.ComplexeCubique<0,int,2>::ajout(*I0_9); // ajout d'une 0-cellule dans le complexe
 
-    Iterator<ICellule<0,int,2>,0> *it0 = complexe.ComplexeCubique<0,int,2>::getIterator();
-    Iterator<ICellule<1,int,2>,1> *it1 = complexe.ComplexeCubique<1,int,2>::getIterator();
-    Iterator<ICellule<2,int,2>,2> *it2 = complexe.ComplexeCubique<2,int,2>::getIterator();
+    Iterator<ICellule<0,int,2>,0> *it0_0 = complexe.ComplexeCubique<0,int,2>::getIterator();
+    Iterator<ICellule<1,int,2>,1> *it1_0 = complexe.ComplexeCubique<1,int,2>::getIterator();
+    Iterator<ICellule<2,int,2>,2> *it2_0 = complexe.ComplexeCubique<2,int,2>::getIterator();
 
-    cout << "Il y a " << it0->getTaille() << " cellules de dimension 0 dans le complexe. " << endl;
-    cout << "Il y a " << it1->getTaille() << " cellules de dimension 1 dans le complexe. " << endl;
-    cout << "Il y a " << it2->getTaille() << " cellules de dimension 2 dans le complexe. " << endl;
+    cout << "Il y a " << it0_0->getTaille() << " cellules de dimension 0 dans le complexe. " << endl;
+    cout << "Il y a " << it1_0->getTaille() << " cellules de dimension 1 dans le complexe. " << endl;
+    cout << "Il y a " << it2_0->getTaille() << " cellules de dimension 2 dans le complexe. " << endl;
 
+    cout << endl << "Validité du complexe: " << endl;
+    if (complexe.estValide())cout << "Valide ! " << endl;
+    else cout << "Non valide !" << endl;
     cout << endl;
 
-
+    cout << "On cherche la cellule I1_8 dans le complexe avec l'iterateur." << endl;
+    Iterator<ICellule<1,int,2>,1> *it2_1 = complexe.ComplexeCubique<1,int,2>::getIteratorSur(I1_8);
+    cout << "La cellule est a la position " << it2_1->getPosition() << " et a comme numero " << it2_1->getCellActu()->getNumCellule() <<  endl;
 
     return 0;
 }
