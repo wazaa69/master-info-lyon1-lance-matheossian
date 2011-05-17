@@ -113,11 +113,12 @@
 1305308217 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\src\point.cpp
 	"../include/Point.h"
 
-1305636409 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\main.cpp
+1305639253 source:c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\main.cpp
 	<iostream>
 	"include/ComplexeCubique.h"
 	"include/Point.h"
 	"include/ICellule.h"
+	"include/Lecteur.h"
 
 1305481983 Cellule.h"
 
@@ -143,4 +144,11 @@
 1305533976 /home/akado/Bureau/master-info-lyon1-lance-matheossian/MIF31 Programmation gÃ©nÃ©rique/Complexes/include/Point.h
 	<vector>
 	<assert.h>
+
+1305640256 c:\users\gintoki\desktop\proj m1\mif31 programmation générique\complexes\include\lecteur.h
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	"ComplexeCubique.h"
 
