@@ -9,6 +9,13 @@ static int numeroPoint = 0;
 
 /// DECLARATION CLASSE POINT #############################################################################
 
+/**
+* @class Un point appartient à une 0-Cellule, elle est templatée par :
+*       <ul>
+*           <li>son type : int, double, ... </li>
+*           <li>sa dimension : 3D (x,y,z), 2D(x,y), ...</li>
+*       </ul>
+*/
 template <typename T_TYPE, unsigned int T_DIMENSION>
 class Point
 {
@@ -18,8 +25,19 @@ class Point
 
     /// CONSTRUCTEURS / DESTRUCTEURS
 
+        /** @brief Initialisation simple (mise à 0 des coordonnées) */
         Point();
+
+        /**
+        * @brief Initialisation de chaque coordonnée
+        * @param _coordonnees les coordonnées à conserver
+        */
         Point(const T_TYPE _coordonnees[T_DIMENSION]);
+
+        /**
+        * @brief Initialisation à partir d'un point existant
+        * @param p un point templpaté par les mêmes données que la classe acuelle
+        */
         Point(const Self &p);
 
         virtual ~Point(){ delete coordonnees;};
@@ -32,12 +50,13 @@ class Point
 
     private:
 
-        unsigned int numPoint;
-        T_TYPE coordonnees[T_DIMENSION];
+        unsigned int numPoint; /** identifiant unique du point */
+        T_TYPE coordonnees[T_DIMENSION]; /** le tableau qui conserve les coordonnées (ex en 3D : x,y,z) */
 
 };
 
 /// IMPLEMENTATION FONCTIONS MEMBRES ######################################################################
+
 
 template <typename T_TYPE, unsigned int T_DIMENSION>
 Point<T_TYPE, T_DIMENSION>::Point()

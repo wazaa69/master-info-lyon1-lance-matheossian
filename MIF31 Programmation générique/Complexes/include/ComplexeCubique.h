@@ -8,10 +8,11 @@
 #include "ICellule.h"
 #include "Point.h"
 
-
-
-
 /// DECLARATION CLASSE ITERATOR  ##################################################################################
+
+/**
+* @class Iterator, exemple : Iterator<ICellule<2, double, 3>, 2>::getIterator()
+*/
 template <typename TYPE_I, unsigned int DIMENSION>
 class Iterator
 {
@@ -38,7 +39,21 @@ class Iterator
         unsigned int taille;
 };
 
+
+
+
 /// CLASSE COMPLEXE CUBIQUE #######################################################################################
+
+/**
+* @class La classe principale qui permet de créer et d'agir sur un complexe cubique.
+*       <ul>
+*           <li>T_DIMCOMPLEXE = la dimension du complexe</li>
+*           <li>T_TYPE = le type d'un point contenu dans une 0-Cellule : int, double, ... </li>
+*           <li>T_DIMENSION : la dimension d'un point contenu dans une 0-Cellule : 2 -> (x,y), 3 -> (x,y,z), ... </li>
+*       </ul>
+*       Chaque Complexe cubique hérite de son complexe cubique de dimension supérieur.
+*       Grâce à l'héritage, on peut accéder facilement à l'itérateur d'une classe parent et parcourir ses ICellules.
+*/
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
 class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIMENSION>
 {
@@ -200,7 +215,7 @@ void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::creer0Cell(const Point
     ComplexeCubique<0, T_TYPE, T_DIMENSION>::creer0Cell(_p);
 }
 
-/// detruireIcellule ( il faut que le ComplexeCubique déclaré soir de dimensions strictement supérieur à celle de la cellule à supprimer
+/// detruireIcellule (il faut que le ComplexeCubique déclaré soit de dimensions strictement supérieur à celle de la cellule à supprimer)
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
 void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::detruireICellule(const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* _cell)
 {
@@ -211,11 +226,11 @@ void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::detruireICellule(const
         assert(estDansUnBord( _cell , it->getCellI(i)));
     }
 
-    std::cout << "Supresion sans erreurs (la " <<T_DIMCOMPLEXE-1 << "-cellule n'est pas un bord d'une "<<T_DIMCOMPLEXE <<"-cellule)."<< std::endl;
+    std::cout << "Suppression sans erreurs (la " <<T_DIMCOMPLEXE-1 << "-cellule n'est pas un bord d'une "<<T_DIMCOMPLEXE <<"-cellule)."<< std::endl;
     delete(_cell);
 }
 
-/// réuction élémentaire
+/// réduction élémentaire
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
 void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::reductionElementaire(const ICellule<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>* _cell1, const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* _cell2)
 {
