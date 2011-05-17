@@ -22,6 +22,7 @@ class ICellule
         /// CONSTRUCTEURS / DESTRUCTEURS
 
         ICellule(){}
+        /** @brief Initialisation des bords */
         ICellule(std::vector< Bord*> &_bords);
         virtual ~ICellule(){bords.clear();}
 
@@ -35,8 +36,8 @@ class ICellule
 
     private:
 
-        std::vector< Bord* > bords;
-        unsigned int numCellule;
+        std::vector< Bord* > bords; /** les bords sont d'1 dimension inférieur à la ICellule actuelle */
+        unsigned int numCellule; /** identifiant unique de la cellule */
 };
 
 /// DECLARATION CLASSE ICELLULE SPECIALISATION T_DIMENSION 0 ###############################################

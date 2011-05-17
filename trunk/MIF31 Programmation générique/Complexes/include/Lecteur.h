@@ -13,6 +13,7 @@
 #include "Point.h"
 #include "ICellule.h"
 
+
 using namespace std;
 
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
