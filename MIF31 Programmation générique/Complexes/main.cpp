@@ -3,6 +3,7 @@
 #include "include/ComplexeCubique.h"
 #include "include/Point.h"
 #include "include/ICellule.h"
+#include "include/Lecteur.h"
 
 using namespace std;
 
@@ -122,6 +123,13 @@ int main()
     cout << endl << "Destruction d'une ICellule. " << endl;
     complexe.ComplexeCubique<3,int,2>::detruireICellule(I2_1); // chaque ComplexeCubique<n,type,m> hérite de ComplexeCubique<n-1,type,m>
                                                                // du coup on doit mettre la dimension supérieure à celle de la cellule a supprimer dans le template
+
+    /// ########################################### Chargement des données à partir du flot
+
+    ComplexeCubique<3,int,2> complexe2;
+    Lecteur<3,int,2> lecteur;
+    lecteur.chargerDonnees("flot.txt",complexe2);
+
 
     return 0;
 }
