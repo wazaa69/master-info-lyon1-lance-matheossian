@@ -21,7 +21,7 @@ class Iterator
 
         Iterator(std::vector<TYPE_I*>  &_v) : cellules(_v), position(0), taille(_v.size()) {}
         Iterator(std::vector<TYPE_I*>  &_v, const unsigned int _position) : cellules(_v), position(_position), taille(_v.size()) {}
-        virtual ~Iterator(){}
+        virtual ~Iterator(){cellules.clear();}
 
     /// SETTERS / GETTERS
 
@@ -87,6 +87,7 @@ class ComplexeCubique<0, T_TYPE, T_DIMENSION>
     /// CONSTRUCTEUR / DESTRUCTEUR
 
         ComplexeCubique(){};
+        virtual ~ComplexeCubique(){tabCellules.clear(); };
 
     /// SETTERS / GETTERS
 
