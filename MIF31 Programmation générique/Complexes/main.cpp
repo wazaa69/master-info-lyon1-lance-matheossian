@@ -51,8 +51,9 @@ int main()
     v2_0.push_back(I1_4); v2_0.push_back(I1_9); v2_0.push_back(I1_5); v2_0.push_back(I1_6);
 
     ICellule<2,int,2> *I2_0 = new ICellule<2,int,2>(v2_0);
+    ICellule<2,int,2> *I2_1 = new ICellule<2,int,2>(v2_0);
 
-    ComplexeCubique<2,int,2> complexe;
+    ComplexeCubique<3,int,2> complexe;
 
     complexe.ComplexeCubique<2,int,2>::ajout(*I2_0); // ajout d'une 2-cellule dans le complexe
 
@@ -105,6 +106,22 @@ int main()
 
     cout << "On cherche si I0_3 est un bord de I1_2 --> ";
     cout << complexe.ComplexeCubique<1,int,2>::estDansUnBord(I0_3,I1_2) << endl;
+
+    cout << endl << "Creation d'une nouvelle ICellule a partir de ses (I-1)Cellules de bords." << endl;
+    std::vector<ICellule<0,int,2> *>v1_10;
+    v1_10.push_back(I0_5);
+    v1_10.push_back(I0_6);
+    complexe.ComplexeCubique<1,int,2>::creerICellule(v1_10);
+
+    cout << endl << "Creation d'une nouvelle 0-Cellule a partir d'un point. " << endl;
+    complexe.ComplexeCubique<0,int,2>::creer0Cell(P7);
+
+    cout << endl << "Reduction elementaire. " << endl;
+    complexe.ComplexeCubique<3,int,2>::reductionElementaire(I1_4,I2_0);
+
+    cout << endl << "Destruction d'une ICellule. " << endl;
+    complexe.ComplexeCubique<3,int,2>::detruireICellule(I2_1); // chaque ComplexeCubique<n,type,m> hérite de ComplexeCubique<n-1,type,m>
+                                                               // du coup on doit mettre la dimension supérieure à celle de la cellule a supprimer dans le template
 
     return 0;
 }
