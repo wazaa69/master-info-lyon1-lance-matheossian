@@ -78,18 +78,26 @@ void Lecteur<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>::chargerDonnees(string cheminFich
         }
 
         int dimActu = 0;
+        int nbTotalLigne = 0;
+        for(int i = 0; i < dimMaxCellule; i++ ){nbTotalLigne+= nbICellules[i];}
+        cout << nbTotalLigne << endl;
+
         while(getline(f, ligne))
         {
             istringstream split(ligne);
             std::vector<std::string> tokens;
             for (std::string each; std::getline(split, each, split_char); tokens.push_back(each));
 
-            if(numLigne < nbICellules[0])
-            {
-
-
-
-            }
+//            if(numLigne < nbICellules[nbICellules])
+//            {
+//
+//
+//
+//            }
+//            else
+//            {
+//                dimActu++;
+//            }
 
             numLigne++;
         }
