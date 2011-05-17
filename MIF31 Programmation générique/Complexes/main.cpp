@@ -126,9 +126,29 @@ int main()
 
     /// ########################################### Chargement des données à partir du flot
 
-    ComplexeCubique<3,int,2> complexe2;
+    ComplexeCubique<3,int,2> complexe2; // dimension max2, dimension point 2
     Lecteur<3,int,2> lecteur;
     lecteur.chargerDonnees("flot.txt",complexe2);
+
+    ComplexeCubique<3,int,2> complexe3; // dimension max2, dimension point 2
+    Lecteur<3,int,2> lecteur2;
+    lecteur2.chargerDonnees("flots/fic1.txt",complexe3);
+
+    ComplexeCubique<3,int,2> complexe4; // dimension max2, dimension point 2
+    Lecteur<3,int,2> lecteur3;
+    lecteur3.chargerDonnees("flots/fic2.txt",complexe4);
+
+    ComplexeCubique<3,int,3> complexe5; // dimension max2, dimension point 3
+    Lecteur<3,int,3> lecteur4;
+    lecteur4.chargerDonnees("flots/fic3.txt",complexe5);
+
+    ComplexeCubique<3,int,3> complexe6; // dimension max2, dimension point 3
+    Lecteur<3,int,3> lecteur5;
+    lecteur5.chargerDonnees("flots/fic4.txt",complexe6);
+
+//    ComplexeCubique<6,int,5> complexe7; // dimension max5, dimension point 5 (seuls les complexes de dimensions <= 3 sont lus )
+//    Lecteur<6,int,5> lecteur6;
+//    lecteur6.chargerDonnees("flots/fic5.txt",complexe7);
 
 
     return 0;

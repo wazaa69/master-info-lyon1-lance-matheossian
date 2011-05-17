@@ -1,23 +1,26 @@
-2 2 // dimension complexe, dimension points
-10 10 1 // nombre de 0-cellules, 1-cellules, 2-cellules
-0 0 // coordonnées point 0
-0 1 // coordonnées point 1
-1 0 // ...
+2 2
+10 10 1
+
+0 0
+0 1
+1 0
 1 1
 2 1
 2 2
 3 2
 3 1
 4 1
-4 2 // coordonnées point 9
-0 1 // indice des sommets de la 1-cellule 0
-2 3 // indice des sommets de la 1-cellule 1
-1 3 // ...
+4 2
+
+0 1
+2 3
+1 3
 3 4
 4 7
 4 5
 5 6
 7 8
 6 9
-7 6 // indice des sommets de la 1-cellule 9
-4 9 5 6 // indice des arêtes de la 2-cellule 0
+7 6
+
+4 9 5 6 

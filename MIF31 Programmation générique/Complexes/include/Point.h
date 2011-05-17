@@ -50,7 +50,10 @@ Point<T_TYPE,T_DIMENSION>::Point(const T_TYPE _coordonnees[T_DIMENSION])
 {
     for (unsigned int i = 0; i < T_DIMENSION; i++) coordonnees[i] = _coordonnees[i];
     numPoint = numeroPoint;
-    std::cout << "Init point num " << numPoint << " de coordonnes " << coordonnees[0] << " " << coordonnees[1] << std::endl;
+    std::cout << "Init point num " << numPoint << " de coordonnes " ;
+    for(unsigned int j = 0; j < T_DIMENSION; j++) std::cout << coordonnees[j] << " ";
+
+    std::cout << std::endl;
     ++numeroPoint;
 }
 
