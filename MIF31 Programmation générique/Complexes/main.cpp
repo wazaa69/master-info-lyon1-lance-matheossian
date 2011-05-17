@@ -146,6 +146,8 @@ int main()
     Lecteur<3,int,3> lecteur5;
     lecteur5.chargerDonnees("flots/fic4.txt",complexe6);
 
+    complexe6.simplificationComplexe();
+
 //    ComplexeCubique<6,int,5> complexe7; // dimension max5, dimension point 5 (seuls les complexes de dimensions <= 3 sont lus )
 //    Lecteur<6,int,5> lecteur6;
 //    lecteur6.chargerDonnees("flots/fic5.txt",complexe7);

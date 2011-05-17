@@ -192,6 +192,9 @@ void Lecteur<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>::chargerDonnees(string cheminFich
         }
 
     }
+    cout << endl << "Verification de la validite: ";
+    assert(_c.estValide());
+    cout << "Le complexe lu est valide." << endl;
 }
 
 
