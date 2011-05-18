@@ -310,8 +310,10 @@ bool ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::simplificationComplexe
                     }
             }
 
-//    }
-//    return ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::simplificationComplexe();
+
+    // impossible d'effectuer l'eppel récursif
+
+
     return true;
 }
 
