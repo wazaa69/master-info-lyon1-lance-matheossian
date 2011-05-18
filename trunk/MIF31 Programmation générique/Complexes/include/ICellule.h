@@ -67,6 +67,7 @@ class ICellule<0, T_TYPE, T_DIMENSION>
         unsigned int getNumCellule() const { return numCellule;}
         void setListePointICellule(std::vector<Point<T_TYPE,T_DIMENSION>*> &_vp);
 
+
     private:
 
         Point<T_TYPE, T_DIMENSION> *sommet;
