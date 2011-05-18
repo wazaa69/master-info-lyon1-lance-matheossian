@@ -84,8 +84,9 @@ class ComplexeCubique : public ComplexeCubique< T_DIMCOMPLEXE - 1, T_TYPE, T_DIM
         bool estDansUnBord(const CelluleInf* _cell1, const CelluleSelf* _cell2);
         void creerICellule(std::vector<CelluleInf*>& _v);
         void detruireICellule(const CelluleInf* _cell);
-        void reductionElementaire(const CelluleInfInf* _cell1, const CelluleInf* _cell2);
-        void simplificationComplexe();
+        bool reductionElementaire(const CelluleInfInf* _cell1, const CelluleInf* _cell2);
+        bool simplificationComplexe();
+
 
     protected:
         Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> * it;
@@ -117,6 +118,8 @@ class ComplexeCubique<0, T_TYPE, T_DIMENSION>
 
         void ajout(CelluleSelf &_c);
         void creer0Cell(const Point<T_TYPE, T_DIMENSION> &_p);
+        bool simplificationComplexe();
+
 
     protected:
 
@@ -224,9 +227,11 @@ void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::detruireICellule(const
 
     // allication de l'itérateur si cela n'était pas déjà fait
     it = new Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> (tabCellules);
+    ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::it = new Iterator<ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE-1> (ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::tabCellules);
 
     for(unsigned int i = 0; i < it->getTaille(); i++ )
     {
+        std::cout << it->getCellI(i) << std::endl;
         assert(estDansUnBord( _cell , it->getCellI(i)));
     }
 
@@ -243,15 +248,15 @@ void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::detruireICellule(const
 
     //mise à jour de  l'itérateur si cela n'était pas déjà fait
     ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::it = new Iterator<ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE-1> (ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::tabCellules);
-
+    it = new Iterator<ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>, T_DIMCOMPLEXE> (tabCellules);
 
 }
 
 /// réduction élémentaire
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
-void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::reductionElementaire(const ICellule<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>* _cell1, const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* _cell2)
+bool ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::reductionElementaire(const ICellule<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>* _cell1, const ICellule<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>* _cell2)
 {
-
+    bool retour = false;
     unsigned int nbBords = 0;
     if(ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::estDansUnBord(_cell1,_cell2)){
         for(unsigned int i = 0; i < ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getIterator()->getTaille(); i++)
@@ -276,31 +281,40 @@ void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::reductionElementaire(c
 
             detruireICellule(_cell2);
             ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::detruireICellule(_cell1);
+            retour = true;
         }
     }
+    return retour;
 }
 
-
+/// simplification
 template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
-void ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::simplificationComplexe()
+bool ComplexeCubique<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::simplificationComplexe()
 {
+//        ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::simplificationComplexe();
+
     std::cout << "Simplification du complexe." << std::endl;
-    if(T_DIMCOMPLEXE >= 2)
-    {
-        for (unsigned int j= 0; j < ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getIterator()->getTaille(); j++)
-        {
+//    if(T_DIMCOMPLEXE - 2 > 0)
+//    {
+////        std:: cout << ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getIterator()->getTaille() << " ---" << ComplexeCubique<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>::getIterator()->getTaille() << std::endl;
+//
+//
             for (unsigned int k= 0; k < ComplexeCubique<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>::getIterator()->getTaille(); k++)
             {
-                reductionElementaire(ComplexeCubique<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>::getIterator()->getCellI(k),
-                                     ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getIterator()->getCellI(j));
+                    for (unsigned int j= 0; j < ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getIterator()->getTaille(); j++)
+                    {
+
+                        std:: cout << k << " " << j << std::endl;
+                        reductionElementaire(ComplexeCubique<T_DIMCOMPLEXE-2, T_TYPE, T_DIMENSION>::getIterator()->getCellI(k),
+                                             ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::getIterator()->getCellI(j));
+                    }
             }
-        }
 
-//        ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::simplificationComplexe();
-    }
-
-
+//    }
+//    return ComplexeCubique<T_DIMCOMPLEXE-1, T_TYPE, T_DIMENSION>::simplificationComplexe();
+    return true;
 }
+
 
 
 /// IMPLEMENTATIONS SPECIALISATION 0 #################################################################################
@@ -330,13 +344,16 @@ bool ComplexeCubique<0, T_TYPE, T_DIMENSION>::estValide(bool _init = true)
     return retour;
 }
 
-
+/// creer0Cell
 template <typename T_TYPE, unsigned int T_DIMENSION>
 void ComplexeCubique<0, T_TYPE, T_DIMENSION>::creer0Cell(const Point<T_TYPE, T_DIMENSION> &_p)
 {
     tabCellules.push_back(new ICellule<0, T_TYPE, T_DIMENSION>(_p));
 }
 
+/// simplification
+template <typename T_TYPE, unsigned int T_DIMENSION>
+bool ComplexeCubique<0, T_TYPE, T_DIMENSION>::simplificationComplexe(){return true;}
 
 
 #endif // COMPLEXECUBIQUE_H
