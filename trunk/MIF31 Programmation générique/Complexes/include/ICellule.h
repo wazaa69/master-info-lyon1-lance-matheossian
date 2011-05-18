@@ -34,6 +34,8 @@ class ICellule
         unsigned int getNbCellulesBord() const {return bords.size();}
         unsigned int getNumCellule() const { return numCellule;}
 
+        void setListePointICellule(std::vector<Point<T_TYPE,T_DIMENSION>*> &_vp);
+
     private:
 
         std::vector< Bord* > bords; /** les bords sont d'1 dimension inférieur à la ICellule actuelle */
@@ -63,6 +65,7 @@ class ICellule<0, T_TYPE, T_DIMENSION>
         bool estInitPoint()const { if(sommet != NULL) return true; else return false;}
         unsigned int getDimension() const {return T_DIMENSION;}
         unsigned int getNumCellule() const { return numCellule;}
+        void setListePointICellule(std::vector<Point<T_TYPE,T_DIMENSION>*> &_vp);
 
     private:
 
@@ -94,6 +97,15 @@ ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::ICellule(std::vector< Bord*> &_bor
     }
 }
 
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE , unsigned int T_DIMENSION >
+void ICellule<T_DIMCOMPLEXE, T_TYPE, T_DIMENSION>::setListePointICellule(std::vector<Point<T_TYPE,T_DIMENSION>*> &_vp)
+{
+    for(unsigned int i = 0; i < bords.size(); i++)
+    {
+        bords[i]->setListePointICellule(_vp);
+    }
+}
+
 
 // Constructeur par point spé 0
 template <typename T_TYPE, unsigned int T_DIMENSION>
@@ -104,6 +116,21 @@ ICellule<0, T_TYPE, T_DIMENSION>::ICellule(const Point<T_TYPE, T_DIMENSION> &_p)
 
     std::cout << "Init cellule num" << numCellule << " de dim 0 de bord  point num"  << _p.getNumPoint() <<std::endl;
     sommet = new Point<T_TYPE, T_DIMENSION>(_p);
+}
+
+
+template < typename T_TYPE , unsigned int T_DIMENSION >
+void ICellule<0, T_TYPE, T_DIMENSION>::setListePointICellule(std::vector<Point<T_TYPE,T_DIMENSION>*> &_vp)
+{
+    bool dejaPresent = false;
+
+    for(unsigned int i = 0; i < _vp.size(); i++)
+    {
+        if(sommet->getNumPoint() == _vp[i]->getNumPoint()) dejaPresent = true;
+    }
+    if(!dejaPresent) {_vp.push_back(sommet);  std::cout << "Cellule: " << getNumCellule() << " -> ajout du point " << sommet->getNumPoint() << std::endl;}
+
+
 }
 
 
