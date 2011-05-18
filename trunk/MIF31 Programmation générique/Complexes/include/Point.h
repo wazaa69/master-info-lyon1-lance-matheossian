@@ -40,7 +40,7 @@ class Point
         */
         Point(const Self &p);
 
-        virtual ~Point(){ delete coordonnees;};
+        virtual ~Point(){ };
 
     /// SETTERS / GETTERS
 

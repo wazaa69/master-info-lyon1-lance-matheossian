@@ -27,7 +27,7 @@ class Lecteur
         void chargerDonnees(std::string cheminFichier, ComplexeCubique<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION> &_c);
 
         /** @brief Sauvegarder les données d'un complexe cubique dans un fichier */
-        static void sauvegarderDonnees(std::string cheminFichier);
+        void sauvegarderDonnees(string cheminFichier, const ComplexeCubique<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>&  _c);
 
     private:
 
@@ -197,6 +197,54 @@ void Lecteur<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>::chargerDonnees(string cheminFich
     assert(_c.estValide());
     cout << "Le complexe lu est valide." << endl;
 }
+
+template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
+void Lecteur<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>::sauvegarderDonnees(string cheminFichier, const ComplexeCubique<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>&  _c)
+{
+//
+     ofstream fichier(cheminFichier.c_str(),ios::trunc);
+     int numLigne = 1;
+     cout << endl << "Sauvegarde du Complexe dans le fichier : " << cheminFichier << endl << endl;
+//
+     fichier << T_DIMCOMPLEXE -1 << " " << T_DIMENSION;
+
+     std::vector<Point<T_TYPE,T_DIMENSION>*> points;
+
+
+//     for(//parcours des ICellule de dimension T_DIMCOMPLEXE)
+//     {
+//      //on récupère les points de la ICellule actuelle
+//      _c.ComplexeCubique<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>::getIterator()->getCellI(0)->setListePointICellule(points);
+//
+//      //on écrit chaque point
+//      for (unsigned i = 0; i < points.size(); i++)
+//      {
+//       for(unsigned j = 0; j < T_DIMENSION; j++)
+//       {
+//        fichier << points[i]->getCoordonnees(j);
+//        if(j != T_DIMENSION-1) fichier << " ";
+//       }
+//      }
+//
+//      points.clear();
+//     }
+
+     //on écrit ensuite les identifiants des bords de chaque 1-cellule
+
+
+}
+//template <unsigned int T_DIMCOMPLEXE, typename T_TYPE, unsigned int T_DIMENSION>
+//void Lecteur<T_DIMCOMPLEXE,T_TYPE,T_DIMENSION>::ecritureDim(string _chemin, vector<int> _dim)
+//{
+//    _dim.push_back()
+//
+//    if(T_DIMCOMPLEXE>0)
+//    {
+//           Lecteur<T_DIMCOMPLEXE-1,T_TYPE,T_DIMENSION>::ecritureDim(
+//    }
+//
+//}
+
 
 
 #endif // LECTEUR_H
