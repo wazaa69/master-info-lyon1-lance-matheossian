@@ -35,8 +35,18 @@ class Region
         const Couleur& getCouleurMoyenne() const;
         const Couleur& getCouleurVisuelle();
 
-        /** @brief calcul la moyenne de la couleur actuelle avec la couleur passée en paramètre */
+        /**
+        * @brief La taille de la région est agrandie de 1 pixel et la couleur moyenne est recalculée
+        * @param couleur la couleur du pixel à aglomérée
+        */
         void setNouvMoyenne(const Couleur& couleur);
+
+        /**
+        * @brief La taille de la région est agrandie de "tailleRegionAglomeree" pixel(s) et la couleur moyenne est recalculée
+        * @param couleur la couleur moyenne de la région aglomérée
+        * @param tailleRegionAglomeree la taille de la région aglomérée
+        */
+        void setNouvMoyenne(const Couleur& couleur, const unsigned int& tailleRegionAglomeree);
 
         /**
         * @return retourne le nombre total de région

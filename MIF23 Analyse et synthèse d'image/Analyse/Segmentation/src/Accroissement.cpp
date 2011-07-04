@@ -25,7 +25,7 @@ Accroissement::Accroissement(const IplImage* _img_src, const double _seuil, cons
     const unsigned int largeur = img_src->width;
 
     nbPointsTotal = hauteur * largeur;
-    nbPointsDansRegion = 0;
+    nbPointsAglomeres = 0;
 
     for(unsigned int i = 0; i < largeur; i++)
     {
@@ -183,10 +183,9 @@ void Accroissement::contamination(const CvPoint& pt, Region& uneRegion)
     if((imgIndex[pt.x][pt.y] == -1) && (abs(coulPixel - moyCoulRegion) <= seuil) )
     {
         imgIndex[pt.x][pt.y] = region.getIndexRegion();
-        region.setTailleRegion(region.getTailleRegion()+1);
-        nbPointsDansRegion++;
+        nbPointsAglomeres++;
         region.setNouvMoyenne(Couleur(color)); //moyenne entre la couleur de la région et celle du pixel
-        cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
+        //cvSet2D(img_seg, pt.y, pt.x, region.getCouleurVisuelle().getCvScalar());
         listePointsVoisins.push(pt);
     }
     //Version 1 : Création d'une nouvelle région, on plante une nouvelle gaine pour la faire croître
@@ -234,7 +233,7 @@ int Accroissement::indexRedirection(const Region& uneRegion)
             it++;
             it = carteRedirections.find(guide);
         }
-        else break; //sinon on en fait rien et on conserve le "guide"
+        else break; //sinon on ne fait rien et on conserve le "guide"
     }
 
     if(guide == -1) guide = uneRegion.getIndexRegion();
@@ -247,11 +246,10 @@ int Accroissement::indexRedirection(const Region& uneRegion)
 void Accroissement::changerProprietaireRegion(Region& r_grande, Region& r_petite)
 {
     //on calcul la couleur moyenne des deux régions
-    r_grande.setNouvMoyenne(r_petite.getCouleurMoyenne());
+    r_grande.setNouvMoyenne(r_petite.getCouleurMoyenne(), r_petite.getTailleRegion());
 
     carteRedirections.insert(pair<int,int>(r_petite.getIndexRegion(), r_grande.getIndexRegion()));
 
-    r_grande.setTailleRegion(r_grande.getTailleRegion() + r_petite.getTailleRegion());
     r_petite.setTailleRegion(0);
 
     nombreAglomere++; //1 région aglomérée implique une redirection suplpémentaire
@@ -276,7 +274,7 @@ void Accroissement::afficherInformations()
 {
 
     cout << img_seg->height << " * " << img_seg->width << " = " << (img_seg->height * img_seg->width) << endl ;
-    cout << "Taux d'occupation de l'image : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%" << endl << endl;
+    cout << "Taux d'occupation de l'image : " << (double) (nbPointsAglomeres*100/nbPointsTotal) << "%" << endl << endl;
 
     cout << "Nombre de regions crees au total: " << Region::getCompteurRegions() << endl;
     cout << "Nombre de regions aglomerees : " << nombreAglomere-1 << endl << endl;
@@ -303,13 +301,13 @@ void Accroissement::contaminationEtendue()
     if(occupationMin != -1)
     {
         //ex : pourcentage d'occupation de l'image < pourcentage minimal d'occupation attendu
-        while( (double) (nbPointsDansRegion*100/nbPointsTotal) < occupationMin)
+        while( (double) (nbPointsAglomeres*100/nbPointsTotal) < occupationMin)
         {
 
            cvShowImage( "img", getImgSeg() );
            cvWaitKey(1000);
 
-           cout << "Seuil : " << seuil << " --> Occupation : " << (double) (nbPointsDansRegion*100/nbPointsTotal) << "%  < "  << occupationMin << endl;
+           cout << "Seuil : " << seuil << " --> Occupation : " << (double) (nbPointsAglomeres*100/nbPointsTotal) << "%  < "  << occupationMin << endl;
 
            /* on supprime les points qui appartiennent à une région (même si la région est redirigé),
            de cette façon on conserve les "points frontière". */

@@ -56,7 +56,7 @@ class Accroissement
         std::vector<CvPoint> listePointsVRejetes; /** c'est la listes des points voisins rejetés car ils n'ont pas respectés le seuil.
                                                       On va les remettres dans la pile, dans le bon ordre, donc on utilise un vecteur. */
 
-        unsigned int nbPointsDansRegion; /** nombre de points dans une région */
+        unsigned int nbPointsAglomeres;
         unsigned int nbPointsTotal;
         double occupationMin; /** pourcentage d'occupation de l'image souhaité */
 
