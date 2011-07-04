@@ -25,10 +25,28 @@ void Region::setTailleRegion(unsigned int valeur){tailleRegion = valeur;}
 
 
 void Region::setNouvMoyenne(const Couleur& couleur){
-    double r = (couleurMoyenne[0] + couleur[0])/2;
-    double v = (couleurMoyenne[1] + couleur[1])/2;
-    double b = (couleurMoyenne[2] + couleur[2])/2;
+
+    double r = (couleurMoyenne[0]*tailleRegion + couleur[0])/(tailleRegion+1);
+    double v = (couleurMoyenne[1]*tailleRegion + couleur[1])/(tailleRegion+1);
+    double b = (couleurMoyenne[2]*tailleRegion + couleur[2])/(tailleRegion+1);
+
     couleurMoyenne.setComposantes(r,v,b);
+
+    tailleRegion++; //on ajoute le point
+}
+
+void Region::setNouvMoyenne(const Couleur& couleur, const unsigned int& tailleRegionAglomeree){
+
+    //on ajoute la région
+    const unsigned int nouvTailleRegion = tailleRegion + tailleRegionAglomeree;
+
+    double r = (couleurMoyenne[0]*tailleRegion + couleur[0]*tailleRegionAglomeree)/nouvTailleRegion;
+    double v = (couleurMoyenne[1]*tailleRegion + couleur[1]*tailleRegionAglomeree)/nouvTailleRegion;
+    double b = (couleurMoyenne[2]*tailleRegion + couleur[2]*tailleRegionAglomeree)/nouvTailleRegion;
+
+    couleurMoyenne.setComposantes(r,v,b);
+
+    tailleRegion = nouvTailleRegion;
 }
 
 const Couleur& Region::getCouleurMoyenne() const {return couleurMoyenne;}
