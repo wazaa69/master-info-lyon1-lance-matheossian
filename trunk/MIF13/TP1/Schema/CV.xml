@@ -2,17 +2,17 @@
 <CV xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CV.xsd">
 <Entete>
 <Etudiant Numero="000012">
-<Nom>Mathéossian
+<Nom>Bob
 </Nom>
-<Prenom>Dimitri
+<Prenom>bob
 </Prenom>
-<Adresse>50 avenue ! 
+<Adresse>ici
 </Adresse>
-<Adresse>69450 Décines
+<Adresse>69450
 </Adresse>
 <Telephone>+33 4 00 00 00 00
 </Telephone>
-<Email>dimitri.matheossian@etu.univ-lyon1.fr
+<Email>bob.bob@etu.univ-lyon1.fr
 </Email>
 </Etudiant>
 <Titre>Great Etudiant Dimitri
